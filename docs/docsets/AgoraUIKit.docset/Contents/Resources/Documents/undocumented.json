@@ -1,0 +1,47 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 63,
+      "symbol": "AgoraVideoViewController.viewDidLoad()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 73,
+      "symbol": "AgoraVideoViewController.viewWillAppear(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 220,
+      "symbol": "AgoraVideoViewController.collectionView(_:layout:sizeForItemAt:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/Logger.swift",
+      "line": 13,
+      "symbol": "LogLevel.None",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/Logger.swift",
+      "line": 14,
+      "symbol": "LogLevel.Normal",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/Documents/AgoraUIKit/AgoraUIKit/Logger.swift",
+      "line": 15,
+      "symbol": "LogLevel.Verbose",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/zontan/Documents/AgoraUIKit"
+}

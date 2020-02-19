@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AgoraVideoViewController Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/AgoraVideoViewController" class="dashAnchor"></a>
+    <a title="AgoraVideoViewController Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AgoraUIKit Docs</a> (84% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AgoraUIKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        AgoraVideoViewController Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AgoraVideoViewController.html">AgoraVideoViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Global%20Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global%20Variables.html#/s:10AgoraUIKit8logLevelAA03LogD0Ovp">logLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:10AgoraUIKit6lprintyySS_AA8LogLevelOtF">lprint(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>AgoraVideoViewController</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">AgoraVideoViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">AgoraVideoViewController</span><span class="p">:</span> <span class="kt">AgoraRtcEngineDelegate</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">AgoraVideoViewController</span><span class="p">:</span> <span class="kt">UICollectionViewDelegate</span><span class="p">,</span> <span class="kt">UICollectionViewDataSource</span><span class="p">,</span> <span class="kt">UICollectionViewDelegateFlowLayout</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>AgoraVideoViewController</code> is a view controller capable of joining and managing a multi-party Agora video call. It handles joining and leaving a channel, as well as showing remote video feeds from other users in the call.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC10initialize5appID5token7channelACSS_SSSgSStFZ"></a>
+                    <a name="//apple_ref/swift/Method/initialize(appID:token:channel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC10initialize5appID5token7channelACSS_SSSgSStFZ">initialize(appID:token:channel:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new AgoraVideoViewController.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">initialize</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AgoraVideoViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A static value that is used to connect to the Agora.io service. Get your Agora App Id from <a href="https://console.agora.io">https://console.agora.io</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A static value that is used to as the user&rsquo;s channel token. You can set either a dynamic token or a temp token. Generate a temp token usic <a href="https://console.agora.io">https://console.agora.io</a>. Default is <code>nil</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the channel to join. All users who join the same channel will be placed in a single call with each other.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A ready-to-use <code>AgoraVideoViewController</code>. Present it or push it onto a navigation stack to join a call.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)viewDidLoad"></a>
+                    <a name="//apple_ref/swift/Method/viewDidLoad()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)viewDidLoad">viewDidLoad()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)viewWillAppear:"></a>
+                    <a name="//apple_ref/swift/Method/viewWillAppear(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)viewWillAppear:">viewWillAppear(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Core%20Delegate%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Core Delegate Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Core%20Delegate%20Methods"></a>
+                  <h3 class="section-name"><p>Core Delegate Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurWarning:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didOccurWarning:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurWarning:">rtcEngine(_:didOccurWarning:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reports a warning during the Agora SDK at runtime.</p>
+
+<p>In most cases, the app can ignore the warning reported by the SDK because the SDK can usually fix the issue and resume running.</p>
+
+<p>For instance, the SDK may report an AgoraWarningCodeOpenChannelTimeout(106) warning upon disconnection from the server and attempts to reconnect.</p>
+
+<p>See <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraWarningCode.html">AgoraWarningCode</a>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didOccurWarning</span> <span class="nv">warningCode</span><span class="p">:</span> <span class="kt">AgoraWarningCode</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>warningCode</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Warning code.  Full list: <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraWarningCode.html">AgoraWarningCode</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurError:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didOccurError:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurError:">rtcEngine(_:didOccurError:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reports an error during the Agora SDK at runtime.</p>
+
+<p>In most cases, the SDK cannot fix the issue and resume running. The SDK requires the app to take action or inform the user about the issue.</p>
+
+<p>For example, the SDK reports an AgoraErrorCodeStartCall = 1002 error when failing to initialize a call. The app informs the user that the call initialization failed and invokes the leaveChannel method to leave the channel.</p>
+
+<p>See <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraErrorCode.html">AgoraErrorCode</a>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didOccurError</span> <span class="nv">errorCode</span><span class="p">:</span> <span class="kt">AgoraErrorCode</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>errorCode</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraErrorCode.html">AgoraErrorCode</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didApiCallExecute:api:result:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didApiCallExecute:api:result:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didApiCallExecute:api:result:">rtcEngine(_:didApiCallExecute:api:result:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when a method is executed by the SDK.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didApiCallExecute</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSInteger</span><span class="p">,</span> <span class="nv">api</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">result</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>error</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraErrorCode.html">AgoraErrorCode</a> returned by the SDK when the method call fails. If the SDK returns 0, then the method call succeeds.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>api</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The method executed by the SDK.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>result</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The result of the method call.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didJoinChannel:withUid:elapsed:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didJoinChannel:withUid:elapsed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didJoinChannel:withUid:elapsed:">rtcEngine(_:didJoinChannel:withUid:elapsed:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user joins a specified channel.</p>
+
+<p>Same as joinSuccessBlock in the joinChannelByToken method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didJoinChannel</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Channel name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User ID. If the  <code>uid</code> is specified in the <code>joinChannelByToken</code> method, the specified user ID is returned. If the <code>user ID</code> is not specified when the <code>joinChannel</code> method is called, the server automatically assigns a uid.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time elapsed (ms) from the local user calling Agora&rsquo;s <code>joinChannelByToken</code> or <code>setClientRole</code> method, until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didRejoinChannel:withUid:elapsed:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didRejoinChannel:withUid:elapsed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didRejoinChannel:withUid:elapsed:">rtcEngine(_:didRejoinChannel:withUid:elapsed:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user rejoins a channel.</p>
+
+<p>If the client loses connection with the server because of network problems, the SDK automatically attempts to reconnect and then triggers this callback upon reconnection, indicating that the user rejoins the channel with the assigned channel ID and user ID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didRejoinChannel</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Channel name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User ID. If the  <code>uid</code> is specified in the <code>joinChannelByToken</code> method, the specified user ID is returned. If the <code>user ID</code> is not specified when the <code>joinChannel</code> method is called, the server automatically assigns a uid.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time elapsed (ms) from the local user calling Agora&rsquo;s <code>joinChannelByToken</code> or <code>setClientRole</code> method, until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didLeaveChannelWithStats:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didLeaveChannelWith:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didLeaveChannelWithStats:">rtcEngine(_:didLeaveChannelWith:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user leaves a channel.</p>
+
+<p>When the app calls the <code>leaveChannel</code> method, this callback notifies the app that a user leaves a channel.</p>
+
+<p>With this callback, the app retrieves information, such as the call duration and the statistics of the received/transmitted data reported by the <code>audioQualityOfUid</code> callback.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didLeaveChannelWith</span> <span class="nv">stats</span><span class="p">:</span> <span class="kt">AgoraChannelStats</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stats</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Statistics of the call:. See <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraChannelStats.html">AgoraChannelStats</a> for more details.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didRegisteredLocalUser:withUid:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didRegisteredLocalUser:withUid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didRegisteredLocalUser:withUid:">rtcEngine(_:didRegisteredLocalUser:withUid:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user successfully registers a user account by calling the registerLocalUserAccount or joinChannelByUserAccount method.</p>
+
+<p>This callback reports the user ID and user account of the local user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didRegisteredLocalUser</span> <span class="nv">userAccount</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userAccount</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The user account of the local user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the local user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didJoinedOfUid:elapsed:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didJoinedOfUid:elapsed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didJoinedOfUid:elapsed:">rtcEngine(_:didJoinedOfUid:elapsed:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when a remote user or host joins a channel.</p>
+
+<p>The SDK triggers this callback under one of the following circumstances: - A remote user/host joins the channel by calling the joinChannelByToken method. - A remote user switches the user role to the host by calling the setClientRole method after joining the channel. - A remote user/host rejoins the channel after a network interruption. - A host injects an online media stream into the channel by calling the addInjectStreamUrl method.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Live-broadcast profile:
+
+<ul>
+<li>The host receives this callback when another host joins the channel.</li>
+<li>The audience in the channel receives this callback when a new host joins the channel.</li>
+<li>When a web application joins the channel, the SDK triggers this callback as long as the web application publishes streams.</li>
+</ul>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didJoinedOfUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Channel name.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ID of the remote user whose video state changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time elapsed (ms) from the local user calling Agora&rsquo;s <code>joinChannel</code> method until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didUpdatedUserInfo:withUid:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didUpdatedUserInfo:withUid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didUpdatedUserInfo:withUid:">rtcEngine(_:didUpdatedUserInfo:withUid:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the SDK gets the user ID and user account of the remote user.</p>
+
+<p>After a remote user joins the channel, the SDK gets the user ID and user account of the remote user, caches them in a mapping table object (userInfo), and triggers this callback on the local client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didUpdatedUserInfo</span> <span class="nv">userInfo</span><span class="p">:</span> <span class="kt">AgoraUserInfo</span><span class="p">,</span> <span class="n">withUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userInfo</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraUserInfo.html">AgoraUserInfo</a> object that contains the user ID and user account of the remote user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the remote user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOfflineOfUid:reason:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didOfflineOfUid:reason:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOfflineOfUid:reason:">rtcEngine(_:didOfflineOfUid:reason:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when a remote user (Communication)/host (Live Broadcast) leaves a channel. Same as userOfflineBlock.</p>
+
+<p>There are two reasons for users to be offline:</p>
+
+<ul>
+<li><strong>Leave a channel:</strong> When the user/host leaves a channel, the user/host sends a goodbye message. When the message is received, the SDK assumes that the user/host leaves a channel.</li>
+<li><strong>Drop offline:</strong> When no data packet of the user or host is received for a certain period of time (20 seconds for the Communication profile, and more for the Live-broadcast profile), the SDK assumes that the user/host drops offline. Unreliable network connections may lead to false detections, so Agora recommends using a signaling system for more reliable offline detection.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didOfflineOfUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">AgoraUserOfflineReason</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ID of the user or host who leaves a channel or goes offline.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>reason</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Reason why the user goes offline, see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraUserOfflineReason.html">AgoraUserOfflineReason</a>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:connectionChangedToState:reason:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:connectionChangedTo:reason:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:connectionChangedToState:reason:">rtcEngine(_:connectionChangedTo:reason:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the network connection state changes.</p>
+
+<p>The SDK triggers this callback to report on the current network connection state when it changes, and the reason of the change.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">connectionChangedTo</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">AgoraConnectionStateType</span><span class="p">,</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">AgoraConnectionChangedReason</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>state</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The current network connection state, see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraConnectionStateType.html">AgoraConnectionStateType</a>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>reason</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The reason of the connection state change, see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraConnectionChangedReason.html">AgoraConnectionChangedReason</a>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:networkTypeChangedToType:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:networkTypeChangedTo:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:networkTypeChangedToType:">rtcEngine(_:networkTypeChangedTo:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local network type changes.</p>
+
+<p>When the network connection is interrupted, this callback indicates whether the interruption is caused by a network type change or poor network conditions.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">networkTypeChangedTo</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">AgoraNetworkType</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The network type, see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraNetworkType.html">AgoraNetworkType</a>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngineConnectionDidLost:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngineConnectionDidLost(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngineConnectionDidLost:">rtcEngineConnectionDidLost(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the SDK cannot reconnect to Agora’s edge server 10 seconds after its connection to the server is interrupted.</p>
+
+<p>The SDK triggers this callback when it cannot connect to the server 10 seconds after calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/joinChannelByToken:channelId:info:uid:joinSuccess:">joinChannelByToken</a> method, regardless of whether it is in the channel or not.</p>
+
+<p>This callback is different from <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Protocols/AgoraRtcEngineDelegate.html#//api/name/rtcEngineConnectionDidInterrupted:">rtcEngineConnectionDidInterrupted</a>:</p>
+
+<ul>
+<li>The SDK triggers the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Protocols/AgoraRtcEngineDelegate.html#//api/name/rtcEngineConnectionDidInterrupted:">rtcEngineConnectionDidInterrupted</a> callback when it loses connection with the server for more than four seconds after it successfully joins the channel.</li>
+<li>The SDK triggers the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Protocols/AgoraRtcEngineDelegate.html#//api/name/rtcEngineConnectionDidLost:">rtcEngineConnectionDidLost</a> callback when it loses connection with the server for more than 10 seconds, regardless of whether it joins the channel or not.
+If the SDK fails to rejoin the channel 20 minutes after being disconnected from Agora’s edge server, the SDK stops rejoining the channel.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngineConnectionDidLost</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:tokenPrivilegeWillExpire:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:tokenPrivilegeWillExpire:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:tokenPrivilegeWillExpire:">rtcEngine(_:tokenPrivilegeWillExpire:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the token expires in 30 seconds.</p>
+
+<p>The user becomes offline if the token used in the joinChannelByToken method expires. The SDK triggers this callback 30 seconds before the token expires to remind the app to get a new token. Upon receiving this callback, generate a new token on the server and call the renewToken method to pass the new token to the SDK.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">tokenPrivilegeWillExpire</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The token that expires in 30 seconds.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngineRequestToken:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngineRequestToken(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngineRequestToken:">rtcEngineRequestToken(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the token expires.</p>
+
+<p>After a token is specified by calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/joinChannelByToken:channelId:info:uid:joinSuccess:">joinChannelByToken</a> method, if the SDK losses connection to the Agora server due to network issues, the token may expire after a certain period of time and a new token may be required to reconnect to the server.</p>
+
+<p>Th SDK triggers this callback to notify the app to generate a new token. Call the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/renewToken:">renewToken</a> method to renew the token.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngineRequestToken</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Media%20Delegate%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Media Delegate Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Media%20Delegate%20Methods"></a>
+                  <h3 class="section-name"><p>Media Delegate Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:reportAudioVolumeIndicationOfSpeakers:totalVolume:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:reportAudioVolumeIndicationOfSpeakers:totalVolume:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:reportAudioVolumeIndicationOfSpeakers:totalVolume:">rtcEngine(_:reportAudioVolumeIndicationOfSpeakers:totalVolume:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reports which users are speaking, the speakers&rsquo; volumes, and whether the local user is speaking.</p>
+
+<p>This callback reports the IDs and volumes of the loudest speakers at the moment in the channel, and whether the local user is speaking.  By default, this callback is disabled. You can enable it by calling the enableAudioVolumeIndication method. Once enabled, this callback is triggered at the set interval, regardless of whether a user speaks or not. The SDK triggers two independent <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Protocols/AgoraRtcEngineDelegate.html#//api/name/rtcEngine:reportAudioVolumeIndicationOfSpeakers:totalVolume:">reportAudioVolumeIndicationOfSpeakers</a> callbacks at one time, which separately report the volume information of the local user and all the remote speakers. For more information, see the detailed parameter descriptions.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">reportAudioVolumeIndicationOfSpeakers</span> <span class="nv">speakers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AgoraRtcAudioVolumeInfo</span><span class="p">],</span> <span class="nv">totalVolume</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>speakers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>AgoraRtcAudioVolumeInfo array. An empty speakers array in the callback indicates that no remote user is speaking at the moment.
+
+<ul>
+<li>In the local user’s callback, this array contains the following members: uid = 0, volume = totalVolume, which reports the sum of the voice volume and audio-mixing volume of the local user, and vad, which reports the voice activity status of the local user.</li>
+<li>In the remote speakers&rsquo; callback, this array contains the following members: uid of each remote speaker, volume, which reports the sum of the voice volume and audio-mixing volume of each remote speaker, and vad = 0.</li>
+</ul></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>totalVolume</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Total volume after audio mixing. The value range is [0,255].
+
+<ul>
+<li>In the local user’s callback, totalVolume is the sum of the voice volume and audio-mixing volume of the local user.</li>
+<li>In the remote speakers&rsquo; callback, totalVolume is the sum of the voice volume and audio-mixing volume of all the remote speakers.</li>
+</ul></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didAudioMuted:byUid:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didAudioMuted:byUid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didAudioMuted:byUid:">rtcEngine(_:didAudioMuted:byUid:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when a remote user’s audio stream is muted/unmuted.</p>
+
+<p>The SDK triggers this callback when the remote user stops or resumes sending the audio stream by calling the muteLocalAudioStream method.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This callback is invalid when the number of the users or broadcasters in a channel exceeds 20.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didAudioMuted</span> <span class="nv">muted</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">byUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>muted</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether the remote user’s audio stream is muted/unmuted. Where <code>true</code> represets MUTED, and <code>false</code> is UNMUTED</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ID of the remote user or host who&rsquo;s mic was muted</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:activeSpeaker:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:activeSpeaker:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:activeSpeaker:">rtcEngine(_:activeSpeaker:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Reports which user is the loudest speaker over a period of time.</p>
+
+<p>This callback reports the speaker with the highest accumulative volume during a certain period. If the user enables the audio volume indication by calling the enableAudioVolumeIndication method, this callback returns the user ID of the active speaker whose voice is detected by the audio volume detection module of the SDK.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <ul>
+<li>To receive this callback, you need to call the enableAudioVolumeIndication method.</li>
+<li>This callback returns the user ID of the user with the highest voice volume during a period of time, instead of at the moment.</li>
+</ul>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">activeSpeaker</span> <span class="nv">speakerUid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>speakerUid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The user ID of the active speaker. A speakerUid of 0 represents the local user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:firstLocalAudioFrame:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:firstLocalAudioFrame:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:firstLocalAudioFrame:">rtcEngine(_:firstLocalAudioFrame:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the engine sends the first local audio frame.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">firstLocalAudioFrame</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Time elapsed (ms) from the local user calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/joinChannelByToken:channelId:info:uid:joinSuccess:">joinChannelByToken</a> method until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:firstRemoteAudioFrameOfUid:elapsed:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:firstRemoteAudioFrameOfUid:elapsed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:firstRemoteAudioFrameOfUid:elapsed:">rtcEngine(_:firstRemoteAudioFrameOfUid:elapsed:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the engine receives the first audio frame from a specified remote user.</p>
+
+<p>This callback is triggered in either of the following scenarios:</p>
+
+<ul>
+<li>The remote user joins the channel and sends the audio stream.</li>
+<li>The remote user stops sending the audio stream and re-sends it after 15 seconds. Possible reasons include:</li>
+<li>The remote user leaves channel.</li>
+<li>The remote user drops offline.</li>
+<li>The remote user calls <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/muteLocalAudioStream:">muteLocalAudioStream</a>.</li>
+<li>The remote user calls <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/disableAudio">disableAudio</a>.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">firstRemoteAudioFrameOfUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User ID of the remote user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Time elapsed (ms) from the local user calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/joinChannelByToken:channelId:info:uid:joinSuccess:">joinChannelByToken</a> method until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didVideoMuted:byUid:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didVideoMuted:byUid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didVideoMuted:byUid:">rtcEngine(_:didVideoMuted:byUid:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when a remote user’s video stream playback pauses/resumes.</p>
+
+<p>You can also use the remoteVideoStateChangedOfUid callback with the following parameters:</p>
+
+<ul>
+<li><code>AgoraVideoRemoteStateStopped(0)</code> and <code>AgoraVideoRemoteStateReasonRemoteMuted(5)</code>.</li>
+<li><code>AgoraVideoRemoteStateDecoding(2)</code> and <code>AgoraVideoRemoteStateReasonRemoteUnmuted(6)</code>.</li>
+</ul>
+
+<p>The SDK triggers this callback when the remote user stops or resumes sending the video stream by calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/userMuteVideoBlock:">muteLocalVideoStream</a> method.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This callback is invalid when the number of users or broadcasters in a channel exceeds 20.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didVideoMuted</span> <span class="nv">muted</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">byUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>muted</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A remote user’s video stream playback pauses/resumes. Where <code>true</code> represets PAUSE, and <code>false</code> is RESUME</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ID of the remote user or host who&rsquo;s video was paused/resumed</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:remoteVideoStateChangedOfUid:state:reason:elapsed:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:remoteVideoStateChangedOfUid:state:reason:elapsed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:remoteVideoStateChangedOfUid:state:reason:elapsed:">rtcEngine(_:remoteVideoStateChangedOfUid:state:reason:elapsed:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the remote video state changes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">remoteVideoStateChangedOfUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">AgoraVideoRemoteState</span><span class="p">,</span> <span class="nv">reason</span><span class="p">:</span> <span class="kt">AgoraVideoRemoteStateReason</span><span class="p">,</span> <span class="nv">elapsed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>ID of the remote user whose video state changes.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>state</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The state of the remote video. For more detail see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraVideoRemoteState.html">AgoraVideoRemoteState</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>reason</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The reason of the remote video state change.  For more detail see <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraVideoRemoteStateReason.html">AgoraVideoRemoteStateReason</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>elapsed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time elapsed (ms) from the local user calling Agora&rsquo;s <code>joinChannel</code> method until the SDK triggers this callback.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Stream%20Message%20Delegate%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Stream Message Delegate Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Stream%20Message%20Delegate%20Methods"></a>
+                  <h3 class="section-name"><p>Stream Message Delegate Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:receiveStreamMessageFromUid:streamId:data:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:receiveStreamMessageFromUid:streamId:data:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:receiveStreamMessageFromUid:streamId:data:">rtcEngine(_:receiveStreamMessageFromUid:streamId:data:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user receives the data stream from a remote user within five seconds.</p>
+
+<p>The SDK triggers this callback when the local user receives the stream message that the remote user sends by calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/sendStreamMessage:data:">sendStreamMessage</a> method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">receiveStreamMessageFromUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">streamId</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User ID of the remote user sending the message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>streamId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Stream ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data received by the local user</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurStreamMessageErrorFromUid:streamId:error:missed:cached:"></a>
+                    <a name="//apple_ref/swift/Method/rtcEngine(_:didOccurStreamMessageErrorFromUid:streamId:error:missed:cached:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)rtcEngine:didOccurStreamMessageErrorFromUid:streamId:error:missed:cached:">rtcEngine(_:didOccurStreamMessageErrorFromUid:streamId:error:missed:cached:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Occurs when the local user does not receive the data stream from the remote user within five seconds.</p>
+
+<p>The SDK triggers this callback when the local user fails to receive the stream message that the remote user sends by calling the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html#//api/name/sendStreamMessage:data:">sendStreamMessage</a> method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">rtcEngine</span><span class="p">(</span><span class="n">_</span> <span class="nv">engine</span><span class="p">:</span> <span class="kt">AgoraRtcEngineKit</span><span class="p">,</span> <span class="n">didOccurStreamMessageErrorFromUid</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="nv">streamId</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">missed</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">cached</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>engine</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">AgoraRtcEngineKit</a> object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User ID of the remote user sending the message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>streamId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Stream ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>error</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Error code. See <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraErrorCode.html">AgoraErrorCode</a>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>missed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of lost messages.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cached</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of incoming cached messages when the data stream is interrupted.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Collection%20View%20Delegate%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Collection View Delegate Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Collection%20View%20Delegate%20Methods"></a>
+                  <h3 class="section-name"><p>Collection View Delegate Methods</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:numberOfItemsInSection:"></a>
+                    <a name="//apple_ref/swift/Method/collectionView(_:numberOfItemsInSection:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:numberOfItemsInSection:">collectionView(_:numberOfItemsInSection:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Handles showing the correct number of video streams. Default behavior displays up to four video streams at a time.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">numberOfItemsInSection</span> <span class="nv">section</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:cellForItemAtIndexPath:"></a>
+                    <a name="//apple_ref/swift/Method/collectionView(_:cellForItemAt:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:cellForItemAtIndexPath:">collectionView(_:cellForItemAt:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Handles the layout and setup of cells for displaying users&rsquo; video streams.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UICollectionViewCell</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:layout:sizeForItemAtIndexPath:"></a>
+                    <a name="//apple_ref/swift/Method/collectionView(_:layout:sizeForItemAt:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AgoraUIKit@objc(cs)AgoraVideoViewController(im)collectionView:layout:sizeForItemAtIndexPath:">collectionView(_:layout:sizeForItemAt:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">layout</span> <span class="nv">collectionViewLayout</span><span class="p">:</span> <span class="kt">UICollectionViewLayout</span><span class="p">,</span> <span class="n">sizeForItemAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CGSize</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="http://agora.io" target="_blank" rel="external">Jonathan Fotland</a>. All rights reserved. (Last updated: 2020-02-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
