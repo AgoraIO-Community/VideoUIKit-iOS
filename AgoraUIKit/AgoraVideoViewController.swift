@@ -38,7 +38,7 @@ public class AgoraVideoViewController: UIViewController {
     /**
     Maximum streams to show at once. Defaults to 4.
      */
-    public var maxStreams = 4
+    var maxStreams = 4
     
     var showingVideo = true
     
@@ -72,6 +72,44 @@ public class AgoraVideoViewController: UIViewController {
         self.appID = appID
         self.tempToken = token
         self.channelName = channel
+    }
+    
+    /**
+     Sets the maximum number of video streams to show at once, including the local stream.
+     - Parameters:
+     - streams: The maximum number of streams to show. Will be 1 if a number less than 1 is passed in.
+     */
+    public func setMaxStreams(streams: Int) {
+        if streams < 1 {
+            maxStreams = 1
+        }
+    }
+    
+    /**
+     Toggles whether to hide the button to switch cameras.
+     - Parameters:
+     - hidden: Whether to hide the button. Defaults to true.
+     */
+    public func hideSwitchCamera(hidden: Bool = true) {
+        switchCameraButton.isHidden = hidden
+    }
+    
+    /**
+    Toggles whether to hide the button to mute the local video feed.
+    - Parameters:
+    - hidden: Whether to hide the button. Defaults to true.
+    */
+    public func hideVideoMute(hidden: Bool = true) {
+        toggleVideoButton.isHidden = hidden
+    }
+    
+    /**
+    Toggles whether to hide the button to mute the local audio feed.
+    - Parameters:
+    - hidden: Whether to hide the button. Defaults to true.
+    */
+    public func hideAudioMute(hidden: Bool = true) {
+        muteButton.isHidden = hidden
     }
     
     override public func viewDidLoad() {
