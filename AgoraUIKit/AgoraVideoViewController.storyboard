@@ -93,7 +93,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vSP-tq-BXs">
                                 <rect key="frame" x="0.0" y="692" width="414" height="50"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QkK-DB-cor">
+                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QkK-DB-cor">
                                         <rect key="frame" x="20" y="0.0" width="374" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSZ-fa-FgO">
@@ -148,8 +148,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="QkK-DB-cor" firstAttribute="leading" secondItem="vSP-tq-BXs" secondAttribute="leading" constant="20" id="42J-lf-gTP"/>
-                                    <constraint firstAttribute="trailing" secondItem="QkK-DB-cor" secondAttribute="trailing" constant="20" id="5AM-kL-mZQ"/>
+                                    <constraint firstItem="QkK-DB-cor" firstAttribute="leading" secondItem="vSP-tq-BXs" secondAttribute="leading" priority="750" constant="20" id="42J-lf-gTP"/>
+                                    <constraint firstAttribute="trailing" secondItem="QkK-DB-cor" secondAttribute="trailing" priority="750" constant="20" id="5AM-kL-mZQ"/>
                                     <constraint firstItem="QkK-DB-cor" firstAttribute="centerY" secondItem="vSP-tq-BXs" secondAttribute="centerY" id="XCm-DU-K44"/>
                                     <constraint firstAttribute="height" constant="50" id="lRH-fm-0o9"/>
                                     <constraint firstItem="QkK-DB-cor" firstAttribute="centerX" secondItem="vSP-tq-BXs" secondAttribute="centerX" id="tWB-Nh-YiS"/>

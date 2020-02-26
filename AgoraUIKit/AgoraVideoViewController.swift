@@ -44,11 +44,27 @@ public class AgoraVideoViewController: UIViewController {
     
     var muted = false
     
+    var shouldHideMuteButton = false {
+        didSet(value) {
+            muteButton?.isHidden = value
+        }
+    }
+    var shouldHideVideoButton = false {
+        didSet(value) {
+            toggleVideoButton?.isHidden = value
+        }
+    }
+    var shouldHideSwitchCameraButton = false {
+        didSet(value) {
+            switchCameraButton?.isHidden = value
+        }
+    }
+    
     /**
      Creates a new AgoraVideoViewController.
      - Parameters:
         - appID: A static value that is used to connect to the Agora.io service. Get your Agora App Id from https://console.agora.io
-        - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token usic https://console.agora.io. Default is `nil`
+        - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token using https://console.agora.io. Default is `nil`
         - channel: The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.
      - Returns: A ready-to-use `AgoraVideoViewController`. Present it or push it onto a navigation stack to join a call.
      */
@@ -68,48 +84,17 @@ public class AgoraVideoViewController: UIViewController {
         return viewController
     }
     
+    /**
+    Sets the core parameters for a new AgoraVideoViewController. Redundant with create(appID:, token:, channel:).
+     - Parameters:
+        - appID: A static value that is used to connect to the Agora.io service. Get your Agora App Id from https://console.agora.io
+        - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token using https://console.agora.io. Default is `nil`
+        - channel: The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.
+     */
     public func setParameters(appID: String, token: String? = nil, channel: String) {
         self.appID = appID
         self.tempToken = token
         self.channelName = channel
-    }
-    
-    /**
-     Sets the maximum number of video streams to show at once, including the local stream.
-     - Parameters:
-     - streams: The maximum number of streams to show. Will be 1 if a number less than 1 is passed in.
-     */
-    public func setMaxStreams(streams: Int) {
-        if streams < 1 {
-            maxStreams = 1
-        }
-    }
-    
-    /**
-     Toggles whether to hide the button to switch cameras.
-     - Parameters:
-     - hidden: Whether to hide the button. Defaults to true.
-     */
-    public func hideSwitchCamera(hidden: Bool = true) {
-        switchCameraButton.isHidden = hidden
-    }
-    
-    /**
-    Toggles whether to hide the button to mute the local video feed.
-    - Parameters:
-    - hidden: Whether to hide the button. Defaults to true.
-    */
-    public func hideVideoMute(hidden: Bool = true) {
-        toggleVideoButton.isHidden = hidden
-    }
-    
-    /**
-    Toggles whether to hide the button to mute the local audio feed.
-    - Parameters:
-    - hidden: Whether to hide the button. Defaults to true.
-    */
-    public func hideAudioMute(hidden: Bool = true) {
-        muteButton.isHidden = hidden
     }
     
     override public func viewDidLoad() {
@@ -117,6 +102,7 @@ public class AgoraVideoViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
 
         // Do any additional setup after loading the view.
+        setupControls()
         setUpVideo()
         joinChannel()
         
@@ -124,6 +110,12 @@ public class AgoraVideoViewController: UIViewController {
     
     override public func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    func setupControls() {
+        muteButton.isHidden = shouldHideMuteButton
+        toggleVideoButton.isHidden = shouldHideVideoButton
+        switchCameraButton.isHidden = shouldHideSwitchCameraButton
     }
     
     func setUpVideo() {
@@ -221,6 +213,46 @@ public class AgoraVideoViewController: UIViewController {
     }
     */
 
+    // MARK: Customization options
+    
+    /**
+     Sets the maximum number of video streams to show at once, including the local stream.
+     - Parameters:
+     - streams: The maximum number of streams to show. Will be 1 if a number less than 1 is passed in.
+     */
+    public func setMaxStreams(streams: Int) {
+        if streams < 1 {
+            maxStreams = 1
+        }
+    }
+    
+    /**
+     Toggles whether to hide the button to switch cameras.
+     - Parameters:
+     - hidden: Whether to hide the button. Defaults to true.
+     */
+    public func hideSwitchCamera(hidden: Bool = true) {
+        shouldHideSwitchCameraButton = hidden
+    }
+    
+    /**
+    Toggles whether to hide the button to mute the local video feed.
+    - Parameters:
+    - hidden: Whether to hide the button. Defaults to true.
+    */
+    public func hideVideoMute(hidden: Bool = true) {
+        shouldHideVideoButton = hidden
+    }
+    
+    /**
+    Toggles whether to hide the button to mute the local audio feed.
+    - Parameters:
+    - hidden: Whether to hide the button. Defaults to true.
+    */
+    public func hideAudioMute(hidden: Bool = true) {
+        shouldHideMuteButton = hidden
+    }
+    
 }
 
 /**

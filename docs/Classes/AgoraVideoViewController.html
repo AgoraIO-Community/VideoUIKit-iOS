@@ -14,7 +14,7 @@
     <a title="AgoraVideoViewController Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">AgoraUIKit Docs</a> (84% documented)</p>
+        <p><a href="../index.html">AgoraUIKit Docs</a> (81% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -67,7 +67,8 @@
             <h1>AgoraVideoViewController</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">class</span> <span class="kt">AgoraVideoViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@IBDesignable</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">AgoraVideoViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">AgoraVideoViewController</span><span class="p">:</span> <span class="kt">AgoraRtcEngineDelegate</span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">AgoraVideoViewController</span><span class="p">:</span> <span class="kt">UICollectionViewDelegate</span><span class="p">,</span> <span class="kt">UICollectionViewDataSource</span><span class="p">,</span> <span class="kt">UICollectionViewDelegateFlowLayout</span></code></pre>
 
@@ -82,9 +83,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC10initialize5appID5token7channelACSS_SSSgSStFZ"></a>
-                    <a name="//apple_ref/swift/Method/initialize(appID:token:channel:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC10initialize5appID5token7channelACSS_SSSgSStFZ">initialize(appID:token:channel:)</a>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC6create5appID5token7channelACSS_SSSgSStFZ"></a>
+                    <a name="//apple_ref/swift/Method/create(appID:token:channel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC6create5appID5token7channelACSS_SSSgSStFZ">create(appID:token:channel:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -99,7 +100,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">initialize</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AgoraVideoViewController</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AgoraVideoViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -127,7 +128,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>A static value that is used to as the user&rsquo;s channel token. You can set either a dynamic token or a temp token. Generate a temp token usic <a href="https://console.agora.io">https://console.agora.io</a>. Default is <code>nil</code></p>
+                                  <p>A static value that is used to as the user&rsquo;s channel token. You can set either a dynamic token or a temp token. Generate a temp token using <a href="https://console.agora.io">https://console.agora.io</a>. Default is <code>nil</code></p>
                                 </div>
                               </td>
                             </tr>
@@ -139,7 +140,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>The name of the channel to join. All users who join the same channel will be placed in a single call with each other.</p>
+                                  <p>The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.</p>
                                 </div>
                               </td>
                             </tr>
@@ -149,6 +150,76 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>A ready-to-use <code>AgoraVideoViewController</code>. Present it or push it onto a navigation stack to join a call.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC13setParameters5appID5token7channelySS_SSSgSStF"></a>
+                    <a name="//apple_ref/swift/Method/setParameters(appID:token:channel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC13setParameters5appID5token7channelySS_SSSgSStF">setParameters(appID:token:channel:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the core parameters for a new AgoraVideoViewController. Redundant with create(appID:, token:, channel:).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setParameters</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A static value that is used to connect to the Agora.io service. Get your Agora App Id from <a href="https://console.agora.io">https://console.agora.io</a></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>token</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A static value that is used to as the user&rsquo;s channel token. You can set either a dynamic token or a temp token. Generate a temp token using <a href="https://console.agora.io">https://console.agora.io</a>. Default is <code>nil</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -201,6 +272,255 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didToggleMute:"></a>
+                    <a name="//apple_ref/swift/Method/didToggleMute(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didToggleMute:">didToggleMute(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didToggleMute</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didToggleVideo:"></a>
+                    <a name="//apple_ref/swift/Method/didToggleVideo(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didToggleVideo:">didToggleVideo(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didToggleVideo</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didSwitchCamera:"></a>
+                    <a name="//apple_ref/swift/Method/didSwitchCamera(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didSwitchCamera:">didSwitchCamera(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didSwitchCamera</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didTapHangUp:"></a>
+                    <a name="//apple_ref/swift/Method/didTapHangUp(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)AgoraVideoViewController(im)didTapHangUp:">didTapHangUp(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didTapHangUp</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Customization%20options"></a>
+                <a name="//apple_ref/swift/Section/Customization options" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Customization%20options"></a>
+                  <h3 class="section-name"><p>Customization options</p>
+</h3>
+                </div>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC13setMaxStreams7streamsySi_tF"></a>
+                    <a name="//apple_ref/swift/Method/setMaxStreams(streams:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC13setMaxStreams7streamsySi_tF">setMaxStreams(streams:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the maximum number of video streams to show at once, including the local stream.</p>
+
+<ul>
+<li>streams: The maximum number of streams to show. Will be 1 if a number less than 1 is passed in.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setMaxStreams</span><span class="p">(</span><span class="nv">streams</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC16hideSwitchCamera6hiddenySb_tF"></a>
+                    <a name="//apple_ref/swift/Method/hideSwitchCamera(hidden:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC16hideSwitchCamera6hiddenySb_tF">hideSwitchCamera(hidden:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Toggles whether to hide the button to switch cameras.</p>
+
+<ul>
+<li>hidden: Whether to hide the button. Defaults to true.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hideSwitchCamera</span><span class="p">(</span><span class="nv">hidden</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC04hideC4Mute6hiddenySb_tF"></a>
+                    <a name="//apple_ref/swift/Method/hideVideoMute(hidden:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC04hideC4Mute6hiddenySb_tF">hideVideoMute(hidden:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Toggles whether to hide the button to mute the local video feed.</p>
+
+<ul>
+<li>hidden: Whether to hide the button. Defaults to true.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hideVideoMute</span><span class="p">(</span><span class="nv">hidden</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC13hideAudioMute6hiddenySb_tF"></a>
+                    <a name="//apple_ref/swift/Method/hideAudioMute(hidden:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC13hideAudioMute6hiddenySb_tF">hideAudioMute(hidden:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Toggles whether to hide the button to mute the local audio feed.</p>
+
+<ul>
+<li>hidden: Whether to hide the button. Defaults to true.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hideAudioMute</span><span class="p">(</span><span class="nv">hidden</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2116,7 +2436,7 @@ If the SDK fails to rejoin the channel 20 minutes after being disconnected from 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Determines the size of each collection view cell.</p>
 
                       </div>
                       <div class="declaration">
@@ -2135,7 +2455,7 @@ If the SDK fails to rejoin the channel 20 minutes after being disconnected from 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="http://agora.io" target="_blank" rel="external">Jonathan Fotland</a>. All rights reserved. (Last updated: 2020-02-10)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/AgoraIO-Community/iOS-UIKit" target="_blank" rel="external">Jonathan Fotland</a>. All rights reserved. (Last updated: 2020-02-25)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

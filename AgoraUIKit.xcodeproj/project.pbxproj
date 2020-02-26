@@ -20,9 +20,7 @@
 		7F1B68BF23DFB29D009F17ED /* btn_switch_camera_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B523DFB29D009F17ED /* btn_switch_camera_normal.png */; };
 		7F39A5A523F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */; };
 		7F39A5A723F1C93E00FD605A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A623F1C93E00FD605A /* Logger.swift */; };
-		7F39A5AD23F3331800FD605A /* VideoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F39A5AC23F3331800FD605A /* VideoCollectionViewCell.xib */; };
 		7F39A5B023F3343300FD605A /* AgoraVideoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */; };
-		7F39A5B123F3343300FD605A /* AgoraVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7F39A5AF23F3343200FD605A /* AgoraVideoViewController.xib */; };
 		7F8B933623D65F790055657C /* AgoraVideoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F8B933423D65F790055657C /* AgoraVideoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F8B933D23D65F970055657C /* AgoraVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8B933C23D65F960055657C /* AgoraVideoViewController.swift */; };
 		7F8B934123D661450055657C /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8B934023D661450055657C /* VideoCollectionViewCell.swift */; };
@@ -45,9 +43,7 @@
 		7F1B68B523DFB29D009F17ED /* btn_switch_camera_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_camera_normal.png; sourceTree = SOURCE_ROOT; };
 		7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AgoraVideoViewController+AgoraRtcEngineDelegate.swift"; sourceTree = "<group>"; };
 		7F39A5A623F1C93E00FD605A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		7F39A5AC23F3331800FD605A /* VideoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCollectionViewCell.xib; sourceTree = "<group>"; };
 		7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AgoraVideoViewController.storyboard; sourceTree = "<group>"; };
-		7F39A5AF23F3343200FD605A /* AgoraVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AgoraVideoViewController.xib; sourceTree = "<group>"; };
 		7F8B933123D65F790055657C /* AgoraUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AgoraUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F8B933423D65F790055657C /* AgoraVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraVideoViewController.h; sourceTree = "<group>"; };
 		7F8B933523D65F790055657C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,14 +122,12 @@
 			isa = PBXGroup;
 			children = (
 				7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */,
-				7F39A5AF23F3343200FD605A /* AgoraVideoViewController.xib */,
 				7F8B933423D65F790055657C /* AgoraVideoViewController.h */,
 				7F8B933C23D65F960055657C /* AgoraVideoViewController.swift */,
 				7F8B934023D661450055657C /* VideoCollectionViewCell.swift */,
 				7F8B933523D65F790055657C /* Info.plist */,
 				7F39A5A623F1C93E00FD605A /* Logger.swift */,
 				7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */,
-				7F39A5AC23F3331800FD605A /* VideoCollectionViewCell.xib */,
 				7F1B68AB23DFB272009F17ED /* Resources */,
 			);
 			path = AgoraUIKit;
@@ -210,7 +204,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F39A5B123F3343300FD605A /* AgoraVideoViewController.xib in Resources */,
 				7F1B68BA23DFB29D009F17ED /* btn_endcall_pressed.png in Resources */,
 				7F1B68BC23DFB29D009F17ED /* btn_mute_pressed.png in Resources */,
 				7F1B68B623DFB29D009F17ED /* btn_unmute_pressed.png in Resources */,
@@ -220,7 +213,6 @@
 				7F39A5B023F3343300FD605A /* AgoraVideoViewController.storyboard in Resources */,
 				7F1B68BB23DFB29D009F17ED /* btn_switch_camera_pressed.png in Resources */,
 				7F1B68B823DFB29D009F17ED /* btn_endcall_normal.png in Resources */,
-				7F39A5AD23F3331800FD605A /* VideoCollectionViewCell.xib in Resources */,
 				7F1B68BD23DFB29D009F17ED /* btn_startcall_pressed.png in Resources */,
 				7F1B68BF23DFB29D009F17ED /* btn_switch_camera_normal.png in Resources */,
 			);
