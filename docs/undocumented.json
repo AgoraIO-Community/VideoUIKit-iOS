@@ -1,44 +1,100 @@
 {
   "warnings": [
     {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraPreferences.swift",
+      "line": 12,
+      "symbol": "AgoraPreferences",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraPreferences.swift",
+      "line": 13,
+      "symbol": "AgoraPreferences.shared",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraPreferences.swift",
+      "line": 17,
+      "symbol": "AgoraPreferences.appID",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraPreferences.swift",
+      "line": 18,
+      "symbol": "AgoraPreferences.token",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 84,
+      "line": 54,
+      "symbol": "AgoraVideoViewController.VideoControlLocation",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 55,
+      "symbol": "AgoraVideoViewController.VideoControlLocation.top",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 56,
+      "symbol": "AgoraVideoViewController.VideoControlLocation.bottom",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 106,
+      "symbol": "AgoraVideoViewController.init(coder:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
+      "line": 139,
       "symbol": "AgoraVideoViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 94,
+      "line": 150,
       "symbol": "AgoraVideoViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 137,
-      "symbol": "AgoraVideoViewController.didToggleMute(_:)",
+      "line": 214,
+      "symbol": "AgoraVideoViewController.muteButtonPressed()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 151,
-      "symbol": "AgoraVideoViewController.didToggleVideo(_:)",
+      "line": 220,
+      "symbol": "AgoraVideoViewController.toggleVideoButtonPressed()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 164,
-      "symbol": "AgoraVideoViewController.didSwitchCamera(_:)",
+      "line": 233,
+      "symbol": "AgoraVideoViewController.hangUpButtonPressed()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 168,
-      "symbol": "AgoraVideoViewController.didTapHangUp(_:)",
+      "line": 242,
+      "symbol": "AgoraVideoViewController.switchCameraButtonPressed()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -61,6 +117,97 @@
       "line": 15,
       "symbol": "LogLevel.Verbose",
       "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/ToggleButton.swift",
+      "line": 11,
+      "symbol": "ToggleButton",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 11,
+      "symbol": "VideoControlViewDelegate",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 12,
+      "symbol": "VideoControlViewDelegate.muteButtonPressed()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 13,
+      "symbol": "VideoControlViewDelegate.toggleVideoButtonPressed()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 14,
+      "symbol": "VideoControlViewDelegate.hangUpButtonPressed()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 15,
+      "symbol": "VideoControlViewDelegate.switchCameraButtonPressed()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 19,
+      "symbol": "VideoControlView",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 26,
+      "symbol": "VideoControlView.delegate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 28,
+      "symbol": "VideoControlView.setupControls(hideMute:hideVideo:hideSwitchCamera:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 34,
+      "symbol": "VideoControlView.didToggleMute(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 38,
+      "symbol": "VideoControlView.didToggleVideo(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 42,
+      "symbol": "VideoControlView.didSwitchCamera(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/VideoControlView.swift",
+      "line": 46,
+      "symbol": "VideoControlView.didTapHangUp(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     }
   ],

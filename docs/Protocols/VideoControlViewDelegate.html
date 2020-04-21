@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>LogLevel Enumeration Reference</title>
+    <title>VideoControlViewDelegate Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
-    <a title="LogLevel Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Protocol/VideoControlViewDelegate" class="dashAnchor"></a>
+    <a title="VideoControlViewDelegate Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">AgoraUIKit Docs</a> (62% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">AgoraUIKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        LogLevel Enumeration Reference
+        VideoControlViewDelegate Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -84,14 +84,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>LogLevel</h1>
+            <h1>VideoControlViewDelegate</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogLevel</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoControlViewDelegate</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
               </div>
-            <p>An enum to represent the avialable levels of verbosity for logging.</p>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -100,9 +100,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO4NoneyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/None" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO4NoneyA2CmF">None</a>
+                    <a name="/s:10AgoraUIKit24VideoControlViewDelegateP17muteButtonPressedyyF"></a>
+                    <a name="//apple_ref/swift/Method/muteButtonPressed()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit24VideoControlViewDelegateP17muteButtonPressedyyF">muteButtonPressed()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -117,7 +117,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">None</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">muteButtonPressed</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -127,9 +127,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO6NormalyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/Normal" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO6NormalyA2CmF">Normal</a>
+                    <a name="/s:10AgoraUIKit24VideoControlViewDelegateP06toggleC13ButtonPressedyyF"></a>
+                    <a name="//apple_ref/swift/Method/toggleVideoButtonPressed()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit24VideoControlViewDelegateP06toggleC13ButtonPressedyyF">toggleVideoButtonPressed()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -144,7 +144,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">Normal</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">toggleVideoButtonPressed</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -154,9 +154,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO7VerboseyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/Verbose" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO7VerboseyA2CmF">Verbose</a>
+                    <a name="/s:10AgoraUIKit24VideoControlViewDelegateP19hangUpButtonPressedyyF"></a>
+                    <a name="//apple_ref/swift/Method/hangUpButtonPressed()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit24VideoControlViewDelegateP19hangUpButtonPressedyyF">hangUpButtonPressed()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -171,7 +171,34 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">Verbose</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">hangUpButtonPressed</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit24VideoControlViewDelegateP25switchCameraButtonPressedyyF"></a>
+                    <a name="//apple_ref/swift/Method/switchCameraButtonPressed()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit24VideoControlViewDelegateP25switchCameraButtonPressedyyF">switchCameraButtonPressed()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">switchCameraButtonPressed</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>

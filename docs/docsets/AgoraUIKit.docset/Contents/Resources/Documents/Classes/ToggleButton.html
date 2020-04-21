@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>LogLevel Enumeration Reference</title>
+    <title>ToggleButton Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
-    <a title="LogLevel Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Class/ToggleButton" class="dashAnchor"></a>
+    <a title="ToggleButton Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">AgoraUIKit Docs</a> (62% documented)</p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">AgoraUIKit Reference</a>
         <img id="carat" src="../img/carat.png" />
-        LogLevel Enumeration Reference
+        ToggleButton Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -84,14 +84,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>LogLevel</h1>
+            <h1>ToggleButton</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">LogLevel</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@IBDesignable</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">ToggleButton</span> <span class="p">:</span> <span class="kt">UIButton</span></code></pre>
 
                 </div>
               </div>
-            <p>An enum to represent the avialable levels of verbosity for logging.</p>
+            <p>Undocumented</p>
 
           </section>
           <section class="section task-group-section">
@@ -100,9 +101,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO4NoneyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/None" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO4NoneyA2CmF">None</a>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)offImage"></a>
+                    <a name="//apple_ref/swift/Property/offImage" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)offImage">offImage</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -110,14 +111,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The image that will be shown when the button is toggled off.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">None</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@IBInspectable</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">offImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -127,9 +129,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO6NormalyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/Normal" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO6NormalyA2CmF">Normal</a>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)offSelectedImage"></a>
+                    <a name="//apple_ref/swift/Property/offSelectedImage" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)offSelectedImage">offSelectedImage</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -137,14 +139,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The image that will be shown when the button is selected while off.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">Normal</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@IBInspectable</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">offSelectedImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -154,9 +157,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10AgoraUIKit8LogLevelO7VerboseyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/Verbose" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit8LogLevelO7VerboseyA2CmF">Verbose</a>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)onImage"></a>
+                    <a name="//apple_ref/swift/Property/onImage" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)onImage">onImage</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -164,14 +167,70 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The image that will be shown when the button is toggled on.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="kt">Verbose</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@IBInspectable</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">onImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)onSelectedImage"></a>
+                    <a name="//apple_ref/swift/Property/onSelectedImage" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)ToggleButton(py)onSelectedImage">onSelectedImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image that will be shown when the button is selected while on.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBInspectable</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">onSelectedImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit12ToggleButtonC10setToggled2onySb_tF"></a>
+                    <a name="//apple_ref/swift/Method/setToggled(on:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit12ToggleButtonC10setToggled2onySb_tF">setToggled(on:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Toggle the button state to the given boolean.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setToggled</span><span class="p">(</span><span class="nv">on</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

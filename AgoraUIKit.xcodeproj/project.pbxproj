@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		275AEDD42C6E73A46EC6C9D3 /* Pods_AgoraUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB0A761CAE2883B5E5B095C /* Pods_AgoraUIKit.framework */; };
 		7F1565BE244511A300C2B8D5 /* AgoraPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1565BD244511A300C2B8D5 /* AgoraPreferences.swift */; };
 		7F39A5A523F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */; };
 		7F39A5A723F1C93E00FD605A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A623F1C93E00FD605A /* Logger.swift */; };
@@ -57,7 +56,6 @@
 		7FED7697244F911C00E58403 /* VideoControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoControlView.xib; sourceTree = "<group>"; };
 		7FED7698244F911D00E58403 /* ToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7FED7699244F911D00E58403 /* AgoraVideoViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AgoraVideoViewController.storyboard; sourceTree = "<group>"; };
-		DBB0A761CAE2883B5E5B095C /* Pods_AgoraUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +63,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				275AEDD42C6E73A46EC6C9D3 /* Pods_AgoraUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +83,6 @@
 		25D8215D08DB55CF6AA8B9A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DBB0A761CAE2883B5E5B095C /* Pods_AgoraUIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
