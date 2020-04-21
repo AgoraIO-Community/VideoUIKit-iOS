@@ -1,5 +1,5 @@
 PODS:
-  - AgoraRtcEngine_iOS (2.9.1)
+  - AgoraRtcEngine_iOS (3.0.0.30)
 
 DEPENDENCIES:
   - AgoraRtcEngine_iOS
@@ -9,8 +9,8 @@ SPEC REPOS:
     - AgoraRtcEngine_iOS
 
 SPEC CHECKSUMS:
-  AgoraRtcEngine_iOS: b2eedd8f9ab47b71163f3285e836bd23feb43fff
+  AgoraRtcEngine_iOS: 5b39142beec664fa82772ff16e0b4c79c175bda0
 
 PODFILE CHECKSUM: f481d23f077f503f5ef25c408a26632ad99046f2
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

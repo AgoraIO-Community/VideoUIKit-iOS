@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="siD-KM-b0t">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="siD-KM-b0t">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -39,34 +38,12 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Qh-U8-yYt">
                                                             <rect key="frame" x="0.0" y="0.0" width="203" height="363"/>
                                                         </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4tE-HP-5r4">
-                                                            <rect key="frame" x="0.0" y="337" width="203" height="26"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longusername" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ni-eW-eQm">
-                                                                    <rect key="frame" x="59.5" y="6" width="84" height="14.5"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                            <color key="backgroundColor" white="0.77186032859999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstItem="6Ni-eW-eQm" firstAttribute="centerX" secondItem="4tE-HP-5r4" secondAttribute="centerX" id="OHP-sQ-okF"/>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6Ni-eW-eQm" secondAttribute="trailing" constant="5" id="VwC-9z-Wkh"/>
-                                                                <constraint firstItem="6Ni-eW-eQm" firstAttribute="centerY" secondItem="4tE-HP-5r4" secondAttribute="centerY" id="dKO-Vo-Ne4"/>
-                                                                <constraint firstAttribute="height" constant="26" id="wfB-3T-G6j"/>
-                                                                <constraint firstItem="6Ni-eW-eQm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4tE-HP-5r4" secondAttribute="leading" constant="5" id="xwP-so-dc2"/>
-                                                            </constraints>
-                                                        </view>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="4tE-HP-5r4" secondAttribute="trailing" id="A2g-XH-gSI"/>
                                                         <constraint firstAttribute="trailing" secondItem="3Qh-U8-yYt" secondAttribute="trailing" id="Eyc-OL-nQa"/>
                                                         <constraint firstItem="3Qh-U8-yYt" firstAttribute="top" secondItem="FlW-lV-J9N" secondAttribute="top" id="Lwh-Vf-4tg"/>
-                                                        <constraint firstAttribute="bottom" secondItem="4tE-HP-5r4" secondAttribute="bottom" id="acT-ek-zFb"/>
                                                         <constraint firstAttribute="bottom" secondItem="3Qh-U8-yYt" secondAttribute="bottom" id="dtr-WL-JyT"/>
                                                         <constraint firstItem="3Qh-U8-yYt" firstAttribute="leading" secondItem="FlW-lV-J9N" secondAttribute="leading" id="kP3-jb-3HQ"/>
-                                                        <constraint firstItem="4tE-HP-5r4" firstAttribute="leading" secondItem="FlW-lV-J9N" secondAttribute="leading" id="t26-vq-g3P"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -79,8 +56,6 @@
                                         </constraints>
                                         <size key="customSize" width="203" height="363"/>
                                         <connections>
-                                            <outlet property="nameplateView" destination="4tE-HP-5r4" id="sHJ-Hq-Cn6"/>
-                                            <outlet property="usernameLabel" destination="6Ni-eW-eQm" id="CLT-uA-zQk"/>
                                             <outlet property="videoView" destination="3Qh-U8-yYt" id="8qS-ja-6L1"/>
                                         </connections>
                                     </collectionViewCell>
@@ -90,77 +65,9 @@
                                     <outlet property="delegate" destination="siD-KM-b0t" id="w4I-6M-p88"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vSP-tq-BXs">
-                                <rect key="frame" x="0.0" y="692" width="414" height="50"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QkK-DB-cor">
-                                        <rect key="frame" x="20" y="0.0" width="374" height="50"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZSZ-fa-FgO">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="ZSZ-fa-FgO" secondAttribute="height" multiplier="1:1" id="kiA-Hy-6Ti"/>
-                                                </constraints>
-                                                <state key="normal" title="Video"/>
-                                                <connections>
-                                                    <action selector="didToggleVideo:" destination="siD-KM-b0t" eventType="touchUpInside" id="Qkc-xz-ApJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b5L-J8-obN">
-                                                <rect key="frame" x="108" y="0.0" width="50" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="b5L-J8-obN" secondAttribute="height" multiplier="1:1" id="xDT-bp-t9o"/>
-                                                </constraints>
-                                                <state key="normal" image="btn_unmute_normal.png"/>
-                                                <state key="selected" image="btn_unmute_pressed.png"/>
-                                                <connections>
-                                                    <action selector="didToggleMute:" destination="siD-KM-b0t" eventType="touchUpInside" id="kfb-C1-WuH"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gRy-Hb-IYz">
-                                                <rect key="frame" x="216" y="0.0" width="50" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="gRy-Hb-IYz" secondAttribute="height" multiplier="1:1" id="ZJm-LT-za5"/>
-                                                </constraints>
-                                                <state key="normal" image="btn_endcall_normal.png"/>
-                                                <state key="selected" image="btn_endcall_pressed.png"/>
-                                                <connections>
-                                                    <action selector="didTapHangUp:" destination="siD-KM-b0t" eventType="touchUpInside" id="eAC-ad-ewy"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLi-F0-C2m">
-                                                <rect key="frame" x="324" y="0.0" width="50" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="cLi-F0-C2m" secondAttribute="height" multiplier="1:1" id="sFf-WG-rbP"/>
-                                                </constraints>
-                                                <state key="normal" image="btn_switch_camera_normal.png"/>
-                                                <state key="selected" image="btn_switch_camera_pressed.png"/>
-                                                <state key="highlighted" image="btn_switch_camera_pressed.png"/>
-                                                <connections>
-                                                    <action selector="didSwitchCamera:" destination="siD-KM-b0t" eventType="touchUpInside" id="mRL-tg-bK0"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="bHY-f6-jWr"/>
-                                        </constraints>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="QkK-DB-cor" firstAttribute="leading" secondItem="vSP-tq-BXs" secondAttribute="leading" priority="750" constant="20" id="42J-lf-gTP"/>
-                                    <constraint firstAttribute="trailing" secondItem="QkK-DB-cor" secondAttribute="trailing" priority="750" constant="20" id="5AM-kL-mZQ"/>
-                                    <constraint firstItem="QkK-DB-cor" firstAttribute="centerY" secondItem="vSP-tq-BXs" secondAttribute="centerY" id="XCm-DU-K44"/>
-                                    <constraint firstAttribute="height" constant="50" id="lRH-fm-0o9"/>
-                                    <constraint firstItem="QkK-DB-cor" firstAttribute="centerX" secondItem="vSP-tq-BXs" secondAttribute="centerX" id="tWB-Nh-YiS"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vSP-tq-BXs" firstAttribute="leading" secondItem="KJd-zl-sya" secondAttribute="leading" id="2S7-ad-YcN"/>
-                            <constraint firstItem="vSP-tq-BXs" firstAttribute="centerY" secondItem="Tw4-zb-37m" secondAttribute="centerY" multiplier="1.6" id="OJI-3R-6B5"/>
-                            <constraint firstItem="KJd-zl-sya" firstAttribute="trailing" secondItem="vSP-tq-BXs" secondAttribute="trailing" id="RAY-hi-bMc"/>
                             <constraint firstItem="0tF-mZ-n0c" firstAttribute="leading" secondItem="KJd-zl-sya" secondAttribute="leading" id="RcD-ed-AvY"/>
                             <constraint firstItem="0tF-mZ-n0c" firstAttribute="top" secondItem="KJd-zl-sya" secondAttribute="top" id="cNK-dK-wPc"/>
                             <constraint firstItem="KJd-zl-sya" firstAttribute="bottom" secondItem="0tF-mZ-n0c" secondAttribute="bottom" id="t8o-XG-58o"/>
@@ -171,10 +78,6 @@
                     <navigationItem key="navigationItem" id="Ujo-tG-Znf"/>
                     <connections>
                         <outlet property="collectionView" destination="0tF-mZ-n0c" id="uBN-XU-p5I"/>
-                        <outlet property="hangUpButton" destination="gRy-Hb-IYz" id="9k5-4L-lSN"/>
-                        <outlet property="muteButton" destination="b5L-J8-obN" id="i5o-Kv-CRU"/>
-                        <outlet property="switchCameraButton" destination="cLi-F0-C2m" id="h80-FF-Wqp"/>
-                        <outlet property="toggleVideoButton" destination="ZSZ-fa-FgO" id="SZJ-xc-no0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DkH-ht-aNY" sceneMemberID="firstResponder"/>
@@ -182,12 +85,4 @@
             <point key="canvasLocation" x="-1113.0434782608697" y="-160.04464285714286"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="btn_endcall_normal.png" width="292" height="292"/>
-        <image name="btn_endcall_pressed.png" width="292" height="292"/>
-        <image name="btn_switch_camera_normal.png" width="220" height="220"/>
-        <image name="btn_switch_camera_pressed.png" width="220" height="220"/>
-        <image name="btn_unmute_normal.png" width="220" height="220"/>
-        <image name="btn_unmute_pressed.png" width="220" height="220"/>
-    </resources>
 </document>

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AgoraRtcEngineKit
+import AgoraRtcKit
 
 /**
 The `AgoraVideoViewController`implements the `AgoraRtcEngineDelegate` to handle the Agora RTC Engine events. Within these delegate functions the managed ui handles the UI  updates when a ARBroadcaster joins or leaves the channel.
@@ -140,7 +140,7 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
         lprint("remote user joined of uid: \(uid)", .Verbose)
         remoteUserIDs.append(uid)
         activeVideoIDs.append(uid)
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
     
     /**
@@ -154,7 +154,7 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
     */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didUpdatedUserInfo userInfo: AgoraUserInfo, withUid uid: UInt) {
         if let index = remoteUserIDs.first(where: { $0 == uid }) {
-            collectionView.reloadItems(at: [IndexPath(item: Int(index), section: 0)])
+            collectionView?.reloadItems(at: [IndexPath(item: Int(index), section: 0)])
         }
         lprint("updated userinfo for remote user: \(uid)", .Verbose)
         lprint(String(describing:userInfo), .Verbose)
@@ -176,7 +176,7 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
         if let index = remoteUserIDs.firstIndex(where: { $0 == uid }) {
             remoteUserIDs.remove(at: index)
             activeVideoIDs = activeVideoIDs.filter { $0 != uid }
-            collectionView.reloadData()
+            collectionView?.reloadData()
         }
         lprint("didOfflineOfUid: \(uid) with code: \(reason)", .Verbose)
     }
@@ -366,7 +366,7 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
         } else if state == .starting {
             activeVideoIDs.append(uid)
         }
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
     
     // MARK: Stream Message Delegate Methods

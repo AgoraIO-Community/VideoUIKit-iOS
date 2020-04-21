@@ -8,22 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		275AEDD42C6E73A46EC6C9D3 /* Pods_AgoraUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBB0A761CAE2883B5E5B095C /* Pods_AgoraUIKit.framework */; };
-		7F1B68B623DFB29D009F17ED /* btn_unmute_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68AC23DFB29D009F17ED /* btn_unmute_pressed.png */; };
-		7F1B68B723DFB29D009F17ED /* btn_mute_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68AD23DFB29D009F17ED /* btn_mute_normal.png */; };
-		7F1B68B823DFB29D009F17ED /* btn_endcall_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68AE23DFB29D009F17ED /* btn_endcall_normal.png */; };
-		7F1B68B923DFB29D009F17ED /* btn_startcall_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68AF23DFB29D009F17ED /* btn_startcall_normal.png */; };
-		7F1B68BA23DFB29D009F17ED /* btn_endcall_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B023DFB29D009F17ED /* btn_endcall_pressed.png */; };
-		7F1B68BB23DFB29D009F17ED /* btn_switch_camera_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B123DFB29D009F17ED /* btn_switch_camera_pressed.png */; };
-		7F1B68BC23DFB29D009F17ED /* btn_mute_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B223DFB29D009F17ED /* btn_mute_pressed.png */; };
-		7F1B68BD23DFB29D009F17ED /* btn_startcall_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B323DFB29D009F17ED /* btn_startcall_pressed.png */; };
-		7F1B68BE23DFB29D009F17ED /* btn_unmute_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B423DFB29D009F17ED /* btn_unmute_normal.png */; };
-		7F1B68BF23DFB29D009F17ED /* btn_switch_camera_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F1B68B523DFB29D009F17ED /* btn_switch_camera_normal.png */; };
+		7F1565BE244511A300C2B8D5 /* AgoraPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1565BD244511A300C2B8D5 /* AgoraPreferences.swift */; };
 		7F39A5A523F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */; };
 		7F39A5A723F1C93E00FD605A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F39A5A623F1C93E00FD605A /* Logger.swift */; };
-		7F39A5B023F3343300FD605A /* AgoraVideoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */; };
+		7F4445A9244F9CA000F85C68 /* btn_endcall_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F44459F244F9C9B00F85C68 /* btn_endcall_pressed.png */; };
+		7F4445AA244F9CA000F85C68 /* btn_switch_camera_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A0244F9C9C00F85C68 /* btn_switch_camera_normal.png */; };
+		7F4445AB244F9CA000F85C68 /* btn_switch_camera_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A1244F9C9D00F85C68 /* btn_switch_camera_pressed.png */; };
+		7F4445AC244F9CA000F85C68 /* btn_startcall_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A2244F9C9D00F85C68 /* btn_startcall_pressed.png */; };
+		7F4445AD244F9CA000F85C68 /* btn_mute_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A3244F9C9E00F85C68 /* btn_mute_pressed.png */; };
+		7F4445AE244F9CA000F85C68 /* btn_mute_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A4244F9C9E00F85C68 /* btn_mute_normal.png */; };
+		7F4445AF244F9CA000F85C68 /* btn_unmute_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A5244F9C9F00F85C68 /* btn_unmute_normal.png */; };
+		7F4445B0244F9CA000F85C68 /* btn_endcall_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A6244F9C9F00F85C68 /* btn_endcall_normal.png */; };
+		7F4445B1244F9CA000F85C68 /* btn_unmute_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A7244F9CA000F85C68 /* btn_unmute_pressed.png */; };
+		7F4445B2244F9CA000F85C68 /* btn_startcall_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F4445A8244F9CA000F85C68 /* btn_startcall_normal.png */; };
+		7F5D25FC24491C4E0090EA8F /* VideoControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5D25FB24491C4E0090EA8F /* VideoControlView.swift */; };
 		7F8B933623D65F790055657C /* AgoraVideoViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F8B933423D65F790055657C /* AgoraVideoViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F8B933D23D65F970055657C /* AgoraVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8B933C23D65F960055657C /* AgoraVideoViewController.swift */; };
 		7F8B934123D661450055657C /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8B934023D661450055657C /* VideoCollectionViewCell.swift */; };
+		7FED769A244F911D00E58403 /* VideoControlView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7FED7697244F911C00E58403 /* VideoControlView.xib */; };
+		7FED769B244F911D00E58403 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FED7698244F911D00E58403 /* ToggleButton.swift */; };
+		7FED769C244F911D00E58403 /* AgoraVideoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FED7699244F911D00E58403 /* AgoraVideoViewController.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,24 +35,28 @@
 		38BBBBDBB5ACC4CF01B4F9C1 /* Pods-AgoraUIKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraUIKit.debug.xcconfig"; path = "Target Support Files/Pods-AgoraUIKit/Pods-AgoraUIKit.debug.xcconfig"; sourceTree = "<group>"; };
 		4F8440EC0507D1EBBD260103 /* Pods-AgoraVideoViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraVideoViewController.debug.xcconfig"; path = "Target Support Files/Pods-AgoraVideoViewController/Pods-AgoraVideoViewController.debug.xcconfig"; sourceTree = "<group>"; };
 		5295FA373C124898156E485B /* Pods-AgoraVideoViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AgoraVideoViewController.release.xcconfig"; path = "Target Support Files/Pods-AgoraVideoViewController/Pods-AgoraVideoViewController.release.xcconfig"; sourceTree = "<group>"; };
-		7F1B68AC23DFB29D009F17ED /* btn_unmute_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_unmute_pressed.png; sourceTree = SOURCE_ROOT; };
-		7F1B68AD23DFB29D009F17ED /* btn_mute_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_mute_normal.png; sourceTree = SOURCE_ROOT; };
-		7F1B68AE23DFB29D009F17ED /* btn_endcall_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_endcall_normal.png; sourceTree = SOURCE_ROOT; };
-		7F1B68AF23DFB29D009F17ED /* btn_startcall_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_startcall_normal.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B023DFB29D009F17ED /* btn_endcall_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_endcall_pressed.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B123DFB29D009F17ED /* btn_switch_camera_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_camera_pressed.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B223DFB29D009F17ED /* btn_mute_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_mute_pressed.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B323DFB29D009F17ED /* btn_startcall_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_startcall_pressed.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B423DFB29D009F17ED /* btn_unmute_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_unmute_normal.png; sourceTree = SOURCE_ROOT; };
-		7F1B68B523DFB29D009F17ED /* btn_switch_camera_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_camera_normal.png; sourceTree = SOURCE_ROOT; };
+		7F1565BD244511A300C2B8D5 /* AgoraPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgoraPreferences.swift; sourceTree = "<group>"; };
 		7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AgoraVideoViewController+AgoraRtcEngineDelegate.swift"; sourceTree = "<group>"; };
 		7F39A5A623F1C93E00FD605A /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AgoraVideoViewController.storyboard; sourceTree = "<group>"; };
+		7F44459F244F9C9B00F85C68 /* btn_endcall_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_endcall_pressed.png; sourceTree = "<group>"; };
+		7F4445A0244F9C9C00F85C68 /* btn_switch_camera_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_camera_normal.png; sourceTree = "<group>"; };
+		7F4445A1244F9C9D00F85C68 /* btn_switch_camera_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_switch_camera_pressed.png; sourceTree = "<group>"; };
+		7F4445A2244F9C9D00F85C68 /* btn_startcall_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_startcall_pressed.png; sourceTree = "<group>"; };
+		7F4445A3244F9C9E00F85C68 /* btn_mute_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_mute_pressed.png; sourceTree = "<group>"; };
+		7F4445A4244F9C9E00F85C68 /* btn_mute_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_mute_normal.png; sourceTree = "<group>"; };
+		7F4445A5244F9C9F00F85C68 /* btn_unmute_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_unmute_normal.png; sourceTree = "<group>"; };
+		7F4445A6244F9C9F00F85C68 /* btn_endcall_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_endcall_normal.png; sourceTree = "<group>"; };
+		7F4445A7244F9CA000F85C68 /* btn_unmute_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_unmute_pressed.png; sourceTree = "<group>"; };
+		7F4445A8244F9CA000F85C68 /* btn_startcall_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_startcall_normal.png; sourceTree = "<group>"; };
+		7F5D25FB24491C4E0090EA8F /* VideoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControlView.swift; sourceTree = "<group>"; };
 		7F8B933123D65F790055657C /* AgoraUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AgoraUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F8B933423D65F790055657C /* AgoraVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AgoraVideoViewController.h; sourceTree = "<group>"; };
 		7F8B933523D65F790055657C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F8B933C23D65F960055657C /* AgoraVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgoraVideoViewController.swift; sourceTree = "<group>"; };
 		7F8B934023D661450055657C /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		7FED7697244F911C00E58403 /* VideoControlView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoControlView.xib; sourceTree = "<group>"; };
+		7FED7698244F911D00E58403 /* ToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
+		7FED7699244F911D00E58403 /* AgoraVideoViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AgoraVideoViewController.storyboard; sourceTree = "<group>"; };
 		DBB0A761CAE2883B5E5B095C /* Pods_AgoraUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AgoraUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,23 +91,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7F1B68AB23DFB272009F17ED /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				7F1B68AE23DFB29D009F17ED /* btn_endcall_normal.png */,
-				7F1B68B023DFB29D009F17ED /* btn_endcall_pressed.png */,
-				7F1B68AD23DFB29D009F17ED /* btn_mute_normal.png */,
-				7F1B68B223DFB29D009F17ED /* btn_mute_pressed.png */,
-				7F1B68AF23DFB29D009F17ED /* btn_startcall_normal.png */,
-				7F1B68B323DFB29D009F17ED /* btn_startcall_pressed.png */,
-				7F1B68B523DFB29D009F17ED /* btn_switch_camera_normal.png */,
-				7F1B68B123DFB29D009F17ED /* btn_switch_camera_pressed.png */,
-				7F1B68B423DFB29D009F17ED /* btn_unmute_normal.png */,
-				7F1B68AC23DFB29D009F17ED /* btn_unmute_pressed.png */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		7F8B932723D65F790055657C = {
 			isa = PBXGroup;
 			children = (
@@ -121,14 +112,27 @@
 		7F8B933323D65F790055657C /* AgoraUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				7F39A5AE23F3343200FD605A /* AgoraVideoViewController.storyboard */,
+				7FED7699244F911D00E58403 /* AgoraVideoViewController.storyboard */,
+				7FED7698244F911D00E58403 /* ToggleButton.swift */,
+				7FED7697244F911C00E58403 /* VideoControlView.xib */,
 				7F8B933423D65F790055657C /* AgoraVideoViewController.h */,
 				7F8B933C23D65F960055657C /* AgoraVideoViewController.swift */,
 				7F8B934023D661450055657C /* VideoCollectionViewCell.swift */,
+				7F5D25FB24491C4E0090EA8F /* VideoControlView.swift */,
+				7F1565BD244511A300C2B8D5 /* AgoraPreferences.swift */,
 				7F8B933523D65F790055657C /* Info.plist */,
 				7F39A5A623F1C93E00FD605A /* Logger.swift */,
 				7F39A5A423F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift */,
-				7F1B68AB23DFB272009F17ED /* Resources */,
+				7F4445A6244F9C9F00F85C68 /* btn_endcall_normal.png */,
+				7F44459F244F9C9B00F85C68 /* btn_endcall_pressed.png */,
+				7F4445A4244F9C9E00F85C68 /* btn_mute_normal.png */,
+				7F4445A3244F9C9E00F85C68 /* btn_mute_pressed.png */,
+				7F4445A8244F9CA000F85C68 /* btn_startcall_normal.png */,
+				7F4445A2244F9C9D00F85C68 /* btn_startcall_pressed.png */,
+				7F4445A0244F9C9C00F85C68 /* btn_switch_camera_normal.png */,
+				7F4445A1244F9C9D00F85C68 /* btn_switch_camera_pressed.png */,
+				7F4445A5244F9C9F00F85C68 /* btn_unmute_normal.png */,
+				7F4445A7244F9CA000F85C68 /* btn_unmute_pressed.png */,
 			);
 			path = AgoraUIKit;
 			sourceTree = "<group>";
@@ -204,17 +208,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7F1B68BA23DFB29D009F17ED /* btn_endcall_pressed.png in Resources */,
-				7F1B68BC23DFB29D009F17ED /* btn_mute_pressed.png in Resources */,
-				7F1B68B623DFB29D009F17ED /* btn_unmute_pressed.png in Resources */,
-				7F1B68B723DFB29D009F17ED /* btn_mute_normal.png in Resources */,
-				7F1B68BE23DFB29D009F17ED /* btn_unmute_normal.png in Resources */,
-				7F1B68B923DFB29D009F17ED /* btn_startcall_normal.png in Resources */,
-				7F39A5B023F3343300FD605A /* AgoraVideoViewController.storyboard in Resources */,
-				7F1B68BB23DFB29D009F17ED /* btn_switch_camera_pressed.png in Resources */,
-				7F1B68B823DFB29D009F17ED /* btn_endcall_normal.png in Resources */,
-				7F1B68BD23DFB29D009F17ED /* btn_startcall_pressed.png in Resources */,
-				7F1B68BF23DFB29D009F17ED /* btn_switch_camera_normal.png in Resources */,
+				7F4445AA244F9CA000F85C68 /* btn_switch_camera_normal.png in Resources */,
+				7FED769C244F911D00E58403 /* AgoraVideoViewController.storyboard in Resources */,
+				7F4445AC244F9CA000F85C68 /* btn_startcall_pressed.png in Resources */,
+				7F4445AB244F9CA000F85C68 /* btn_switch_camera_pressed.png in Resources */,
+				7F4445B2244F9CA000F85C68 /* btn_startcall_normal.png in Resources */,
+				7F4445AE244F9CA000F85C68 /* btn_mute_normal.png in Resources */,
+				7F4445AF244F9CA000F85C68 /* btn_unmute_normal.png in Resources */,
+				7F4445B1244F9CA000F85C68 /* btn_unmute_pressed.png in Resources */,
+				7F4445A9244F9CA000F85C68 /* btn_endcall_pressed.png in Resources */,
+				7F4445B0244F9CA000F85C68 /* btn_endcall_normal.png in Resources */,
+				7F4445AD244F9CA000F85C68 /* btn_mute_pressed.png in Resources */,
+				7FED769A244F911D00E58403 /* VideoControlView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,10 +255,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FED769B244F911D00E58403 /* ToggleButton.swift in Sources */,
 				7F8B934123D661450055657C /* VideoCollectionViewCell.swift in Sources */,
 				7F39A5A523F1C71400FD605A /* AgoraVideoViewController+AgoraRtcEngineDelegate.swift in Sources */,
 				7F8B933D23D65F970055657C /* AgoraVideoViewController.swift in Sources */,
 				7F39A5A723F1C93E00FD605A /* Logger.swift in Sources */,
+				7F5D25FC24491C4E0090EA8F /* VideoControlView.swift in Sources */,
+				7F1565BE244511A300C2B8D5 /* AgoraPreferences.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

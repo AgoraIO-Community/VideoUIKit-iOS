@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oe7-Ud-8t4" customClass="VideoControlView" customModule="AgoraUIKit" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleAspectFit" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cAc-FG-2Sx">
+                    <rect key="frame" x="20" y="0.0" width="374" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3p-uG-JV9" customClass="ToggleButton" customModule="AgoraUIKit">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="I3p-uG-JV9" secondAttribute="height" multiplier="1:1" id="PLT-Gp-aEb"/>
+                            </constraints>
+                            <state key="normal" title="Video"/>
+                            <connections>
+                                <action selector="didToggleVideo:" destination="Oe7-Ud-8t4" eventType="touchUpInside" id="deH-Re-Ewk"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rn-vP-eiD" customClass="ToggleButton" customModule="AgoraUIKit">
+                            <rect key="frame" x="108" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="3rn-vP-eiD" secondAttribute="height" multiplier="1:1" id="RuG-Hi-YqJ"/>
+                            </constraints>
+                            <state key="normal" image="btn_unmute_normal.png"/>
+                            <state key="selected" image="btn_unmute_pressed.png"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="image" keyPath="offImage" value="btn_unmute_normal.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="offSelectedImage" value="btn_unmute_pressed.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="onImage" value="btn_mute_normal.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="onSelectedImage" value="btn_mute_pressed.png"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="didToggleMute:" destination="Oe7-Ud-8t4" eventType="touchUpInside" id="Q88-9G-1JK"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LlR-Sv-C9n">
+                            <rect key="frame" x="216" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="LlR-Sv-C9n" secondAttribute="height" multiplier="1:1" id="9we-Ub-tJn"/>
+                            </constraints>
+                            <state key="normal" image="btn_endcall_normal.png"/>
+                            <state key="selected" image="btn_endcall_pressed.png"/>
+                            <connections>
+                                <action selector="didTapHangUp:" destination="Oe7-Ud-8t4" eventType="touchUpInside" id="PW7-yY-RAr"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXx-53-zKb" customClass="ToggleButton" customModule="AgoraUIKit">
+                            <rect key="frame" x="324" y="0.0" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="YXx-53-zKb" secondAttribute="height" multiplier="1:1" id="eDS-3g-gEd"/>
+                            </constraints>
+                            <state key="normal" image="btn_switch_camera_normal.png"/>
+                            <state key="selected" image="btn_switch_camera_pressed.png"/>
+                            <state key="highlighted" image="btn_switch_camera_pressed.png"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="image" keyPath="offImage" value="btn_switch_camera_normal.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="offSelectedImage" value="btn_switch_camera_pressed.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="onImage" value="btn_switch_camera_normal.png"/>
+                                <userDefinedRuntimeAttribute type="image" keyPath="onSelectedImage" value="btn_switch_camera_pressed.png"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="didSwitchCamera:" destination="Oe7-Ud-8t4" eventType="touchUpInside" id="sgu-uK-XuK"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="zE9-8w-H7J"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="height" constant="50" id="3vt-yz-ETB"/>
+                <constraint firstAttribute="trailing" secondItem="cAc-FG-2Sx" secondAttribute="trailing" priority="750" constant="20" id="Tif-ov-rKt"/>
+                <constraint firstItem="cAc-FG-2Sx" firstAttribute="centerY" secondItem="Oe7-Ud-8t4" secondAttribute="centerY" id="Tt1-6r-IQC"/>
+                <constraint firstItem="cAc-FG-2Sx" firstAttribute="centerX" secondItem="Oe7-Ud-8t4" secondAttribute="centerX" id="kJJ-PS-8iQ"/>
+                <constraint firstItem="cAc-FG-2Sx" firstAttribute="leading" secondItem="Oe7-Ud-8t4" secondAttribute="leading" priority="750" constant="20" id="ptJ-Ej-RnH"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="KL7-DI-h0x"/>
+            <connections>
+                <outlet property="hangUpButton" destination="LlR-Sv-C9n" id="jwD-Ji-mf7"/>
+                <outlet property="muteButton" destination="3rn-vP-eiD" id="afi-lN-yGE"/>
+                <outlet property="switchCameraButton" destination="YXx-53-zKb" id="af7-Ck-fNg"/>
+                <outlet property="toggleVideoButton" destination="I3p-uG-JV9" id="vfU-99-q13"/>
+            </connections>
+            <point key="canvasLocation" x="136" y="143"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_endcall_normal.png" width="292" height="292"/>
+        <image name="btn_endcall_pressed.png" width="292" height="292"/>
+        <image name="btn_mute_normal.png" width="204" height="204"/>
+        <image name="btn_mute_pressed.png" width="204" height="204"/>
+        <image name="btn_switch_camera_normal.png" width="220" height="220"/>
+        <image name="btn_switch_camera_pressed.png" width="220" height="220"/>
+        <image name="btn_unmute_normal.png" width="220" height="220"/>
+        <image name="btn_unmute_pressed.png" width="220" height="220"/>
+    </resources>
+</document>

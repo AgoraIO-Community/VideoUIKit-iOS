@@ -7,23 +7,15 @@
 //
 
 import UIKit
-import AgoraRtcEngineKit
+import AgoraRtcKit
 
 /**
  `AgoraVideoViewController` is a view controller capable of joining and managing a multi-party Agora video call. It handles joining and leaving a channel, as well as showing remote video feeds from other users in the call.
  */
-@IBDesignable
-public class AgoraVideoViewController: UIViewController {
-
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var muteButton: UIButton!
-    @IBOutlet weak var hangUpButton: UIButton!
-    @IBOutlet var toggleVideoButton: UIButton!
-    @IBOutlet var switchCameraButton: UIButton!
+open class AgoraVideoViewController: UICollectionViewController, VideoControlViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var appID = "YourAppIDHere"
-    var agoraKit: AgoraRtcEngineKit?
-    var tempToken: String? = nil
+    @IBOutlet weak var controlView: VideoControlView?
+    
     var userID: UInt = 0
     var userName: String? = nil
     var channelName = "default"
@@ -35,53 +27,84 @@ public class AgoraVideoViewController: UIViewController {
         }
     }
     
-    /**
-    Maximum streams to show at once. Defaults to 4.
-     */
     var maxStreams = 4
     
     var showingVideo = true
     
     var muted = false
     
+    var frontCamera = true
+    
     var shouldHideMuteButton = false {
         didSet(value) {
-            muteButton?.isHidden = value
+            controlView?.muteButton?.isHidden = value
         }
     }
     var shouldHideVideoButton = false {
         didSet(value) {
-            toggleVideoButton?.isHidden = value
+            controlView?.toggleVideoButton?.isHidden = value
         }
     }
     var shouldHideSwitchCameraButton = false {
         didSet(value) {
-            switchCameraButton?.isHidden = value
+            controlView?.switchCameraButton?.isHidden = value
         }
     }
     
+    public enum VideoControlLocation {
+        case top
+        case bottom
+    }
+    
+    /// Location of the video controls, either top or bottom.
+    public var controlLocation = VideoControlLocation.bottom {
+        didSet {
+            updateControlLocation()
+        }
+    }
+    
+    /// How far from the edge of the screen to place the video controls. Minimum of 0. Defaults to 20.
+    public var controlOffset: CGFloat = 20 {
+        didSet {
+            if controlOffset < 0 {
+                controlOffset = 0
+            }
+            updateControlLocation()
+        }
+    }
+    
+    var controlConstraint: NSLayoutConstraint?
+    
     /**
-     Creates a new AgoraVideoViewController.
+     Initializes a new AgoraVideoViewController.
      - Parameters:
         - appID: A static value that is used to connect to the Agora.io service. Get your Agora App Id from https://console.agora.io
         - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token using https://console.agora.io. Default is `nil`
         - channel: The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.
-     - Returns: A ready-to-use `AgoraVideoViewController`. Present it or push it onto a navigation stack to join a call.
      */
-    public static func create(appID: String, token: String? = nil, channel: String) -> AgoraVideoViewController {
+    public init(appID: String, token: String? = nil, channel: String) {
+        let layout = UICollectionViewFlowLayout()
         
-        if channel == "" {
-            lprint("Cannot join a channel with no name.", .Normal)
+        super.init(collectionViewLayout: layout)
+        setParameters(appID: appID, token: token, channel: channel)
+        if let controls = loadControlView() {
+            controlView = controls
+            controls.delegate = self
+            view.addSubview(controls)
+            controlConstraint = NSLayoutConstraint(item: controls, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+            
+            view.addConstraint(controlConstraint!)
+            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1, constant: 0))
+            
+            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
         }
         
-        let myBundle = Bundle(for: self)
-        let myStoryboard = UIStoryboard(name: "AgoraVideoViewController", bundle: myBundle)
-
-        let viewController = myStoryboard.instantiateInitialViewController() as! AgoraVideoViewController
-        
-        viewController.setParameters(appID: appID, token: token, channel: channel)
-        
-        return viewController
+        collectionView?.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: "videoCell")
+        AgoraPreferences.shared.getAgoraEngine().delegate = self
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     /**
@@ -91,10 +114,26 @@ public class AgoraVideoViewController: UIViewController {
         - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token using https://console.agora.io. Default is `nil`
         - channel: The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.
      */
-    public func setParameters(appID: String, token: String? = nil, channel: String) {
-        self.appID = appID
-        self.tempToken = token
+    open func setParameters(appID: String, token: String? = nil, channel: String) {
+        AgoraPreferences.shared.appID = appID
+        AgoraPreferences.shared.token = token
+        
+        if channel == "" {
+            lprint("Cannot join a channel with no name.", .Normal)
+        }
+        
         self.channelName = channel
+        AgoraPreferences.shared.getAgoraEngine().delegate = self
+    }
+    
+    
+    /// Loads the video control view. Override to create your own video controls.
+    open func loadControlView() -> VideoControlView? {
+        let nib = UINib(nibName: "VideoControlView", bundle: Bundle(for:AgoraVideoViewController.self))
+        if let view = nib.instantiate(withOwner: self, options: nil).first as? VideoControlView {
+            return view
+        }
+        return nil
     }
     
     override public func viewDidLoad() {
@@ -112,14 +151,35 @@ public class AgoraVideoViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
     }
     
+    func updateControlLocation() {
+        if let constraint = controlConstraint, let controls = controlView {
+            view.removeConstraint(constraint)
+            
+            var attribute: NSLayoutConstraint.Attribute
+            var offset: CGFloat
+            switch controlLocation {
+            case .top:
+                attribute = .top
+                offset = controlOffset
+            case .bottom:
+                attribute = .bottom
+                offset = -controlOffset
+            }
+            
+            controlConstraint = NSLayoutConstraint(item: controls, attribute: attribute, relatedBy: .equal, toItem: view, attribute: attribute, multiplier: 1, constant: offset)
+            
+            view.addConstraint(controlConstraint!)
+        }
+    }
+    
     func setupControls() {
-        muteButton.isHidden = shouldHideMuteButton
-        toggleVideoButton.isHidden = shouldHideVideoButton
-        switchCameraButton.isHidden = shouldHideSwitchCameraButton
+        controlView?.setupControls(hideMute: shouldHideMuteButton,
+                                   hideVideo: shouldHideVideoButton,
+                                   hideSwitchCamera: shouldHideSwitchCameraButton)
     }
     
     func setUpVideo() {
-        getAgoraEngine().enableVideo()
+        AgoraPreferences.shared.getAgoraEngine().enableVideo()
         
 //        let videoCanvas = AgoraRtcVideoCanvas()
 //        videoCanvas.uid = userID
@@ -131,48 +191,34 @@ public class AgoraVideoViewController: UIViewController {
     func joinChannel() {
         
         if let name = userName {
-            getAgoraEngine().joinChannel(byUserAccount: name, token: tempToken, channelId: channelName) { [weak self] (sid, uid, elapsed) in
+            AgoraPreferences.shared.getAgoraEngine().joinChannel(byUserAccount: name, token: AgoraPreferences.shared.token, channelId: channelName) { [weak self] (sid, uid, elapsed) in
                 self?.userID = uid
                 self?.activeVideoIDs.insert(uid, at: 0)
                 DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
+                    self?.collectionView?.reloadData()
                 }
             }
         } else {
-            getAgoraEngine().joinChannel(byToken: tempToken, channelId: channelName, info: nil, uid: userID) { [weak self] (sid, uid, elapsed) in
+            AgoraPreferences.shared.getAgoraEngine().joinChannel(byToken: AgoraPreferences.shared.token, channelId: channelName, info: nil, uid: userID) { [weak self] (sid, uid, elapsed) in
                 self?.userID = uid
                 self?.activeVideoIDs.insert(uid, at: 0)
                 DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
+                    self?.collectionView?.reloadData()
                 }
             }
         }
     }
     
-    private func getAgoraEngine() -> AgoraRtcEngineKit {
-        if agoraKit == nil {
-            agoraKit = AgoraRtcEngineKit.sharedEngine(withAppId: appID, delegate: self)
-        }
-        
-        return agoraKit!
-    }
+    // MARK: Button event handlers
     
-    @IBAction public func didToggleMute(_ sender: Any) {
-        getAgoraEngine().muteLocalAudioStream(!muted)
+    public func muteButtonPressed() {
+        AgoraPreferences.shared.getAgoraEngine().muteLocalAudioStream(!muted)
 
         muted = !muted
-        
-        if muted {
-            muteButton.setImage(UIImage(named: "btn_mute_normal"), for: .normal)
-            muteButton.setImage(UIImage(named: "btn_mute_pressed"), for: .selected)
-        } else {
-            muteButton.setImage(UIImage(named: "btn_unmute_normal"), for: .normal)
-            muteButton.setImage(UIImage(named: "btn_unmute_pressed"), for: .selected)
-        }
     }
     
-    @IBAction public func didToggleVideo(_ sender: Any) {
-        getAgoraEngine().enableLocalVideo(!showingVideo)
+    public func toggleVideoButtonPressed() {
+        AgoraPreferences.shared.getAgoraEngine().enableLocalVideo(!showingVideo)
         
         showingVideo = !showingVideo
         
@@ -181,14 +227,10 @@ public class AgoraVideoViewController: UIViewController {
         } else {
             activeVideoIDs.insert(userID, at: 0)
         }
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
     
-    @IBAction public func didSwitchCamera(_ sender: Any) {
-        getAgoraEngine().switchCamera()
-    }
-    
-    @IBAction public func didTapHangUp(_ sender: Any) {
+    public func hangUpButtonPressed() {
         leaveChannel()
         if let navigation = navigationController {
             navigation.popViewController(animated: true)
@@ -197,10 +239,16 @@ public class AgoraVideoViewController: UIViewController {
         }
     }
     
+    public func switchCameraButtonPressed() {
+        AgoraPreferences.shared.getAgoraEngine().switchCamera()
+        
+        frontCamera = !frontCamera
+    }
+    
     func leaveChannel() {
-        getAgoraEngine().leaveChannel(nil)
+        AgoraPreferences.shared.getAgoraEngine().leaveChannel(nil)
         remoteUserIDs.removeAll()
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
 
     /*
@@ -217,62 +265,63 @@ public class AgoraVideoViewController: UIViewController {
     
     /**
      Sets the maximum number of video streams to show at once, including the local stream.
+     
      - Parameters:
-     - streams: The maximum number of streams to show. Will be 1 if a number less than 1 is passed in.
+        - streams: The maximum number of streams to show, including the local stream. Cannot be set lower than 1. Default is 4.
      */
     public func setMaxStreams(streams: Int) {
         if streams < 1 {
             maxStreams = 1
+        } else {
+            maxStreams = streams
         }
     }
     
     /**
      Toggles whether to hide the button to switch cameras.
+     
      - Parameters:
-     - hidden: Whether to hide the button. Defaults to true.
+        - hidden: Whether to hide the button. Will hide the button if no parameter is passed.
      */
     public func hideSwitchCamera(hidden: Bool = true) {
         shouldHideSwitchCameraButton = hidden
+        setupControls()
     }
     
     /**
-    Toggles whether to hide the button to mute the local video feed.
-    - Parameters:
-    - hidden: Whether to hide the button. Defaults to true.
+     Toggles whether to hide the button to mute the local video feed.
+     
+     - Parameters:
+        - hidden: Whether to hide the button. Will hide the button if no parameter is passed.
     */
     public func hideVideoMute(hidden: Bool = true) {
         shouldHideVideoButton = hidden
+        setupControls()
     }
     
     /**
-    Toggles whether to hide the button to mute the local audio feed.
-    - Parameters:
-    - hidden: Whether to hide the button. Defaults to true.
+     Toggles whether to hide the button to mute the local audio feed.
+    
+     - Parameters:
+        - hidden: Whether to hide the button. Will hide the button if no parameter is passed.
     */
     public func hideAudioMute(hidden: Bool = true) {
         shouldHideMuteButton = hidden
     }
-    
-}
-
-/**
- `AgoraVideoViewController` implements a `UICollectionView` to display the video streams of the users in the call.
- */
-extension AgoraVideoViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: Collection View Delegate Methods
     
     /**
      Handles showing the correct number of video streams. Default behavior displays up to four video streams at a time.
      */
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    open override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return min(maxStreams, numFeeds)
     }
     
     /**
      Handles the layout and setup of cells for displaying users' video streams.
      */
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath)
         
         let uid = activeVideoIDs[indexPath.row]
@@ -281,21 +330,12 @@ extension AgoraVideoViewController: UICollectionViewDelegate, UICollectionViewDa
         if let videoCell = cell as? VideoCollectionViewCell {
             let videoCanvas = AgoraRtcVideoCanvas()
             videoCanvas.uid = uid
-            videoCanvas.view = videoCell.videoView
+            videoCanvas.view = videoCell.contentView
             videoCanvas.renderMode = .hidden
             if isLocal {
-                getAgoraEngine().setupLocalVideo(videoCanvas)
+                AgoraPreferences.shared.getAgoraEngine().setupLocalVideo(videoCanvas)
             } else {
-                getAgoraEngine().setupRemoteVideo(videoCanvas)
-            }
-            
-            
-            if let userInfo = getAgoraEngine().getUserInfo(byUid: uid, withError: nil),
-                let username = userInfo.userAccount {
-                videoCell.nameplateView.isHidden = false
-                videoCell.usernameLabel.text = username
-            } else {
-                videoCell.nameplateView.isHidden = true
+                AgoraPreferences.shared.getAgoraEngine().setupRemoteVideo(videoCanvas)
             }
         }
         
