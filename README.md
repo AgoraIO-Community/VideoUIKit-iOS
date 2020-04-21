@@ -59,9 +59,9 @@ agoraView.controlLocation = .top
 agoraView.controlOffset = 40
 ```
 
-For a full list of available functions, see the [AgoraVideoViewController API](file:///Users/zontan/OneDrive/Agora/iOS-UIKit/docs/Classes/AgoraVideoViewController.html).
+For a full list of available functions, see the [AgoraVideoViewController API](https://agoraio-community.github.io/iOS-UIKit/Classes/AgoraVideoViewController.html).
 
-For advanced users, AgoraVideoViewController is fully subclassable, to allow you to fine-tune its appearance and behavior for your app.
+For advanced users, `AgoraVideoViewController` is fully subclassable, to allow you to fine-tune its appearance and behavior for your app.
 
 ## Support
 - [AgoraUIKit Documentation](https://agoraio-community.github.io/iOS-UIKit/)
