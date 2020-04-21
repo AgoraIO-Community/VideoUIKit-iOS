@@ -17,7 +17,7 @@ pod 'AgoraUIKit'
 2. Create a video call view controller
 
 ```
-let agoraView = AgoraVideoViewController.create(appID: "YOUR_APP_ID", token: "YOUR_TOKEN_OR_NIL", channel: channelName)
+let agoraView = AgoraVideoViewController(appID: "YOUR_APP_ID", token: "YOUR_TOKEN_OR_NIL", channel: channelName)
 ```
 
 3. Show the video view
@@ -26,7 +26,17 @@ let agoraView = AgoraVideoViewController.create(appID: "YOUR_APP_ID", token: "YO
 navigationController?.pushViewController(agoraView, animated: true)
 ```
 
-## Customization Options
+## Global preferences
+
+Global Agora preferences can be set using the [AgoraPreferences](file:///Users/zontan/OneDrive/Agora/iOS-UIKit/docs/Classes/AgoraPreferences.html) singleton. You can use this to set your app ID and token, or to set the video configuration, e.g:
+
+```
+AgoraPreferences.shared.setVideoConfiguration(size: CGSize(width: 960, height: 720), frameRate: .fps30)
+```
+
+You can also access the `AgoraRtcEngineKit` object with `AgoraPreferences.shared.getAgoraEngine()`. The full list of available functions can be found in the [Agora API](https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html).
+
+## Customizing AgoraVideoViewController
 
 Several methods are provided to customize the call screen. You can hide non-essential buttons:
 
@@ -41,6 +51,17 @@ You can also change the maximum number of video streams to show:
 ```
 agoraView.setMaxStreams(streams: 2)
 ```
+
+And customize where the controls are located:
+
+```
+agoraView.controlLocation = .top
+agoraView.controlOffset = 40
+```
+
+For a full list of available functions, see the [AgoraVideoViewController API](file:///Users/zontan/OneDrive/Agora/iOS-UIKit/docs/Classes/AgoraVideoViewController.html).
+
+For advanced users, AgoraVideoViewController is fully subclassable, to allow you to fine-tune its appearance and behavior for your app.
 
 ## Support
 - [AgoraUIKit Documentation](https://agoraio-community.github.io/iOS-UIKit/)

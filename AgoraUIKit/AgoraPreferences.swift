@@ -9,12 +9,24 @@
 import Foundation
 import AgoraRtcKit
 
+/**
+ Global Agora preferences.
+ */
 public class AgoraPreferences {
+    /**
+     Static preferences singleton. Used to get and set preferences for Agora.
+     */
     public static let shared = AgoraPreferences()
     
     private init() {}
     
+    /**
+     Your Agora app ID. Can be acquired from console.agora.io.
+     */
     public var appID: String = ""
+    /**
+     Your authentication token. Can be nil for projects created without token authorization.
+     */
     public var token: String?
     
     private var agoraKit: AgoraRtcEngineKit? = nil

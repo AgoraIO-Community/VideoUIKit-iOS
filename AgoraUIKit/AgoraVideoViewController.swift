@@ -51,19 +51,33 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         }
     }
     
+    /**
+     Available locations for the video control panel.
+     */
     public enum VideoControlLocation {
+        /**
+        Controls on top.
+         */
         case top
+        /**
+         Controls on bottom.
+         */
         case bottom
     }
     
-    /// Location of the video controls, either top or bottom.
+    /**
+     Location of the video controls, either top or bottom.
+     */
     public var controlLocation = VideoControlLocation.bottom {
         didSet {
             updateControlLocation()
         }
     }
     
-    /// How far from the edge of the screen to place the video controls. Minimum of 0. Defaults to 20.
+    
+    /**
+     How far from the edge of the screen to place the video controls. Minimum of 0. Defaults to 20.
+    */
     public var controlOffset: CGFloat = 20 {
         didSet {
             if controlOffset < 0 {
@@ -74,6 +88,15 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     }
     
     var controlConstraint: NSLayoutConstraint?
+    
+    /**
+     Convenience initializer. Uses the existing appID and token in `AgoraPreferences`.
+     - Parameters:
+        - channel: The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.
+     */
+    public convenience init(channel: String) {
+        self.init(appID: AgoraPreferences.shared.appID, token: AgoraPreferences.shared.token, channel: channel)
+    }
     
     /**
      Initializes a new AgoraVideoViewController.
@@ -103,12 +126,15 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         AgoraPreferences.shared.getAgoraEngine().delegate = self
     }
     
+    /**
+     Required init. Not implemented by default.
+     */
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     /**
-    Sets the core parameters for a new AgoraVideoViewController. Redundant with create(appID:, token:, channel:).
+    Sets the core parameters for a new AgoraVideoViewController. Redundant with init(appID:, token:, channel:).
      - Parameters:
         - appID: A static value that is used to connect to the Agora.io service. Get your Agora App Id from https://console.agora.io
         - token: A static value that is used to as the user's channel token. You can set either a dynamic token or a temp token. Generate a temp token using https://console.agora.io. Default is `nil`
@@ -136,6 +162,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         return nil
     }
     
+    /**
+     Initializes and joins an Agora channel on first load.
+     */
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
@@ -180,12 +209,6 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     
     func setUpVideo() {
         AgoraPreferences.shared.getAgoraEngine().enableVideo()
-        
-//        let videoCanvas = AgoraRtcVideoCanvas()
-//        videoCanvas.uid = userID
-//        videoCanvas.view = localVideoView
-//        videoCanvas.renderMode = .fit
-//        getAgoraEngine().setupLocalVideo(videoCanvas)
     }
     
     func joinChannel() {
@@ -211,12 +234,18 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     
     // MARK: Button event handlers
     
+    /**
+     Handler for the mute button being pressed. Mutes or unmutes the local audio.
+     */
     public func muteButtonPressed() {
         AgoraPreferences.shared.getAgoraEngine().muteLocalAudioStream(!muted)
 
         muted = !muted
     }
     
+    /**
+     Handler for the toggle video button being pressed. Mutes or unmutes the local video.
+     */
     public func toggleVideoButtonPressed() {
         AgoraPreferences.shared.getAgoraEngine().enableLocalVideo(!showingVideo)
         
@@ -230,6 +259,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         collectionView?.reloadData()
     }
     
+    /**
+     Handler for the hang up button being pressed. Leaves the video channel and dismisses the view controller.
+     */
     public func hangUpButtonPressed() {
         leaveChannel()
         if let navigation = navigationController {
@@ -239,6 +271,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         }
     }
     
+    /**
+     Handler for the switch camera button being pressed. Toggles between the front and back cameras.
+     */
     public func switchCameraButtonPressed() {
         AgoraPreferences.shared.getAgoraEngine().switchCamera()
         

@@ -14,7 +14,7 @@
     <a title="AgoraVideoViewController Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">AgoraUIKit Docs</a> (62% documented)</p>
+        <p><a href="../index.html">AgoraUIKit Docs</a> (93% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -111,7 +111,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Available locations for the video control panel.</p>
 
                         <a href="../Classes/AgoraVideoViewController/VideoControlLocation.html" class="slightly-smaller">See more</a>
                       </div>
@@ -176,6 +176,52 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">controlOffset</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC7channelACSS_tcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(channel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC7channelACSS_tcfc">init(channel:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience initializer. Uses the existing appID and token in <code><a href="../Classes/AgoraPreferences.html">AgoraPreferences</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>channel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the channel to join. All users who join the same channel will be placed in a single call with each other. The channel name cannot be empty, and channel names of at least 3 characters are recommended.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -263,7 +309,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Required init. Not implemented by default.</p>
 
                       </div>
                       <div class="declaration">
@@ -290,7 +336,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the core parameters for a new AgoraVideoViewController. Redundant with create(appID:, token:, channel:).</p>
+                        <p>Sets the core parameters for a new AgoraVideoViewController. Redundant with init(appID:, token:, channel:).</p>
 
                       </div>
                       <div class="declaration">
@@ -387,7 +433,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Initializes and joins an Agora channel on first load.</p>
 
                       </div>
                       <div class="declaration">
@@ -454,7 +500,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the mute button being pressed. Mutes or unmutes the local audio.</p>
 
                       </div>
                       <div class="declaration">
@@ -481,7 +527,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the toggle video button being pressed. Mutes or unmutes the local video.</p>
 
                       </div>
                       <div class="declaration">
@@ -508,7 +554,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the hang up button being pressed. Leaves the video channel and dismisses the view controller.</p>
 
                       </div>
                       <div class="declaration">
@@ -535,7 +581,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the switch camera button being pressed. Toggles between the front and back cameras.</p>
 
                       </div>
                       <div class="declaration">

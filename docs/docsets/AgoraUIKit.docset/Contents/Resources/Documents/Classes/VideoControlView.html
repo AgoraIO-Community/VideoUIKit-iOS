@@ -14,7 +14,7 @@
     <a title="VideoControlView Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">AgoraUIKit Docs</a> (62% documented)</p>
+        <p><a href="../index.html">AgoraUIKit Docs</a> (93% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -92,7 +92,7 @@
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p><code>VideoControlView</code> is a container for a set of buttons to control the functionality of the video call. By default, contains buttons to toggle the audio and video, switch camera, and hang up. Use <code>loadControlView()</code> in <code><a href="../Classes/AgoraVideoViewController.html">AgoraVideoViewController</a></code> to add customizations.</p>
 
           </section>
           <section class="section task-group-section">
@@ -111,7 +111,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Delegate to handle actual functionality. Notified when buttons are pressed.</p>
 
                       </div>
                       <div class="declaration">
@@ -138,7 +138,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Shows or hides the desired non-essential buttons. Defaults to showing all buttons.</p>
 
                       </div>
                       <div class="declaration">
@@ -148,6 +148,49 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setupControls</span><span class="p">(</span><span class="nv">hideMute</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">hideVideo</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">hideSwitchCamera</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hideMute</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether to hide the audio mute button.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hideVideo</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether to hide the video mute button.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hideSwitchCamera</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether to hide the button to toggle the camera.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -165,7 +208,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the mute button being pressed.</p>
 
                       </div>
                       <div class="declaration">
@@ -173,7 +216,7 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@IBAction</span>
-<span class="kd">open</span> <span class="kd">func</span> <span class="nf">didToggleMute</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didToggleMute</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -193,7 +236,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the toggle video button being pressed.</p>
 
                       </div>
                       <div class="declaration">
@@ -201,35 +244,7 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@IBAction</span>
-<span class="kd">open</span> <span class="kd">func</span> <span class="nf">didToggleVideo</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AgoraUIKit@objc(cs)VideoControlView(im)didSwitchCamera:"></a>
-                    <a name="//apple_ref/swift/Method/didSwitchCamera(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)VideoControlView(im)didSwitchCamera:">didSwitchCamera(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
-<span class="kd">open</span> <span class="kd">func</span> <span class="nf">didSwitchCamera</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didToggleVideo</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -249,7 +264,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Handler for the hang up button being pressed.</p>
 
                       </div>
                       <div class="declaration">
@@ -257,7 +272,35 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@IBAction</span>
-<span class="kd">open</span> <span class="kd">func</span> <span class="nf">didTapHangUp</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didTapHangUp</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AgoraUIKit@objc(cs)VideoControlView(im)didSwitchCamera:"></a>
+                    <a name="//apple_ref/swift/Method/didSwitchCamera(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AgoraUIKit@objc(cs)VideoControlView(im)didSwitchCamera:">didSwitchCamera(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Handler for the switch camera button being pressed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">didSwitchCamera</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

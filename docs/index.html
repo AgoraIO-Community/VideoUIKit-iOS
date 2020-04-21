@@ -13,7 +13,7 @@
     <a title="AgoraUIKit  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">AgoraUIKit Docs</a> (62% documented)</p>
+        <p><a href="index.html">AgoraUIKit Docs</a> (93% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -102,7 +102,7 @@
 <ol>
 <li>Create a video call view controller</li>
 </ol>
-<pre class="highlight plaintext"><code>let agoraView = AgoraVideoViewController.create(appID: "YOUR_APP_ID", token: "YOUR_TOKEN_OR_NIL", channel: channelName)
+<pre class="highlight plaintext"><code>let agoraView = AgoraVideoViewController(appID: "YOUR_APP_ID", token: "YOUR_TOKEN_OR_NIL", channel: channelName)
 </code></pre>
 
 <ol>
@@ -110,7 +110,14 @@
 </ol>
 <pre class="highlight plaintext"><code>navigationController?.pushViewController(agoraView, animated: true)
 </code></pre>
-<h2 id='customization-options' class='heading'>Customization Options</h2>
+<h2 id='global-preferences' class='heading'>Global preferences</h2>
+
+<p>Global Agora preferences can be set using the <a href="file:///Users/zontan/OneDrive/Agora/iOS-UIKit/docs/Classes/AgoraPreferences.html">AgoraPreferences</a> singleton. You can use this to set your app ID and token, or to set the video configuration, e.g:</p>
+<pre class="highlight plaintext"><code>AgoraPreferences.shared.setVideoConfiguration(size: CGSize(width: 960, height: 720), frameRate: .fps30)
+</code></pre>
+
+<p>You can also access the <code>AgoraRtcEngineKit</code> object with <code>AgoraPreferences.shared.getAgoraEngine()</code>. The full list of available functions can be found in the <a href="https://docs.agora.io/en/Video/API%20Reference/oc/Classes/AgoraRtcEngineKit.html">Agora API</a>.</p>
+<h2 id='customizing-agoravideoviewcontroller' class='heading'>Customizing AgoraVideoViewController</h2>
 
 <p>Several methods are provided to customize the call screen. You can hide non-essential buttons:</p>
 <pre class="highlight plaintext"><code>agoraView.hideSwitchCamera()
@@ -121,6 +128,15 @@ agoraView.hideAudioMute()
 <p>You can also change the maximum number of video streams to show:</p>
 <pre class="highlight plaintext"><code>agoraView.setMaxStreams(streams: 2)
 </code></pre>
+
+<p>And customize where the controls are located:</p>
+<pre class="highlight plaintext"><code>agoraView.controlLocation = .top
+agoraView.controlOffset = 40
+</code></pre>
+
+<p>For a full list of available functions, see the <a href="file:///Users/zontan/OneDrive/Agora/iOS-UIKit/docs/Classes/AgoraVideoViewController.html">AgoraVideoViewController API</a>.</p>
+
+<p>For advanced users, AgoraVideoViewController is fully subclassable, to allow you to fine-tune its appearance and behavior for your app.</p>
 <h2 id='support' class='heading'>Support</h2>
 
 <ul>
