@@ -19,7 +19,6 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     var userID: UInt = 0
     var userName: String? = nil
     var channelName = "default"
-    var remoteUserIDs: [UInt] = []
     var activeVideoIDs: [UInt] = []
     var numFeeds: Int {
         get {
@@ -34,6 +33,11 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     var muted = false
     
     var frontCamera = true
+    
+    /**
+    The render mode of the video views. Defaults to RenderModeFill.
+     */
+    public var videoRenderMode: AgoraVideoRenderMode = .fill
     
     var shouldHideMuteButton = false {
         didSet(value) {
@@ -216,37 +220,51 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         if let name = userName {
             AgoraPreferences.shared.getAgoraEngine().joinChannel(byUserAccount: name, token: AgoraPreferences.shared.token, channelId: channelName) { [weak self] (sid, uid, elapsed) in
                 self?.userID = uid
-                self?.activeVideoIDs.insert(uid, at: 0)
-                DispatchQueue.main.async {
-                    self?.collectionView?.reloadData()
+                if self?.showingVideo == true {
+                    self?.activeVideoIDs.insert(uid, at: 0)
+                    DispatchQueue.main.async {
+                        self?.collectionView?.reloadData()
+                    }
                 }
             }
         } else {
             AgoraPreferences.shared.getAgoraEngine().joinChannel(byToken: AgoraPreferences.shared.token, channelId: channelName, info: nil, uid: userID) { [weak self] (sid, uid, elapsed) in
                 self?.userID = uid
-                self?.activeVideoIDs.insert(uid, at: 0)
-                DispatchQueue.main.async {
-                    self?.collectionView?.reloadData()
+                if self?.showingVideo == true {
+                    self?.activeVideoIDs.insert(uid, at: 0)
+                    DispatchQueue.main.async {
+                        self?.collectionView?.reloadData()
+                    }
                 }
             }
         }
     }
     
+    /**
+     Makes the local user an audience member, with no local video or audio. Automatically sets the channe profile to .liveBroadcasting.
+     */
+    open func setIsAudience() {
+        showingVideo = false
+        muted = true
+        AgoraPreferences.shared.getAgoraEngine().setChannelProfile(.liveBroadcasting)
+        AgoraPreferences.shared.getAgoraEngine().setClientRole(.audience)
+    }
+    
     // MARK: Button event handlers
     
     /**
-     Handler for the mute button being pressed. Mutes or unmutes the local audio.
+     Mutes or unmutes the local audio. Called when the mute button is pressed.
      */
-    public func muteButtonPressed() {
+    public func toggleLocalAudio() {
         AgoraPreferences.shared.getAgoraEngine().muteLocalAudioStream(!muted)
 
         muted = !muted
     }
     
     /**
-     Handler for the toggle video button being pressed. Mutes or unmutes the local video.
+     Mutes or unmutes the local video. Called when the disable video button is pressed.
      */
-    public func toggleVideoButtonPressed() {
+    public func toggleLocalVideo() {
         AgoraPreferences.shared.getAgoraEngine().enableLocalVideo(!showingVideo)
         
         showingVideo = !showingVideo
@@ -260,9 +278,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     }
     
     /**
-     Handler for the hang up button being pressed. Leaves the video channel and dismisses the view controller.
+     Leaves the video channel and dismisses the view controller. Called when the hang up button is pressed.
      */
-    public func hangUpButtonPressed() {
+    public func leaveCall() {
         leaveChannel()
         if let navigation = navigationController {
             navigation.popViewController(animated: true)
@@ -272,9 +290,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     }
     
     /**
-     Handler for the switch camera button being pressed. Toggles between the front and back cameras.
+     Toggles between the front and back cameras. Called when the switch camera button is pressed.
      */
-    public func switchCameraButtonPressed() {
+    public func switchCamera() {
         AgoraPreferences.shared.getAgoraEngine().switchCamera()
         
         frontCamera = !frontCamera
@@ -282,7 +300,7 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     
     func leaveChannel() {
         AgoraPreferences.shared.getAgoraEngine().leaveChannel(nil)
-        remoteUserIDs.removeAll()
+        activeVideoIDs.removeAll()
         collectionView?.reloadData()
     }
 
@@ -366,7 +384,7 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
             let videoCanvas = AgoraRtcVideoCanvas()
             videoCanvas.uid = uid
             videoCanvas.view = videoCell.contentView
-            videoCanvas.renderMode = .hidden
+            videoCanvas.renderMode = videoRenderMode
             if isLocal {
                 AgoraPreferences.shared.getAgoraEngine().setupLocalVideo(videoCanvas)
             } else {

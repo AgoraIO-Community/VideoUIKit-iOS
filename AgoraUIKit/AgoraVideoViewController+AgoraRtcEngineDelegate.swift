@@ -138,8 +138,10 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
         lprint("remote user joined of uid: \(uid)", .Verbose)
-        remoteUserIDs.append(uid)
-        activeVideoIDs.append(uid)
+        
+        if !activeVideoIDs.contains(uid) {
+            activeVideoIDs.append(uid)
+        }
         collectionView?.reloadData()
     }
     
@@ -153,7 +155,7 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
      After a remote user joins the channel, the SDK gets the user ID and user account of the remote user, caches them in a mapping table object (userInfo), and triggers this callback on the local client.
     */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didUpdatedUserInfo userInfo: AgoraUserInfo, withUid uid: UInt) {
-        if let index = remoteUserIDs.first(where: { $0 == uid }) {
+        if let index = activeVideoIDs.first(where: { $0 == uid }) {
             collectionView?.reloadItems(at: [IndexPath(item: Int(index), section: 0)])
         }
         lprint("updated userinfo for remote user: \(uid)", .Verbose)
@@ -173,9 +175,8 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
      - **Drop offline:** When no data packet of the user or host is received for a certain period of time (20 seconds for the Communication profile, and more for the Live-broadcast profile), the SDK assumes that the user/host drops offline. Unreliable network connections may lead to false detections, so Agora recommends using a signaling system for more reliable offline detection.
     */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
-        if let index = remoteUserIDs.firstIndex(where: { $0 == uid }) {
-            remoteUserIDs.remove(at: index)
-            activeVideoIDs = activeVideoIDs.filter { $0 != uid }
+        if let index = activeVideoIDs.firstIndex(where: { $0 == uid }) {
+            activeVideoIDs.remove(at: index)
             collectionView?.reloadData()
         }
         lprint("didOfflineOfUid: \(uid) with code: \(reason)", .Verbose)
@@ -364,7 +365,9 @@ extension AgoraVideoViewController: AgoraRtcEngineDelegate {
         if state == .failed || state == .stopped {
             activeVideoIDs = activeVideoIDs.filter { $0 != uid }
         } else if state == .starting {
-            activeVideoIDs.append(uid)
+            if !activeVideoIDs.contains(uid) {
+                activeVideoIDs.append(uid)
+            }
         }
         collectionView?.reloadData()
     }

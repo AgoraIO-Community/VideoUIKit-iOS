@@ -15,19 +15,19 @@ public protocol VideoControlViewDelegate: NSObject {
     /**
     Handler for the mute button being pressed. Mutes or unmutes the local audio.
     */
-    func muteButtonPressed()
+    func toggleLocalAudio()
     /**
     Handler for the toggle video button being pressed. Mutes or unmutes the local video.
     */
-    func toggleVideoButtonPressed()
+    func toggleLocalVideo()
     /**
     Handler for the hang up button being pressed. Leaves the video channel and dismisses the view controller.
     */
-    func hangUpButtonPressed()
+    func leaveCall()
     /**
     Handler for the switch camera button being pressed. Toggles between the front and back cameras.
     */
-    func switchCameraButtonPressed()
+    func switchCamera()
 }
 
 /**
@@ -63,28 +63,28 @@ open class VideoControlView: UIView {
     Handler for the mute button being pressed.
     */
     @IBAction public func didToggleMute(_ sender: Any) {
-        delegate?.muteButtonPressed()
+        delegate?.toggleLocalAudio()
     }
     
     /**
     Handler for the toggle video button being pressed.
     */
     @IBAction public func didToggleVideo(_ sender: Any) {
-        delegate?.toggleVideoButtonPressed()
+        delegate?.toggleLocalVideo()
     }
     
     /**
     Handler for the hang up button being pressed.
     */
     @IBAction public func didTapHangUp(_ sender: Any) {
-        delegate?.hangUpButtonPressed()
+        delegate?.leaveCall()
     }
 
     /**
     Handler for the switch camera button being pressed.
     */
     @IBAction public func didSwitchCamera(_ sender: Any) {
-        delegate?.switchCameraButtonPressed() 
+        delegate?.switchCamera() 
     }
     
    

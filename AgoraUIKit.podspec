@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |spec|
   spec.name         = "AgoraUIKit"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.4"
   spec.summary      = "Pre-built UI for video calling with Agora."
   spec.description  = <<-DESC
                     A pre-built, easy to use UI that handles creating, joining, and managing an
@@ -18,9 +18,9 @@ Pod::Spec.new do |spec|
   spec.homepage     = "https://github.com/AgoraIO-Community/iOS-UIKit"
   spec.license      = { :type => "MIT" }
   spec.author       = { "Jonathan Fotland" => "jonathan@agora.io" }
-  spec.platform     = :ios, "12.0"
+  spec.platform     = :ios, "10.3"
   spec.swift_version = "4.0"
-  spec.source       = { :git => "https://github.com/AgoraIO-Community/iOS-UIKit" }
+  spec.source       = { :git => "https://github.com/AgoraIO-Community/iOS-UIKit.git", :tag => '0.0.4' }
   spec.source_files = "AgoraUIKit"
   spec.resources    = "AgoraUIKit/*.png", "AgoraUIKit/*.storyboard", "AgoraUIKit/*.xib"
   spec.dependency     "AgoraRtcEngine_iOS", '~> 3.0'
