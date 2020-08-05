@@ -35,9 +35,9 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     var frontCamera = true
     
     /**
-    The render mode of the video views. Defaults to RenderModeFill.
+    The render mode of the video views. Defaults to RenderModeHidden.
      */
-    public var videoRenderMode: AgoraVideoRenderMode = .fill
+    public var videoRenderMode: AgoraVideoRenderMode = .hidden
     
     var shouldHideMuteButton = false {
         didSet(value) {

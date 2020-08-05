@@ -2,21 +2,7 @@
   "warnings": [
     {
       "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 120,
-      "symbol": "AgoraVideoViewController.init(coder:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 153,
-      "symbol": "AgoraVideoViewController.viewDidLoad()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/zontan/OneDrive/Agora/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 164,
+      "line": 179,
       "symbol": "AgoraVideoViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
