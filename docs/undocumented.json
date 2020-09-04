@@ -2,7 +2,7 @@
   "warnings": [
     {
       "file": "/Users/zontan/Documents/iOS-UIKit/AgoraUIKit/AgoraVideoViewController.swift",
-      "line": 183,
+      "line": 191,
       "symbol": "AgoraVideoViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

@@ -336,7 +336,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Required init. Not implemented by default.</p>
+                        <p>Required init. Not implemented.</p>
 
                       </div>
                       <div class="declaration">
@@ -423,6 +423,33 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC010addControlD0yyF"></a>
+                    <a name="//apple_ref/swift/Method/addControlView()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC010addControlD0yyF">addControlView()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds the control view created by loadControlView(). Call this function if you are using your own layout, but want to use the default control view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">addControlView</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10AgoraUIKit0A19VideoViewControllerC011loadControlD0AA0cgD0CSgyF"></a>
                     <a name="//apple_ref/swift/Method/loadControlView()" class="dashAnchor"></a>
                     <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC011loadControlD0AA0cgD0CSgyF">loadControlView()</a>
@@ -467,7 +494,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -494,34 +521,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC13setIsAudienceyyF"></a>
-                    <a name="//apple_ref/swift/Method/setIsAudience()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC13setIsAudienceyyF">setIsAudience()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Makes the local user an audience member, with no local video or audio. Automatically sets the channe profile to .liveBroadcasting.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">setIsAudience</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">open</span> <span class="kd">func</span> <span class="nf">viewWillAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -662,6 +662,33 @@
                 </div>
               </div>
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10AgoraUIKit0A19VideoViewControllerC13setIsAudienceyyF"></a>
+                    <a name="//apple_ref/swift/Method/setIsAudience()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10AgoraUIKit0A19VideoViewControllerC13setIsAudienceyyF">setIsAudience()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Makes the local user an audience member, with no local video or audio. Automatically sets the channel profile to .liveBroadcasting.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">open</span> <span class="kd">func</span> <span class="nf">setIsAudience</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -2774,7 +2801,7 @@ If the SDK fails to rejoin the channel 20 minutes after being disconnected from 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/AgoraIO-Community/iOS-UIKit" target="_blank" rel="external">Jonathan Fotland</a>. All rights reserved. (Last updated: 2020-08-05)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/AgoraIO-Community/iOS-UIKit" target="_blank" rel="external">Jonathan Fotland</a>. All rights reserved. (Last updated: 2020-09-04)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

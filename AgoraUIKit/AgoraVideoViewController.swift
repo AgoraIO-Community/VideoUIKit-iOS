@@ -114,24 +114,14 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         
         super.init(collectionViewLayout: layout)
         setParameters(appID: appID, token: token, channel: channel)
-        if let controls = loadControlView() {
-            controlView = controls
-            controls.delegate = self
-            view.addSubview(controls)
-            controlConstraint = NSLayoutConstraint(item: controls, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-            
-            view.addConstraint(controlConstraint!)
-            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1, constant: 0))
-            
-            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
-        }
+        addControlView()
         
         collectionView?.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: "videoCell")
         AgoraPreferences.shared.getAgoraEngine().delegate = self
     }
     
     /**
-     Required init. Not implemented by default.
+     Required init. Not implemented.
      */
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -156,8 +146,26 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         AgoraPreferences.shared.getAgoraEngine().delegate = self
     }
     
+    /**
+     Adds the control view created by loadControlView(). Call this function if you are using your own layout, but want to use the default control view.
+     */
+    open func addControlView() {
+        if let controls = loadControlView() {
+            controlView = controls
+            controls.delegate = self
+            view.addSubview(controls)
+            controlConstraint = NSLayoutConstraint(item: controls, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+            
+            view.addConstraint(controlConstraint!)
+            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .width, relatedBy: .equal, toItem: view, attribute: .width, multiplier: 1, constant: 0))
+            
+            view.addConstraint(NSLayoutConstraint(item: controls, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0))
+        }
+    }
     
-    /// Loads the video control view. Override to create your own video controls.
+    /**
+     Loads the video control view. Override to create your own video controls.
+     */
     open func loadControlView() -> VideoControlView? {
         let nib = UINib(nibName: "VideoControlView", bundle: Bundle(for:AgoraVideoViewController.self))
         if let view = nib.instantiate(withOwner: self, options: nil).first as? VideoControlView {
@@ -169,7 +177,7 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     /**
      Initializes and joins an Agora channel on first load.
      */
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
 
@@ -180,7 +188,7 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
         
     }
     
-    override public func viewWillAppear(_ animated: Bool) {
+    override open func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
     
@@ -238,16 +246,6 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
                 }
             }
         }
-    }
-    
-    /**
-     Makes the local user an audience member, with no local video or audio. Automatically sets the channe profile to .liveBroadcasting.
-     */
-    open func setIsAudience() {
-        showingVideo = false
-        muted = true
-        AgoraPreferences.shared.getAgoraEngine().setChannelProfile(.liveBroadcasting)
-        AgoraPreferences.shared.getAgoraEngine().setClientRole(.audience)
     }
     
     // MARK: Button event handlers
@@ -315,6 +313,16 @@ open class AgoraVideoViewController: UICollectionViewController, VideoControlVie
     */
 
     // MARK: Customization options
+    
+    /**
+     Makes the local user an audience member, with no local video or audio. Automatically sets the channel profile to .liveBroadcasting.
+     */
+    open func setIsAudience() {
+        showingVideo = false
+        muted = true
+        AgoraPreferences.shared.getAgoraEngine().setChannelProfile(.liveBroadcasting)
+        AgoraPreferences.shared.getAgoraEngine().setClientRole(.audience)
+    }
     
     /**
      Sets the maximum number of video streams to show at once, including the local stream.
