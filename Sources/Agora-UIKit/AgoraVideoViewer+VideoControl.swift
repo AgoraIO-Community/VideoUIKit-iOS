@@ -15,6 +15,7 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
         }
+        self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
     /// Toggle the camera between on and off

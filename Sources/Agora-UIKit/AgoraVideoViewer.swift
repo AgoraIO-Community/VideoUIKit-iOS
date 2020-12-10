@@ -43,10 +43,35 @@ public struct AgoraConnectionData {
     @objc optional func extraButtons() -> [MPButton]
 }
 
+public struct AgoraSettings {
+    var tokenURL: String?
+    struct BuiltinButtons: OptionSet {
+        var rawValue: Int
+        static let cameraButton = BuiltinButtons(rawValue: 1 << 0)
+        static let micButton = BuiltinButtons(rawValue: 1 << 1)
+        static let flipButton = BuiltinButtons(rawValue: 1 << 2)
+        static let beautifyButton = BuiltinButtons(rawValue: 1 << 3)
+        static let all: BuiltinButtons = [cameraButton, micButton, flipButton, beautifyButton]
+    }
+    enum Position {
+        case top
+        case right
+        case bottom
+        case left
+    }
+
+    var enabledButtons: BuiltinButtons = .all
+    var buttonPosition: Position = .bottom
+    var floatPosition: Position = .top
+    var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
+    public init() {}
+}
+
 open class AgoraVideoViewer: MPView {
 
     public var delegate: AgoraVideoViewerDelegate?
 
+    public var agoraSettings: AgoraSettings
     public enum Style: Equatable {
         case grid
         case floating
@@ -98,22 +123,51 @@ open class AgoraVideoViewer: MPView {
         self.addSubview(collView)
         collView.delegate = self
         collView.dataSource = self
-        collView.translatesAutoresizingMaskIntoConstraints = false
+//        collView.translatesAutoresizingMaskIntoConstraints = false
+        let floatPos = self.agoraSettings.floatPosition
+        let smallerDim = 100 + 2 * AgoraCollectionViewer.cellSpacing
+        switch floatPos {
+        case .top, .bottom:
+            collView.frame.size = CGSize(width: self.bounds.width, height: smallerDim)
+            if floatPos == .top {
+                #if os(macOS)
+                collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
+                collView.autoresizingMask = [.width, .maxYMargin]
+                #else
+                collView.frame.origin = .zero
+                collView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+                #endif
+            } else {
+                #if os(macOS)
+                collView.frame.origin = .zero
+                collView.autoresizingMask = [.width, .minYMargin]
+                #else
+                collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
+                collView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+                #endif
+            }
+        case .right, .left:
+            (collView.collectionViewLayout as? MPCollectionViewFlowLayout)?.scrollDirection = .vertical
+            collView.frame.size = CGSize(width: smallerDim, height: self.bounds.height)
+            if floatPos == .left {
+                collView.frame.origin = .zero
+                #if os(macOS)
+                collView.autoresizingMask = [.height, .maxXMargin]
+                #else
+                collView.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
+                #endif
+            } else {
+                collView.frame.origin = CGPoint(x: self.bounds.width - smallerDim, y: 0)
+                #if os(macOS)
+                collView.autoresizingMask = [.height, .minXMargin]
+                #else
+                collView.autoresizingMask = [.flexibleHeight, .flexibleLeftMargin]
+                #endif
+            }
+        }
         #if os(macOS)
-        [
-            collView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            collView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100 + 2 * AgoraCollectionViewer.cellSpacing),
-            collView.topAnchor.constraint(equalTo: self.topAnchor),
-            collView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        ].forEach { $0.isActive = true }
         self.addSubview(collView, positioned: .above, relativeTo: nil)
         #else
-        [
-            collView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
-            collView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100 + 2 * AgoraCollectionViewer.cellSpacing),
-            collView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor)
-        ].forEach { $0.isActive = true }
         self.bringSubviewToFront(collView)
         #endif
         return collView
@@ -158,10 +212,11 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    public init(connectionData: AgoraConnectionData, viewController: MPViewController, style: AgoraVideoViewer.Style = .grid) {
+    public init(connectionData: AgoraConnectionData, viewController: MPViewController, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings()) {
         self.connectionData = connectionData
         self.parentViewController = viewController
         self.style = style
+        self.agoraSettings = agoraSettings
         super.init(frame: .zero)
         self.addVideoButtons()
     }
