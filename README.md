@@ -1,5 +1,7 @@
 # Agora UIKit for iOS and macOS
 
+![.github/workflows/podlint.yml](https://github.com/AgoraIO-Community/iOS-UIKit/workflows/.github/workflows/podlint.yml/badge.svg)
+
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
 ![floating_view.jpg](media/floating_view.jpg)
