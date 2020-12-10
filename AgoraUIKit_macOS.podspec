@@ -21,6 +21,7 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.source           = { :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git', :tag => s.version.to_s }
 
   s.macos.deployment_target = '10.14'
+  s.swift_versions = ['5.0']
 
   s.source_files = 'Sources/Agora-UIKit/*'
   
