@@ -55,4 +55,12 @@ extension AgoraVideoViewer {
         task.resume()
     }
 
+    func newTokenFetched(result: Result<String, Error>) {
+        switch result {
+        case .success(let token):
+            self.updateToken(token)
+        case .failure(let err):
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
+        }
+    }
 }

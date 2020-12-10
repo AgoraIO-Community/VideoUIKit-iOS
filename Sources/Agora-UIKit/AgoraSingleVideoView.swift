@@ -65,7 +65,6 @@ public class AgoraSingleVideoView: MPView {
         #endif
         self.canvas.view = hostingView
         self.addSubview(hostingView)
-        self.canvas.renderMode = .fit
         self.setupMutedFlag()
     }
 

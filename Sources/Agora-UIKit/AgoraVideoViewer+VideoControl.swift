@@ -102,7 +102,24 @@ extension AgoraVideoViewer {
 
     /// Join the Agora channel using token stored in AgoraVideoViewer object
     /// - Parameter channel: Channel name to join
-    public func join(channel: String) {
+    public func join(channel: String, fetchToken: Bool = false) {
+        if fetchToken {
+            if let tokenURL = self.agoraSettings.tokenURL {
+                AgoraVideoViewer.fetchToken(
+                    urlBase: tokenURL, channelName: channel,
+                    userId: self.userID) { result in
+                    switch result {
+                    case .success(let token):
+                        self.join(channel: channel, with: token)
+                    case .failure(let err):
+                        AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
+                    }
+                }
+            } else {
+                AgoraVideoViewer.agoraPrint(.error, message: "No token URL provided in AgoraSettings")
+            }
+            return
+        }
         self.join(channel: channel, with: self.currentToken)
     }
 

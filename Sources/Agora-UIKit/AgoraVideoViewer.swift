@@ -43,35 +43,19 @@ public struct AgoraConnectionData {
     @objc optional func extraButtons() -> [MPButton]
 }
 
-public struct AgoraSettings {
-    var tokenURL: String?
-    struct BuiltinButtons: OptionSet {
-        var rawValue: Int
-        static let cameraButton = BuiltinButtons(rawValue: 1 << 0)
-        static let micButton = BuiltinButtons(rawValue: 1 << 1)
-        static let flipButton = BuiltinButtons(rawValue: 1 << 2)
-        static let beautifyButton = BuiltinButtons(rawValue: 1 << 3)
-        static let all: BuiltinButtons = [cameraButton, micButton, flipButton, beautifyButton]
-    }
-    enum Position {
-        case top
-        case right
-        case bottom
-        case left
-    }
-
-    var enabledButtons: BuiltinButtons = .all
-    var buttonPosition: Position = .bottom
-    var floatPosition: Position = .top
-    var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
-    public init() {}
-}
-
 open class AgoraVideoViewer: MPView {
 
     public var delegate: AgoraVideoViewerDelegate?
 
-    public var agoraSettings: AgoraSettings
+    public internal(set) var agoraSettings: AgoraSettings
+
+    var videoRenderMode: AgoraVideoRenderMode {
+        get { self.agoraSettings.videoRenderMode }
+        set {
+            self.agoraSettings.videoRenderMode = newValue
+            self.userVideoLookup.values.forEach { $0.canvas.renderMode = newValue }
+        }
+    }
     public enum Style: Equatable {
         case grid
         case floating
@@ -276,6 +260,7 @@ open class AgoraVideoViewer: MPView {
             return self.userVideoLookup[self.userID]
         }
         let vidView = AgoraSingleVideoView(uid: self.userID)
+        vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
         self.userVideoLookup[self.userID] = vidView
         return vidView
@@ -289,6 +274,7 @@ open class AgoraVideoViewer: MPView {
             return remoteView
         }
         let remoteVideoView = AgoraSingleVideoView(uid: userId)
+        remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)
         self.userVideoLookup[userId] = remoteVideoView
         if self.activeSpeaker == nil {

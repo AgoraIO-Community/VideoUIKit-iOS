@@ -119,10 +119,22 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     }
 
     open func rtcEngineRequestToken(_ engine: AgoraRtcEngineKit) {
+        if let tokenURL = self.agoraSettings.tokenURL, let channelName = self.connectionData.channel {
+            AgoraVideoViewer.fetchToken(
+                urlBase: tokenURL, channelName: channelName,
+                userId: self.userID, callback: self.newTokenFetched
+            )
+        }
         self.delegate?.tokenDidExpire?(engine)
     }
 
     open func rtcEngine(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {
+        if let tokenURL = self.agoraSettings.tokenURL, let channelName = self.connectionData.channel {
+            AgoraVideoViewer.fetchToken(
+                urlBase: tokenURL, channelName: channelName,
+                userId: self.userID, callback: self.newTokenFetched
+            )
+        }
         self.delegate?.tokenWillExpire?(engine, tokenPrivilegeWillExpire: token)
     }
 }

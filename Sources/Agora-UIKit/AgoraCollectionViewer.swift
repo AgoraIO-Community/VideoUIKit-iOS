@@ -122,7 +122,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         return 1
     }
     public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = self.videosToShow.count
+        let count = self.collectionViewVideos.count
         collectionView.isHidden = count == 0
         return count
     }
@@ -142,7 +142,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     }
 
     public func collectionView(_ collectionView: MPCollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = self.videosToShow.count
+        let count = self.collectionViewVideos.count
         collectionView.isHidden = count == 0
         return count
     }
@@ -158,7 +158,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
 
     #endif
 
-    var videosToShow: [AgoraSingleVideoView] {
+    var collectionViewVideos: [AgoraSingleVideoView] {
         self.style == .floating ? Array(self.userVideoLookup.values) : []
     }
 
@@ -168,9 +168,9 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     ///   - indexPath: indexPath of the cell or item.
     internal func displayItem(_ item: MPCollectionViewCell, at indexPath: IndexPath) {
         #if os(macOS)
-        let newVid = self.videosToShow[indexPath.item]
+        let newVid = self.collectionViewVideos[indexPath.item]
         #else
-        let newVid = self.videosToShow[indexPath.row]
+        let newVid = self.collectionViewVideos[indexPath.row]
         #endif
         guard let cell = item as? AgoraCollectionItem else {
             fatalError("cell not valid")
