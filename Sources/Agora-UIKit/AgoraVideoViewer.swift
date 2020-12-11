@@ -36,11 +36,23 @@ public struct AgoraConnectionData {
 }
 
 @objc public protocol AgoraVideoViewerDelegate: AnyObject {
+    /// Local user has joined the channel of a given name
+    /// - Parameter channel: Name of the channel local user has joined
     @objc optional func joinedChannel(channel: String)
-    @objc optional func leftChannel()
+    @objc optional func leftChannel(_ channel: String)
     @objc optional func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
     @objc optional func tokenDidExpire(_ engine: AgoraRtcEngineKit)
-    @objc optional func extraButtons() -> [MPButton]
+    #if os(iOS)
+    /// presentAlert is a way to show any alerts that the AgoraVideoViewer wants to display.
+    /// These could be relating to video or audio permissions.
+    /// - Parameters:
+    ///   - alert: Alert to be displayed
+    ///   - animated: Whether the presentation should be animated or not
+    @objc optional func presentAlert(alert: UIAlertController, animated: Bool)
+    @objc optional func extraButtons() -> [UIButton]
+    #else
+    @objc optional func extraButtons() -> [NSButton]
+    #endif
 }
 
 open class AgoraVideoViewer: MPView {
@@ -71,7 +83,6 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    internal var parentViewController: MPViewController?
     public internal(set) var activeSpeaker: UInt? {
         didSet {
             self.reorganiseVideos()
@@ -90,8 +101,10 @@ open class AgoraVideoViewer: MPView {
     lazy var userID: UInt = 0
     internal var connectionData: AgoraConnectionData
 
-    public var userRole: AgoraClientRole = .broadcaster {
+    public var userRole: AgoraClientRole = .audience {
         didSet {
+            print("user role is now broadcaster")
+            print(self.userRole == .broadcaster)
             self.agkit.setClientRole(self.userRole)
         }
     }
@@ -196,13 +209,12 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    public init(connectionData: AgoraConnectionData, viewController: MPViewController, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings()) {
+    public init(connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil) {
         self.connectionData = connectionData
-        self.parentViewController = viewController
         self.style = style
         self.agoraSettings = agoraSettings
+        self.delegate = delegate
         super.init(frame: .zero)
-        self.addVideoButtons()
     }
 
     required public init?(coder: NSCoder) {

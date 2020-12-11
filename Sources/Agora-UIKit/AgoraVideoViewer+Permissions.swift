@@ -16,40 +16,46 @@ import AppKit
 #endif
 
 extension AgoraVideoViewer {
-    public func checkForPermissions(callback: @escaping (() -> Void)) -> Bool {
-        if self.userRole == .audience {
-            switch AVCaptureDevice.authorizationStatus(for: .video) {
-            case .authorized: break
-            case .notDetermined:
+    public func checkForPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized: break
+        case .notDetermined:
+            if alsoRequest {
                 AgoraVideoViewer.requestCameraAccess { success in
-                    if success {
-                        callback()
+                    if !success {
+                        callback?()
                     } else {
                         AgoraVideoViewer.errorVibe()
                     }
                 }
-                return false
-            default:
+            }
+            return false
+        default:
+            if alsoRequest {
                 cameraMicSettingsPopup {
                     AgoraVideoViewer.goToSettingsPage()
                 }
-                return false
             }
-            switch AVCaptureDevice.authorizationStatus(for: .audio) {
-            case .authorized: break
-            case .notDetermined:
+            return false
+        }
+        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+        case .authorized: break
+        case .notDetermined:
+            if alsoRequest {
                 AgoraVideoViewer.requestMicrophoneAccess { success in
                     if success {
-                        callback()
+                        callback?()
                     } else {
                         AgoraVideoViewer.errorVibe()
                     }
                 }
-                return false
-            default:
-                cameraMicSettingsPopup { AgoraVideoViewer.goToSettingsPage() }
-                return false
             }
+            return false
+        default:
+            if alsoRequest {
+                cameraMicSettingsPopup { AgoraVideoViewer.goToSettingsPage() }
+            }
+            return false
         }
         return true
     }
@@ -89,6 +95,12 @@ extension AgoraVideoViewer {
 
     func cameraMicSettingsPopup(successHandler: @escaping () -> Void) {
         #if os(iOS)
+        if self.delegate?.presentAlert == nil {
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not present settings popup")
+            // just assume the user accepted this popup and move on
+            successHandler()
+            return
+        }
         let alertView = UIAlertController(
             title: "Camera and Microphone",
             message: "To become a host, you must enable the microphone and camera",
@@ -101,7 +113,7 @@ extension AgoraVideoViewer {
             successHandler()
         }))
         DispatchQueue.main.async {
-            self.parentViewController?.present(alertView, animated: true)
+            self.delegate?.presentAlert?(alert: alertView, animated: true)
         }
         #else
         let alertView = NSAlert()

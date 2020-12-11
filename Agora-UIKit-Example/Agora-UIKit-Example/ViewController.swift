@@ -17,17 +17,17 @@ class ViewController: UIViewController {
 
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
-                appId: "cff7258e55c24d0f99bbf93d10367d5f",
-                appToken: nil
+                appId: <#Agora App ID#>,
+                appToken: <#Agora Token or nil#>
             ),
-            viewController: self,
-            style: .floating
+            style: .floating,
+            delegate: self
         )
 
         self.view.backgroundColor = .tertiarySystemBackground
         agoraView.fills(view: self.view)
 
-        agoraView.join(channel: "test")
+        agoraView.join(channel: "test", as: .broadcaster)
 
         self.agoraView = agoraView
 
@@ -52,5 +52,28 @@ class ViewController: UIViewController {
         self.agoraView?.style = segmentedStyle
     }
 
+}
+
+extension ViewController: AgoraVideoViewerDelegate {
+
+    func extraButtons() -> [UIButton] {
+        let button = UIButton()
+        button.setImage(UIImage(
+            systemName: "bolt.fill",
+            withConfiguration: UIImage.SymbolConfiguration(scale: .large)
+        ), for: .normal)
+        button.addTarget(self, action: #selector(self.clickedBolt), for: .touchUpInside)
+        return [button]
+    }
+
+    @objc func clickedBolt(sender: UIButton) {
+        print("zap!")
+        sender.isSelected.toggle()
+        sender.backgroundColor = sender.isSelected ? .systemYellow : .systemGray
+    }
+
+    func presentAlert(alert: UIAlertController, animated: Bool) {
+        self.present(alert, animated: animated)
+    }
 }
 

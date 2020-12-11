@@ -17,19 +17,17 @@ class ViewController: NSViewController {
 
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
-                appId: "cff7258e55c24d0f99bbf93d10367d5f",
-                appToken: nil
+                appId: <#Agora App ID#>,
+                appToken: <#Agora Token or nil#>
             ),
-            viewController: self,
-            style: .floating
+            style: .floating,
+            delegate: self
         )
-
-        agoraView.delegate = self
 
         agoraView.fills(view: self.view)
 
 
-        agoraView.join(channel: "test")
+        agoraView.join(channel: "test", as: .broadcaster)
 
         self.agoraView = agoraView
         self.view.setFrameSize(NSSize(width: 1440,height: 790))

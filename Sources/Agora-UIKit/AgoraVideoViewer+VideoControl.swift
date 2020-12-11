@@ -15,6 +15,9 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
         }
+        if self.controlContainer == nil {
+            self.addVideoButtons()
+        }
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
@@ -75,6 +78,7 @@ extension AgoraVideoViewer {
     }
 
     #if os(iOS)
+    /// Swap between front and back facing camera.
     @objc open func flipCamera() {
         self.agkit.switchCamera()
     }
@@ -84,13 +88,24 @@ extension AgoraVideoViewer {
     /// On changing to being a broadcaster, the app first checks
     /// that it has access to both the microphone and camera on the device.
     @objc open func toggleBroadcast() {
+        self.setRole(to: self.userRole == .broadcaster ? .audience : .broadcaster)
+    }
+
+    /// Change the role of the local user when connecting to a channel
+    /// - Parameter role: new role for the local user.
+    public func setRole(to role: AgoraClientRole) {
         // Check if we have access to mic + camera
         // before changing the user role.
-        if !self.checkForPermissions(callback: self.toggleBroadcast) {
+        if role == .broadcaster, !self.checkForPermissions(callback: {
+            if self.checkForPermissions(alsoRequest: false) {
+                self.setRole(to: role)
+            }
+        }) {
             return
         }
+
         // Swap the userRole
-        self.userRole = self.userRole == .audience ? .broadcaster : .audience
+        self.userRole = role
 
         // Disable the button, it is re-enabled once the change of role is successful
         // as dictated by the delegate method
@@ -101,8 +116,14 @@ extension AgoraVideoViewer {
     }
 
     /// Join the Agora channel using token stored in AgoraVideoViewer object
-    /// - Parameter channel: Channel name to join
-    public func join(channel: String, fetchToken: Bool = false) {
+    /// - Parameters:
+    ///     - channel: Channel name to join
+    ///     - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html)
+    ///             to join the channel as. Default: `.broadcaster`
+    ///     - fetchToken: Whether the token should be fetched before joining the channel.
+    ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
+    ///                   Default: `false`
+    public func join(channel: String, as role: AgoraClientRole = .broadcaster, fetchToken: Bool = false) {
         if fetchToken {
             if let tokenURL = self.agoraSettings.tokenURL {
                 AgoraVideoViewer.fetchToken(
@@ -120,14 +141,37 @@ extension AgoraVideoViewer {
             }
             return
         }
-        self.join(channel: channel, with: self.currentToken)
+        self.join(channel: channel, with: self.currentToken, as: role)
     }
 
     /// Join the Agora channel
     /// - Parameters:
     ///   - channel: Channel name to join
     ///   - token: Valid token to join the channel
-    public func join(channel: String, with token: String?) {
+    ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
+    ///                   Default: `.broadcaster`
+    public func join(channel: String, with token: String?, as role: AgoraClientRole = .broadcaster) {
+        if role == .broadcaster, !checkForPermissions(callback: {
+            if self.checkForPermissions(alsoRequest: false) {
+                self.join(channel: channel, with: token, as: role)
+            }
+        }) {
+            return
+        }
+        self.userRole = role
+
+        if self.connectionData.channel != nil {
+            if self.connectionData.channel == channel {
+                AgoraVideoViewer.agoraPrint(.info, message: "We are already in the channel")
+            }
+            if self.leaveChannel() < 0 {
+                AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")
+            } else {
+                self.join(channel: channel, with: token)
+            }
+            return
+        }
+
         self.currentToken = token
         self.setupAgoraVideo()
         self.connectionData.channel = channel
@@ -149,9 +193,12 @@ extension AgoraVideoViewer {
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
     public func leaveChannel(_ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil) -> Int32 {
-        if self.connectionData.channel != nil {
-            self.connectionData.channel = nil
+        guard let chName = self.connectionData.channel else {
+            AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
+            // Returning 0 to just say we are not in a channel
+            return 0
         }
+        self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
         if self.userRole == .broadcaster {
             agkit.stopPreview()
@@ -162,17 +209,20 @@ extension AgoraVideoViewer {
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
         defer {
             if leaveChannelRtn == 0 {
-                delegate?.leftChannel?()
+                delegate?.leftChannel?(chName)
             }
         }
         return leaveChannelRtn
     }
 
+    /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
+    /// - Parameter newToken: new token to be applied to the current connection.
     public func updateToken(_ newToken: String) {
         self.currentToken = newToken
         self.agkit.renewToken(newToken)
     }
 
+    /// Leave any open channels and kills the Agora Engine instance.
     public func exit() {
         self.leaveChannel()
         AgoraRtcEngineKit.destroy()
