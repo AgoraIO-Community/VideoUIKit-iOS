@@ -61,8 +61,8 @@ let agoraView = AgoraVideoViewer(
         appId: "my-app-id">,
         appToken: "my-channel-token"
     ),
-    viewController: self,
-    style: .grid
+    style: .grid,
+    delegate: self
 )
 ```
 
@@ -71,5 +71,5 @@ An alternative style is `.floating`, as seen in the image above.
 To join a channel, simply call:
 
 ```swift
-agoraView.join(channel: "test")
+agoraView.join(channel: "test", as: .broadcaster)
 ```
