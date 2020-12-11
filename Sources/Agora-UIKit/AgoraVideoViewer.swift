@@ -37,10 +37,18 @@ public struct AgoraConnectionData {
 
 @objc public protocol AgoraVideoViewerDelegate: AnyObject {
     /// Local user has joined the channel of a given name
-    /// - Parameter channel: Name of the channel local user has joined
+    /// - Parameter channel: Name of the channel local user has joined.
     @objc optional func joinedChannel(channel: String)
+    /// Local user has left the active channel.
+    /// - Parameter channel: Name of the channel local user has left.
     @objc optional func leftChannel(_ channel: String)
+    /// The token used to connect to the current active channel will expire in 30 seconds.
+    /// - Parameters:
+    ///   - engine: Agora RTC Engine
+    ///   - token: Current token that will expire.
     @objc optional func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
+    /// The token used to connect to the current active channel has expired.
+    /// - Parameter engine: Agora RTC Engine
     @objc optional func tokenDidExpire(_ engine: AgoraRtcEngineKit)
     #if os(iOS)
     /// presentAlert is a way to show any alerts that the AgoraVideoViewer wants to display.
@@ -57,10 +65,14 @@ public struct AgoraConnectionData {
 
 open class AgoraVideoViewer: MPView {
 
+    /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public var delegate: AgoraVideoViewerDelegate?
 
+    /// Settings and customisations such as position of on-screen buttons, collection view of all channel members,
+    /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
+    /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {
         get { self.agoraSettings.videoRenderMode }
         set {
@@ -68,8 +80,11 @@ open class AgoraVideoViewer: MPView {
             self.userVideoLookup.values.forEach { $0.canvas.renderMode = newValue }
         }
     }
+    /// Style and organisation to be applied to all the videos in this view.
     public enum Style: Equatable {
+        /// grid lays out all the videos in an NxN grid, regardless of how many there are.
         case grid
+        /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
         case floating
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
@@ -83,12 +98,15 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
+    /// The most recently active speaker in the session. This will only ever be set to remote users, not the local user.
     public internal(set) var activeSpeaker: UInt? {
         didSet {
             self.reorganiseVideos()
         }
     }
 
+    /// This user will be the main focus when using `.floating` style. Assigned by clicking a user in the collection view.
+    /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
         didSet {
             if oldValue != overrideActiveSpeaker {
@@ -97,10 +115,11 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    /// Setting to zero will tell Agora to assign one for you
+    /// Setting to zero will tell Agora to assign one for you once connected.
     lazy var userID: UInt = 0
     internal var connectionData: AgoraConnectionData
 
+    /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
     public var userRole: AgoraClientRole = .audience {
         didSet {
             print("user role is now broadcaster")
@@ -120,7 +139,7 @@ open class AgoraVideoViewer: MPView {
         self.addSubview(collView)
         collView.delegate = self
         collView.dataSource = self
-//        collView.translatesAutoresizingMaskIntoConstraints = false
+
         let floatPos = self.agoraSettings.floatPosition
         let smallerDim = 100 + 2 * AgoraCollectionViewer.cellSpacing
         switch floatPos {
@@ -200,6 +219,7 @@ open class AgoraVideoViewer: MPView {
         return engine
     }()
 
+    /// Style and organisation to be applied to all the videos in this AgoraVideoViewer.
     public var style: AgoraVideoViewer.Style {
         didSet {
             if oldValue != self.style {
@@ -209,6 +229,12 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
+    /// Creates an AgoraVideoViewer object, to be placed anywhere in your application.
+    /// - Parameters:
+    ///   - connectionData: Storing struct for holding data about the connection to Agora service.
+    ///   - style: Style and organisation to be applied to all the videos in this AgoraVideoViewer.
+    ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
+    ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
     public init(connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil) {
         self.connectionData = connectionData
         self.style = style
