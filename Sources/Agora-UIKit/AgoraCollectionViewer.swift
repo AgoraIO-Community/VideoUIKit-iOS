@@ -25,6 +25,7 @@ public typealias MPCollectionViewDelegate = NSCollectionViewDelegate
 public typealias MPCollectionViewDataSource = NSCollectionViewDataSource
 #endif
 
+/// Collection View to display all connected users camera feeds
 public class AgoraCollectionViewer: MPCollectionView {
 
     static let cellSpacing: CGFloat = 5
@@ -71,7 +72,9 @@ public class AgoraCollectionViewer: MPCollectionView {
     }
 }
 
+/// Item in the collection view to contain the user's video feed, as well as microphone signal.
 class AgoraCollectionItem: MPCollectionViewCell {
+    /// View for the video frame.
     var agoraVideoView: AgoraSingleVideoView? {
         didSet {
             guard let avv = self.agoraVideoView else {
@@ -134,23 +137,23 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     }
 
     #else
-    public func collectionView(_ collectionView: MPCollectionView, cellForItemAt indexPath: IndexPath) -> MPCollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AgoraCollectionItem
         cell.backgroundColor = UIColor.blue.withAlphaComponent(0.4)
         return cell
     }
 
-    public func collectionView(_ collectionView: MPCollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = self.collectionViewVideos.count
         collectionView.isHidden = count == 0
         return count
     }
-    public func collectionView(_ collectionView: MPCollectionView, willDisplay cell: MPCollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         self.displayItem(cell, at: indexPath)
     }
 
-    public func collectionView(_ collectionView: MPCollectionView, didEndDisplaying cell: MPCollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let _ = cell as? AgoraCollectionItem else {
             fatalError("cell not valid")
         }
@@ -158,6 +161,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
 
     #endif
 
+    /// Video views to be displayed in the floating collection view.
     var collectionViewVideos: [AgoraSingleVideoView] {
         self.style == .floating ? Array(self.userVideoLookup.values) : []
     }

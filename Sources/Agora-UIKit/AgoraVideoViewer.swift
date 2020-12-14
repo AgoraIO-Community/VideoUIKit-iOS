@@ -133,8 +133,7 @@ open class AgoraVideoViewer: MPView {
         set { self.connectionData.appToken = newValue }
     }
 
-    lazy var floatingVideoHolder: MPCollectionView = {
-
+    lazy internal var floatingVideoHolder: MPCollectionView = {
         let collView = AgoraCollectionViewer()
         self.addSubview(collView)
         collView.delegate = self
@@ -144,6 +143,7 @@ open class AgoraVideoViewer: MPView {
         let smallerDim = 100 + 2 * AgoraCollectionViewer.cellSpacing
         switch floatPos {
         case .top, .bottom:
+            (collView.collectionViewLayout as? MPCollectionViewFlowLayout)?.scrollDirection = .horizontal
             collView.frame.size = CGSize(width: self.bounds.width, height: smallerDim)
             if floatPos == .top {
                 #if os(macOS)
