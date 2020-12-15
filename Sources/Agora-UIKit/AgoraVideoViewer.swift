@@ -148,7 +148,7 @@ open class AgoraVideoViewer: MPView {
             if floatPos == .top {
                 #if os(macOS)
                 collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
-                collView.autoresizingMask = [.width, .maxYMargin]
+                collView.autoresizingMask = [.width, .minYMargin]
                 #else
                 collView.frame.origin = .zero
                 collView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
@@ -156,7 +156,7 @@ open class AgoraVideoViewer: MPView {
             } else {
                 #if os(macOS)
                 collView.frame.origin = .zero
-                collView.autoresizingMask = [.width, .minYMargin]
+                collView.autoresizingMask = [.width, .maxYMargin]
                 #else
                 collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
                 collView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]

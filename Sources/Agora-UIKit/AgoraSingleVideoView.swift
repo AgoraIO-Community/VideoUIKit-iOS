@@ -39,13 +39,18 @@ public class AgoraSingleVideoView: MPView {
         muteFlag.setImage(MPImage(systemName: MPButton.micSlashSymbol, withConfiguration: MPImage.SymbolConfiguration(scale: .large)), for: .normal)
         #else
         let muteFlag = MPButton()
-        muteFlag.title = MPButton.micSlashSymbol
+        muteFlag.font = .systemFont(ofSize: NSFont.systemFontSize * 1.5)
+        muteFlag.attributedTitle = NSAttributedString(string: MPButton.micSlashSymbol, attributes: [ NSAttributedString.Key.foregroundColor : NSColor.systemBlue ])
         #endif
         self.addSubview(muteFlag)
         muteFlag.frame = CGRect(origin: CGPoint(x: self.frame.width - 50, y: self.frame.height - 50), size: CGSize(width: 50, height: 50))
         #if os(iOS)
         muteFlag.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin]
         #else
+        muteFlag.isBordered = false
+        muteFlag.wantsLayer = true
+        muteFlag.layer?.backgroundColor = .clear
+        muteFlag.frame.origin = CGPoint(x: self.frame.width - 50, y: 0)
         muteFlag.autoresizingMask = [.maxYMargin, .minXMargin]
         #endif
         return muteFlag

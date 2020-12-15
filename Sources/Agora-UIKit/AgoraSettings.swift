@@ -8,6 +8,9 @@
 import AgoraRtcKit
 
 public struct AgoraSettings {
+    /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
+    /// when the Agora Engine indicates it will be needed.
+    /// It will follow the URL pattern found in [AgoraIO-Community/agora-token-service](https://github.com/AgoraIO-Community/agora-token-service)
     public var tokenURL: String?
     public struct BuiltinButtons: OptionSet {
         public var rawValue: Int
@@ -26,10 +29,16 @@ public struct AgoraSettings {
         case bottom
         case left
     }
+    /// The rendering mode of the video view for all videos within the view.
     public var videoRenderMode: AgoraVideoRenderMode = .fit
+    /// Which buttons should be enabled in this AgoraVideoView.
+    /// For example: `[.cameraButton, .micButton]`
     public var enabledButtons: BuiltinButtons = .all
+    /// Where the buttons such as camera enable/disable should be positioned within the view.
     public var buttonPosition: Position = .bottom
+    /// Where the floating collection view of video members be positioned within the view.
     public var floatPosition: Position = .top
+    /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
     public init() {}
 }
