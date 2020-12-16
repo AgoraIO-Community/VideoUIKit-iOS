@@ -8,11 +8,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AgoraUIKit_iOS'
-  s.version          = '0.5.0'
+  s.version          = '1.0.0-RC1'
   s.summary          = 'Agora video session UIKit template.'
 
   s.description      = <<-DESC
-Use this Pod to create a video UIKit view that can be easily added to your application.
+Use this Pod to create a video UIKit view that can be easily added to your iOS application.
                        DESC
 
   s.homepage         = 'https://github.com/AgoraIO-Community/iOS-UIKit'
@@ -24,7 +24,7 @@ Use this Pod to create a video UIKit view that can be easily added to your appli
   s.swift_versions = ['5.0']
 
   s.source_files = 'Sources/Agora-UIKit/*'
-  s.dependency 'AgoraRtcEngine_iOS', '~> 3.2.0'
+  s.dependency 'AgoraRtcEngine_iOS', '~> 3.0'
 
   s.static_framework = true
 end
