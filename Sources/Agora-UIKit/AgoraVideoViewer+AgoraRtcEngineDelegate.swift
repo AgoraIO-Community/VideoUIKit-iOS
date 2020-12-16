@@ -9,7 +9,9 @@ import AgoraRtcKit
 
 extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, firstRemoteVideoDecodedOfUid uid: UInt, size: CGSize, elapsed: Int) {
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit, firstRemoteVideoDecodedOfUid uid: UInt, size: CGSize, elapsed: Int
+    ) {
         self.addUserVideo(with: uid, size: size).videoMuted = false
     }
 
@@ -48,7 +50,6 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         self.remoteUserIDs.insert(uid)
     }
 
-
     /// This callback indicates the state change of the local audio stream, including the state of the audio recording and encoding, and allows you to troubleshoot issues when exceptions occur.
     ///  - Parameters:
     ///    - engine: engine See AgoraRtcEngineKit.
@@ -58,7 +59,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     ///    - elapsed: elapsed Time elapsed (ms) from the local user calling the joinChannel method until the SDK triggers this callback.
     ///
     /// This callback does not work properly when the number of users (in the communication profile) or broadcasters (in the live interactive streaming profile) in the channel exceeds 17.
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, remoteAudioStateChangedOfUid uid: UInt, state: AgoraAudioRemoteState, reason: AgoraAudioRemoteStateReason, elapsed: Int) {
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit, remoteAudioStateChangedOfUid uid: UInt,
+        state: AgoraAudioRemoteState, reason: AgoraAudioRemoteStateReason, elapsed: Int
+    ) {
         if state == .stopped || state == .starting {
             if let videoView = self.userVideoLookup[uid] {
                 videoView.audioMuted = state == .stopped
@@ -134,7 +138,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
          - reason: The reason of the remote video state change. See AgoraVideoRemoteStateReason.
          - elapsed: The time elapsed (ms) from the local user calling the joinChannel.
      */
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt, state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int) {
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt,
+        state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int
+    ) {
         switch state {
         case .decoding:
             self.userVideoLookup[uid]?.videoMuted = false
@@ -157,7 +164,11 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         - state: The local video state, see AgoraLocalVideoStreamState. When the state is AgoraLocalVideoStreamStateFailed(3), see the `error` parameter for details.
         - error: The detailed error information of the local video, see AgoraLocalVideoStreamError.
      */
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, localVideoStateChange state: AgoraLocalVideoStreamState, error: AgoraLocalVideoStreamError) {
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit,
+        localVideoStateChange state: AgoraLocalVideoStreamState,
+        error: AgoraLocalVideoStreamError
+    ) {
         switch state {
         case .capturing, .stopped:
             self.userVideoLookup[self.userID]?.videoMuted = state == .stopped
@@ -177,7 +188,11 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         - state: The state of the local audio. See AgoraAudioLocalState.
         - error: The error information of the local audio. See AgoraAudioLocalError.
      */
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, localAudioStateChange state: AgoraAudioLocalState, error: AgoraAudioLocalError) {
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit,
+        localAudioStateChange state: AgoraAudioLocalState,
+        error: AgoraAudioLocalError
+    ) {
         switch state {
         case .recording, .stopped:
             self.userVideoLookup[self.userID]?.audioMuted = state == .stopped

@@ -98,9 +98,12 @@ class AgoraCollectionItem: MPCollectionViewCell {
 extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource {
 
     #if os(iOS)
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AgoraCollectionItem
+    public func collectionView(
+        _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "collectionCell", for: indexPath
+        ) as? AgoraCollectionItem ?? AgoraCollectionItem()
         cell.backgroundColor = UIColor.blue.withAlphaComponent(0.4)
         return cell
     }
@@ -110,20 +113,28 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         collectionView.isHidden = count == 0
         return count
     }
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    public func collectionView(
+        _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
         self.displayItem(cell, at: indexPath)
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let _ = cell as? AgoraCollectionItem else {
+    public func collectionView(
+        _ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        guard cell is AgoraCollectionItem else {
             fatalError("cell not valid")
         }
     }
     #else
-    public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+    public func collectionView(
+        _ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath
+    ) -> NSCollectionViewItem {
         let cell = collectionView.makeItem(
             withIdentifier: NSUserInterfaceItemIdentifier("collectionCell"), for: indexPath
-        ) as! AgoraCollectionItem
+        ) as? AgoraCollectionItem ?? AgoraCollectionItem()
         cell.view.wantsLayer = true
         cell.view.layer?.backgroundColor = NSColor.blue.withAlphaComponent(0.4).cgColor
         return cell
@@ -137,7 +148,10 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         collectionView.isHidden = count == 0
         return count
     }
-    public func collectionView(_ collectionView: NSCollectionView, willDisplay item: NSCollectionViewItem, forRepresentedObjectAt indexPath: IndexPath) {
+    public func collectionView(
+        _ collectionView: NSCollectionView, willDisplay item: NSCollectionViewItem,
+        forRepresentedObjectAt indexPath: IndexPath
+    ) {
         self.displayItem(item, at: indexPath)
     }
     public func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {

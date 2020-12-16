@@ -12,7 +12,6 @@ import AppKit
 #endif
 import AgoraRtcKit
 
-
 /// Storing struct for holding data about the connection to Agora service
 public struct AgoraConnectionData {
     /// Agora App ID from https://agora.io
@@ -59,7 +58,7 @@ public struct AgoraConnectionData {
 open class AgoraVideoViewer: MPView {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
-    public var delegate: AgoraVideoViewerDelegate?
+    public weak var delegate: AgoraVideoViewerDelegate?
 
     /// Settings and customisations such as position of on-screen buttons, collection view of all channel members,
     /// as well as agora video configuration.
@@ -81,7 +80,7 @@ open class AgoraVideoViewer: MPView {
         case floating
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
-        public static func ==(lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
+        public static func == (lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
             switch (lhs, rhs) {
             case (.grid, .grid), (.floating, .floating):
                 return true
@@ -98,7 +97,8 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    /// This user will be the main focus when using `.floating` style. Assigned by clicking a user in the collection view.
+    /// This user will be the main focus when using `.floating` style.
+    /// Assigned by clicking a user in the collection view.
     /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
         didSet {
@@ -229,7 +229,10 @@ open class AgoraVideoViewer: MPView {
     ///   - style: Style and organisation to be applied to all the videos in this AgoraVideoViewer.
     ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
     ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
-    public init(connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil) {
+    public init(
+        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid,
+        agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
+    ) {
         self.connectionData = connectionData
         self.style = style
         self.agoraSettings = agoraSettings
@@ -241,8 +244,6 @@ open class AgoraVideoViewer: MPView {
         fatalError("init(coder:) has not been implemented")
     }
 
-
-
     internal var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {
         didSet {
             reorganiseVideos()
@@ -251,7 +252,9 @@ open class AgoraVideoViewer: MPView {
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
         if self.style == .floating {
-            return self.userVideoLookup.filter { $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)}
+            return self.userVideoLookup.filter {
+                $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
+            }
         } else if self.style == .grid {
             return self.userVideoLookup
         } else {

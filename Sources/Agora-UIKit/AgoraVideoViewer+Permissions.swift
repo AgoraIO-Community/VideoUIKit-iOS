@@ -18,31 +18,19 @@ import AppKit
 extension AgoraVideoViewer {
     /// Helper function to check if we currently have permission to use the camera and microphone
     /// - Parameters:
-    ///   - alsoRequest: True if we want to also request permission, false if we just want the current permission (default true)
+    ///   - alsoRequest: True if we want to also request permission, false if we just want
+    ///                  the current permission (default true)
     ///   - callback: Method to call once the requests have been made - if alsoRequest set to true.
     /// - Returns: True if camera and microphone are authorised.
     public func checkForPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized: break
-        case .notDetermined:
-            if alsoRequest {
-                AgoraVideoViewer.requestCameraAccess { success in
-                    if !success {
-                        callback?()
-                    } else {
-                        AgoraVideoViewer.errorVibe()
-                    }
-                }
-            }
-            return false
-        default:
-            if alsoRequest {
-                cameraMicSettingsPopup {
-                    AgoraVideoViewer.goToSettingsPage()
-                }
-            }
+        if !self.checkCameraPermissions(alsoRequest: alsoRequest, callback: callback) ||
+            !self.checkMicPermissions(alsoRequest: alsoRequest, callback: callback) {
             return false
         }
+        return true
+    }
+
+    func checkMicPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
         case .authorized: break
         case .notDetermined:
@@ -59,6 +47,31 @@ extension AgoraVideoViewer {
         default:
             if alsoRequest {
                 cameraMicSettingsPopup { AgoraVideoViewer.goToSettingsPage() }
+            }
+            return false
+        }
+        return true
+    }
+
+    func checkCameraPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized: break
+        case .notDetermined:
+            if alsoRequest {
+                AgoraVideoViewer.requestCameraAccess { success in
+                    if success {
+                        callback?()
+                    } else {
+                        AgoraVideoViewer.errorVibe()
+                    }
+                }
+            }
+            return false
+        default:
+            if alsoRequest {
+                cameraMicSettingsPopup {
+                    AgoraVideoViewer.goToSettingsPage()
+                }
             }
             return false
         }
@@ -89,7 +102,9 @@ extension AgoraVideoViewer {
             options: [:]
         )
         #else
-        NSWorkspace.shared.open(URL(fileURLWithPath: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera"))
+        NSWorkspace.shared.open(
+            URL(fileURLWithPath: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera")
+        )
         #endif
     }
 

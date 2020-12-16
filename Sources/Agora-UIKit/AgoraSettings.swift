@@ -10,7 +10,8 @@ import AgoraRtcKit
 public struct AgoraSettings {
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.
-    /// It will follow the URL pattern found in [AgoraIO-Community/agora-token-service](https://github.com/AgoraIO-Community/agora-token-service)
+    /// It will follow the URL pattern found in
+    /// [AgoraIO-Community/agora-token-service](https://github.com/AgoraIO-Community/agora-token-service)
     public var tokenURL: String?
     public struct BuiltinButtons: OptionSet {
         public var rawValue: Int
