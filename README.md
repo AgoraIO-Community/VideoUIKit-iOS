@@ -30,10 +30,10 @@ target 'Agora-UIKit-Example' do
   use_frameworks!
 
   # Uncomment the next line if you want to install for iOS
-  # pod 'AgoraUIKit_iOS', :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git'
+  # pod 'AgoraUIKit_iOS', '~> 1.0'
 
   # Uncomment the next line if you want to install for macOS
-  # pod 'AgoraUIKit_macOS', :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git'
+  # pod 'AgoraUIKit_macOS', '~> 1.0'
 end
 ```
 
