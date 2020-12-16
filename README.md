@@ -4,7 +4,7 @@
 
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
-![floating_view.jpg](media/floating_view.jpg)
+![floating_view.jpg](https://raw.githubusercontent.com/AgoraIO-Community/iOS-UIKit/2f308d3897e3291e12bf6204f0ad722979da6b2a/media/floating_view.jpg)
 
 ## Requirements
 
