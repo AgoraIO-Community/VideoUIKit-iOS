@@ -7,22 +7,8 @@
 
 #if os(iOS)
 import UIKit
-public typealias MPEdgeInsets = UIEdgeInsets
-public typealias MPCollectionView = UICollectionView
-public typealias MPCollectionViewCell = UICollectionViewCell
-public typealias MPCollectionViewLayout = UICollectionViewLayout
-public typealias MPCollectionViewFlowLayout = UICollectionViewFlowLayout
-public typealias MPCollectionViewDelegate = UICollectionViewDelegate
-public typealias MPCollectionViewDataSource = UICollectionViewDataSource
 #elseif os(macOS)
 import AppKit
-public typealias MPEdgeInsets = NSEdgeInsets
-public typealias MPCollectionView = NSCollectionView
-public typealias MPCollectionViewCell = NSCollectionViewItem
-public typealias MPCollectionViewLayout = NSCollectionViewLayout
-public typealias MPCollectionViewFlowLayout = NSCollectionViewFlowLayout
-public typealias MPCollectionViewDelegate = NSCollectionViewDelegate
-public typealias MPCollectionViewDataSource = NSCollectionViewDataSource
 #endif
 
 /// Collection View to display all connected users camera feeds
@@ -80,16 +66,23 @@ class AgoraCollectionItem: MPCollectionViewCell {
             guard let avv = self.agoraVideoView else {
                 return
             }
-            #if os(macOS)
-            avv.frame = self.view.bounds
-            self.view.addSubview(avv)
-            #else
+            #if os(iOS)
             avv.frame = self.bounds
             self.addSubview(avv)
+            #else
+            avv.frame = self.view.bounds
+            self.view.addSubview(avv)
             #endif
         }
     }
-    #if os(macOS)
+    #if os(iOS)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    #else
     override func loadView() {
         self.view = NSView(frame: .zero)
     }
@@ -98,20 +91,35 @@ class AgoraCollectionItem: MPCollectionViewCell {
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.lightGray.cgColor
     }
-    #else
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     #endif
 
 }
 
 extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource {
 
-    #if os(macOS)
+    #if os(iOS)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AgoraCollectionItem
+        cell.backgroundColor = UIColor.blue.withAlphaComponent(0.4)
+        return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = self.collectionViewVideos.count
+        collectionView.isHidden = count == 0
+        return count
+    }
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.displayItem(cell, at: indexPath)
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let _ = cell as? AgoraCollectionItem else {
+            fatalError("cell not valid")
+        }
+    }
+    #else
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let cell = collectionView.makeItem(
             withIdentifier: NSUserInterfaceItemIdentifier("collectionCell"), for: indexPath
@@ -135,30 +143,6 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     public func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
         self.collectionView(collectionView, didSelectItemAt: indexPaths.first!)
     }
-
-    #else
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! AgoraCollectionItem
-        cell.backgroundColor = UIColor.blue.withAlphaComponent(0.4)
-        return cell
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = self.collectionViewVideos.count
-        collectionView.isHidden = count == 0
-        return count
-    }
-    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.displayItem(cell, at: indexPath)
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let _ = cell as? AgoraCollectionItem else {
-            fatalError("cell not valid")
-        }
-    }
-
     #endif
 
     /// Video views to be displayed in the floating collection view.
@@ -171,10 +155,10 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     ///   - item: UICollectionViewCell or NSCollectionViewItem to be displayed.
     ///   - indexPath: indexPath of the cell or item.
     internal func displayItem(_ item: MPCollectionViewCell, at indexPath: IndexPath) {
-        #if os(macOS)
-        let newVid = self.collectionViewVideos[indexPath.item]
-        #else
+        #if os(iOS)
         let newVid = self.collectionViewVideos[indexPath.row]
+        #else
+        let newVid = self.collectionViewVideos[indexPath.item]
         #endif
         guard let cell = item as? AgoraCollectionItem else {
             fatalError("cell not valid")
@@ -192,12 +176,12 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     }
 
     public func collectionView(_ collectionView: MPCollectionView, didSelectItemAt indexPath: IndexPath) {
-        #if os(macOS)
-        guard let agoraColItem = collectionView.item(at: indexPath) as? AgoraCollectionItem else {
+        #if os(iOS)
+        guard let agoraColItem = collectionView.cellForItem(at: indexPath) as? AgoraCollectionItem else {
             return
         }
         #else
-        guard let agoraColItem = collectionView.cellForItem(at: indexPath) as? AgoraCollectionItem else {
+        guard let agoraColItem = collectionView.item(at: indexPath) as? AgoraCollectionItem else {
             return
         }
         #endif

@@ -12,7 +12,9 @@ import AppKit
 #endif
 import AgoraRtcKit
 
+/// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
+    /// Is the video turned off for this user.
     var videoMuted: Bool = true {
         didSet {
             if oldValue != videoMuted {
@@ -20,19 +22,24 @@ public class AgoraSingleVideoView: MPView {
             }
         }
     }
+    /// Is the microphone muted for this user.
     var audioMuted: Bool = true {
         didSet {
             self.mutedFlag.isHidden = !audioMuted
         }
     }
+    /// Unique ID for this user, used by the video feed.
     var uid: UInt {
         get { self.canvas.uid }
         set { self.canvas.uid = newValue }
     }
+    /// Canvas used to render the Agora RTC Video.
     var canvas: AgoraRtcVideoCanvas
+    /// View that the AgoraRtcVideoCanvas is sending the video feed to
     var hostingView: MPView? {
         self.canvas.view
     }
+    /// Icon to show if this user is muting their microphone
     lazy var mutedFlag: MPView = {
         #if os(iOS)
         let muteFlag = MPButton(type: .custom)
@@ -63,10 +70,10 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.uid = uid
         let hostingView = MPView()
         hostingView.frame = self.bounds
-        #if os(macOS)
-        hostingView.autoresizingMask = [.width, .height]
-        #else
+        #if os(iOS)
         hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        #else
+        hostingView.autoresizingMask = [.width, .height]
         #endif
         self.canvas.view = hostingView
         self.addSubview(hostingView)
@@ -77,7 +84,7 @@ public class AgoraSingleVideoView: MPView {
         self.audioMuted = true
     }
 
-    func setBackground() {
+    internal func setBackground() {
         let backgroundView = MPView()
         #if os(iOS)
         backgroundView.backgroundColor = .secondarySystemBackground

@@ -68,7 +68,7 @@ extension AgoraVideoViewer {
         })
     }
 
-    func getControlContainer() -> MPView {
+    internal func getControlContainer() -> MPView {
         if let controlContainer = self.controlContainer {
             return controlContainer
         }
@@ -117,6 +117,8 @@ extension AgoraVideoViewer {
         return container
     }
 
+    /// Get the button for enabling/disabling the camera
+    /// - Returns: The button for enabling/disabling the camera if enabled, otherwise nil
     open func getCameraButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.cameraButton) { return nil }
         if let camButton = self.camButton { return camButton }
@@ -133,6 +135,8 @@ extension AgoraVideoViewer {
         return button
     }
 
+    /// Get the button for muting/unmuting the microphone
+    /// - Returns: The button for muting/unmuting the microphone if enabled, otherwise nil
     open func getMicButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.micButton) { return nil }
         if let micButton = self.micButton { return micButton }
@@ -151,20 +155,24 @@ extension AgoraVideoViewer {
         return button
     }
 
+    /// Get the button for flipping the camera from front to rear facing
+    /// - Returns: The button for flipping the camera if enabled, otherwise nil
     open func getFlipButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.flipButton) { return nil }
         if let flipButton = self.flipButton { return flipButton }
-        #if os(macOS)
-        return nil
-        #else
+        #if os(iOS)
         let button = MPButton.newToggleButton(unselected: MPButton.cameraRotateSymbol)
         button.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
 
         self.flipButton = button
         return button
+        #else
+        return nil
         #endif
     }
 
+    /// Get the button for enabling/disabling the beautify effect.
+    /// - Returns: The button if enabled, otherwise nil
     open func getBeautifyButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.beautifyButton) { return nil }
         if let beautyButton = self.beautyButton {

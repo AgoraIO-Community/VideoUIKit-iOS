@@ -1,0 +1,32 @@
+//
+//  iOS+macOS+typealiases.swift
+//  Agora-UIKit
+//
+//  Created by Max Cobb on 25/11/2020.
+//
+
+#if os(iOS)
+public typealias MPButton=UIButton
+public typealias MPImage=UIImage
+public typealias MPView = UIView
+public typealias MPViewController = UIViewController
+public typealias MPEdgeInsets = UIEdgeInsets
+public typealias MPCollectionView = UICollectionView
+public typealias MPCollectionViewCell = UICollectionViewCell
+public typealias MPCollectionViewLayout = UICollectionViewLayout
+public typealias MPCollectionViewFlowLayout = UICollectionViewFlowLayout
+public typealias MPCollectionViewDelegate = UICollectionViewDelegate
+public typealias MPCollectionViewDataSource = UICollectionViewDataSource
+#elseif os(macOS)
+public typealias MPButton=NSButton
+public typealias MPImage=NSImage
+public typealias MPView = NSView
+public typealias MPViewController = NSViewController
+public typealias MPEdgeInsets = NSEdgeInsets
+public typealias MPCollectionView = NSCollectionView
+public typealias MPCollectionViewCell = NSCollectionViewItem
+public typealias MPCollectionViewLayout = NSCollectionViewLayout
+public typealias MPCollectionViewFlowLayout = NSCollectionViewFlowLayout
+public typealias MPCollectionViewDelegate = NSCollectionViewDelegate
+public typealias MPCollectionViewDataSource = NSCollectionViewDataSource
+#endif

@@ -16,6 +16,11 @@ import AppKit
 #endif
 
 extension AgoraVideoViewer {
+    /// Helper function to check if we currently have permission to use the camera and microphone
+    /// - Parameters:
+    ///   - alsoRequest: True if we want to also request permission, false if we just want the current permission (default true)
+    ///   - callback: Method to call once the requests have been made - if alsoRequest set to true.
+    /// - Returns: True if camera and microphone are authorised.
     public func checkForPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized: break
@@ -60,39 +65,45 @@ extension AgoraVideoViewer {
         return true
     }
 
+    /// Request access to use the camera.
+    /// - Parameter handler: A block to be called once permission is granted or denied.
     public static func requestCameraAccess(handler: ((Bool) -> Void)? = nil) {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             handler?(granted)
         }
     }
 
+    /// Request access to use the microphone.
+    /// - Parameter handler: A block to be called once permission is granted or denied.
     public static func requestMicrophoneAccess(handler: ((Bool) -> Void)? = nil) {
         AVCaptureDevice.requestAccess(for: .audio) { granted in
             handler?(granted)
         }
     }
 
+    /// Head to the device security page.
     static func goToSettingsPage() {
-        #if os(macOS)
-        NSWorkspace.shared.open(URL(fileURLWithPath: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera"))
-        #else
+        #if os(iOS)
         UIApplication.shared.open(
             URL(string: UIApplication.openSettingsURLString)!,
             options: [:]
         )
+        #else
+        NSWorkspace.shared.open(URL(fileURLWithPath: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera"))
         #endif
     }
 
+    /// If using iOS, creates haptic feedback signaling an error occurred.
     static func errorVibe() {
-        #if os(macOS)
-        return
-        #else
+        #if os(iOS)
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         notificationFeedbackGenerator.notificationOccurred(.error)
         #endif
     }
 
+    /// Show popup before system asks for permissions for microphone and camera.
+    /// - Parameter successHandler: Completion block called only if the user accepts the popup.
     func cameraMicSettingsPopup(successHandler: @escaping () -> Void) {
         #if os(iOS)
         if self.delegate?.presentAlert == nil {

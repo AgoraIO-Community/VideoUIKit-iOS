@@ -7,16 +7,8 @@
 
 #if os(iOS)
 import UIKit
-public typealias MPButton=UIButton
-public typealias MPImage=UIImage
-public typealias MPView = UIView
-public typealias MPViewController = UIViewController
 #elseif os(macOS)
 import AppKit
-public typealias MPButton=NSButton
-public typealias MPImage=NSImage
-public typealias MPView = NSView
-public typealias MPViewController = NSViewController
 #endif
 import AgoraRtcKit
 
@@ -63,6 +55,7 @@ public struct AgoraConnectionData {
     #endif
 }
 
+/// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
@@ -146,20 +139,20 @@ open class AgoraVideoViewer: MPView {
             (collView.collectionViewLayout as? MPCollectionViewFlowLayout)?.scrollDirection = .horizontal
             collView.frame.size = CGSize(width: self.bounds.width, height: smallerDim)
             if floatPos == .top {
-                #if os(macOS)
-                collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
-                collView.autoresizingMask = [.width, .minYMargin]
-                #else
+                #if os(iOS)
                 collView.frame.origin = .zero
                 collView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
-                #endif
-            } else {
-                #if os(macOS)
-                collView.frame.origin = .zero
-                collView.autoresizingMask = [.width, .maxYMargin]
                 #else
                 collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
+                collView.autoresizingMask = [.width, .minYMargin]
+                #endif
+            } else {
+                #if os(iOS)
+                collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
                 collView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+                #else
+                collView.frame.origin = .zero
+                collView.autoresizingMask = [.width, .maxYMargin]
                 #endif
             }
         case .right, .left:
@@ -167,47 +160,48 @@ open class AgoraVideoViewer: MPView {
             collView.frame.size = CGSize(width: smallerDim, height: self.bounds.height)
             if floatPos == .left {
                 collView.frame.origin = .zero
-                #if os(macOS)
-                collView.autoresizingMask = [.height, .maxXMargin]
-                #else
+                #if os(iOS)
                 collView.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
+                #else
+                collView.autoresizingMask = [.height, .maxXMargin]
                 #endif
             } else {
                 collView.frame.origin = CGPoint(x: self.bounds.width - smallerDim, y: 0)
-                #if os(macOS)
-                collView.autoresizingMask = [.height, .minXMargin]
-                #else
+                #if os(iOS)
                 collView.autoresizingMask = [.flexibleHeight, .flexibleLeftMargin]
+                #else
+                collView.autoresizingMask = [.height, .minXMargin]
                 #endif
             }
         }
-        #if os(macOS)
-        self.addSubview(collView, positioned: .above, relativeTo: nil)
-        #else
+        #if os(iOS)
         self.bringSubviewToFront(collView)
+        #else
+        self.addSubview(collView, positioned: .above, relativeTo: nil)
         #endif
         return collView
     }()
 
     lazy var backgroundVideoHolder: MPView = {
         let rtnView = MPView()
-        #if os(macOS)
+        #if os(iOS)
+        self.addSubview(rtnView)
+        self.sendSubviewToBack(rtnView)
+        #else
         self.addSubview(rtnView, positioned: .below, relativeTo: nil)
         rtnView.wantsLayer = true
         rtnView.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        #else
-        self.addSubview(rtnView)
-        self.sendSubviewToBack(rtnView)
         #endif
         rtnView.frame = self.bounds
-        #if os(macOS)
-        rtnView.autoresizingMask = [.width, .height]
-        #else
+        #if os(iOS)
         rtnView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        #else
+        rtnView.autoresizingMask = [.width, .height]
         #endif
         return rtnView
     }()
 
+    /// AgoraRtcEngineKit being used by this AgoraVideoViewer.
     lazy public internal(set) var agkit: AgoraRtcEngineKit = {
         let engine = AgoraRtcEngineKit.sharedEngine(
             withAppId: connectionData.appId,
@@ -265,15 +259,17 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
+    /// Helper method to fill a view with this view
+    /// - Parameter view: view to fill with self
     public func fills(view: MPView) {
         view.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
-        #if os(macOS)
-        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        #else
+        #if os(iOS)
         self.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         self.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
+        #else
+        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         #endif
     }
 
