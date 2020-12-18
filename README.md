@@ -17,6 +17,8 @@ Instantly integrate Agora in your own application or prototype using iOS or macO
 
 Once you have an Agora developer account and an App ID, you're ready to use this pod.
 
+[Click here for full documentation](https://agoraio-community.github.io/iOS-UIKit/)
+
 ## Installation
 
 In your iOS or macOS project, add this pod to your repository by adding a file named `Podfile`, with contents similar to this:
@@ -73,3 +75,7 @@ To join a channel, simply call:
 ```swift
 agoraView.join(channel: "test", as: .broadcaster)
 ```
+
+## Documentation
+
+For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/iOS-UIKit/).
