@@ -26,7 +26,30 @@ extension AgoraVideoViewer {
         case .custom(let orgCustom):
             // no custom setup yet
             orgCustom(self, self.userVideoLookup.enumerated(), self.userVideoLookup.count)
-            break
+        }
+    }
+
+    /// Display grid when there are only two video members
+    fileprivate func gridForTwo() {
+        // when there are 2 videos we display them ontop of eachother
+        for (idx, keyVals) in self.userVideosForGrid.enumerated() {
+            let videoSessionView = keyVals.value
+            self.backgroundVideoHolder.addSubview(videoSessionView)
+            videoSessionView.frame.size = CGSize(
+                width: backgroundVideoHolder.frame.width,
+                height: backgroundVideoHolder.frame.height / 2
+            )
+            videoSessionView.frame.origin = CGPoint(x: 0, y: idx == 0 ? 0 : backgroundVideoHolder.frame.height / 2)
+            #if os(iOS)
+            videoSessionView.autoresizingMask = [
+                .flexibleWidth, .flexibleHeight,
+                .flexibleBottomMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin
+            ]
+            #else
+            videoSessionView.autoresizingMask = [
+                .width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin
+            ]
+            #endif
         }
     }
 
@@ -34,19 +57,7 @@ extension AgoraVideoViewer {
         if self.userVideosForGrid.isEmpty {
             return
         } else if self.userVideosForGrid.count == 2 {
-            // when there are 2 videos we display them ontop of eachother
-            for (idx, keyVals) in self.userVideosForGrid.enumerated() {
-                let videoSessionView = keyVals.value
-                self.backgroundVideoHolder.addSubview(videoSessionView)
-//                videoSessionView.translatesAutoresizingMaskIntoConstraints = false
-                videoSessionView.frame.size = CGSize(width: backgroundVideoHolder.frame.width, height: backgroundVideoHolder.frame.height / 2)
-                videoSessionView.frame.origin = CGPoint(x: 0, y: idx == 0 ? 0 : backgroundVideoHolder.frame.height / 2)
-                #if os(iOS)
-                videoSessionView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleBottomMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin]
-                #else
-                videoSessionView.autoresizingMask = [.width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin]
-                #endif
-            }
+            gridForTwo()
             return
         }
         let vidCounts = self.userVideosForGrid.count
@@ -57,7 +68,10 @@ extension AgoraVideoViewer {
         let multDim = 1 / maxSqrt
         for (idx, (_, videoSessionView)) in self.userVideosForGrid.enumerated() {
             self.backgroundVideoHolder.addSubview(videoSessionView)
-            videoSessionView.frame.size = CGSize(width: backgroundVideoHolder.frame.width * multDim, height: backgroundVideoHolder.frame.height * multDim)
+            videoSessionView.frame.size = CGSize(
+                width: backgroundVideoHolder.frame.width * multDim,
+                height: backgroundVideoHolder.frame.height * multDim
+            )
             if idx == 0 {
                 videoSessionView.frame.origin = .zero
             } else {

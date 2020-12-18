@@ -43,14 +43,23 @@ public class AgoraSingleVideoView: MPView {
     lazy var mutedFlag: MPView = {
         #if os(iOS)
         let muteFlag = MPButton(type: .custom)
-        muteFlag.setImage(MPImage(systemName: MPButton.micSlashSymbol, withConfiguration: MPImage.SymbolConfiguration(scale: .large)), for: .normal)
+        muteFlag.setImage(
+            MPImage(systemName: MPButton.micSlashSymbol, withConfiguration: MPImage.SymbolConfiguration(scale: .large)),
+            for: .normal
+        )
         #else
         let muteFlag = MPButton()
         muteFlag.font = .systemFont(ofSize: NSFont.systemFontSize * 1.5)
-        muteFlag.attributedTitle = NSAttributedString(string: MPButton.micSlashSymbol, attributes: [ NSAttributedString.Key.foregroundColor : NSColor.systemBlue ])
+        muteFlag.attributedTitle = NSAttributedString(
+            string: MPButton.micSlashSymbol,
+            attributes: [ NSAttributedString.Key.foregroundColor: NSColor.systemBlue ]
+        )
         #endif
         self.addSubview(muteFlag)
-        muteFlag.frame = CGRect(origin: CGPoint(x: self.frame.width - 50, y: self.frame.height - 50), size: CGSize(width: 50, height: 50))
+        muteFlag.frame = CGRect(
+            origin: CGPoint(x: self.frame.width - 50, y: self.frame.height - 50),
+            size: CGSize(width: 50, height: 50)
+        )
         #if os(iOS)
         muteFlag.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin]
         #else

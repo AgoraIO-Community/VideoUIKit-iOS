@@ -21,11 +21,8 @@ extension AgoraVideoViewer {
     /// Whenever called, so I'm discarding the result for most of them here.
     func addVideoButtons() {
         let container = self.getControlContainer()
-        container.isHidden = true
-
         let buttons = [
-            self.getCameraButton(), self.getMicButton(),
-            self.getFlipButton(), self.getBeautifyButton()
+            self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton()
         ].compactMap { $0 } + (self.delegate?.extraButtons?() ?? [])
         let buttonSize: CGFloat = 60
         buttons.enumerated().forEach({ (elem) in
@@ -73,13 +70,12 @@ extension AgoraVideoViewer {
             return controlContainer
         }
         let container = MPView()
+        container.isHidden = true
         self.addSubview(container)
 
         container.translatesAutoresizingMaskIntoConstraints = false
-        [
-            container.widthAnchor.constraint(equalTo: self.widthAnchor),
-            container.heightAnchor.constraint(equalTo: self.heightAnchor)
-        ].forEach { $0.isActive = true }
+        [container.widthAnchor.constraint(equalTo: self.widthAnchor),
+         container.heightAnchor.constraint(equalTo: self.heightAnchor)].forEach { $0.isActive = true }
         #if os(iOS)
         switch self.agoraSettings.buttonPosition {
         case .bottom:
@@ -112,7 +108,6 @@ extension AgoraVideoViewer {
             container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         }
         #endif
-
         self.controlContainer = container
         return container
     }

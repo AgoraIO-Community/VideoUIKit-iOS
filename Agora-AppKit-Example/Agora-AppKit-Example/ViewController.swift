@@ -26,11 +26,10 @@ class ViewController: NSViewController {
 
         agoraView.fills(view: self.view)
 
-
         agoraView.join(channel: "test", as: .broadcaster)
 
         self.agoraView = agoraView
-        self.view.setFrameSize(NSSize(width: 1440,height: 790))
+        self.view.setFrameSize(NSSize(width: 1440, height: 790))
     }
 
     @objc func segmentedControlHit(segc: NSSegmentedControl) {
@@ -49,7 +48,10 @@ extension ViewController: AgoraVideoViewerDelegate {
         if self.segmentControl != nil {
             return
         }
-        let newControl = NSSegmentedControl(labels: ["floating", "grid"], trackingMode: .selectOne, target: self, action: #selector(segmentedControlHit))
+        let newControl = NSSegmentedControl(
+            labels: ["floating", "grid"], trackingMode: .selectOne, target: self,
+            action: #selector(segmentedControlHit)
+        )
         newControl.selectedSegment = self.agoraView?.style == .floating ? 0 : 1
         self.view.addSubview(newControl)
         newControl.translatesAutoresizingMaskIntoConstraints = false

@@ -12,7 +12,6 @@ import AppKit
 #endif
 import AgoraRtcKit
 
-
 /// Storing struct for holding data about the connection to Agora service
 public struct AgoraConnectionData {
     /// Agora App ID from https://agora.io
@@ -21,12 +20,17 @@ public struct AgoraConnectionData {
     var appToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser
     var channel: String?
+    /// Create AgoraConnectionData object
+    /// - Parameters:
+    ///   - appId: Agora App ID from https://agora.io
+    ///   - appToken: Token to be used to connect to a channel, can be nil.
     public init(appId: String, appToken: String? = nil) {
         self.appId = appId
         self.appToken = appToken
     }
 }
 
+/// An interface for getting some common delegate callbacks without needing to subclass.
 @objc public protocol AgoraVideoViewerDelegate: AnyObject {
     /// Local user has joined the channel of a given name
     /// - Parameter channel: Name of the channel local user has joined.
@@ -49,8 +53,10 @@ public struct AgoraConnectionData {
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
     @objc optional func presentAlert(alert: UIAlertController, animated: Bool)
+    /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     @objc optional func extraButtons() -> [UIButton]
     #else
+    /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     @objc optional func extraButtons() -> [NSButton]
     #endif
 }
@@ -59,7 +65,7 @@ public struct AgoraConnectionData {
 open class AgoraVideoViewer: MPView {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
-    public var delegate: AgoraVideoViewerDelegate?
+    public weak var delegate: AgoraVideoViewerDelegate?
 
     /// Settings and customisations such as position of on-screen buttons, collection view of all channel members,
     /// as well as agora video configuration.
@@ -79,9 +85,10 @@ open class AgoraVideoViewer: MPView {
         case grid
         /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
         case floating
+        /// Method for constructing a custom layout.
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
-        public static func ==(lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
+        public static func == (lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
             switch (lhs, rhs) {
             case (.grid, .grid), (.floating, .floating):
                 return true
@@ -98,7 +105,8 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    /// This user will be the main focus when using `.floating` style. Assigned by clicking a user in the collection view.
+    /// This user will be the main focus when using `.floating` style.
+    /// Assigned by clicking a user in the collection view.
     /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
         didSet {
@@ -229,7 +237,10 @@ open class AgoraVideoViewer: MPView {
     ///   - style: Style and organisation to be applied to all the videos in this AgoraVideoViewer.
     ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
     ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
-    public init(connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid, agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil) {
+    public init(
+        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid,
+        agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
+    ) {
         self.connectionData = connectionData
         self.style = style
         self.agoraSettings = agoraSettings
@@ -237,11 +248,11 @@ open class AgoraVideoViewer: MPView {
         super.init(frame: .zero)
     }
 
-    required public init?(coder: NSCoder) {
+    /// Create view from NSCoder
+    /// - Parameter coder: NSCoder to build the view from
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
 
     internal var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {
         didSet {
@@ -251,7 +262,9 @@ open class AgoraVideoViewer: MPView {
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
         if self.style == .floating {
-            return self.userVideoLookup.filter { $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)}
+            return self.userVideoLookup.filter {
+                $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
+            }
         } else if self.style == .grid {
             return self.userVideoLookup
         } else {
