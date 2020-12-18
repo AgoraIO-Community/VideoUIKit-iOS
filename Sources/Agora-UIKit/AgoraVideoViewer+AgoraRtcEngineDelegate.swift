@@ -9,12 +9,6 @@ import AgoraRtcKit
 
 extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
-    open func rtcEngine(
-        _ engine: AgoraRtcEngineKit, firstRemoteVideoDecodedOfUid uid: UInt, size: CGSize, elapsed: Int
-    ) {
-        self.addUserVideo(with: uid, size: size).videoMuted = false
-    }
-
     /// Called when the user role successfully changes
     /// - Parameters:
     ///   - engine: AgoraRtcEngine of this session.
@@ -142,6 +136,9 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         _ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt,
         state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int
     ) {
+        if self.userVideoLookup[uid] == nil {
+            self.addUserVideo(with: uid, size: .zero).videoMuted = true
+        }
         switch state {
         case .decoding:
             self.userVideoLookup[uid]?.videoMuted = false

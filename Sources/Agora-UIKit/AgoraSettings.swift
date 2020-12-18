@@ -7,12 +7,14 @@
 
 import AgoraRtcKit
 
+/// Settings used for the display and behaviour of AgoraVideoViewer
 public struct AgoraSettings {
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.
     /// It will follow the URL pattern found in
     /// [AgoraIO-Community/agora-token-service](https://github.com/AgoraIO-Community/agora-token-service)
     public var tokenURL: String?
+    /// OptionSet for selecting which buttons are visible in the AgoraVideoViewer
     public struct BuiltinButtons: OptionSet {
         public var rawValue: Int
         /// Option for displaying a button to toggle the camera on or off.

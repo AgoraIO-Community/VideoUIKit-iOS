@@ -98,6 +98,11 @@ class AgoraCollectionItem: MPCollectionViewCell {
 extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource {
 
     #if os(iOS)
+    /// Asks your data source object for the cell that corresponds to the specified item in the collection view.
+    /// - Parameters:
+    ///   - collectionView: The collection view requesting this information.
+    ///   - indexPath: The index path that specifies the location of the item.
+    /// - Returns: A valid or new cell to be displayed.
     public func collectionView(
         _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
@@ -108,11 +113,22 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         return cell
     }
 
+    /// Asks your data source object for the number of items in the specified section.
+    /// - Parameters:
+    ///   - collectionView: The collection view requesting this information.
+    ///   - section: An index number identifying a section in collectionView. This index value is 0-based.
+    /// - Returns: Number of sections.
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = self.collectionViewVideos.count
         collectionView.isHidden = count == 0
         return count
     }
+
+    /// Tells the delegate that the specified cell is about to be displayed in the collection view.
+    /// - Parameters:
+    ///   - collectionView: The collection view object that is adding the cell.
+    ///   - cell: The cell object being added.
+    ///   - indexPath: The index path of the data item that the cell represents.
     public func collectionView(
         _ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
@@ -189,6 +205,10 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         }
     }
 
+    /// Tells the delegate that the item at the specified index path was selected.
+    /// - Parameters:
+    ///   - collectionView: The collection view object that is notifying you of the selection change.
+    ///   - indexPath: The index path of the cell that was selected.
     public func collectionView(_ collectionView: MPCollectionView, didSelectItemAt indexPath: IndexPath) {
         #if os(iOS)
         guard let agoraColItem = collectionView.cellForItem(at: indexPath) as? AgoraCollectionItem else {

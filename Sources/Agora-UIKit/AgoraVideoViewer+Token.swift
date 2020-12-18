@@ -11,8 +11,11 @@ extension AgoraVideoViewer {
 
     /// Error types to expect from fetchToken on failing ot retrieve valid token.
     public enum TokenError: Error {
+        /// No data returned from the token request
         case noData
+        /// Data corrupted or in the wrong format
         case invalidData
+        /// URL could not be created
         case invalidURL
     }
 

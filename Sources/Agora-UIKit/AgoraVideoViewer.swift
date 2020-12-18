@@ -20,12 +20,17 @@ public struct AgoraConnectionData {
     var appToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser
     var channel: String?
+    /// Create AgoraConnectionData object
+    /// - Parameters:
+    ///   - appId: Agora App ID from https://agora.io
+    ///   - appToken: Token to be used to connect to a channel, can be nil.
     public init(appId: String, appToken: String? = nil) {
         self.appId = appId
         self.appToken = appToken
     }
 }
 
+/// An interface for getting some common delegate callbacks without needing to subclass.
 @objc public protocol AgoraVideoViewerDelegate: AnyObject {
     /// Local user has joined the channel of a given name
     /// - Parameter channel: Name of the channel local user has joined.
@@ -48,8 +53,10 @@ public struct AgoraConnectionData {
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
     @objc optional func presentAlert(alert: UIAlertController, animated: Bool)
+    /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     @objc optional func extraButtons() -> [UIButton]
     #else
+    /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     @objc optional func extraButtons() -> [NSButton]
     #endif
 }
@@ -78,6 +85,7 @@ open class AgoraVideoViewer: MPView {
         case grid
         /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
         case floating
+        /// Method for constructing a custom layout.
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
         public static func == (lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
@@ -240,7 +248,9 @@ open class AgoraVideoViewer: MPView {
         super.init(frame: .zero)
     }
 
-    required public init?(coder: NSCoder) {
+    /// Create view from NSCoder
+    /// - Parameter coder: NSCoder to build the view from
+    required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
