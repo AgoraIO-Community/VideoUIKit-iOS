@@ -136,6 +136,11 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         self.displayItem(cell, at: indexPath)
     }
 
+    /// Tells the delegate that the specified cell was removed from the collection view.
+    /// - Parameters:
+    ///   - collectionView: The collection view object that removed the cell.
+    ///   - cell: The cell object that was removed.
+    ///   - indexPath: The index path of the data item that the cell represented.
     public func collectionView(
         _ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
