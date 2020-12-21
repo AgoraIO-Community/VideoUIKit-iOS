@@ -9,6 +9,7 @@
 public typealias MPButton=UIButton
 public typealias MPImage=UIImage
 public typealias MPView = UIView
+public typealias MPBlurView = UIVisualEffectView
 public typealias MPViewController = UIViewController
 public typealias MPEdgeInsets = UIEdgeInsets
 public typealias MPCollectionView = UICollectionView
@@ -21,6 +22,7 @@ public typealias MPCollectionViewDataSource = UICollectionViewDataSource
 public typealias MPButton=NSButton
 public typealias MPImage=NSImage
 public typealias MPView = NSView
+public typealias MPBlurView = NSVisualEffectView
 public typealias MPViewController = NSViewController
 public typealias MPEdgeInsets = NSEdgeInsets
 public typealias MPCollectionView = NSCollectionView

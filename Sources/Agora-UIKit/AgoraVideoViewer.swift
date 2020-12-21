@@ -278,15 +278,17 @@ open class AgoraVideoViewer: MPView {
         view.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         #if os(iOS)
-        self.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
-        self.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
+        self.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         #else
         self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         #endif
     }
 
-    var controlContainer: MPView?
+    var controlContainer: MPBlurView?
     var camButton: MPButton?
     var micButton: MPButton?
     var flipButton: MPButton?
