@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AgoraUIKit_macOS'
-  s.version          = '1.0.3'
+  s.version          = '1.1.0'
   s.summary          = 'Agora video session AppKit template.'
 
   s.description      = <<-DESC

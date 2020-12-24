@@ -5,6 +5,7 @@
 //  Created by Max Cobb on 24/12/2020.
 //
 
+#if os(iOS)
 import SwiftUI
 import AgoraRtcKit
 
@@ -61,3 +62,4 @@ public struct AgoraViewer: UIViewRepresentable {
         self.viewer.join(channel: channel, with: token, as: role)
     }
 }
+#endif
