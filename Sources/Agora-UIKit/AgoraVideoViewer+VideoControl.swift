@@ -55,6 +55,41 @@ extension AgoraVideoViewer {
         #endif
     }
 
+    /// Turn screen sharing on/off
+    @objc open func toggleScreenShare() {
+        guard let ssButton = self.getScreenShareButton() else {
+            return
+        }
+        #if os(iOS)
+        ssButton.isSelected.toggle()
+        ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
+        #else
+        ssButton.layer?.backgroundColor = (
+            ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray
+        ).cgColor
+
+        if ssButton.isOn {
+            self.startSharingScreen()
+        } else {
+            self.agkit.stopScreenCapture()
+        }
+        #endif
+    }
+
+
+    func startSharingScreen(displayId: UInt = 0) {
+        #if os(macOS)
+        let rectangle = CGRect.zero
+        let parameters = AgoraScreenCaptureParameters()
+        parameters.dimensions = CGSize.zero
+        parameters.frameRate = 15
+        parameters.bitrate = 1000
+        parameters.captureMouseCursor = true
+        self.agkit.startScreenCapture(byDisplayId: displayId, rectangle: rectangle, parameters: parameters)
+        self.agkit.setScreenCapture(.none)
+        #endif
+    }
+
     /// Turn on/off the 'beautify' effect. Visual and voice change.
     @objc open func toggleBeautify() {
         guard let beautifyButton = self.getBeautifyButton() else {

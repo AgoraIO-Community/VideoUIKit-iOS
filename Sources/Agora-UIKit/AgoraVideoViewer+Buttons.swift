@@ -22,38 +22,29 @@ extension AgoraVideoViewer {
     func addVideoButtons() {
         let container = self.getControlContainer()
         let buttons = [
-            self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton()
+            self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
+            self.getScreenShareButton()
         ].compactMap { $0 } + (self.delegate?.extraButtons?() ?? [])
         let buttonSize: CGFloat = 60
+        let buttonMargin: CGFloat = 10
+
         buttons.enumerated().forEach({ (elem) in
             let button = elem.element
+            #if os(iOS)
+            container.contentView.addSubview(button)
+            #else
             container.addSubview(button)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 60, height: 60))
+            #endif
+            button.frame = CGRect(
+                origin: CGPoint(x: buttonMargin, y: buttonMargin),
+                size: CGSize(width: 60, height: 60)
+            )
             switch self.agoraSettings.buttonPosition {
             case .top, .bottom:
-                button.centerXAnchor.constraint(
-                    equalTo: container.centerXAnchor,
-                    constant: (CGFloat(elem.offset) + 0.5 - CGFloat(buttons.count) / 2) * (buttonSize + 10)
-                ).isActive = true
+                button.frame.origin.x += (buttonMargin + buttonSize) * CGFloat(elem.offset)
             case .left, .right:
-                button.centerYAnchor.constraint(
-                    equalTo: container.centerYAnchor,
-                    constant: (CGFloat(elem.offset) + 0.5 - CGFloat(buttons.count) / 2) * (buttonSize + 10)
-                ).isActive = true
+                button.frame.origin.y += (buttonMargin + buttonSize) * CGFloat(elem.offset)
             }
-            switch self.agoraSettings.buttonPosition {
-            case .bottom:
-                button.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -10).isActive = true
-            case .top:
-                button.topAnchor.constraint(equalTo: container.topAnchor, constant: 10).isActive = true
-            case .right:
-                button.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -10).isActive = true
-            case .left:
-                button.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 10).isActive = true
-            }
-            button.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
-            button.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
             #if os(iOS)
             button.layer.cornerRadius = buttonSize / 2
             button.backgroundColor = .systemGray
@@ -63,50 +54,42 @@ extension AgoraVideoViewer {
             button.layer?.backgroundColor = NSColor.systemGray.cgColor
             #endif
         })
+        let contWidth = CGFloat(buttons.count) * (60 + buttonMargin) + buttonMargin
+        #if os(iOS)
+        container.frame = CGRect(
+            origin: CGPoint(
+                x: (self.bounds.width - CGFloat(contWidth)) / 2,
+                y: (self.bounds.height - 60 - 20 - 10)
+            ), size: CGSize(width: contWidth, height: 60 + buttonMargin * 2)
+        )
+        container.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
+        container.layer.cornerRadius = 20
+        container.clipsToBounds = true
+        #else
+        container.frame = CGRect(
+            origin: CGPoint(x: (self.bounds.width - CGFloat(contWidth)) / 2, y: 10),
+            size: CGSize(width: contWidth, height: 60 + 20))
+        container.autoresizingMask = [.minXMargin, .maxXMargin, .maxYMargin]
+        container.layer?.cornerRadius = 20
+        #endif
     }
 
-    internal func getControlContainer() -> MPView {
+    internal func getControlContainer() -> MPBlurView {
         if let controlContainer = self.controlContainer {
             return controlContainer
         }
-        let container = MPView()
+        #if os(iOS)
+        let container = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+        #else
+        let container = NSVisualEffectView()
+        container.blendingMode = .withinWindow
+        container.material = .menu
+        container.wantsLayer = true
+        #endif
         container.isHidden = true
         self.addSubview(container)
-
-        container.translatesAutoresizingMaskIntoConstraints = false
-        [container.widthAnchor.constraint(equalTo: self.widthAnchor),
-         container.heightAnchor.constraint(equalTo: self.heightAnchor)].forEach { $0.isActive = true }
         #if os(iOS)
-        switch self.agoraSettings.buttonPosition {
-        case .bottom:
-            container.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
-            container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        case .top:
-            container.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-            container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        case .right:
-            container.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor).isActive = true
-            container.centerYAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        case .left:
-            container.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor).isActive = true
-            container.centerYAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerYAnchor).isActive = true
-        }
         container.isUserInteractionEnabled = true
-        #else
-        switch self.agoraSettings.buttonPosition {
-        case .bottom:
-            container.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-            container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        case .top:
-            container.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-            container.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        case .right:
-            container.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-            container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        case .left:
-            container.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-            container.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        }
         #endif
         self.controlContainer = container
         return container
@@ -150,6 +133,38 @@ extension AgoraVideoViewer {
         return button
     }
 
+    /// Get the button for sharing the current screen
+    /// - Returns: The button for sharing screen if enabled, otherwise nil
+    open func getScreenShareButton() -> MPButton? {
+        #if os(iOS)
+        return nil
+        #else
+        if !self.agoraSettings.enabledButtons.contains(.screenShareButton) { return nil }
+
+        if let ssButton = self.screenShareButton { return ssButton }
+        let button = MPButton.newToggleButton(
+            unselected: MPButton.screenShareSymbol
+        )
+        button.target = self
+        button.action = #selector(toggleScreenShare)
+//        prepareSystemBroadcaster()
+        self.screenShareButton = button
+        return button
+        #endif
+    }
+    
+
+//    func prepareSystemBroadcaster() {
+//        let frame = CGRect(x: 0, y:0, width: 60, height: 60)
+//        let systemBroadcastPicker = RPSystemBroadcastPickerView(frame: frame)
+//        systemBroadcastPicker.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
+//        if let url = Bundle.main.url(forResource: "Agora-ScreenShare-Extension", withExtension: "appex", subdirectory: "PlugIns") {
+//            if let bundle = Bundle(url: url) {
+//                systemBroadcastPicker.preferredExtension = bundle.bundleIdentifier
+//            }
+//        }
+//        self.addSubview(systemBroadcastPicker)
+//    }
     /// Get the button for flipping the camera from front to rear facing
     /// - Returns: The button for flipping the camera if enabled, otherwise nil
     open func getFlipButton() -> MPButton? {

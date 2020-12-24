@@ -278,19 +278,22 @@ open class AgoraVideoViewer: MPView {
         view.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         #if os(iOS)
-        self.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
-        self.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
+        self.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         #else
         self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         #endif
     }
 
-    var controlContainer: MPView?
+    var controlContainer: MPBlurView?
     var camButton: MPButton?
     var micButton: MPButton?
     var flipButton: MPButton?
     var beautyButton: MPButton?
+    var screenShareButton: MPButton?
 
     var beautyOptions: AgoraBeautyOptions = {
         let bOpt = AgoraBeautyOptions()
@@ -306,7 +309,7 @@ open class AgoraVideoViewer: MPView {
         if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
             return self.userVideoLookup[self.userID]
         }
-        let vidView = AgoraSingleVideoView(uid: self.userID)
+        let vidView = AgoraSingleVideoView(uid: self.userID, micColor: self.agoraSettings.colors.micFlag)
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
         self.userVideoLookup[self.userID] = vidView
@@ -320,7 +323,7 @@ open class AgoraVideoViewer: MPView {
         if let remoteView = self.userVideoLookup[userId] {
             return remoteView
         }
-        let remoteVideoView = AgoraSingleVideoView(uid: userId)
+        let remoteVideoView = AgoraSingleVideoView(uid: userId, micColor: self.agoraSettings.colors.micFlag)
         remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)
         self.userVideoLookup[userId] = remoteVideoView
