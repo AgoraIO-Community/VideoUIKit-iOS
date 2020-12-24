@@ -76,7 +76,6 @@ extension AgoraVideoViewer {
         #endif
     }
 
-
     func startSharingScreen(displayId: UInt = 0) {
         #if os(macOS)
         let rectangle = CGRect.zero

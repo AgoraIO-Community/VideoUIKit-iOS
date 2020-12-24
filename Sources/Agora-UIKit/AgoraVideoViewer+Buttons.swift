@@ -16,10 +16,30 @@ import AppKit
 // leaveChannel, toggleCam, toggleMic, flipCamera, toggleBroadcast, toggleBeautify
 
 extension AgoraVideoViewer {
+    fileprivate func positionButtonContainer(_ container: MPBlurView, _ contWidth: CGFloat, _ buttonMargin: CGFloat) {
+        #if os(iOS)
+        container.frame = CGRect(
+            origin: CGPoint(
+                x: (self.bounds.width - CGFloat(contWidth)) / 2,
+                y: (self.bounds.height - 60 - 20 - 10)
+            ), size: CGSize(width: contWidth, height: 60 + buttonMargin * 2)
+        )
+        container.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
+        container.layer.cornerRadius = 20
+        container.clipsToBounds = true
+        #else
+        container.frame = CGRect(
+            origin: CGPoint(x: (self.bounds.width - CGFloat(contWidth)) / 2, y: 10),
+            size: CGSize(width: contWidth, height: 60 + 20))
+        container.autoresizingMask = [.minXMargin, .maxXMargin, .maxYMargin]
+        container.layer?.cornerRadius = 20
+        #endif
+    }
+
     /// Add all the relevant buttons.
     /// The buttons are set to add to their respective parent views
     /// Whenever called, so I'm discarding the result for most of them here.
-    func addVideoButtons() {
+    internal func addVideoButtons() {
         let container = self.getControlContainer()
         let buttons = [
             self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
@@ -55,23 +75,7 @@ extension AgoraVideoViewer {
             #endif
         })
         let contWidth = CGFloat(buttons.count) * (60 + buttonMargin) + buttonMargin
-        #if os(iOS)
-        container.frame = CGRect(
-            origin: CGPoint(
-                x: (self.bounds.width - CGFloat(contWidth)) / 2,
-                y: (self.bounds.height - 60 - 20 - 10)
-            ), size: CGSize(width: contWidth, height: 60 + buttonMargin * 2)
-        )
-        container.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
-        container.layer.cornerRadius = 20
-        container.clipsToBounds = true
-        #else
-        container.frame = CGRect(
-            origin: CGPoint(x: (self.bounds.width - CGFloat(contWidth)) / 2, y: 10),
-            size: CGSize(width: contWidth, height: 60 + 20))
-        container.autoresizingMask = [.minXMargin, .maxXMargin, .maxYMargin]
-        container.layer?.cornerRadius = 20
-        #endif
+        positionButtonContainer(container, contWidth, buttonMargin)
     }
 
     internal func getControlContainer() -> MPBlurView {
@@ -152,7 +156,6 @@ extension AgoraVideoViewer {
         return button
         #endif
     }
-    
 
 //    func prepareSystemBroadcaster() {
 //        let frame = CGRect(x: 0, y:0, width: 60, height: 60)
@@ -165,6 +168,7 @@ extension AgoraVideoViewer {
 //        }
 //        self.addSubview(systemBroadcastPicker)
 //    }
+
     /// Get the button for flipping the camera from front to rear facing
     /// - Returns: The button for flipping the camera if enabled, otherwise nil
     open func getFlipButton() -> MPButton? {
