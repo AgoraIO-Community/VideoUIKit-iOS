@@ -57,11 +57,14 @@ public struct AgoraSettings {
     public var floatPosition: Position = .top
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
+    /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()
     /// Create a new AgoraSettings object
     public init() {}
 }
 
+/// Colors for views inside AgoraVideoViewer
 public struct AgoraViewerColors {
+    /// Color of the view that signals a user has their mic muted. Default `.systemBlue`
     var micFlag: MPColor = .systemBlue
 }
