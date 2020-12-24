@@ -293,6 +293,7 @@ open class AgoraVideoViewer: MPView {
     var micButton: MPButton?
     var flipButton: MPButton?
     var beautyButton: MPButton?
+    var screenShareButton: MPButton?
 
     var beautyOptions: AgoraBeautyOptions = {
         let bOpt = AgoraBeautyOptions()
@@ -308,7 +309,7 @@ open class AgoraVideoViewer: MPView {
         if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
             return self.userVideoLookup[self.userID]
         }
-        let vidView = AgoraSingleVideoView(uid: self.userID)
+        let vidView = AgoraSingleVideoView(uid: self.userID, micColor: self.agoraSettings.colors.micFlag)
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
         self.userVideoLookup[self.userID] = vidView
@@ -322,7 +323,7 @@ open class AgoraVideoViewer: MPView {
         if let remoteView = self.userVideoLookup[userId] {
             return remoteView
         }
-        let remoteVideoView = AgoraSingleVideoView(uid: userId)
+        let remoteVideoView = AgoraSingleVideoView(uid: userId, micColor: self.agoraSettings.colors.micFlag)
         remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)
         self.userVideoLookup[userId] = remoteVideoView

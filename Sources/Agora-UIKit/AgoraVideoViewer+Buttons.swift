@@ -10,6 +10,7 @@ import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
+import ReplayKit
 
 // This file mostly contains programatically created MPButtons,
 // The buttons call the following methods found in AgoraVideoViewer+VideoControl.swift:
@@ -22,7 +23,8 @@ extension AgoraVideoViewer {
     func addVideoButtons() {
         let container = self.getControlContainer()
         let buttons = [
-            self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton()
+            self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
+            self.getScreenShareButton()
         ].compactMap { $0 } + (self.delegate?.extraButtons?() ?? [])
         let buttonSize: CGFloat = 60
         let buttonMargin: CGFloat = 10
@@ -132,6 +134,38 @@ extension AgoraVideoViewer {
         return button
     }
 
+    /// Get the button for sharing the current screen
+    /// - Returns: The button for sharing screen if enabled, otherwise nil
+    open func getScreenShareButton() -> MPButton? {
+        #if os(iOS)
+        return nil
+        #else
+        if !self.agoraSettings.enabledButtons.contains(.screenShareButton) { return nil }
+
+        if let ssButton = self.screenShareButton { return ssButton }
+        let button = MPButton.newToggleButton(
+            unselected: MPButton.screenShareSymbol
+        )
+        button.target = self
+        button.action = #selector(toggleScreenShare)
+//        prepareSystemBroadcaster()
+        self.screenShareButton = button
+        return button
+        #endif
+    }
+    
+
+//    func prepareSystemBroadcaster() {
+//        let frame = CGRect(x: 0, y:0, width: 60, height: 60)
+//        let systemBroadcastPicker = RPSystemBroadcastPickerView(frame: frame)
+//        systemBroadcastPicker.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
+//        if let url = Bundle.main.url(forResource: "Agora-ScreenShare-Extension", withExtension: "appex", subdirectory: "PlugIns") {
+//            if let bundle = Bundle(url: url) {
+//                systemBroadcastPicker.preferredExtension = bundle.bundleIdentifier
+//            }
+//        }
+//        self.addSubview(systemBroadcastPicker)
+//    }
     /// Get the button for flipping the camera from front to rear facing
     /// - Returns: The button for flipping the camera if enabled, otherwise nil
     open func getFlipButton() -> MPButton? {

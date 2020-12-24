@@ -7,8 +7,10 @@
 
 #if os(iOS)
 public typealias MPButton=UIButton
-public typealias MPImage=UIImage
+public typealias MPImage = UIImage
+public typealias MPImageView = UIImageView
 public typealias MPView = UIView
+public typealias MPColor = UIColor
 public typealias MPBlurView = UIVisualEffectView
 public typealias MPViewController = UIViewController
 public typealias MPEdgeInsets = UIEdgeInsets
@@ -19,9 +21,11 @@ public typealias MPCollectionViewFlowLayout = UICollectionViewFlowLayout
 public typealias MPCollectionViewDelegate = UICollectionViewDelegate
 public typealias MPCollectionViewDataSource = UICollectionViewDataSource
 #elseif os(macOS)
-public typealias MPButton=NSButton
-public typealias MPImage=NSImage
+public typealias MPButton = NSButton
+public typealias MPImage = NSImage
+public typealias MPImageView = NSImageView
 public typealias MPView = NSView
+public typealias MPColor = NSColor
 public typealias MPBlurView = NSVisualEffectView
 public typealias MPViewController = NSViewController
 public typealias MPEdgeInsets = NSEdgeInsets

@@ -25,8 +25,10 @@ public struct AgoraSettings {
         public static let flipButton = BuiltinButtons(rawValue: 1 << 2)
         /// Option for displaying a button to toggle beautify feature on or off
         public static let beautifyButton = BuiltinButtons(rawValue: 1 << 3)
+        /// Option for displaying screenshare button
+        public static let screenShareButton = BuiltinButtons(rawValue: 1 << 4)
         /// Option to display all default buttons
-        public static let all: BuiltinButtons = [cameraButton, micButton, flipButton, beautifyButton]
+        public static let all: BuiltinButtons = [cameraButton, micButton, flipButton, beautifyButton, screenShareButton]
         /// Initialiser for creating an option set
         /// - Parameter rawValue: Raw value to be applied, used for choosing the button options
         public init(rawValue: Int) {
@@ -55,6 +57,11 @@ public struct AgoraSettings {
     public var floatPosition: Position = .top
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
+    public var colors: AgoraViewerColors = AgoraViewerColors()
     /// Create a new AgoraSettings object
     public init() {}
+}
+
+public struct AgoraViewerColors {
+    var micFlag: MPColor = .systemBlue
 }

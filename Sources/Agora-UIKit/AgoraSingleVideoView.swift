@@ -39,41 +39,50 @@ public class AgoraSingleVideoView: MPView {
     var hostingView: MPView? {
         self.canvas.view
     }
+
+    var micFlagColor: MPColor
+
     /// Icon to show if this user is muting their microphone
     lazy var mutedFlag: MPView = {
         #if os(iOS)
-        let muteFlag = MPButton(type: .custom)
-        muteFlag.setImage(
-            MPImage(systemName: MPButton.micSlashSymbol, withConfiguration: MPImage.SymbolConfiguration(scale: .large)),
-            for: .normal
+        let muteFlag = UIImageView(
+            image: UIImage(
+                systemName: MPButton.micSlashSymbol
+            )
         )
+        muteFlag.tintColor = self.micFlagColor
         #else
         let muteFlag = MPButton()
         muteFlag.font = .systemFont(ofSize: NSFont.systemFontSize * 1.5)
         muteFlag.attributedTitle = NSAttributedString(
             string: MPButton.micSlashSymbol,
-            attributes: [ NSAttributedString.Key.foregroundColor: NSColor.systemBlue ]
+            attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
         )
         #endif
         self.addSubview(muteFlag)
-        muteFlag.frame = CGRect(
-            origin: CGPoint(x: self.frame.width - 50, y: self.frame.height - 50),
-            size: CGSize(width: 50, height: 50)
-        )
         #if os(iOS)
+        muteFlag.frame = CGRect(
+            origin: CGPoint(x: self.frame.width - 35, y: self.frame.height - 35),
+            size: CGSize(width: 25, height: 25)
+        )
         muteFlag.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin]
         #else
         muteFlag.isBordered = false
         muteFlag.wantsLayer = true
         muteFlag.layer?.backgroundColor = .clear
-        muteFlag.frame.origin = CGPoint(x: self.frame.width - 50, y: 0)
+        muteFlag.frame = CGRect(
+            origin: CGPoint(x: self.frame.width - 30, y: 10),
+            size: CGSize(width: 25, height: 25)
+        )
+        muteFlag.frame.origin = CGPoint(x: self.frame.width - 30, y: 10)
         muteFlag.autoresizingMask = [.maxYMargin, .minXMargin]
         #endif
         return muteFlag
     }()
 
-    init(uid: UInt) {
+    init(uid: UInt, micColor: MPColor) {
         self.canvas = AgoraRtcVideoCanvas()
+        self.micFlagColor = micColor
         super.init(frame: .zero)
         self.setBackground()
         self.canvas.uid = uid
