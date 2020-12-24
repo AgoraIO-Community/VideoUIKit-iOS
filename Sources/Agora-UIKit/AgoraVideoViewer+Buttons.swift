@@ -10,7 +10,6 @@ import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
-import ReplayKit
 
 // This file mostly contains programatically created MPButtons,
 // The buttons call the following methods found in AgoraVideoViewer+VideoControl.swift:
