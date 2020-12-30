@@ -160,7 +160,11 @@ extension AgoraVideoViewer {
     ///     - fetchToken: Whether the token should be fetched before joining the channel.
     ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
     ///                   Default: `false`
-    public func join(channel: String, as role: AgoraClientRole = .broadcaster, fetchToken: Bool = false) {
+    ///     - uid: UID to be set when user joins the channel, default will be 0.
+    public func join(
+        channel: String, as role: AgoraClientRole = .broadcaster,
+        fetchToken: Bool = false, uid: UInt? = nil
+    ) {
         if fetchToken {
             if let tokenURL = self.agoraSettings.tokenURL {
                 AgoraVideoViewer.fetchToken(
@@ -168,7 +172,7 @@ extension AgoraVideoViewer {
                     userId: self.userID) { result in
                     switch result {
                     case .success(let token):
-                        self.join(channel: channel, with: token)
+                        self.join(channel: channel, with: token, as: role, uid: uid)
                     case .failure(let err):
                         AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
                     }
@@ -178,7 +182,7 @@ extension AgoraVideoViewer {
             }
             return
         }
-        self.join(channel: channel, with: self.currentToken, as: role)
+        self.join(channel: channel, with: self.currentToken, as: role, uid: uid)
     }
 
     /// Join the Agora channel
@@ -187,26 +191,32 @@ extension AgoraVideoViewer {
     ///   - token: Valid token to join the channel
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
     ///                   Default: `.broadcaster`
-    public func join(channel: String, with token: String?, as role: AgoraClientRole = .broadcaster) {
+    ///   - uid: UID to be set when user joins the channel, default will be 0.
+    public func join(
+        channel: String, with token: String?,
+        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
+    ) {
         if role == .broadcaster, !checkForPermissions(callback: {
             if self.checkForPermissions(alsoRequest: false) {
-                self.join(channel: channel, with: token, as: role)
+                self.join(channel: channel, with: token, as: role, uid: uid)
             }
         }) {
             return
         }
-        self.userRole = role
-
         if self.connectionData.channel != nil {
             if self.connectionData.channel == channel {
-                AgoraVideoViewer.agoraPrint(.info, message: "We are already in the channel")
+                AgoraVideoViewer.agoraPrint(.info, message: "We are already in a channel")
             }
             if self.leaveChannel() < 0 {
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")
             } else {
-                self.join(channel: channel, with: token)
+                self.join(channel: channel, with: token, as: role, uid: uid)
             }
             return
+        }
+        self.userRole = role
+        if let uid = uid {
+            self.userID = uid
         }
 
         self.currentToken = token

@@ -17,7 +17,7 @@
     <a title="AgoraVideoViewer Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">AgoraUIKit_iOS 1.0.2 Docs</a> (100% documented)</p>
+        <p><a href="../index.html">AgoraUIKit_iOS 1.0.3 Docs</a> (100% documented)</p>
         <p class="header-right">
           <form role="search" action="../search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -2387,9 +2387,9 @@ that it has access to both the microphone and camera on the device.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel2as10fetchTokenySS_So0A10ClientRoleVSbtF"></a>
-                    <a name="//apple_ref/swift/Method/join(channel:as:fetchToken:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel2as10fetchTokenySS_So0A10ClientRoleVSbtF">join(channel:<wbr>as:<wbr>fetchToken:<wbr>)</a>
+                    <a name="/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel2as10fetchToken3uidySS_So0A10ClientRoleVSbSuSgtF"></a>
+                    <a name="//apple_ref/swift/Method/join(channel:as:fetchToken:uid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel2as10fetchToken3uidySS_So0A10ClientRoleVSbSuSgtF">join(channel:<wbr>as:<wbr>fetchToken:<wbr>uid:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2404,7 +2404,10 @@ that it has access to both the microphone and camera on the device.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">join</span><span class="p">(</span><span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">as</span> <span class="nv">role</span><span class="p">:</span> <span class="kt">AgoraClientRole</span> <span class="o">=</span> <span class="o">.</span><span class="n">broadcaster</span><span class="p">,</span> <span class="nv">fetchToken</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">join</span><span class="p">(</span>
+    <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="k">as</span> <span class="nv">role</span><span class="p">:</span> <span class="kt">AgoraClientRole</span> <span class="o">=</span> <span class="o">.</span><span class="n">broadcaster</span><span class="p">,</span>
+    <span class="nv">fetchToken</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2451,6 +2454,18 @@ that it has access to both the microphone and camera on the device.</p>
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>UID to be set when user joins the channel, default will be 0.</p>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -2460,9 +2475,9 @@ that it has access to both the microphone and camera on the device.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel4with2asySS_SSSgSo0A10ClientRoleVtF"></a>
-                    <a name="//apple_ref/swift/Method/join(channel:with:as:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel4with2asySS_SSSgSo0A10ClientRoleVtF">join(channel:<wbr>with:<wbr>as:<wbr>)</a>
+                    <a name="/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel4with2as3uidySS_SSSgSo0A10ClientRoleVSuSgtF"></a>
+                    <a name="//apple_ref/swift/Method/join(channel:with:as:uid:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AgoraUIKit_iOS0A11VideoViewerC4join7channel4with2as3uidySS_SSSgSo0A10ClientRoleVSuSgtF">join(channel:<wbr>with:<wbr>as:<wbr>uid:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2477,7 +2492,10 @@ that it has access to both the microphone and camera on the device.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">join</span><span class="p">(</span><span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="k">as</span> <span class="nv">role</span><span class="p">:</span> <span class="kt">AgoraClientRole</span> <span class="o">=</span> <span class="o">.</span><span class="n">broadcaster</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">join</span><span class="p">(</span>
+    <span class="nv">channel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">with</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
+    <span class="k">as</span> <span class="nv">role</span><span class="p">:</span> <span class="kt">AgoraClientRole</span> <span class="o">=</span> <span class="o">.</span><span class="n">broadcaster</span><span class="p">,</span> <span class="nv">uid</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2519,6 +2537,18 @@ that it has access to both the microphone and camera on the device.</p>
                                 <div>
                                   <p><a href="https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html">AgoraClientRole</a> to join the channel as.
           Default: <code>.broadcaster</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>UID to be set when user joins the channel, default will be 0.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2657,7 +2687,7 @@ that it has access to both the microphone and camera on the device.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="https://github.com/AgoraIO-Community/iOS-UIKit" target="_blank" rel="external">Max Cobb</a>. All rights reserved. (Last updated: 2020-12-24)</p>
+          <p>&copy; 2020 <a class="link" href="https://github.com/AgoraIO-Community/iOS-UIKit" target="_blank" rel="external">Max Cobb</a>. All rights reserved. (Last updated: 2020-12-29)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
