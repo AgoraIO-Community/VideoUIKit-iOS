@@ -40,26 +40,35 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Button(action: {
-                        connectedToChannel.toggle()
-                        if connectedToChannel {
-                            agview.join(channel: "test", with: nil, as: .broadcaster)
-                        } else {
-                            agview.viewer.leaveChannel()
+                    Button(
+                        action: { connectToAgora() },
+                        label: {
+                            if connectedToChannel {
+                                Text("Disconnect").padding(3.0).background(Color.red).cornerRadius(3.0).hidden()
+                            } else {
+                                Text("Connect").padding(3.0).background(Color.green).cornerRadius(3.0)
+                            }
                         }
-                    }, label: {
-                        if connectedToChannel {
-                            Text("Disconnect").padding(3.0).background(Color.red).cornerRadius(3.0).hidden()
-                        } else {
-                            Text("Connect").padding(3.0).background(Color.green).cornerRadius(3.0)
-                        }
-                    }).disabled(connectedToChannel)
+                    ).disabled(connectedToChannel)
                     Spacer()
                 }
                 Spacer()
             }
         }
 
+    }
+
+    func connectToAgora() {
+        guard agview.viewer.checkForPermissions(alsoRequest: true) else {
+            connectToAgora()
+            return
+        }
+        connectedToChannel.toggle()
+        if connectedToChannel {
+            agview.join(channel: "test", with: nil, as: .broadcaster)
+        } else {
+            agview.viewer.leaveChannel()
+        }
     }
 }
 
