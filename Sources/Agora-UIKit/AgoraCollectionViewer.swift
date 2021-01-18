@@ -207,6 +207,9 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
             self.agkit.setupLocalVideo(newVid.canvas)
         } else {
             self.agkit.setupRemoteVideo(newVid.canvas)
+            if newVid.uid != myActiveSpeaker && self.agoraSettings.usingDualStream {
+                self.agkit.setRemoteVideoStream(newVid.uid, type: .low)
+            }
         }
     }
 

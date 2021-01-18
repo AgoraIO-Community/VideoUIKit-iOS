@@ -59,8 +59,26 @@ public struct AgoraSettings {
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
     /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()
+
+    /// Full string for low bitrate stream parameter, including key of `che.video.lowBitRateStreamParameter`.
+    /// Set this property before initialising AgoraVideoViewer.
+    public var lowBitRateStream: String? = AgoraSettings.defaultLowBitrateParam
+
+    /// Whether we are using dual stream mode, which helps to reduce Agora costs.
+    public var usingDualStream: Bool {
+        get { self.lowBitRateStream != nil }
+        set { self.lowBitRateStream = newValue ? AgoraSettings.defaultLowBitrateParam : nil }
+    }
+
+    /// Maximum number of videos in the grid view before the low bitrate is adopted.
+    public var gridThresholdHighBitrate: Int = 4
+
     /// Create a new AgoraSettings object
     public init() {}
+
+    static private let defaultLowBitrateParam = "{\"che.video.lowBitRateStreamParameter\":" +
+        "{\"width\":160,\"height\":120,\"frameRate\":5,\"bitRate\":45}" +
+    "}"
 }
 
 /// Colors for views inside AgoraVideoViewer
