@@ -217,6 +217,12 @@ open class AgoraVideoViewer: MPView {
         )
         engine.enableAudioVolumeIndication(1000, smooth: 3, report_vad: true)
         engine.setChannelProfile(.liveBroadcasting)
+        if self.agoraSettings.usingDualStream {
+            engine.enableDualStreamMode(true)
+            if let bitrateStream = self.agoraSettings.lowBitRateStream {
+                engine.setParameters(bitrateStream)
+            }
+        }
         engine.setClientRole(self.userRole)
         return engine
     }()

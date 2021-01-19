@@ -50,6 +50,12 @@ extension AgoraVideoViewer {
                 .width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin
             ]
             #endif
+            if self.agoraSettings.usingDualStream && self.userID != keyVals.key {
+                self.agkit.setRemoteVideoStream(
+                    keyVals.key,
+                    type: self.agoraSettings.gridThresholdHighBitrate > 2 ? .high : .low
+                )
+            }
         }
     }
 
@@ -66,7 +72,7 @@ extension AgoraVideoViewer {
         // We take on a grid of 4x4 (16).
         let maxSqrt = ceil(sqrt(CGFloat(vidCounts)))
         let multDim = 1 / maxSqrt
-        for (idx, (_, videoSessionView)) in self.userVideosForGrid.enumerated() {
+        for (idx, (videoID, videoSessionView)) in self.userVideosForGrid.enumerated() {
             self.backgroundVideoHolder.addSubview(videoSessionView)
             videoSessionView.frame.size = CGSize(
                 width: backgroundVideoHolder.frame.width * multDim,
@@ -97,6 +103,12 @@ extension AgoraVideoViewer {
             #else
             videoSessionView.autoresizingMask = [.width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin]
             #endif
+            if self.agoraSettings.usingDualStream && videoID != self.userID {
+                self.agkit.setRemoteVideoStream(
+                    videoID,
+                    type: vidCounts <= self.agoraSettings.gridThresholdHighBitrate ? .high : .low
+                )
+            }
         }
     }
 }
