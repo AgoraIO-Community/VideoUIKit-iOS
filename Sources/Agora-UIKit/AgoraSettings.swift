@@ -67,7 +67,12 @@ public struct AgoraSettings {
     /// Whether we are using dual stream mode, which helps to reduce Agora costs.
     public var usingDualStream: Bool {
         get { self.lowBitRateStream != nil }
-        set { self.lowBitRateStream = newValue ? AgoraSettings.defaultLowBitrateParam : nil }
+        set {
+            if newValue && self.lowBitRateStream != nil {
+                return
+            }
+            self.lowBitRateStream = newValue ? AgoraSettings.defaultLowBitrateParam : nil
+        }
     }
 
     /// Maximum number of videos in the grid view before the low bitrate is adopted.
@@ -76,13 +81,15 @@ public struct AgoraSettings {
     /// Create a new AgoraSettings object
     public init() {}
 
-    static private let defaultLowBitrateParam = "{\"che.video.lowBitRateStreamParameter\":" +
-        "{\"width\":160,\"height\":120,\"frameRate\":5,\"bitRate\":45}" +
-    "}"
+    static private let defaultLowBitrateParam = """
+      { "che.video.lowBitRateStreamParameter": {
+        "width":160,"height":120,"frameRate":5,"bitRate":45
+      }}
+    """
 }
 
 /// Colors for views inside AgoraVideoViewer
 public struct AgoraViewerColors {
     /// Color of the view that signals a user has their mic muted. Default `.systemBlue`
-    var micFlag: MPColor = .systemBlue
+    public var micFlag: MPColor = .systemBlue
 }

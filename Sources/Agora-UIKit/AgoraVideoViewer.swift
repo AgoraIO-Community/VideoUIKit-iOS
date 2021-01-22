@@ -117,7 +117,7 @@ open class AgoraVideoViewer: MPView {
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
-    lazy var userID: UInt = 0
+    public internal(set) lazy var userID: UInt = 0
     internal var connectionData: AgoraConnectionData
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
@@ -190,7 +190,7 @@ open class AgoraVideoViewer: MPView {
         return collView
     }()
 
-    lazy var backgroundVideoHolder: MPView = {
+    public internal(set) lazy var backgroundVideoHolder: MPView = {
         let rtnView = MPView()
         #if os(iOS)
         self.addSubview(rtnView)
