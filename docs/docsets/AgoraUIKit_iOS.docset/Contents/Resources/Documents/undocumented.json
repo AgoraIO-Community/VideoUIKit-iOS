@@ -1,6 +1,12 @@
 {
   "warnings": [
-
+    {
+      "file": "/Users/maxcobb/Documents/Agora/AgoraIO-Community/iOS-UIKit/Sources/Agora-UIKit/AgoraVideoViewer.swift",
+      "line": 195,
+      "symbol": "AgoraVideoViewer.backgroundVideoHolder",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
   ],
   "source_directory": "/Users/maxcobb/Documents/Agora/AgoraIO-Community/iOS-UIKit"
 }
