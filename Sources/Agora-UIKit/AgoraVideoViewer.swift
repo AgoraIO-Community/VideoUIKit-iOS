@@ -85,6 +85,8 @@ open class AgoraVideoViewer: MPView {
         case grid
         /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
         case floating
+        /// collection only shows the collectionview, no other UI is visible, except video controls
+        case collection
         /// Method for constructing a custom layout.
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
@@ -206,6 +208,13 @@ open class AgoraVideoViewer: MPView {
         #else
         rtnView.autoresizingMask = [.width, .height]
         #endif
+        // Had issues with `self.style == .collection`, so changed to switch case
+        switch self.style {
+        case .collection:
+            rtnView.isHidden = true
+        default:
+            rtnView.isHidden = false
+        }
         return rtnView
     }()
 
@@ -232,6 +241,12 @@ open class AgoraVideoViewer: MPView {
         didSet {
             if oldValue != self.style {
                 AgoraVideoViewer.agoraPrint(.info, message: "changed style")
+                switch self.style {
+                case .collection:
+                    self.backgroundVideoHolder.isHidden = true
+                default:
+                    self.backgroundVideoHolder.isHidden = false
+                }
                 self.reorganiseVideos()
             }
         }

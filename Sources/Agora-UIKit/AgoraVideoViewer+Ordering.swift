@@ -20,7 +20,7 @@ extension AgoraVideoViewer {
         self.organiseGrid()
 
         switch self.style {
-        case .grid, .floating:
+        case .grid, .floating, .collection:
             // these two cases are taken care of from floatingVideoHolder and organiseGrid above
             break
         case .custom(let orgCustom):
