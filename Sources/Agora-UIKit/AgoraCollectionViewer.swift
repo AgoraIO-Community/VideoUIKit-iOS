@@ -182,7 +182,12 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
 
     /// Video views to be displayed in the floating collection view.
     var collectionViewVideos: [AgoraSingleVideoView] {
-        self.style == .floating ? Array(self.userVideoLookup.values) : []
+        switch self.style {
+        case .floating, .collection:
+            return Array(self.userVideoLookup.values)
+        default:
+            return []
+        }
     }
 
     /// Both AppKit and UIKit delegate methods call this function, to have it all in one place
@@ -198,7 +203,13 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         guard let cell = item as? AgoraCollectionItem else {
             fatalError("cell not valid")
         }
-        let myActiveSpeaker = self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID
+        var myActiveSpeaker: UInt?
+        switch self.style {
+        case .floating:
+            myActiveSpeaker = self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID
+        default:
+            break
+        }
         // grid view is taking care of active speaker
         if newVid.uid != myActiveSpeaker {
             cell.agoraVideoView = newVid

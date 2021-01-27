@@ -85,6 +85,8 @@ open class AgoraVideoViewer: MPView {
         case grid
         /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
         case floating
+        /// collection only shows the collectionview, no other UI is visible, except video controls
+        case collection
         /// Method for constructing a custom layout.
         case custom(customFunction: (AgoraVideoViewer, EnumeratedSequence<[UInt: AgoraSingleVideoView]>, Int) -> Void)
 
@@ -117,7 +119,7 @@ open class AgoraVideoViewer: MPView {
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
-    lazy var userID: UInt = 0
+    public internal(set) lazy var userID: UInt = 0
     internal var connectionData: AgoraConnectionData
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
@@ -190,7 +192,8 @@ open class AgoraVideoViewer: MPView {
         return collView
     }()
 
-    lazy var backgroundVideoHolder: MPView = {
+    /// View that holds all of the videos displayed in grid formation
+    public internal(set) lazy var backgroundVideoHolder: MPView = {
         let rtnView = MPView()
         #if os(iOS)
         self.addSubview(rtnView)
@@ -206,6 +209,13 @@ open class AgoraVideoViewer: MPView {
         #else
         rtnView.autoresizingMask = [.width, .height]
         #endif
+        // Had issues with `self.style == .collection`, so changed to switch case
+        switch self.style {
+        case .collection:
+            rtnView.isHidden = true
+        default:
+            rtnView.isHidden = false
+        }
         return rtnView
     }()
 
@@ -232,6 +242,12 @@ open class AgoraVideoViewer: MPView {
         didSet {
             if oldValue != self.style {
                 AgoraVideoViewer.agoraPrint(.info, message: "changed style")
+                switch self.style {
+                case .collection:
+                    self.backgroundVideoHolder.isHidden = true
+                default:
+                    self.backgroundVideoHolder.isHidden = false
+                }
                 self.reorganiseVideos()
             }
         }
