@@ -192,6 +192,7 @@ open class AgoraVideoViewer: MPView {
         return collView
     }()
 
+    /// View that holds all of the videos displayed in grid formation
     public internal(set) lazy var backgroundVideoHolder: MPView = {
         let rtnView = MPView()
         #if os(iOS)
