@@ -92,30 +92,24 @@ open class AgoraVideoViewer: MPView {
 
         public static func == (lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
             switch (lhs, rhs) {
-            case (.grid, .grid), (.floating, .floating):
-                return true
-            default:
-                return false
+            case (.grid, .grid), (.floating, .floating): return true
+            default: return false
             }
         }
     }
 
     /// The most recently active speaker in the session. This will only ever be set to remote users, not the local user.
     public internal(set) var activeSpeaker: UInt? {
-        didSet {
-            self.reorganiseVideos()
-        }
+        didSet { self.reorganiseVideos() }
     }
 
     /// This user will be the main focus when using `.floating` style.
     /// Assigned by clicking a user in the collection view.
     /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
-        didSet {
-            if oldValue != overrideActiveSpeaker {
-                self.reorganiseVideos()
-            }
-        }
+        didSet { if oldValue != overrideActiveSpeaker {
+            self.reorganiseVideos()
+        }}
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
@@ -124,11 +118,7 @@ open class AgoraVideoViewer: MPView {
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
     public var userRole: AgoraClientRole = .audience {
-        didSet {
-            print("user role is now broadcaster")
-            print(self.userRole == .broadcaster)
-            self.agkit.setClientRole(self.userRole)
-        }
+        didSet { self.agkit.setClientRole(self.userRole) }
     }
 
     internal var currentToken: String? {
@@ -222,8 +212,7 @@ open class AgoraVideoViewer: MPView {
     /// AgoraRtcEngineKit being used by this AgoraVideoViewer.
     lazy public internal(set) var agkit: AgoraRtcEngineKit = {
         let engine = AgoraRtcEngineKit.sharedEngine(
-            withAppId: connectionData.appId,
-            delegate: self
+            withAppId: connectionData.appId, delegate: self
         )
         engine.enableAudioVolumeIndication(1000, smooth: 3, report_vad: true)
         engine.setChannelProfile(.liveBroadcasting)
@@ -243,10 +232,8 @@ open class AgoraVideoViewer: MPView {
             if oldValue != self.style {
                 AgoraVideoViewer.agoraPrint(.info, message: "changed style")
                 switch self.style {
-                case .collection:
-                    self.backgroundVideoHolder.isHidden = true
-                default:
-                    self.backgroundVideoHolder.isHidden = false
+                case .collection: self.backgroundVideoHolder.isHidden = true
+                default: self.backgroundVideoHolder.isHidden = false
                 }
                 self.reorganiseVideos()
             }
@@ -277,9 +264,7 @@ open class AgoraVideoViewer: MPView {
     }
 
     internal var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {
-        didSet {
-            reorganiseVideos()
-        }
+        didSet { reorganiseVideos() }
     }
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
