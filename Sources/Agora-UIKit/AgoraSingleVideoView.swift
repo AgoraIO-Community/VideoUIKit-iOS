@@ -15,7 +15,7 @@ import AgoraRtcKit
 /// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
     /// Is the video turned off for this user.
-    var videoMuted: Bool = true {
+    public var videoMuted: Bool = true {
         didSet {
             if oldValue != videoMuted {
                 self.canvas.view?.isHidden = videoMuted
@@ -23,7 +23,7 @@ public class AgoraSingleVideoView: MPView {
         }
     }
     /// Is the microphone muted for this user.
-    var audioMuted: Bool = true {
+    public var audioMuted: Bool = true {
         didSet {
             self.mutedFlag.isHidden = !audioMuted
         }
@@ -34,7 +34,7 @@ public class AgoraSingleVideoView: MPView {
         set { self.canvas.uid = newValue }
     }
     /// Canvas used to render the Agora RTC Video.
-    var canvas: AgoraRtcVideoCanvas
+    public var canvas: AgoraRtcVideoCanvas
     /// View that the AgoraRtcVideoCanvas is sending the video feed to
     var hostingView: MPView? {
         self.canvas.view
@@ -80,7 +80,7 @@ public class AgoraSingleVideoView: MPView {
         return muteFlag
     }()
 
-    init(uid: UInt, micColor: MPColor) {
+    public init(uid: UInt, micColor: MPColor) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
         super.init(frame: .zero)
