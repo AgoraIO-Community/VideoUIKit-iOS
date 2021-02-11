@@ -80,6 +80,10 @@ public class AgoraSingleVideoView: MPView {
         return muteFlag
     }()
 
+    /// Create a new AgoraSingleVideoView to be displayed in your app
+    /// - Parameters:
+    ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
+    ///   - micColor: Color to be applied when the local or remote user mutes their microphone
     public init(uid: UInt, micColor: MPColor) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
