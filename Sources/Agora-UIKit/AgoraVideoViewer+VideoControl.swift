@@ -252,12 +252,15 @@ extension AgoraVideoViewer {
         self.activeSpeaker = nil
         self.remoteUserIDs = []
         self.userVideoLookup = [:]
+        self.backgroundVideoHolder.subviews.forEach{ $0.removeFromSuperview() }
+        self.controlContainer?.isHidden = true
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
         defer {
             if leaveChannelRtn == 0 {
                 delegate?.leftChannel?(chName)
             }
         }
+
         return leaveChannelRtn
     }
 
