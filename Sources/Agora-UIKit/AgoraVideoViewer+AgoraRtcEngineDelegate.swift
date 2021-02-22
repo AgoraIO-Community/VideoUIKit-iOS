@@ -136,12 +136,9 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         _ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt,
         state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int
     ) {
-        if self.userVideoLookup[uid] == nil {
-            self.addUserVideo(with: uid, size: .zero).videoMuted = true
-        }
         switch state {
         case .decoding:
-            self.userVideoLookup[uid]?.videoMuted = false
+            self.addUserVideo(with: uid, size: .zero).videoMuted = false
             if self.activeSpeaker == nil && uid != self.userID {
                 self.activeSpeaker = uid
             }
