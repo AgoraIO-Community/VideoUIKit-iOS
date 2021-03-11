@@ -61,7 +61,7 @@ import AgoraUIKit_iOS
 
 let agoraView = AgoraVideoViewer(
     connectionData: AgoraConnectionData(
-        appId: "my-app-id">,
+        appId: "my-app-id",
         appToken: "my-channel-token"
     ),
     style: .grid,
