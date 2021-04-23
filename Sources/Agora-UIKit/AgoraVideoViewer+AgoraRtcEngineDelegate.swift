@@ -61,7 +61,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             if let videoView = self.userVideoLookup[uid] {
                 videoView.audioMuted = state == .stopped
             } else if state != .stopped {
-                self.addUserVideo(with: uid, size: .zero).audioMuted = false
+                self.addUserVideo(with: uid).audioMuted = false
                 if self.activeSpeaker == nil && uid != self.userID {
                     self.activeSpeaker = uid
                 }
@@ -138,7 +138,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     ) {
         switch state {
         case .decoding:
-            self.addUserVideo(with: uid, size: .zero).videoMuted = false
+            self.addUserVideo(with: uid).videoMuted = false
             if self.activeSpeaker == nil && uid != self.userID {
                 self.activeSpeaker = uid
             }
