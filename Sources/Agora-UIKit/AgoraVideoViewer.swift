@@ -107,9 +107,9 @@ open class AgoraVideoViewer: MPView {
     /// Assigned by clicking a user in the collection view.
     /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
-        didSet { if oldValue != overrideActiveSpeaker {
-            self.reorganiseVideos()
-        }}
+        didSet {
+            if oldValue != overrideActiveSpeaker { self.reorganiseVideos() }
+        }
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
@@ -281,7 +281,7 @@ open class AgoraVideoViewer: MPView {
 
     /// Helper method to fill a view with this view
     /// - Parameter view: view to fill with self
-    public func fills(view: MPView) {
+    open func fills(view: MPView) {
         view.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         #if os(iOS)
@@ -302,7 +302,8 @@ open class AgoraVideoViewer: MPView {
     var beautyButton: MPButton?
     var screenShareButton: MPButton?
 
-    var beautyOptions: AgoraBeautyOptions = {
+    /// Default beautification settings
+    open var beautyOptions: AgoraBeautyOptions = {
         let bOpt = AgoraBeautyOptions()
         bOpt.smoothnessLevel = 1
         bOpt.rednessLevel = 0.1
@@ -323,10 +324,12 @@ open class AgoraVideoViewer: MPView {
         return vidView
     }
 
-    /// Shuffle around the videos if multiple people are hosting, grid formation.
-
+    /// Create AgoraSingleVideoView for the requested userID
+    /// - Parameters:
+    ///   - userId: User ID of the feed to be displayed in the view
+    /// - Returns: The newly created view, or an existing one for the same userID.
     @discardableResult
-    func addUserVideo(with userId: UInt, size: CGSize) -> AgoraSingleVideoView {
+    open func addUserVideo(with userId: UInt) -> AgoraSingleVideoView {
         if let remoteView = self.userVideoLookup[userId] {
             return remoteView
         }
@@ -340,7 +343,7 @@ open class AgoraVideoViewer: MPView {
         return remoteVideoView
     }
 
-    func setRandomSpeaker() {
+    open func setRandomSpeaker() {
         if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
             // active speaker has left, reassign activeSpeaker to a random member
             self.activeSpeaker = randomNotMe
