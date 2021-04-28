@@ -17,6 +17,7 @@ extension AgoraVideoViewer {
             return
         }
         self.floatingVideoHolder.reloadData()
+        self.floatingVideoHolder.isHidden = self.collectionViewVideos.isEmpty
         self.organiseGrid()
 
         switch self.style {
@@ -62,7 +63,51 @@ extension AgoraVideoViewer {
     func organiseGrid() {
         if self.userVideosForGrid.isEmpty {
             return
-        } else if self.userVideosForGrid.count == 2 {
+        }
+        if floatingVideoHolder.isHidden {
+            self.backgroundVideoHolder.frame = self.bounds
+        } else {
+            switch self.agoraSettings.floatPosition {
+            case .top, .bottom:
+                backgroundVideoHolder.frame.size = CGSize(
+                    width: self.bounds.width,
+                    height: self.bounds.height - (100 + 2 * AgoraCollectionViewer.cellSpacing)
+                )
+                if self.agoraSettings.floatPosition == .top {
+                    #if os(iOS)
+                    backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
+                    #else
+                    backgroundVideoHolder.frame.origin = .zero
+                    #endif
+                } else {
+                    #if os(iOS)
+                    backgroundVideoHolder.frame.origin = .zero
+                    #else
+                    backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
+                    #endif
+                }
+
+            case .left, .right:
+                backgroundVideoHolder.frame.size = CGSize(
+                    width: self.bounds.width - (100 + 2 * AgoraCollectionViewer.cellSpacing),
+                    height: self.bounds.height
+                )
+                if self.agoraSettings.floatPosition == .left {
+                    backgroundVideoHolder.frame.origin = CGPoint(
+                        x: 100 + 2 * AgoraCollectionViewer.cellSpacing, y: 0
+                    )
+                } else {
+                    backgroundVideoHolder.frame.origin = .zero
+                }
+            }
+        }
+        #if os(iOS)
+        self.backgroundVideoHolder.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        #else
+        self.backgroundVideoHolder.autoresizingMask = [.width, .height]
+        #endif
+
+        if self.userVideosForGrid.count == 2 {
             gridForTwo()
             return
         }

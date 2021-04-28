@@ -62,20 +62,19 @@ public class AgoraSingleVideoView: MPView {
         self.addSubview(muteFlag)
         #if os(iOS)
         muteFlag.frame = CGRect(
-            origin: CGPoint(x: self.frame.width - 35, y: self.frame.height - 35),
+            origin: CGPoint(x: self.frame.width - 35, y: 10),
             size: CGSize(width: 25, height: 25)
         )
-        muteFlag.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin]
+        muteFlag.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin]
         #else
         muteFlag.isBordered = false
         muteFlag.wantsLayer = true
         muteFlag.layer?.backgroundColor = .clear
         muteFlag.frame = CGRect(
-            origin: CGPoint(x: self.frame.width - 30, y: 10),
+            origin: CGPoint(x: self.frame.width - 30, y: self.frame.height - 30),
             size: CGSize(width: 25, height: 25)
         )
-        muteFlag.frame.origin = CGPoint(x: self.frame.width - 30, y: 10)
-        muteFlag.autoresizingMask = [.maxYMargin, .minXMargin]
+        muteFlag.autoresizingMask = [.minYMargin, .minXMargin]
         #endif
         return muteFlag
     }()

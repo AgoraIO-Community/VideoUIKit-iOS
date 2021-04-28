@@ -59,7 +59,28 @@ public class AgoraCollectionViewer: MPCollectionView {
 }
 
 /// Item in the collection view to contain the user's video feed, as well as microphone signal.
-class AgoraCollectionItem: MPCollectionViewCell {
+open class AgoraCollectionItem: MPCollectionViewCell {
+    #if os(iOS)
+    /// Icon to be displayed when the user is taken to the main view
+    var backgroundIcon = MPImageView(
+        image: MPImage(systemName: MPButton.pinSymbol)
+    )
+    #elseif os(macOS)
+    /// Icon to be displayed when the user is taken to the main view
+    open var backgroundIcon: MPButton = {
+        let icon = MPButton()
+        icon.font = .systemFont(ofSize: NSFont.systemFontSize * 1.5)
+        icon.attributedTitle = NSAttributedString(
+            string: MPButton.pinSymbol
+        )
+        icon.isBordered = false
+        icon.wantsLayer = true
+        icon.layer?.backgroundColor = .clear
+        icon.isEnabled = false
+        return icon
+    }()
+
+    #endif
     /// View for the video frame.
     var agoraVideoView: AgoraSingleVideoView? {
         didSet {
@@ -78,19 +99,25 @@ class AgoraCollectionItem: MPCollectionViewCell {
     #if os(iOS)
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.addSubview(self.backgroundIcon)
+        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.bounds.width - 50) / 2, y: (self.bounds.height - 50) / 2), size: CGSize(width: 50, height: 50))
+        self.backgroundIcon.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
     }
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     #else
-    override func loadView() {
+    override public func loadView() {
         self.view = NSView(frame: .zero)
     }
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.lightGray.cgColor
-    }
+        self.view.addSubview(self.backgroundIcon)
+        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.view.bounds.width - 50) / 2, y: (self.view.bounds.height - 50) / 2), size: CGSize(width: 50, height: 50))
+        self.backgroundIcon.autoresizingMask = [.maxXMargin, .minXMargin, .maxYMargin, .minYMargin]
+     }
     #endif
 
 }

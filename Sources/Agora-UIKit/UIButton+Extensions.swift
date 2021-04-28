@@ -54,6 +54,7 @@ internal extension MPButton {
     static var wandSymbol = "wand.and.stars.inverse"
     static var personSymbol = "person.circle"
     static var screenShareSymbol = "rectangle.on.rectangle"
+    static var pinSymbol = "pin.fill"
     #else
     static var videoSymbol = "􀍉"
     static var videoSlashSymbol = "􀍍"
@@ -63,6 +64,7 @@ internal extension MPButton {
     static var wandSymbol = "􀜎"
     static var personSymbol = "􀓣"
     static var screenShareSymbol = "􀏧"
+    static var pinSymbol = "􀎧"
     var isOn: Bool {
         return self.state == .on
     }
