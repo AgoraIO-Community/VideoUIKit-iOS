@@ -295,7 +295,8 @@ open class AgoraVideoViewer: MPView {
         #endif
     }
 
-    var controlContainer: MPBlurView?
+    /// Container for the buttons (such as mute, flip camera etc.)
+    public var controlContainer: MPBlurView?
     var camButton: MPButton?
     var micButton: MPButton?
     var flipButton: MPButton?

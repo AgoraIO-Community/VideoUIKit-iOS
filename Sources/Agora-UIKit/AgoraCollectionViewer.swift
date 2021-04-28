@@ -100,7 +100,7 @@ open class AgoraCollectionItem: MPCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(self.backgroundIcon)
-        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.bounds.width - 50) / 2, y: (self.bounds.height - 50) / 2), size: CGSize(width: 50, height: 50))
+        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.bounds.width - 30) / 2, y: (self.bounds.height - 30) / 2), size: CGSize(width: 30, height: 30))
         self.backgroundIcon.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
     }
     required public init?(coder: NSCoder) {
