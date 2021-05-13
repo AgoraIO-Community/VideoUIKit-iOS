@@ -195,12 +195,14 @@ extension AgoraVideoViewer {
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) {
-        if role == .broadcaster, !checkForPermissions(callback: {
-            if self.checkForPermissions(alsoRequest: false) {
-                self.join(channel: channel, with: token, as: role, uid: uid)
+        if role == .broadcaster {
+            if !self.checkForPermissions(callback: {
+                DispatchQueue.main.async {
+                    self.join(channel: channel, with: token, as: role, uid: uid)
+                }
+            }) {
+                return
             }
-        }) {
-            return
         }
         if self.connectionData.channel != nil {
             if self.connectionData.channel == channel {

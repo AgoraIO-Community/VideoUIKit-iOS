@@ -31,6 +31,10 @@ class ViewController: UIViewController {
 
         self.agoraView = agoraView
 
+        self.showSegmentedView()
+    }
+
+    func showSegmentedView() {
         let segControl = UISegmentedControl(items: ["floating", "grid"])
         segControl.selectedSegmentIndex = 0
         segControl.addTarget(self, action: #selector(segmentedControlHit), for: .valueChanged)
@@ -51,7 +55,6 @@ class ViewController: UIViewController {
         ][segc.selectedSegmentIndex]
         self.agoraView?.style = segmentedStyle
     }
-
 }
 
 extension ViewController: AgoraVideoViewerDelegate {
