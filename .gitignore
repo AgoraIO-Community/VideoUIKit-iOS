@@ -37,3 +37,5 @@ Carthage/Build
 Pods/
 Podfile.lock
 *.xcworkspace
+
+docs/

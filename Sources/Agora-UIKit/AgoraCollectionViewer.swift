@@ -103,6 +103,9 @@ open class AgoraCollectionItem: MPCollectionViewCell {
         self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.bounds.width - 30) / 2, y: (self.bounds.height - 30) / 2), size: CGSize(width: 30, height: 30))
         self.backgroundIcon.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
     }
+
+    /// Create view from NSCoder, not yet implemented.
+    /// - Parameter coder: NSCoder to build the view from
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
