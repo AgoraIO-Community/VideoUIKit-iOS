@@ -230,7 +230,7 @@ open class AgoraVideoViewer: MPView {
     public var style: AgoraVideoViewer.Style = .floating {
         didSet {
             if oldValue != self.style {
-                AgoraVideoViewer.agoraPrint(.info, message: "changed style")
+                AgoraVideoViewer.agoraPrint(.verbose, message: "changed style")
                 switch self.style {
                 case .collection: self.backgroundVideoHolder.isHidden = true
                 default: self.backgroundVideoHolder.isHidden = false
@@ -377,6 +377,7 @@ open class AgoraVideoViewer: MPView {
         return remoteVideoView
     }
 
+    /// Randomly select an activeSpeaker that is not the local user
     open func setRandomSpeaker() {
         if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
             // active speaker has left, reassign activeSpeaker to a random member

@@ -212,7 +212,7 @@ extension AgoraVideoViewer {
         }
         if self.connectionData.channel != nil {
             if self.connectionData.channel == channel {
-                AgoraVideoViewer.agoraPrint(.info, message: "We are already in a channel")
+                AgoraVideoViewer.agoraPrint(.verbose, message: "We are already in a channel")
             }
             if self.leaveChannel() < 0 {
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")

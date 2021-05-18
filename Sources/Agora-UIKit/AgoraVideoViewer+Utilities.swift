@@ -12,13 +12,17 @@ public extension AgoraVideoViewer {
     static var printLevel: PrintType = .warning
     /// Level for an internal print statement
     enum PrintType: Int {
+        /// To use when an internal error has occurred
         case error = 0
+        /// To use when something is not being used or running correctly
         case warning = 1
+        /// To use for debugging issues
         case debug = 2
-        case info = 3
+        /// To use when we want all the possible logs
+        case verbose = 3
         var printString: String {
             switch self {
-            case .info: return "INFO"
+            case .verbose: return "INFO"
             case .debug: return "DEBUG"
             case .warning: return "WARNING"
             case .error: return "ERROR"
