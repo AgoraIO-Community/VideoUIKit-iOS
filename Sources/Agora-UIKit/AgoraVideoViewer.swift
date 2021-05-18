@@ -114,7 +114,7 @@ open class AgoraVideoViewer: MPView {
 
     /// Setting to zero will tell Agora to assign one for you once connected.
     public internal(set) lazy var userID: UInt = 0
-    internal var connectionData: AgoraConnectionData
+    internal var connectionData: AgoraConnectionData!
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
     public var userRole: AgoraClientRole = .audience {
@@ -227,7 +227,7 @@ open class AgoraVideoViewer: MPView {
     }()
 
     /// Style and organisation to be applied to all the videos in this AgoraVideoViewer.
-    public var style: AgoraVideoViewer.Style {
+    public var style: AgoraVideoViewer.Style = .floating {
         didSet {
             if oldValue != self.style {
                 AgoraVideoViewer.agoraPrint(.info, message: "changed style")
@@ -257,10 +257,43 @@ open class AgoraVideoViewer: MPView {
         super.init(frame: .zero)
     }
 
-    /// Create view from NSCoder
+    // MARK: Storyboard Settings
+
+    /// Used by storyboard to set the AgoraVideoViewer appID.
+    @IBInspectable var appID: String = "" {
+        didSet {
+            if self.connectionData == nil {
+                self.connectionData = AgoraConnectionData(appId: appID)
+            }
+        }
+    }
+    /// Used by storyboard to set the AgoraVideoViewer style. Valid values are "floating", "grid", "collection"
+    @IBInspectable var styleString: String = "" {
+        didSet {
+            switch self.styleString {
+            case "floating":
+                self.style = .floating
+            case "grid":
+                self.style = .grid
+            case "collection":
+                self.style = .collection
+            default:
+                fatalError("Invalid style \(self.styleString)")
+            }
+        }
+    }
+
+    /// Used by storyboard to set the AgoraSettings tokenURL
+    @IBInspectable var tokenURL: String = "" {
+        didSet {
+            self.agoraSettings.tokenURL = tokenURL
+        }
+    }
+    /// Create view from NSCoder, this initialiser requires an appID key with a String value.
     /// - Parameter coder: NSCoder to build the view from
-    required public init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public required init?(coder: NSCoder) {
+        self.agoraSettings = AgoraSettings()
+        super.init(coder: coder)
     }
 
     internal var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {

@@ -17,8 +17,8 @@ class ViewController: NSViewController {
 
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
-                appId: <#Agora App ID#>,
-                appToken: <#Agora Token or nil#>
+                appId: "f088e6d5a30f40888c51332cfcf6df9b",
+                appToken: nil
             ),
             style: .floating,
             delegate: self

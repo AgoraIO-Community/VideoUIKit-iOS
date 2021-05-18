@@ -164,6 +164,9 @@ extension AgoraVideoViewer {
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
+        if self.connectionData == nil {
+            fatalError("No app ID is provided")
+        }
         if fetchToken {
             if let tokenURL = self.agoraSettings.tokenURL {
                 AgoraVideoViewer.fetchToken(
@@ -195,6 +198,9 @@ extension AgoraVideoViewer {
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) {
+        if self.connectionData == nil {
+            fatalError("No app ID is provided")
+        }
         if role == .broadcaster {
             if !self.checkForPermissions(callback: {
                 DispatchQueue.main.async {
