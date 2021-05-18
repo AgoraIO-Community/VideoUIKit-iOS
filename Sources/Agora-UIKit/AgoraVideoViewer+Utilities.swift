@@ -7,15 +7,29 @@
 
 import Foundation
 
-internal extension AgoraVideoViewer {
-    enum PrintType: String {
-        case info = "INFO"
-        case debug = "DEBUG"
-        case error = "ERROR"
+public extension AgoraVideoViewer {
+    /// Print level that will be visible in the developer console, default `.error`
+    static var printLevel: PrintType = .warning
+    /// Level for an internal print statement
+    enum PrintType: Int {
+        case error = 0
+        case warning = 1
+        case debug = 2
+        case info = 3
+        var printString: String {
+            switch self {
+            case .info: return "INFO"
+            case .debug: return "DEBUG"
+            case .warning: return "WARNING"
+            case .error: return "ERROR"
+            }
+        }
     }
-    static func agoraPrint(_ tag: PrintType, message: Any) {
+    internal static func agoraPrint(_ tag: PrintType, message: Any) {
         #if DEBUG
-        print("[AgoraVideoViewer \(tag.rawValue)]: \(message)")
+        if tag.rawValue <= AgoraVideoViewer.printLevel.rawValue {
+            print("[AgoraVideoViewer \(tag.printString)]: \(message)")
+        }
         #endif
     }
 }
