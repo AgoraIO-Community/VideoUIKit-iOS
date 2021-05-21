@@ -55,6 +55,10 @@ internal extension MPButton {
     static var personSymbol = "person.circle"
     static var screenShareSymbol = "rectangle.on.rectangle"
     static var pinSymbol = "pin.fill"
+    var isOn: Bool {
+        get { self.isSelected }
+        set { self.isSelected = newValue }
+    }
     #else
     static var videoSymbol = "􀍉"
     static var videoSlashSymbol = "􀍍"
@@ -66,7 +70,8 @@ internal extension MPButton {
     static var screenShareSymbol = "􀏧"
     static var pinSymbol = "􀎧"
     var isOn: Bool {
-        return self.state == .on
+        get { return self.state == .on }
+        set { self.state = newValue ? .on : .off }
     }
     #endif
 }

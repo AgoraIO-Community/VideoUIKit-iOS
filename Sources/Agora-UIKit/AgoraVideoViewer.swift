@@ -250,9 +250,9 @@ open class AgoraVideoViewer: MPView {
         connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid,
         agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
     ) {
+        self.agoraSettings = agoraSettings
         self.connectionData = connectionData
         self.style = style
-        self.agoraSettings = agoraSettings
         self.delegate = delegate
         super.init(frame: .zero)
     }

@@ -74,6 +74,16 @@ extension AgoraVideoViewer {
             button.layer?.backgroundColor = NSColor.systemGray.cgColor
             #endif
         })
+        [(self.camButton, !self.agoraSettings.cameraEnabled),
+         (self.micButton, !self.agoraSettings.micEnabled)
+        ].forEach { (button, isOn) in
+            button?.isOn = isOn
+            #if os(iOS)
+            button?.backgroundColor = isOn ? .systemRed : .systemGray
+            #else
+            button?.layer?.backgroundColor = isOn ? NSColor.systemRed.cgColor : NSColor.systemGray.cgColor
+            #endif
+        }
         let contWidth = CGFloat(buttons.count) * (60 + buttonMargin) + buttonMargin
         positionButtonContainer(container, contWidth, buttonMargin)
     }

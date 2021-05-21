@@ -21,38 +21,124 @@ extension AgoraVideoViewer {
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
-    /// Toggle the camera between on and off
-    @objc open func toggleCam() {
-        guard let camButton = self.getCameraButton() else {
+    /// Manually set the camera to be enabled or disabled.
+    /// This method will check for the camera enable/disable button to change its state.
+    /// - Parameter isEnabled: Should the camera be enabled.
+    /// - Returns: Boolean stating whether it was successful or not.
+    open func setCameraEnabled(_ isEnabled: Bool) -> Bool {
+        if isEnabled == self.agoraSettings.cameraEnabled {
+            // no change
+            return true
+        }
+        if self.connectionData.channel == nil {
+            // we are not yet in a channel, no permissions required
+            self.agoraSettings.cameraEnabled = isEnabled
+            return true
+        }
+        // we are in a channel
+        if isEnabled {
+            if !self.checkForPermissions([.video]) {
+                // permissions are not or were not granted,
+                // allow permissions then call again
+                return false
+            }
+        }
+        self.agoraSettings.cameraEnabled = isEnabled
+        self.toggleCam(nil)
+        return true
+    }
+    /// Manually set the microphone to be enabled or disabled.
+    /// This method will check for the microphone enable/disable button to change its state.
+    /// - Parameter isEnabled: Should the microphone be enabled.
+    /// - Returns: Boolean stating whether it was successful or not.
+    open func setMicEnabled(_ isEnabled: Bool, completion: @escaping (Bool) -> Void) {
+        if isEnabled == self.agoraSettings.micEnabled {
+            // no change
             return
         }
+        if self.connectionData.channel == nil {
+            // we are not yet in a channel, no permissions required
+            self.agoraSettings.micEnabled = isEnabled
+            completion(true)
+            return
+        }
+        // we are in a channel
+        if isEnabled {
+            if !self.checkForPermissions([.audio], callback: { error in
+                completion(error == nil)
+            }) { return }
+        }
+        self.toggleMic(self.micButton)
+    }
+
+    /// Toggle the camera between on and off
+    /// - Parameter sender: The sender is typically the camera button
+    @objc open func toggleCam(_ sender: MPButton?) {
+        guard let camButton = sender ?? self.camButton else {
+            return
+        }
+        if sender != nil {
+            if !self.agoraSettings.cameraEnabled,
+               self.connectionData.channel != nil,
+               !self.checkPermissions(
+                for: .video,
+                callback: { err in
+                    if err == nil {
+                        DispatchQueue.main.async {
+                            // if permissions are now granted
+                            self.toggleCam(sender)
+                        }
+                    }
+                }) {
+                return
+            }
+            self.agoraSettings.cameraEnabled.toggle()
+        }
         #if os(iOS)
-        camButton.isSelected.toggle()
         camButton.backgroundColor = camButton.isSelected ? .systemRed : .systemGray
-        self.agkit.enableLocalVideo(!camButton.isSelected)
         #else
         camButton.layer?.backgroundColor = camButton.isOn ?
             NSColor.systemRed.cgColor : NSColor.systemGray.cgColor
-        self.agkit.enableLocalVideo(!camButton.isOn)
         #endif
+        camButton.isOn = !self.agoraSettings.cameraEnabled
+        self.agkit.enableLocalVideo(!camButton.isOn)
     }
 
     /// Toggle the microphone between on and off
-    @objc open func toggleMic() {
-        guard let micButton = self.getMicButton() else {
+    /// - Parameter sender: The sender is typically the microphone button
+    @objc open func toggleMic(_ sender: MPButton?) {
+        guard let micButton = sender ?? self.micButton else {
             return
         }
+        if !self.agoraSettings.micEnabled,
+           self.connectionData.channel != nil,
+           !self.checkPermissions(
+            for: .audio,
+            callback: { err in
+                if err == nil {
+                    DispatchQueue.main.async {
+                        // if permissions are now granted
+                        self.toggleMic(sender)
+                    }
+                }
+            }) {
+            return
+        }
+        self.agoraSettings.micEnabled.toggle()
+        micButton.isOn = !self.agoraSettings.micEnabled
         #if os(iOS)
-        micButton.isSelected.toggle()
         micButton.backgroundColor = micButton.isSelected ? .systemRed : .systemGray
-        self.agkit.muteLocalAudioStream(micButton.isSelected)
-        self.userVideoLookup[self.userID]?.audioMuted = micButton.isSelected
         #else
-        micButton.layer?.backgroundColor = (micButton.isOn ?
-                                              NSColor.systemRed : NSColor.systemGray).cgColor
-        self.agkit.muteLocalAudioStream(micButton.isOn)
-        self.userVideoLookup[self.userID]?.audioMuted = micButton.isOn
+        micButton.layer?.backgroundColor = (
+            micButton.isOn ? NSColor.systemRed : NSColor.systemGray
+        ).cgColor
         #endif
+        self.userVideoLookup[self.userID]?.audioMuted = micButton.isOn
+        self.agkit.muteLocalAudioStream(micButton.isOn)
+        if !micButton.isOn {
+            // This is only enabled. If you want to disable it then do so manually.
+            self.agkit.enableLocalAudio(true)
+        }
     }
 
     /// Turn screen sharing on/off
@@ -127,17 +213,29 @@ extension AgoraVideoViewer {
         self.setRole(to: self.userRole == .broadcaster ? .audience : .broadcaster)
     }
 
+    internal var activePermissions: [AVMediaType] {
+        var rtnMedias = [AVMediaType]()
+        if self.agoraSettings.micEnabled { rtnMedias.append(.audio) }
+        if self.agoraSettings.cameraEnabled { rtnMedias.append(.video) }
+        return rtnMedias
+    }
+
     /// Change the role of the local user when connecting to a channel
     /// - Parameter role: new role for the local user.
     public func setRole(to role: AgoraClientRole) {
         // Check if we have access to mic + camera
         // before changing the user role.
-        if role == .broadcaster, !self.checkForPermissions(callback: {
-            if self.checkForPermissions(alsoRequest: false) {
-                self.setRole(to: role)
+        if role == .broadcaster {
+            if !self.checkForPermissions(self.activePermissions, callback: { error in
+                if error != nil {
+                    return
+                }
+                if self.checkForPermissions(self.activePermissions, alsoRequest: false) {
+                    self.setRole(to: role)
+                }
+            }) {
+                return
             }
-        }) {
-            return
         }
 
         // Swap the userRole
@@ -202,7 +300,10 @@ extension AgoraVideoViewer {
             fatalError("No app ID is provided")
         }
         if role == .broadcaster {
-            if !self.checkForPermissions(callback: {
+            if !self.checkForPermissions(self.activePermissions, callback: { error in
+                if error != nil {
+                    return
+                }
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }
@@ -229,6 +330,12 @@ extension AgoraVideoViewer {
         self.currentToken = token
         self.setupAgoraVideo()
         self.connectionData.channel = channel
+        if !self.agoraSettings.cameraEnabled {
+            self.agkit.enableLocalVideo(false)
+        }
+        if !self.agoraSettings.micEnabled {
+            self.agkit.enableLocalAudio(false)
+        }
         self.agkit.joinChannel(
             byToken: token,
             channelId: channel,

@@ -75,6 +75,14 @@ public struct AgoraSettings {
         }
     }
 
+    /// If the camera is enabled. Set this before joining a channel to not require camera permissions
+    /// and camera to not be activated at all.
+    public var cameraEnabled: Bool = true
+
+    /// If the microphone is enabled. Set this before joining a channel to not require microphone permissions
+    /// and mic to not be activated at all.
+    public var micEnabled: Bool = true
+
     /// Maximum number of videos in the grid view before the low bitrate is adopted.
     public var gridThresholdHighBitrate: Int = 4
 
