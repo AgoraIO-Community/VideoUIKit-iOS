@@ -66,21 +66,27 @@ extension AgoraVideoViewer {
             case .left, .right:
                 button.frame.origin.y += (buttonMargin + buttonSize) * CGFloat(elem.offset)
             }
-                #if os(iOS)
-                button.layer.cornerRadius = buttonSize / 2
-                if elem.offset < builtinButtons.count {
-                    button.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal
-                    button.tintColor = self.agoraSettings.colors.buttonTintColor
-                }
-                #else
-                button.isBordered = false
-                button.layer?.cornerRadius = buttonSize / 2
-                if elem.offset < builtinButtons.count {
-                    button.layer?.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal.cgColor
-                    button.contentTintColor = self.agoraSettings.colors.buttonTintColor
-                }
-                #endif
+            #if os(iOS)
+            button.layer.cornerRadius = buttonSize / 2
+            if elem.offset < builtinButtons.count {
+                button.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal
+                button.tintColor = self.agoraSettings.colors.buttonTintColor
+            }
+            #else
+            button.isBordered = false
+            button.layer?.cornerRadius = buttonSize / 2
+            if elem.offset < builtinButtons.count {
+                button.layer?.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal.cgColor
+                button.contentTintColor = self.agoraSettings.colors.buttonTintColor
+            }
+            #endif
         })
+        self.setCamAndMicButtons()
+        let contWidth = CGFloat(buttons.count) * (buttonSize + buttonMargin) + buttonMargin
+        positionButtonContainer(container, contWidth, buttonMargin)
+    }
+
+    internal func setCamAndMicButtons() {
         self.camButton?.isOn = !self.agoraSettings.cameraEnabled
         self.micButton?.isOn = !self.agoraSettings.micEnabled
         #if os(iOS)
@@ -106,8 +112,6 @@ extension AgoraVideoViewer {
             swap(&micbtn.title, &micbtn.alternateTitle)
         }
         #endif
-        let contWidth = CGFloat(buttons.count) * (buttonSize + buttonMargin) + buttonMargin
-        positionButtonContainer(container, contWidth, buttonMargin)
     }
 
     internal func getControlContainer() -> MPBlurView {
