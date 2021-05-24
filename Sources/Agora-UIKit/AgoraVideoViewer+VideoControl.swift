@@ -190,9 +190,7 @@ extension AgoraVideoViewer {
 
     /// Turn on/off the 'beautify' effect. Visual and voice change.
     @objc open func toggleBeautify() {
-        guard let beautifyButton = self.getBeautifyButton() else {
-            return
-        }
+        guard let beautifyButton = self.getBeautifyButton() else { return }
         #if os(iOS)
         beautifyButton.isSelected.toggle()
         beautifyButton.backgroundColor = beautifyButton.isSelected ? .systemGreen : .systemGray
@@ -202,11 +200,10 @@ extension AgoraVideoViewer {
         self.agkit.setBeautyEffectOptions(beautifyButton.isSelected, options: self.beautyOptions)
         #else
 
-        beautifyButton.layer?.backgroundColor = (beautifyButton.isOn ?
-                                                  NSColor.systemGreen : NSColor.systemGray).cgColor
+        beautifyButton.layer?.backgroundColor = (
+            beautifyButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
         #if os(iOS)
-        self.agkit.setLocalVoiceChanger(beautifyButton.isOn ?
-                                          .voiceBeautyClear : .voiceChangerOff)
+        self.agkit.setLocalVoiceChanger(beautifyButton.isOn ? .voiceBeautyClear : .voiceChangerOff)
         #endif
         self.agkit.setBeautyEffectOptions(beautifyButton.isOn, options: self.beautyOptions)
         #endif
@@ -214,9 +211,7 @@ extension AgoraVideoViewer {
 
     #if os(iOS)
     /// Swap between front and back facing camera.
-    @objc open func flipCamera() {
-        self.agkit.switchCamera()
-    }
+    @objc open func flipCamera() { self.agkit.switchCamera() }
     #endif
 
     /// Toggle between being a host or a member of the audience.
@@ -240,17 +235,12 @@ extension AgoraVideoViewer {
         // before changing the user role.
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
-                if error != nil {
-                    return
-                }
+                if error != nil { return }
                 if self.checkForPermissions(self.activePermissions, alsoRequest: false) {
                     self.setRole(to: role)
                 }
-            }) {
-                return
-            }
+            }) { return }
         }
-
         // Swap the userRole
         self.userRole = role
 
@@ -320,45 +310,42 @@ extension AgoraVideoViewer {
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }
-            }) {
-                return
-            }
+            }) { return }
         }
         if self.connectionData.channel != nil {
-            if self.connectionData.channel == channel {
-                AgoraVideoViewer.agoraPrint(.verbose, message: "We are already in a channel")
-            }
-            if self.leaveChannel() < 0 {
-                AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")
-            } else {
-                self.join(channel: channel, with: token, as: role, uid: uid)
-            }
+            self.handleAlreadyInChannel(channel: channel, with: token, as: role, uid: uid)
             return
         }
         self.userRole = role
-        if let uid = uid {
-            self.userID = uid
-        }
+        if let uid = uid { self.userID = uid }
 
         self.currentToken = token
         self.setupAgoraVideo()
         self.connectionData.channel = channel
-        if !self.agoraSettings.cameraEnabled {
-            self.agkit.enableLocalVideo(false)
-        }
-        if !self.agoraSettings.micEnabled {
-            self.agkit.enableLocalAudio(false)
-        }
+        if !self.agoraSettings.cameraEnabled { self.agkit.enableLocalVideo(false) }
+        if !self.agoraSettings.micEnabled { self.agkit.enableLocalAudio(false) }
         self.agkit.joinChannel(
             byToken: token,
             channelId: channel,
             info: nil, uid: self.userID
         ) { [weak self] _, uid, _ in
             self?.userID = uid
-            if self?.userRole == .broadcaster {
-                self?.addLocalVideo()
-            }
+            if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel?(channel: channel)
+        }
+    }
+
+    internal func handleAlreadyInChannel(
+        channel: String, with token: String?,
+        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
+    ) {
+        if self.connectionData.channel == channel {
+            AgoraVideoViewer.agoraPrint(.verbose, message: "We are already in a channel")
+        }
+        if self.leaveChannel() < 0 {
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")
+        } else {
+            self.join(channel: channel, with: token, as: role, uid: uid)
         }
     }
 
@@ -380,13 +367,11 @@ extension AgoraVideoViewer {
         self.activeSpeaker = nil
         self.remoteUserIDs = []
         self.userVideoLookup = [:]
-        self.backgroundVideoHolder.subviews.forEach{ $0.removeFromSuperview() }
+        self.backgroundVideoHolder.subviews.forEach { $0.removeFromSuperview() }
         self.controlContainer?.isHidden = true
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
         defer {
-            if leaveChannelRtn == 0 {
-                delegate?.leftChannel?(chName)
-            }
+            if leaveChannelRtn == 0 { delegate?.leftChannel?(chName) }
         }
 
         return leaveChannelRtn

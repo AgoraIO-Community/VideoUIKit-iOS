@@ -8,6 +8,63 @@
 import Foundation
 
 extension AgoraVideoViewer {
+    @discardableResult
+    internal func addLocalVideo() -> AgoraSingleVideoView? {
+        if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
+            return self.userVideoLookup[self.userID]
+        }
+        let vidView = AgoraSingleVideoView(uid: self.userID, micColor: self.agoraSettings.colors.micFlag)
+        vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
+        self.agkit.setupLocalVideo(vidView.canvas)
+        self.userVideoLookup[self.userID] = vidView
+        return vidView
+    }
+
+    /// Create AgoraSingleVideoView for the requested userID
+    /// - Parameters:
+    ///   - userId: User ID of the feed to be displayed in the view
+    /// - Returns: The newly created view, or an existing one for the same userID.
+    @discardableResult
+    open func addUserVideo(with userId: UInt) -> AgoraSingleVideoView {
+        if let remoteView = self.userVideoLookup[userId] {
+            return remoteView
+        }
+        let remoteVideoView = AgoraSingleVideoView(uid: userId, micColor: self.agoraSettings.colors.micFlag)
+        remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
+        self.agkit.setupRemoteVideo(remoteVideoView.canvas)
+        self.userVideoLookup[userId] = remoteVideoView
+        if self.activeSpeaker == nil {
+            self.activeSpeaker = userId
+        }
+        return remoteVideoView
+    }
+
+    /// Randomly select an activeSpeaker that is not the local user
+    open func setRandomSpeaker() {
+        if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
+            // active speaker has left, reassign activeSpeaker to a random member
+            self.activeSpeaker = randomNotMe
+        } else {
+            self.activeSpeaker = nil
+        }
+    }
+
+    func removeUserVideo(with userId: UInt) {
+        guard let userSingleView = userVideoLookup[userId],
+              let canView = userSingleView.canvas.view else {
+            return
+        }
+        self.agkit.muteRemoteVideoStream(userId, mute: true)
+        userSingleView.canvas.view = nil
+        canView.removeFromSuperview()
+        self.userVideoLookup.removeValue(forKey: userId)
+        if let activeSpeaker = self.activeSpeaker, activeSpeaker == userId {
+            self.setRandomSpeaker()
+        }
+    }
+}
+
+extension AgoraVideoViewer {
     /// Shuffle around the videos if multiple people are hosting, grid formation.
     internal func reorganiseVideos() {
         if !Thread.isMainThread {
@@ -60,63 +117,7 @@ extension AgoraVideoViewer {
         }
     }
 
-    func organiseGrid() {
-        if self.userVideosForGrid.isEmpty {
-            return
-        }
-        if floatingVideoHolder.isHidden {
-            self.backgroundVideoHolder.frame = self.bounds
-        } else {
-            switch self.agoraSettings.floatPosition {
-            case .top, .bottom:
-                backgroundVideoHolder.frame.size = CGSize(
-                    width: self.bounds.width,
-                    height: self.bounds.height - (100 + 2 * AgoraCollectionViewer.cellSpacing)
-                )
-                if self.agoraSettings.floatPosition == .top {
-                    #if os(iOS)
-                    backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
-                    #else
-                    backgroundVideoHolder.frame.origin = .zero
-                    #endif
-                } else {
-                    #if os(iOS)
-                    backgroundVideoHolder.frame.origin = .zero
-                    #else
-                    backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
-                    #endif
-                }
-
-            case .left, .right:
-                backgroundVideoHolder.frame.size = CGSize(
-                    width: self.bounds.width - (100 + 2 * AgoraCollectionViewer.cellSpacing),
-                    height: self.bounds.height
-                )
-                if self.agoraSettings.floatPosition == .left {
-                    backgroundVideoHolder.frame.origin = CGPoint(
-                        x: 100 + 2 * AgoraCollectionViewer.cellSpacing, y: 0
-                    )
-                } else {
-                    backgroundVideoHolder.frame.origin = .zero
-                }
-            }
-        }
-        #if os(iOS)
-        self.backgroundVideoHolder.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        #else
-        self.backgroundVideoHolder.autoresizingMask = [.width, .height]
-        #endif
-
-        if self.userVideosForGrid.count == 2 {
-            gridForTwo()
-            return
-        }
-        let vidCounts = self.userVideosForGrid.count
-
-        // I'm always applying an NxN grid, so if there are 12
-        // We take on a grid of 4x4 (16).
-        let maxSqrt = ceil(sqrt(CGFloat(vidCounts)))
-        let multDim = 1 / maxSqrt
+    fileprivate func formulateGrid(_ multDim: CGFloat, _ maxSqrt: CGFloat, _ vidCounts: Int) {
         for (idx, (videoID, videoSessionView)) in self.userVideosForGrid.enumerated() {
             self.backgroundVideoHolder.addSubview(videoSessionView)
             videoSessionView.frame.size = CGSize(
@@ -155,5 +156,69 @@ extension AgoraVideoViewer {
                 )
             }
         }
+    }
+
+    fileprivate func setVideoHolderPosition() {
+        switch self.agoraSettings.floatPosition {
+        case .top, .bottom:
+            backgroundVideoHolder.frame.size = CGSize(
+                width: self.bounds.width,
+                height: self.bounds.height - (100 + 2 * AgoraCollectionViewer.cellSpacing)
+            )
+            if self.agoraSettings.floatPosition == .top {
+                #if os(iOS)
+                backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
+                #else
+                backgroundVideoHolder.frame.origin = .zero
+                #endif
+            } else {
+                #if os(iOS)
+                backgroundVideoHolder.frame.origin = .zero
+                #else
+                backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
+                #endif
+            }
+
+        case .left, .right:
+            backgroundVideoHolder.frame.size = CGSize(
+                width: self.bounds.width - (100 + 2 * AgoraCollectionViewer.cellSpacing),
+                height: self.bounds.height
+            )
+            if self.agoraSettings.floatPosition == .left {
+                backgroundVideoHolder.frame.origin = CGPoint(
+                    x: 100 + 2 * AgoraCollectionViewer.cellSpacing, y: 0
+                )
+            } else {
+                backgroundVideoHolder.frame.origin = .zero
+            }
+        }
+    }
+
+    func organiseGrid() {
+        if self.userVideosForGrid.isEmpty {
+            return
+        }
+        if floatingVideoHolder.isHidden {
+            self.backgroundVideoHolder.frame = self.bounds
+        } else {
+            setVideoHolderPosition()
+        }
+        #if os(iOS)
+        self.backgroundVideoHolder.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        #else
+        self.backgroundVideoHolder.autoresizingMask = [.width, .height]
+        #endif
+
+        if self.userVideosForGrid.count == 2 {
+            gridForTwo()
+            return
+        }
+        let vidCounts = self.userVideosForGrid.count
+
+        // I'm always applying an NxN grid, so if there are 12
+        // We take on a grid of 4x4 (16).
+        let maxSqrt = ceil(sqrt(CGFloat(vidCounts)))
+        let multDim = 1 / maxSqrt
+        formulateGrid(multDim, maxSqrt, vidCounts)
     }
 }

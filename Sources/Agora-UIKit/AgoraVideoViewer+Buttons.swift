@@ -141,7 +141,9 @@ extension AgoraVideoViewer {
         if !self.agoraSettings.enabledButtons.contains(.cameraButton) { return nil }
         if let camButton = self.camButton { return camButton }
 
-        let button = MPButton.newToggleButton(unselected: MPButton.videoSymbol, selected: MPButton.muteVideoSelectedSymbol)
+        let button = MPButton.newToggleButton(
+            unselected: MPButton.videoSymbol, selected: MPButton.muteVideoSelectedSymbol
+        )
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleCam), for: .touchUpInside)
         #else

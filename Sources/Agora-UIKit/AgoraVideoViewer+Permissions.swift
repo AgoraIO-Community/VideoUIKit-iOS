@@ -23,7 +23,11 @@ extension AgoraVideoViewer {
     ///                  the current permission (default true)
     ///   - callback: Method to call once the requests have been made - if alsoRequest set to true.
     /// - Returns: True if camera and microphone are authorised.
-    public func checkForPermissions(_ requiredMediaTypes: [AVMediaType], alsoRequest: Bool = true, callback: ((Error?) -> Void)? = nil) -> Bool {
+    public func checkForPermissions(
+        _ requiredMediaTypes: [AVMediaType],
+        alsoRequest: Bool = true,
+        callback: ((Error?) -> Void)? = nil
+    ) -> Bool {
         for mediaType in requiredMediaTypes {
             if !self.checkPermissions(for: mediaType, alsoRequest: alsoRequest, callback: callback) {
                 return false
@@ -32,7 +36,11 @@ extension AgoraVideoViewer {
         return true
     }
 
-    internal func checkPermissions(for mediaType: AVMediaType, alsoRequest: Bool = true, callback: ((Error?) -> Void)? = nil) -> Bool {
+    internal func checkPermissions(
+        for mediaType: AVMediaType,
+        alsoRequest: Bool = true,
+        callback: ((Error?) -> Void)? = nil
+    ) -> Bool {
         switch AVCaptureDevice.authorizationStatus(for: mediaType) {
         case .authorized: break
         case .notDetermined:

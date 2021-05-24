@@ -50,7 +50,7 @@ extension MPButton {
     /// SF Symbol name for camera icon for builtin button
     public static var videoSymbol = "camera.fill"
     /// SF Symbol name for camera alt icon for builtin button
-    public static var muteVideoSelectedSymbol: String? = nil
+    public static var muteVideoSelectedSymbol: String?
     /// SF Symbol name for microphone icon for builtin button
     public static var micSymbol = "mic"
     /// SF Symbol name for microphone alt icon for builtin button
@@ -75,7 +75,7 @@ extension MPButton {
     /// SF Symbol name for camera icon for builtin button
     public static var videoSymbol = "􀌟"
     /// SF Symbol name for camera alt icon for builtin button
-    public static var muteVideoSelectedSymbol: String? = nil
+    public static var muteVideoSelectedSymbol: String?
     /// SF Symbol name for microphone icon for builtin button
     public static var micSymbol = "􀊰"
     /// SF Symbol for microphone alt icon for builtin button

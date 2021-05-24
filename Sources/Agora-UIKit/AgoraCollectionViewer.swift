@@ -100,8 +100,13 @@ open class AgoraCollectionItem: MPCollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(self.backgroundIcon)
-        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.bounds.width - 30) / 2, y: (self.bounds.height - 30) / 2), size: CGSize(width: 30, height: 30))
-        self.backgroundIcon.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
+        self.backgroundIcon.frame = CGRect(
+            origin: CGPoint(x: (self.bounds.width - 30) / 2, y: (self.bounds.height - 30) / 2),
+            size: CGSize(width: 30, height: 30)
+        )
+        self.backgroundIcon.autoresizingMask = [
+            .flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin
+        ]
     }
 
     /// Create view from NSCoder, not yet implemented.
@@ -118,7 +123,11 @@ open class AgoraCollectionItem: MPCollectionViewCell {
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.lightGray.cgColor
         self.view.addSubview(self.backgroundIcon)
-        self.backgroundIcon.frame = CGRect(origin: CGPoint(x: (self.view.bounds.width - 50) / 2, y: (self.view.bounds.height - 50) / 2), size: CGSize(width: 50, height: 50))
+        self.backgroundIcon.frame = CGRect(
+            origin: CGPoint(x: (self.view.bounds.width - 50) / 2,
+                            y: (self.view.bounds.height - 50) / 2),
+            size: CGSize(width: 50, height: 50)
+        )
         self.backgroundIcon.autoresizingMask = [.maxXMargin, .minXMargin, .maxYMargin, .minYMargin]
      }
     #endif
