@@ -105,10 +105,10 @@ extension AgoraVideoViewer {
                 ? self.agoraSettings.colors.micButtonNormal
                 : self.agoraSettings.colors.micButtonSelected
         ).cgColor
-        if let cambtn = self.camButton, cambtn.isOn, cambtn.alternateTitle != "" {
+        if let cambtn = self.camButton, cambtn.isOn, !cambtn.alternateTitle.isEmpty {
             swap(&cambtn.title, &cambtn.alternateTitle)
         }
-        if let micbtn = self.micButton, micbtn.isOn, micbtn.alternateTitle != "" {
+        if let micbtn = self.micButton, micbtn.isOn, !micbtn.alternateTitle.isEmpty {
             swap(&micbtn.title, &micbtn.alternateTitle)
         }
         #endif

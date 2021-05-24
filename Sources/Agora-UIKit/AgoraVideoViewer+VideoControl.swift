@@ -99,7 +99,7 @@ extension AgoraVideoViewer {
         camButton.backgroundColor = camButton.isOn
             ? self.agoraSettings.colors.camButtonSelected : self.agoraSettings.colors.camButtonNormal
         #else
-        if camButton.alternateTitle != "" {
+        if !camButton.alternateTitle.isEmpty {
             swap(&camButton.title, &camButton.alternateTitle)
         }
         camButton.layer?.backgroundColor = (
@@ -137,7 +137,7 @@ extension AgoraVideoViewer {
         micButton.backgroundColor = micButton.isOn
             ? self.agoraSettings.colors.micButtonSelected : self.agoraSettings.colors.micButtonNormal
         #else
-        if micButton.alternateTitle != "" {
+        if !micButton.alternateTitle.isEmpty {
             swap(&micButton.title, &micButton.alternateTitle)
         }
         micButton.layer?.backgroundColor = (
