@@ -11,7 +11,7 @@ import UIKit
 import AppKit
 #endif
 
-internal extension MPButton {
+extension MPButton {
     /// Create a custom UI/NSButton made up of one or two SF Symbol images to alternate between
     /// - Parameters:
     ///   - unselected: SF Symbol present by default, when button has not yet been selected
@@ -28,47 +28,71 @@ internal extension MPButton {
             #if os(iOS)
             button.setImage(MPImage(
                 systemName: selected,
-                withConfiguration: MPImage.SymbolConfiguration(scale: .large)
+                withConfiguration: MPImage.SymbolConfiguration(scale: AgoraSettings.buttonIconScale)
             ), for: .selected)
             #else
-            button.title = selected
+            button.alternateTitle = selected
             #endif
         }
         #if os(iOS)
         button.setImage(MPImage(
             systemName: unselected,
-            withConfiguration: MPImage.SymbolConfiguration(scale: .large)
+            withConfiguration: MPImage.SymbolConfiguration(scale: AgoraSettings.buttonIconScale)
         ), for: .normal)
         #else
         button.title = unselected
+        print(NSFont.systemFontSize)
+        button.font = .systemFont(ofSize: AgoraSettings.buttonIconSize)
         #endif
         return button
     }
 
     #if os(iOS)
-    static var videoSymbol = "video"
-    static var videoSlashSymbol = "video.slash"
-    static var micSymbol = "mic"
-    static var micSlashSymbol = "mic.slash"
-    static var cameraRotateSymbol = "camera.rotate"
-    static var wandSymbol = "wand.and.stars.inverse"
-    static var personSymbol = "person.circle"
-    static var screenShareSymbol = "rectangle.on.rectangle"
-    static var pinSymbol = "pin.fill"
-    var isOn: Bool {
+    /// SF Symbol name for camera icon for builtin button
+    public static var videoSymbol = "camera.fill"
+    /// SF Symbol name for camera alt icon for builtin button
+    public static var muteVideoSelectedSymbol: String? = nil
+    /// SF Symbol name for microphone icon for builtin button
+    public static var micSymbol = "mic"
+    /// SF Symbol name for microphone alt icon for builtin button
+    public static var muteMicSelectedSymbol: String? = "mic.slash"
+    /// SF Symbol name for microphone muted flag
+    public static var micSlashSymbol = "mic.slash"
+    /// SF Symbol name for flip camera builtin button
+    public static var cameraRotateSymbol = "camera.rotate"
+    /// SF Symbol name for beautify buitlin button
+    public static var wandSymbol = "wand.and.stars.inverse"
+    /// SF Symbol name to appear behind user with camera off
+    public static var personSymbol = "person.circle"
+    /// SF Symbol name for sharing screen builtin button
+    public static var screenShareSymbol = "rectangle.on.rectangle"
+    /// SF Symbol name for pin icon
+    public static var pinSymbol = "pin.fill"
+    internal var isOn: Bool {
         get { self.isSelected }
         set { self.isSelected = newValue }
     }
     #else
-    static var videoSymbol = "􀍉"
-    static var videoSlashSymbol = "􀍍"
-    static var micSymbol = "􀊰"
-    static var micSlashSymbol = "􀊲"
-    static var cameraRotateSymbol = "􀌢"
-    static var wandSymbol = "􀜎"
-    static var personSymbol = "􀓣"
-    static var screenShareSymbol = "􀏧"
-    static var pinSymbol = "􀎧"
+    /// SF Symbol name for camera icon for builtin button
+    public static var videoSymbol = "􀌟"
+    /// SF Symbol name for camera alt icon for builtin button
+    public static var muteVideoSelectedSymbol: String? = nil
+    /// SF Symbol name for microphone icon for builtin button
+    public static var micSymbol = "􀊰"
+    /// SF Symbol for microphone alt icon for builtin button
+    public static var muteMicSelectedSymbol: String? = "􀊲"
+    /// SF Symbol for microphone muted flag
+    public static var micSlashSymbol = "􀊲"
+    /// SF Symbol for flip camera builtin button
+    public static var cameraRotateSymbol = "􀌢"
+    /// SF Symbol for beautify buitlin button
+    public static var wandSymbol = "􀜎"
+    /// SF Symbol to appear behind user with camera off
+    public static var personSymbol = "􀓣"
+    /// SF Symbol for sharing screen builtin button
+    public static var screenShareSymbol = "􀏧"
+    /// SF Symbol for pin icon
+    public static var pinSymbol = "􀎧"
     var isOn: Bool {
         get { return self.state == .on }
         set { self.state = newValue ? .on : .off }

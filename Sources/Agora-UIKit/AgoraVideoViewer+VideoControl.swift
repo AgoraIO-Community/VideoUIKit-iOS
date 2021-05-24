@@ -94,13 +94,20 @@ extension AgoraVideoViewer {
             }
             self.agoraSettings.cameraEnabled.toggle()
         }
-        #if os(iOS)
-        camButton.backgroundColor = camButton.isSelected ? .systemRed : .systemGray
-        #else
-        camButton.layer?.backgroundColor = camButton.isOn ?
-            NSColor.systemRed.cgColor : NSColor.systemGray.cgColor
-        #endif
         camButton.isOn = !self.agoraSettings.cameraEnabled
+        #if os(iOS)
+        camButton.backgroundColor = camButton.isOn
+            ? self.agoraSettings.colors.camButtonSelected : self.agoraSettings.colors.camButtonNormal
+        #else
+        if camButton.alternateTitle != "" {
+            swap(&camButton.title, &camButton.alternateTitle)
+        }
+        camButton.layer?.backgroundColor = (
+            camButton.isOn
+                ? self.agoraSettings.colors.camButtonSelected
+                : self.agoraSettings.colors.camButtonNormal
+        ).cgColor
+        #endif
         self.agkit.enableLocalVideo(!camButton.isOn)
     }
 
@@ -127,10 +134,16 @@ extension AgoraVideoViewer {
         self.agoraSettings.micEnabled.toggle()
         micButton.isOn = !self.agoraSettings.micEnabled
         #if os(iOS)
-        micButton.backgroundColor = micButton.isSelected ? .systemRed : .systemGray
+        micButton.backgroundColor = micButton.isOn
+            ? self.agoraSettings.colors.micButtonSelected : self.agoraSettings.colors.micButtonNormal
         #else
+        if micButton.alternateTitle != "" {
+            swap(&micButton.title, &micButton.alternateTitle)
+        }
         micButton.layer?.backgroundColor = (
-            micButton.isOn ? NSColor.systemRed : NSColor.systemGray
+            micButton.isOn
+                ? self.agoraSettings.colors.micButtonSelected
+                : self.agoraSettings.colors.micButtonNormal
         ).cgColor
         #endif
         self.userVideoLookup[self.userID]?.audioMuted = micButton.isOn
