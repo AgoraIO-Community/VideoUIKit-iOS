@@ -104,7 +104,7 @@ public struct AgoraSettings {
     static var buttonIconScale: UIImage.SymbolScale = .large
     #else
     /// Font size of the builtin buttons SF Symbol text
-    static var buttonIconSize: CGFloat = 50
+    static var buttonIconSize: CGFloat = 20
     #endif
 }
 

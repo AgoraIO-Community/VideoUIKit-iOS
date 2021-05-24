@@ -41,7 +41,6 @@ extension MPButton {
         ), for: .normal)
         #else
         button.title = unselected
-        print(NSFont.systemFontSize)
         button.font = .systemFont(ofSize: AgoraSettings.buttonIconSize)
         #endif
         return button
