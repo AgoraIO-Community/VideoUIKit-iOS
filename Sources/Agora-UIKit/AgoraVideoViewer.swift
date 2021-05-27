@@ -250,9 +250,9 @@ open class AgoraVideoViewer: MPView {
         connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid,
         agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
     ) {
+        self.agoraSettings = agoraSettings
         self.connectionData = connectionData
         self.style = style
-        self.agoraSettings = agoraSettings
         self.delegate = delegate
         super.init(frame: .zero)
     }
@@ -312,22 +312,6 @@ open class AgoraVideoViewer: MPView {
         }
     }
 
-    /// Helper method to fill a view with this view
-    /// - Parameter view: view to fill with self
-    open func fills(view: MPView) {
-        view.addSubview(self)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        #if os(iOS)
-        self.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        #else
-        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        #endif
-    }
-
     /// Container for the buttons (such as mute, flip camera etc.)
     public var controlContainer: MPBlurView?
     var camButton: MPButton?
@@ -345,59 +329,4 @@ open class AgoraVideoViewer: MPView {
     }()
 
     var remoteUserIDs: Set<UInt> = []
-
-    @discardableResult
-    internal func addLocalVideo() -> AgoraSingleVideoView? {
-        if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
-            return self.userVideoLookup[self.userID]
-        }
-        let vidView = AgoraSingleVideoView(uid: self.userID, micColor: self.agoraSettings.colors.micFlag)
-        vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
-        self.agkit.setupLocalVideo(vidView.canvas)
-        self.userVideoLookup[self.userID] = vidView
-        return vidView
-    }
-
-    /// Create AgoraSingleVideoView for the requested userID
-    /// - Parameters:
-    ///   - userId: User ID of the feed to be displayed in the view
-    /// - Returns: The newly created view, or an existing one for the same userID.
-    @discardableResult
-    open func addUserVideo(with userId: UInt) -> AgoraSingleVideoView {
-        if let remoteView = self.userVideoLookup[userId] {
-            return remoteView
-        }
-        let remoteVideoView = AgoraSingleVideoView(uid: userId, micColor: self.agoraSettings.colors.micFlag)
-        remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
-        self.agkit.setupRemoteVideo(remoteVideoView.canvas)
-        self.userVideoLookup[userId] = remoteVideoView
-        if self.activeSpeaker == nil {
-            self.activeSpeaker = userId
-        }
-        return remoteVideoView
-    }
-
-    /// Randomly select an activeSpeaker that is not the local user
-    open func setRandomSpeaker() {
-        if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
-            // active speaker has left, reassign activeSpeaker to a random member
-            self.activeSpeaker = randomNotMe
-        } else {
-            self.activeSpeaker = nil
-        }
-    }
-
-    func removeUserVideo(with userId: UInt) {
-        guard let userSingleView = userVideoLookup[userId],
-              let canView = userSingleView.canvas.view else {
-            return
-        }
-        self.agkit.muteRemoteVideoStream(userId, mute: true)
-        userSingleView.canvas.view = nil
-        canView.removeFromSuperview()
-        self.userVideoLookup.removeValue(forKey: userId)
-        if let activeSpeaker = self.activeSpeaker, activeSpeaker == userId {
-            self.setRandomSpeaker()
-        }
-    }
 }

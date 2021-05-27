@@ -21,18 +21,18 @@ extension AgoraVideoViewer {
         container.frame = CGRect(
             origin: CGPoint(
                 x: (self.bounds.width - CGFloat(contWidth)) / 2,
-                y: (self.bounds.height - 60 - 20 - 10)
-            ), size: CGSize(width: contWidth, height: 60 + buttonMargin * 2)
+                y: (self.bounds.height - self.agoraSettings.buttonSize - 20 - 10)
+            ), size: CGSize(width: contWidth, height: self.agoraSettings.buttonSize + buttonMargin * 2)
         )
         container.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
-        container.layer.cornerRadius = 20
+        container.layer.cornerRadius = self.agoraSettings.buttonSize / 3
         container.clipsToBounds = true
         #else
         container.frame = CGRect(
             origin: CGPoint(x: (self.bounds.width - CGFloat(contWidth)) / 2, y: 10),
-            size: CGSize(width: contWidth, height: 60 + 20))
+            size: CGSize(width: contWidth, height: self.agoraSettings.buttonSize + buttonMargin * 2))
         container.autoresizingMask = [.minXMargin, .maxXMargin, .maxYMargin]
-        container.layer?.cornerRadius = 20
+        container.layer?.cornerRadius = self.agoraSettings.buttonSize / 3
         #endif
     }
 
@@ -41,12 +41,13 @@ extension AgoraVideoViewer {
     /// Whenever called, so I'm discarding the result for most of them here.
     internal func addVideoButtons() {
         let container = self.getControlContainer()
-        let buttons = [
+        let builtinButtons = [
             self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
             self.getScreenShareButton()
-        ].compactMap { $0 } + (self.delegate?.extraButtons?() ?? [])
-        let buttonSize: CGFloat = 60
-        let buttonMargin: CGFloat = 10
+        ].compactMap { $0 }
+        let buttons = builtinButtons + (self.delegate?.extraButtons?() ?? [])
+        let buttonSize = self.agoraSettings.buttonSize
+        let buttonMargin = self.agoraSettings.buttonMargin
 
         buttons.enumerated().forEach({ (elem) in
             let button = elem.element
@@ -57,7 +58,7 @@ extension AgoraVideoViewer {
             #endif
             button.frame = CGRect(
                 origin: CGPoint(x: buttonMargin, y: buttonMargin),
-                size: CGSize(width: 60, height: 60)
+                size: CGSize(width: buttonSize, height: buttonSize)
             )
             switch self.agoraSettings.buttonPosition {
             case .top, .bottom:
@@ -67,15 +68,50 @@ extension AgoraVideoViewer {
             }
             #if os(iOS)
             button.layer.cornerRadius = buttonSize / 2
-            button.backgroundColor = .systemGray
+            if elem.offset < builtinButtons.count {
+                button.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal
+                button.tintColor = self.agoraSettings.colors.buttonTintColor
+            }
             #else
             button.isBordered = false
             button.layer?.cornerRadius = buttonSize / 2
-            button.layer?.backgroundColor = NSColor.systemGray.cgColor
+            if elem.offset < builtinButtons.count {
+                button.layer?.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal.cgColor
+                button.contentTintColor = self.agoraSettings.colors.buttonTintColor
+            }
             #endif
         })
-        let contWidth = CGFloat(buttons.count) * (60 + buttonMargin) + buttonMargin
+        self.setCamAndMicButtons()
+        let contWidth = CGFloat(buttons.count) * (buttonSize + buttonMargin) + buttonMargin
         positionButtonContainer(container, contWidth, buttonMargin)
+    }
+
+    internal func setCamAndMicButtons() {
+        self.camButton?.isOn = !self.agoraSettings.cameraEnabled
+        self.micButton?.isOn = !self.agoraSettings.micEnabled
+        #if os(iOS)
+        self.camButton?.backgroundColor = self.agoraSettings.cameraEnabled
+            ? self.agoraSettings.colors.camButtonNormal : self.agoraSettings.colors.camButtonSelected
+        self.micButton?.backgroundColor = self.agoraSettings.micEnabled
+            ? self.agoraSettings.colors.micButtonNormal : self.agoraSettings.colors.micButtonSelected
+        #else
+        self.camButton?.layer?.backgroundColor = (
+            self.agoraSettings.cameraEnabled
+                ? self.agoraSettings.colors.camButtonNormal
+                : self.agoraSettings.colors.camButtonSelected
+        ).cgColor
+        self.micButton?.layer?.backgroundColor = (
+            self.agoraSettings.micEnabled
+                ? self.agoraSettings.colors.micButtonNormal
+                : self.agoraSettings.colors.micButtonSelected
+        ).cgColor
+        if let cambtn = self.camButton, cambtn.isOn, !cambtn.alternateTitle.isEmpty {
+            swap(&cambtn.title, &cambtn.alternateTitle)
+        }
+        if let micbtn = self.micButton, micbtn.isOn, !micbtn.alternateTitle.isEmpty {
+            swap(&micbtn.title, &micbtn.alternateTitle)
+        }
+        #endif
     }
 
     internal func getControlContainer() -> MPBlurView {
@@ -105,7 +141,9 @@ extension AgoraVideoViewer {
         if !self.agoraSettings.enabledButtons.contains(.cameraButton) { return nil }
         if let camButton = self.camButton { return camButton }
 
-        let button = MPButton.newToggleButton(unselected: MPButton.videoSymbol, selected: MPButton.videoSlashSymbol)
+        let button = MPButton.newToggleButton(
+            unselected: MPButton.videoSymbol, selected: MPButton.muteVideoSelectedSymbol
+        )
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleCam), for: .touchUpInside)
         #else
@@ -124,7 +162,7 @@ extension AgoraVideoViewer {
         if let micButton = self.micButton { return micButton }
 
         let button = MPButton.newToggleButton(
-            unselected: MPButton.micSymbol, selected: MPButton.micSlashSymbol
+            unselected: MPButton.micSymbol, selected: MPButton.muteMicSelectedSymbol
         )
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleMic), for: .touchUpInside)

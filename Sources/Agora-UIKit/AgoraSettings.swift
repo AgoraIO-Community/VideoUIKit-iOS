@@ -75,6 +75,14 @@ public struct AgoraSettings {
         }
     }
 
+    /// If the camera is enabled. Set this before joining a channel to not require camera permissions
+    /// and camera to not be activated at all.
+    public var cameraEnabled: Bool = true
+
+    /// If the microphone is enabled. Set this before joining a channel to not require microphone permissions
+    /// and mic to not be activated at all.
+    public var micEnabled: Bool = true
+
     /// Maximum number of videos in the grid view before the low bitrate is adopted.
     public var gridThresholdHighBitrate: Int = 4
 
@@ -86,10 +94,36 @@ public struct AgoraSettings {
         "width":160,"height":120,"frameRate":5,"bitRate":45
       }}
     """
+
+    /// Size of buttons that will appear in the builtin button tray
+    var buttonSize: CGFloat = 60
+    /// Margin around each button in the builtin button tray
+    var buttonMargin: CGFloat = 5
+    #if os(iOS)
+    /// Scale of the icons within the buttons in the builtin button tray
+    static var buttonIconScale: UIImage.SymbolScale = .large
+    #else
+    /// Font size of the builtin buttons SF Symbol text
+    static var buttonIconSize: CGFloat = 20
+    #endif
 }
 
 /// Colors for views inside AgoraVideoViewer
 public struct AgoraViewerColors {
     /// Color of the view that signals a user has their mic muted. Default `.systemBlue`
     public var micFlag: MPColor = .systemBlue
+    /// Color of the mute mic button when in unselected state (not muted)
+    public var micButtonNormal: MPColor = .systemGreen
+    /// Color of the mute cam button when in unselected state (camera on)
+    public var camButtonNormal: MPColor = .systemGreen
+    /// Color of the mute mic button when in selected state (muted)
+    public var micButtonSelected: MPColor = .systemRed
+    /// Color of the mute cam button when in selected state (camera off)
+    public var camButtonSelected: MPColor = .systemRed
+    /// Color of the bar button when in unselected state
+    public var buttonDefaultNormal: MPColor = .systemGray
+    /// Color of the bar button when in selected state
+    public var buttonDefaultSelected: MPColor = .systemRed
+    /// Tint color of all buttons that appear in the bottom bar
+    public var buttonTintColor: MPColor = .systemBlue
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension AgoraVideoViewer {
+extension AgoraVideoViewer {
     /// Print level that will be visible in the developer console, default `.error`
     static var printLevel: PrintType = .warning
     /// Level for an internal print statement
@@ -34,6 +34,22 @@ public extension AgoraVideoViewer {
         if tag.rawValue <= AgoraVideoViewer.printLevel.rawValue {
             print("[AgoraVideoViewer \(tag.printString)]: \(message)")
         }
+        #endif
+    }
+
+    /// Helper method to fill a view with this view
+    /// - Parameter view: view to fill with self
+    open func fills(view: MPView) {
+        view.addSubview(self)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        #if os(iOS)
+        self.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        #else
+        self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         #endif
     }
 }

@@ -18,28 +18,39 @@ import AppKit
 extension AgoraVideoViewer {
     /// Helper function to check if we currently have permission to use the camera and microphone
     /// - Parameters:
+    ///   - requiredMediaTypes: Array of media devices required by the permissions (camera and microphone usually)
     ///   - alsoRequest: True if we want to also request permission, false if we just want
     ///                  the current permission (default true)
     ///   - callback: Method to call once the requests have been made - if alsoRequest set to true.
     /// - Returns: True if camera and microphone are authorised.
-    public func checkForPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
-        if !self.checkCameraPermissions(alsoRequest: alsoRequest, callback: callback) ||
-            !self.checkMicPermissions(alsoRequest: alsoRequest, callback: callback) {
-            return false
+    public func checkForPermissions(
+        _ requiredMediaTypes: [AVMediaType],
+        alsoRequest: Bool = true,
+        callback: ((Error?) -> Void)? = nil
+    ) -> Bool {
+        for mediaType in requiredMediaTypes {
+            if !self.checkPermissions(for: mediaType, alsoRequest: alsoRequest, callback: callback) {
+                return false
+            }
         }
         return true
     }
 
-    func checkMicPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
-        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+    internal func checkPermissions(
+        for mediaType: AVMediaType,
+        alsoRequest: Bool = true,
+        callback: ((Error?) -> Void)? = nil
+    ) -> Bool {
+        switch AVCaptureDevice.authorizationStatus(for: mediaType) {
         case .authorized: break
         case .notDetermined:
             if alsoRequest {
-                AgoraVideoViewer.requestMicrophoneAccess { success in
-                    if success {
-                        callback?()
+                AVCaptureDevice.requestAccess(for: mediaType) { granted in
+                    if granted {
+                        callback?(nil)
                     } else {
                         AgoraVideoViewer.errorVibe()
+                        callback?(PermissionError.permissionDenied)
                     }
                 }
             }
@@ -52,46 +63,14 @@ extension AgoraVideoViewer {
         }
         return true
     }
-
-    func checkCameraPermissions(alsoRequest: Bool = true, callback: (() -> Void)? = nil) -> Bool {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized: break
-        case .notDetermined:
-            if alsoRequest {
-                AgoraVideoViewer.requestCameraAccess { success in
-                    if success {
-                        callback?()
-                    } else {
-                        AgoraVideoViewer.errorVibe()
-                    }
-                }
-            }
-            return false
-        default:
-            if alsoRequest {
-                cameraMicSettingsPopup {
-                    AgoraVideoViewer.goToSettingsPage()
-                }
-            }
-            return false
-        }
-        return true
-    }
-
-    /// Request access to use the camera.
-    /// - Parameter handler: A block to be called once permission is granted or denied.
-    public static func requestCameraAccess(handler: ((Bool) -> Void)? = nil) {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-            handler?(granted)
-        }
-    }
-
-    /// Request access to use the microphone.
-    /// - Parameter handler: A block to be called once permission is granted or denied.
-    public static func requestMicrophoneAccess(handler: ((Bool) -> Void)? = nil) {
-        AVCaptureDevice.requestAccess(for: .audio) { granted in
-            handler?(granted)
-        }
+    /// Error that may come back due to permissions failing
+    public enum PermissionError: Error {
+        /// User just refused permissions after Apple's popup
+        case permissionDenied
+        /// User has refused the permissions before
+        case permissionAlreadyDenied
+        /// User has not yet granted or refused permissions
+        case notDetermined
     }
 
     /// Head to the device security page.

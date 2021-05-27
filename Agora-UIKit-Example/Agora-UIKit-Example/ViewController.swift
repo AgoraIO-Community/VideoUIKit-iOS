@@ -15,12 +15,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var agSettings = AgoraSettings()
+        agSettings.enabledButtons = [.cameraButton, .micButton, .flipButton]
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
                 appId: <#Agora App ID#>,
                 appToken: <#Agora Token or nil#>
             ),
             style: .floating,
+            agoraSettings: agSettings,
             delegate: self
         )
 
@@ -65,6 +68,7 @@ extension ViewController: AgoraVideoViewerDelegate {
             systemName: "bolt.fill",
             withConfiguration: UIImage.SymbolConfiguration(scale: .large)
         ), for: .normal)
+        button.backgroundColor = .systemGray
         button.addTarget(self, action: #selector(self.clickedBolt), for: .touchUpInside)
         return [button]
     }

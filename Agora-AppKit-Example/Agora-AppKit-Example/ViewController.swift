@@ -15,12 +15,16 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var agSettings = AgoraSettings()
+        agSettings.cameraEnabled = false
+
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
                 appId: <#Agora App ID#>,
                 appToken: <#Agora Token or nil#>
             ),
             style: .floating,
+            agoraSettings: agSettings,
             delegate: self
         )
 
