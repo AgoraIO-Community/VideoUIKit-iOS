@@ -65,8 +65,6 @@ Issue Number: N/A
 	- [ ] Builtin buttons all work as expected
 - [ ] Any newly deprecated methods are flagged as such inline and in documentation
 
-#### Notes
-
 <!-- Remove the next section if not applicable -->
 
 ### UIKit Update Checklist (Major Release)
