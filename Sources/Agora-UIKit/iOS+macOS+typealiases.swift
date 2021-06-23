@@ -6,6 +6,7 @@
 //
 
 #if os(iOS)
+import UIKit
 public typealias MPButton=UIButton
 public typealias MPImage = UIImage
 public typealias MPImageView = UIImageView
@@ -21,6 +22,7 @@ public typealias MPCollectionViewFlowLayout = UICollectionViewFlowLayout
 public typealias MPCollectionViewDelegate = UICollectionViewDelegate
 public typealias MPCollectionViewDataSource = UICollectionViewDataSource
 #elseif os(macOS)
+import AppKit
 public typealias MPButton = NSButton
 public typealias MPImage = NSImage
 public typealias MPImageView = NSImageView

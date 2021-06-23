@@ -1,7 +1,12 @@
 # Agora UIKit for iOS and macOS
 
-![.github/workflows/podlint.yml](https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg)
-![.github/workflows/swiftlint.yml](https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg)
+<p align="center">
+<img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
+<img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
+<img src="https://img.shields.io/cocoapods/v/AgoraRtcEngine_iOS?label=CocoaPods"/>
+<img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
+<img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/>
+</p>
 
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
@@ -13,7 +18,7 @@ Instantly integrate Agora in your own application or prototype using iOS or macO
     - Either an iOS device with 12.0 or later
     - Or a macOS computer with 10.14 or later
 - Xcode 11 or later
-- Cocoapods
+- *CocoaPods (if installing with CocoaPods)
 - [An Agora developer account](https://www.agora.io/en/blog/how-to-get-started-with-agora?utm_source=github&utm_repo=agora-ios-uikit)
 
 Once you have an Agora developer account and an App ID, you're ready to use this pod.
@@ -21,6 +26,22 @@ Once you have an Agora developer account and an App ID, you're ready to use this
 [Click here for full documentation](https://agoraio-community.github.io/iOS-UIKit/)
 
 ## Installation
+
+### Swift Package Manager (Recommended, iOS Only)
+
+Add the URL of this repository to your Xcode 11+ Project.
+
+Go to File > Swift Packages > Add Package Dependency, and paste in this link:
+
+`https://github.com/AgoraIO-Community/iOS-UIKit`
+
+---
+
+If you have issues installing the Swift Package:
+
+In Xcode's File menu, select 'Swift Packages' and then 'Reset Package Caches'.
+
+### CocoaPods
 
 In your iOS or macOS project, add this pod to your repository by adding a file named `Podfile`, with contents similar to this:
 
