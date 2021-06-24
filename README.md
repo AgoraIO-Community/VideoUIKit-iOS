@@ -3,10 +3,11 @@
 <p align="center">
 <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
 <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
-<img src="https://img.shields.io/cocoapods/v/AgoraRtcEngine_iOS?label=CocoaPods"/>
+<img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
 <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
 <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/>
 </p>
+
 
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
