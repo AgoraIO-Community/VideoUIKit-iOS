@@ -12,6 +12,7 @@ import AppKit
 #endif
 import AgoraRtcKit
 
+
 /// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
     /// Is the video turned off for this user.
@@ -20,12 +21,22 @@ public class AgoraSingleVideoView: MPView {
             if oldValue != videoMuted {
                 self.canvas.view?.isHidden = videoMuted
             }
+            self.updateUserOptions()
         }
     }
     /// Is the microphone muted for this user.
     public var audioMuted: Bool = true {
         didSet {
             self.mutedFlag.isHidden = !audioMuted
+            self.updateUserOptions()
+        }
+    }
+
+    var streamContainer: StreamMessageContainer?
+
+    public var showOptions: Bool = true {
+        didSet {
+            self.userOptions?.isHidden = !showOptions
         }
     }
     /// Unique ID for this user, used by the video feed.
@@ -42,6 +53,107 @@ public class AgoraSingleVideoView: MPView {
 
     var micFlagColor: MPColor
 
+    enum UserOptions: String {
+        case camera
+        case microphone
+    }
+
+    open func userOptionsString(
+        for option: StreamMessageController.MutableDevices, isMuted: Bool
+    ) -> String {
+        switch option {
+        case .camera:
+            return isMuted ? MPButton.unmuteCameraString : MPButton.muteCameraString
+        case .microphone:
+            return isMuted ? MPButton.unmuteMicString : MPButton.muteMicString
+        }
+    }
+
+    func updateUserOptions() {
+        #if os(macOS)
+        guard let userOptions = self.userOptions as? NSPopUpButton else {
+            return
+        }
+        userOptions.removeAllItems()
+        self.addItems(to: userOptions)
+        #endif
+    }
+    func addItems(to userOptionsBtn: NSPopUpButton) {
+        let actionItem = NSMenuItem()
+        actionItem.attributedTitle = NSAttributedString(
+            string: "􀣋",
+            attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
+        )
+        userOptionsBtn.menu?.insertItem(actionItem, at: 0)
+        StreamMessageController.MutableDevices.allCases.forEach { enumCase in
+            var isMuted: Bool
+            switch enumCase {
+            case .camera:
+                isMuted = self.videoMuted
+            case .microphone:
+                isMuted = self.audioMuted
+            }
+            userOptionsBtn.addItem(withTitle: self.userOptionsString(for: enumCase, isMuted: isMuted))
+        }
+    }
+    lazy var userOptions: MPView? = {
+        #if os(iOS)
+        let userOptionsBtn = UIImageView(
+            image: UIImage(
+                systemName: MPButton.ellipsisSymbol
+            )
+        )
+        userOptionsBtn.tintColor = .systemGray
+        #else
+        let userOptionsBtn = NSPopUpButton(frame: .zero, pullsDown: true)
+
+//        userOptionsBtn.wantsLayer = true
+//        userOptionsBtn.layer?.backgroundColor = .white
+        (userOptionsBtn.cell as! NSButtonCell).backgroundColor = .selectedContentBackgroundColor
+        self.addItems(to: userOptionsBtn)
+        #endif
+        self.addSubview(userOptionsBtn)
+        #if os(iOS)
+        userOptionsBtn.frame = CGRect(
+            origin: CGPoint(x: 10, y: 10),
+            size: CGSize(width: 40, height: 25)
+        )
+        userOptionsBtn.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin]
+        #else
+        userOptionsBtn.isBordered = false
+        userOptionsBtn.wantsLayer = true
+        userOptionsBtn.layer?.backgroundColor = .clear
+        userOptionsBtn.frame = CGRect(
+            origin: CGPoint(x: 10, y: self.frame.height - 30),
+            size: CGSize(width: 40, height: 25)
+        )
+        userOptionsBtn.autoresizingMask = [.minYMargin, .maxXMargin]
+        userOptionsBtn.target = self
+        userOptionsBtn.action = #selector(optionsBtnSelected)
+        #endif
+        return userOptionsBtn
+    }()
+
+    @objc func optionsBtnSelected(sender: NSPopUpButton) {
+        guard let selectedType = UserOptions(rawValue: sender.selectedItem?.title ?? "") else {
+            return
+        }
+        switch selectedType {
+        case .camera:
+            self.streamContainer?.streamController?.sendMuteRequest(to: self.uid, mute: true, device: .camera)
+        case .microphone:
+            self.streamContainer?.streamController?.sendMuteRequest(to: self.uid, mute: true, device: .microphone)
+        default:
+            return
+        }
+//        let pop = actionbutt
+//
+//        pop.addItem(NSMenuItem(title: "Mute User", action: #selector(muteRequest), keyEquivalent: "m"))
+//        sender.addSubview(pop)
+    }
+
+    @objc func muteRequest() {
+    }
     /// Icon to show if this user is muting their microphone
     lazy var mutedFlag: MPView = {
         #if os(iOS)
@@ -83,9 +195,10 @@ public class AgoraSingleVideoView: MPView {
     /// - Parameters:
     ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
     ///   - micColor: Color to be applied when the local or remote user mutes their microphone
-    public init(uid: UInt, micColor: MPColor) {
+    public init(uid: UInt, micColor: MPColor, streamContainer: StreamMessageContainer? = nil) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
+        self.streamContainer = streamContainer
         super.init(frame: .zero)
         self.setBackground()
         self.canvas.uid = uid
@@ -99,6 +212,13 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.view = hostingView
         self.addSubview(hostingView)
         self.setupMutedFlag()
+        if streamContainer != nil {
+            self.setupOptions()
+        }
+    }
+
+    func setupOptions() {
+        self.showOptions = true
     }
 
     private func setupMutedFlag() {

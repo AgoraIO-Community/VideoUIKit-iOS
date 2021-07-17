@@ -62,7 +62,7 @@ public struct AgoraConnectionData {
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
-open class AgoraVideoViewer: MPView {
+open class AgoraVideoViewer: MPView, StreamMessageContainer {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
@@ -70,6 +70,8 @@ open class AgoraVideoViewer: MPView {
     /// Settings and customisations such as position of on-screen buttons, collection view of all channel members,
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
+
+    public var streamController: StreamMessageController?
 
     /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {

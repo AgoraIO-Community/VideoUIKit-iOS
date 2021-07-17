@@ -57,6 +57,7 @@ extension MPButton {
     public static var muteMicSelectedSymbol: String? = "mic.slash"
     /// SF Symbol name for microphone muted flag
     public static var micSlashSymbol = "mic.slash"
+    public static var ellipsisSymbol = "ellipsis.circle"
     /// SF Symbol name for flip camera builtin button
     public static var cameraRotateSymbol = "camera.rotate"
     /// SF Symbol name for beautify buitlin button
@@ -73,28 +74,33 @@ extension MPButton {
     }
     #else
     /// SF Symbol name for camera icon for builtin button
-    public static var videoSymbol = "􀌟"
+    static var videoSymbol = "􀌟"
     /// SF Symbol name for camera alt icon for builtin button
-    public static var muteVideoSelectedSymbol: String?
+    static var muteVideoSelectedSymbol: String?
     /// SF Symbol name for microphone icon for builtin button
-    public static var micSymbol = "􀊰"
+    static var micSymbol = "􀊰"
     /// SF Symbol for microphone alt icon for builtin button
-    public static var muteMicSelectedSymbol: String? = "􀊲"
+    static var muteMicSelectedSymbol: String? = "􀊲"
     /// SF Symbol for microphone muted flag
-    public static var micSlashSymbol = "􀊲"
+    static var micSlashSymbol = "􀊲"
+    static var ellipsisSymbol = "􀍡"
     /// SF Symbol for flip camera builtin button
-    public static var cameraRotateSymbol = "􀌢"
+    static var cameraRotateSymbol = "􀌢"
     /// SF Symbol for beautify buitlin button
-    public static var wandSymbol = "􀜎"
+    static var wandSymbol = "􀜎"
     /// SF Symbol to appear behind user with camera off
-    public static var personSymbol = "􀓣"
+    static var personSymbol = "􀓣"
     /// SF Symbol for sharing screen builtin button
-    public static var screenShareSymbol = "􀏧"
+    static var screenShareSymbol = "􀏧"
     /// SF Symbol for pin icon
-    public static var pinSymbol = "􀎧"
+    static var pinSymbol = "􀎧"
     var isOn: Bool {
         get { return self.state == .on }
         set { self.state = newValue ? .on : .off }
     }
     #endif
+    static var muteCameraString = "mute camera"
+    static var muteMicString = "mute microphone"
+    static var unmuteCameraString = "unmute camera"
+    static var unmuteMicString = "unmute microphone"
 }

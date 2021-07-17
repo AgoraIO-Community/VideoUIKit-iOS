@@ -249,4 +249,19 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         }
         self.delegate?.tokenWillExpire?(engine, tokenPrivilegeWillExpire: token)
     }
+
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
+        if self.streamController?.streamID == streamId,
+           let decodedStream = self.streamController?.decodeStream(data: data, from: uid) {
+            switch decodedStream {
+            case .mute(let uid, let mute, let device, let force):
+                print("user \(uid) should \(mute ? "" : "un")mute their \(device) by \(force ? "force" : "request")")
+                if uid == self.userID {
+                    print("we should mute!")
+                }
+            default:
+                break
+            }
+        }
+    }
 }
