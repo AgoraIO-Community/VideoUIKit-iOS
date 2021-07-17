@@ -77,6 +77,8 @@ extension AgoraVideoViewer {
         guard let camButton = sender ?? self.camButton else {
             return
         }
+        self.streamController?.sendMuteRequest(to: 999, mute: true, device: .camera, force: false)
+
         if sender != nil {
             if !self.agoraSettings.cameraEnabled,
                self.connectionData.channel != nil,
@@ -332,7 +334,14 @@ extension AgoraVideoViewer {
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel?(channel: channel)
+            self?.setupDataStream()
         }
+    }
+
+    open func setupDataStream() {
+        self.streamController = StreamMessageController(
+            streamID: 10007, config: AgoraDataStreamConfig(), engine: self.agkit
+        )
     }
 
     internal func handleAlreadyInChannel(
