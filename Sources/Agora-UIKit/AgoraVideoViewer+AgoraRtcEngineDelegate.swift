@@ -272,7 +272,8 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                     }
                     AgoraVideoViewer.agoraPrint(
                         .debug,
-                        message: "user \(uid) (self) should \(mute ? "" : "un")mute their \(device) by \(force ? "force" : "request")"
+                        message: "user \(uid) (self) should \(mute ? "" : "un")mute" +
+                            " their \(device) by \(force ? "force" : "request")"
                     )
                     func setDevice(_ sender: UIAlertAction? = nil) {
                         switch device {
@@ -286,7 +287,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                         setDevice()
                         return
                     }
-                    let alert = UIAlertController(title: "\(mute ? "" : "un")mute \(device)?", message: nil, preferredStyle: .actionSheet)
+                    let alert = UIAlertController(
+                        title: "\(mute ? "" : "un")mute \(device)?", message: nil,
+                        preferredStyle: .actionSheet
+                    )
                     alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.presentAlert(alert: alert, animated: true)

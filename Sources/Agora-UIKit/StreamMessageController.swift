@@ -21,10 +21,10 @@ public protocol StreamMessageContainer {
 
 extension StreamMessageContainer {
     public func presentAlert(alert: UIAlertController, animated: Bool) {
-        if self is UIViewController {
-            (self as! UIViewController).present(alert, animated: animated)
-        } else if self is AgoraVideoViewer {
-            (self as! AgoraVideoViewer).delegate?.presentAlert(alert: alert, animated: animated)
+        if let viewCont = self as? UIViewController {
+            viewCont.present(alert, animated: animated)
+        } else if let vidViewer = self as? AgoraVideoViewer {
+            vidViewer.delegate?.presentAlert(alert: alert, animated: animated)
         }
     }
 }

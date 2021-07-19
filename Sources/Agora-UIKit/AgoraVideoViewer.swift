@@ -68,8 +68,8 @@ public extension AgoraVideoViewerDelegate {
     func tokenDidExpire(_ engine: AgoraRtcEngineKit) {}
     #if os(iOS)
     func presentAlert(alert: UIAlertController, animated: Bool) {
-        if self is UIViewController {
-            (self as! UIViewController).present(alert, animated: animated)
+        if let viewCont = self as? UIViewController {
+            viewCont.present(alert, animated: animated)
         }
     }
     func extraButtons() -> [UIButton] { [] }
@@ -77,7 +77,6 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
 }
-
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView, StreamMessageContainer {
