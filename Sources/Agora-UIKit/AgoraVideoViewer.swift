@@ -31,35 +31,53 @@ public struct AgoraConnectionData {
 }
 
 /// An interface for getting some common delegate callbacks without needing to subclass.
-@objc public protocol AgoraVideoViewerDelegate: AnyObject {
+public protocol AgoraVideoViewerDelegate: AnyObject {
     /// Local user has joined the channel of a given name
     /// - Parameter channel: Name of the channel local user has joined.
-    @objc optional func joinedChannel(channel: String)
+    func joinedChannel(channel: String)
     /// Local user has left the active channel.
     /// - Parameter channel: Name of the channel local user has left.
-    @objc optional func leftChannel(_ channel: String)
+    func leftChannel(_ channel: String)
     /// The token used to connect to the current active channel will expire in 30 seconds.
     /// - Parameters:
     ///   - engine: Agora RTC Engine
     ///   - token: Current token that will expire.
-    @objc optional func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
+    func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
     /// The token used to connect to the current active channel has expired.
     /// - Parameter engine: Agora RTC Engine
-    @objc optional func tokenDidExpire(_ engine: AgoraRtcEngineKit)
+    func tokenDidExpire(_ engine: AgoraRtcEngineKit)
     #if os(iOS)
     /// presentAlert is a way to show any alerts that the AgoraVideoViewer wants to display.
     /// These could be relating to video or audio permissions.
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
-    @objc optional func presentAlert(alert: UIAlertController, animated: Bool)
+    func presentAlert(alert: UIAlertController, animated: Bool)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
-    @objc optional func extraButtons() -> [UIButton]
+    func extraButtons() -> [UIButton]
     #else
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
-    @objc optional func extraButtons() -> [NSButton]
+    func extraButtons() -> [NSButton]
     #endif
 }
+
+public extension AgoraVideoViewerDelegate {
+    func joinedChannel(channel: String) {}
+    func leftChannel(_ channel: String) {}
+    func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {}
+    func tokenDidExpire(_ engine: AgoraRtcEngineKit) {}
+    #if os(iOS)
+    func presentAlert(alert: UIAlertController, animated: Bool) {
+        if self is UIViewController {
+            (self as! UIViewController).present(alert, animated: animated)
+        }
+    }
+    func extraButtons() -> [UIButton] { [] }
+    #else
+    func extraButtons() -> [NSButton] { [] }
+    #endif
+}
+
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView, StreamMessageContainer {
@@ -71,6 +89,7 @@ open class AgoraVideoViewer: MPView, StreamMessageContainer {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
+    /// Stream Controller class for managing stream messages
     public var streamController: StreamMessageController?
 
     /// The rendering mode of the video view for all active videos.
@@ -232,7 +251,6 @@ open class AgoraVideoViewer: MPView, StreamMessageContainer {
     public var style: AgoraVideoViewer.Style = .floating {
         didSet {
             if oldValue != self.style {
-                AgoraVideoViewer.agoraPrint(.verbose, message: "changed style")
                 switch self.style {
                 case .collection: self.backgroundVideoHolder.isHidden = true
                 default: self.backgroundVideoHolder.isHidden = false

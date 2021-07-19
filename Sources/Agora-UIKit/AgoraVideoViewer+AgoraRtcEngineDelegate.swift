@@ -227,7 +227,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 userId: self.userID, callback: self.newTokenFetched
             )
         }
-        self.delegate?.tokenDidExpire?(engine)
+        self.delegate?.tokenDidExpire(engine)
     }
 
     /**
@@ -247,20 +247,51 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 userId: self.userID, callback: self.newTokenFetched
             )
         }
-        self.delegate?.tokenWillExpire?(engine, tokenPrivilegeWillExpire: token)
+        self.delegate?.tokenWillExpire(engine, tokenPrivilegeWillExpire: token)
     }
 
+    /** Occurs when the local user receives the data stream from a remote user within five seconds.
+
+    The SDK triggers this callback when the local user receives the stream message that the remote user sends by calling the [sendStreamMessage](sendStreamMessage:data:) method.
+
+     @param engine   AgoraRtcEngineKit object.
+     @param uid      User ID of the remote user sending the message.
+     @param streamId Stream ID.
+     @param data     Data received by the local user.
+     */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
         if self.streamController?.streamID == streamId,
            let decodedStream = self.streamController?.decodeStream(data: data, from: uid) {
             switch decodedStream {
             case .mute(let uid, let mute, let device, let force):
-                print("user \(uid) should \(mute ? "" : "un")mute their \(device) by \(force ? "force" : "request")")
                 if uid == self.userID {
-                    print("we should mute!")
+                    AgoraVideoViewer.agoraPrint(.debug, message: "request effects local user")
+                    if device == .camera {
+                        if self.agoraSettings.cameraEnabled == !mute { return }
+                        if self.agoraSettings.micEnabled == !mute { return }
+                    }
+                    AgoraVideoViewer.agoraPrint(
+                        .debug,
+                        message: "user \(uid) (self) should \(mute ? "" : "un")mute their \(device) by \(force ? "force" : "request")"
+                    )
+                    func setDevice(_ sender: UIAlertAction? = nil) {
+                        switch device {
+                        case .camera:
+                            self.setCam(to: !mute)
+                        case .microphone:
+                            self.setMic(to: !mute)
+                        }
+                    }
+                    if force {
+                        setDevice()
+                        return
+                    }
+                    let alert = UIAlertController(title: "\(mute ? "" : "un")mute \(device)?", message: nil, preferredStyle: .actionSheet)
+                    alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.presentAlert(alert: alert, animated: true)
                 }
-            default:
-                break
+            // More cases will be added to this switch later
             }
         }
     }

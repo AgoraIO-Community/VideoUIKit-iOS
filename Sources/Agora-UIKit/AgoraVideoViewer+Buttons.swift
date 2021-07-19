@@ -45,7 +45,7 @@ extension AgoraVideoViewer {
             self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
             self.getScreenShareButton()
         ].compactMap { $0 }
-        let buttons = builtinButtons + (self.delegate?.extraButtons?() ?? [])
+        let buttons = builtinButtons + (self.delegate?.extraButtons() ?? [])
         let buttonSize = self.agoraSettings.buttonSize
         let buttonMargin = self.agoraSettings.buttonMargin
 

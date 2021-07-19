@@ -57,6 +57,7 @@ extension MPButton {
     public static var muteMicSelectedSymbol: String? = "mic.slash"
     /// SF Symbol name for microphone muted flag
     public static var micSlashSymbol = "mic.slash"
+    /// SF Symbol name for option request on iOS
     public static var ellipsisSymbol = "ellipsis.circle"
     /// SF Symbol name for flip camera builtin button
     public static var cameraRotateSymbol = "camera.rotate"
@@ -83,7 +84,6 @@ extension MPButton {
     static var muteMicSelectedSymbol: String? = "􀊲"
     /// SF Symbol for microphone muted flag
     static var micSlashSymbol = "􀊲"
-    static var ellipsisSymbol = "􀍡"
     /// SF Symbol for flip camera builtin button
     static var cameraRotateSymbol = "􀌢"
     /// SF Symbol for beautify buitlin button

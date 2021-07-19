@@ -118,7 +118,7 @@ extension AgoraVideoViewer {
             successHandler()
         }))
         DispatchQueue.main.async {
-            self.delegate?.presentAlert?(alert: alertView, animated: true)
+            self.delegate?.presentAlert(alert: alertView, animated: true)
         }
         #else
         let alertView = NSAlert()
