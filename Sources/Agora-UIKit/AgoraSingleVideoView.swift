@@ -34,9 +34,10 @@ public class AgoraSingleVideoView: MPView {
 
     var streamContainer: StreamMessageContainer?
 
+    /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {
         didSet {
-            self.userOptions?.isHidden = !showOptions
+            self.userOptions?.isHidden = !self.showOptions
         }
     }
     /// Unique ID for this user, used by the video feed.
@@ -58,8 +59,13 @@ public class AgoraSingleVideoView: MPView {
         case microphone
     }
 
+    /// Find the string for the option ready to request the remote user to mute or unmute their mic or camera
+    /// - Parameters:
+    ///   - option: Device to be muted or umuted
+    ///   - isMuted: Boolean option to mute or unmute device
+    /// - Returns: String to be displayed in the mute/unmute option
     open func userOptionsString(
-        for option: StreamMessageController.MutableDevices, isMuted: Bool
+        for option: StreamMessageController.MutingDevices, isMuted: Bool
     ) -> String {
         switch option {
         case .camera:
@@ -78,7 +84,8 @@ public class AgoraSingleVideoView: MPView {
         self.addItems(to: userOptions)
         #endif
     }
-    func addItems(to userOptionsBtn: NSPopUpButton) {
+    #if os(macOS)
+    open func addItems(to userOptionsBtn: NSPopUpButton) {
         let actionItem = NSMenuItem()
         actionItem.attributedTitle = NSAttributedString(
             string: "􀣋",
@@ -96,13 +103,13 @@ public class AgoraSingleVideoView: MPView {
             userOptionsBtn.addItem(withTitle: self.userOptionsString(for: enumCase, isMuted: isMuted))
         }
     }
+    #endif
     lazy var userOptions: MPView? = {
         #if os(iOS)
-        let userOptionsBtn = UIImageView(
-            image: UIImage(
-                systemName: MPButton.ellipsisSymbol
-            )
+        let userOptionsBtn = MPButton.newToggleButton(
+            unselected: MPButton.ellipsisSymbol
         )
+        userOptionsBtn.layer.zPosition = 3
         userOptionsBtn.tintColor = .systemGray
         #else
         let userOptionsBtn = NSPopUpButton(frame: .zero, pullsDown: true)
@@ -118,7 +125,8 @@ public class AgoraSingleVideoView: MPView {
             origin: CGPoint(x: 10, y: 10),
             size: CGSize(width: 40, height: 25)
         )
-        userOptionsBtn.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin]
+        userOptionsBtn.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
+        userOptionsBtn.addTarget(self, action: #selector(optionsBtnSelected), for: .touchUpInside)
         #else
         userOptionsBtn.isBordered = false
         userOptionsBtn.wantsLayer = true
@@ -131,10 +139,42 @@ public class AgoraSingleVideoView: MPView {
         userOptionsBtn.target = self
         userOptionsBtn.action = #selector(optionsBtnSelected)
         #endif
+//        userOptionsBtn.isHidden = true
         return userOptionsBtn
     }()
 
-    @objc func optionsBtnSelected(sender: NSPopUpButton) {
+    #if os(iOS)
+    /// The options button has been selected
+    /// - Parameter sender: Button that was selected
+    @objc open func optionsBtnSelected(sender: UIButton) {
+        let alert = UIAlertController(title: "Request Action", message: nil, preferredStyle: .actionSheet)
+        StreamMessageController.MutingDevices.allCases.forEach { enumCase in
+            var isMuted: Bool
+            switch enumCase {
+            case .camera:
+                isMuted = self.videoMuted
+            case .microphone:
+                isMuted = self.audioMuted
+            }
+            alert.addAction(UIAlertAction(title: self.userOptionsString(for: enumCase, isMuted: isMuted), style: .default, handler: optionsActionSelected(sender:)))
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.streamContainer?.presentAlert(alert: alert, animated: true)
+    }
+
+    /// Action selected such as mute/unmute microphone/camera.
+    /// - Parameter sender: UIAlertAction that was selected.
+    open func optionsActionSelected(sender: UIAlertAction) {
+        guard let actionTitle = sender.title else { return }
+        if let reqError = self.streamContainer?.streamController?.createRequest(to: self.uid, fromString: actionTitle),
+           !reqError {
+            AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
+        }
+    }
+    #else
+    /// Options button has been selected, now display available requests
+    /// - Parameter sender: Button that was selected
+    @objc public func optionsBtnSelected(sender: NSPopUpButton) {
         guard let selectedType = UserOptions(rawValue: sender.selectedItem?.title ?? "") else {
             return
         }
@@ -151,6 +191,7 @@ public class AgoraSingleVideoView: MPView {
 //        pop.addItem(NSMenuItem(title: "Mute User", action: #selector(muteRequest), keyEquivalent: "m"))
 //        sender.addSubview(pop)
     }
+    #endif
 
     @objc func muteRequest() {
     }
@@ -195,7 +236,9 @@ public class AgoraSingleVideoView: MPView {
     /// - Parameters:
     ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
     ///   - micColor: Color to be applied when the local or remote user mutes their microphone
-    public init(uid: UInt, micColor: MPColor, streamContainer: StreamMessageContainer? = nil) {
+    ///   - showOptions: Whether we want to show options to mute/unmute this user
+    ///   - streamContainer: Container to access the StreamMessageContainer.
+    public init(uid: UInt, micColor: MPColor, showOptions: Bool = false, streamContainer: StreamMessageContainer? = nil) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
         self.streamContainer = streamContainer
@@ -212,13 +255,11 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.view = hostingView
         self.addSubview(hostingView)
         self.setupMutedFlag()
-        if streamContainer != nil {
-            self.setupOptions()
-        }
+        self.setupOptions(visible: streamContainer != nil ? showOptions : false)
     }
 
-    func setupOptions() {
-        self.showOptions = true
+    func setupOptions(visible showOptions: Bool) {
+        self.showOptions = showOptions
     }
 
     private func setupMutedFlag() {

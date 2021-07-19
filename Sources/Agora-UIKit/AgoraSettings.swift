@@ -79,6 +79,9 @@ public struct AgoraSettings {
     /// and camera to not be activated at all.
     public var cameraEnabled: Bool = true
 
+    /// Show the icon for remote user video feeds to request mute/unmute of devices
+    public var showRemoteRequestOptions: Bool = true
+
     /// If the microphone is enabled. Set this before joining a channel to not require microphone permissions
     /// and mic to not be activated at all.
     public var micEnabled: Bool = true
