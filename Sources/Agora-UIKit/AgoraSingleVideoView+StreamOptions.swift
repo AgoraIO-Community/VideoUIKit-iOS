@@ -42,7 +42,7 @@ extension AgoraSingleVideoView {
             attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
         )
         userOptionsBtn.menu?.insertItem(actionItem, at: 0)
-        StreamMessageController.MutableDevices.allCases.forEach { enumCase in
+        StreamMessageController.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:

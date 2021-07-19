@@ -275,6 +275,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                         message: "user \(uid) (self) should \(mute ? "" : "un")mute" +
                             " their \(device) by \(force ? "force" : "request")"
                     )
+                    #if os(iOS)
                     func setDevice(_ sender: UIAlertAction? = nil) {
                         switch device {
                         case .camera:
@@ -294,6 +295,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                     alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.presentAlert(alert: alert, animated: true)
+                    #endif
                 }
             // More cases will be added to this switch later
             }
