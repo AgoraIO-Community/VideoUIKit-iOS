@@ -11,15 +11,18 @@ import AgoraRtcKit
 public protocol StreamMessageContainer {
     /// Stream Controller class for managing stream messages
     var streamController: StreamMessageController? { get set }
+    #if os(iOS)
     /// presentAlert is a way to show any alerts that want to display.
     /// These could be relating to video or audio unmuting requests.
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
     func presentAlert(alert: UIAlertController, animated: Bool)
+    #endif
 }
 
 extension StreamMessageContainer {
+    #if os(iOS)
     public func presentAlert(alert: UIAlertController, animated: Bool) {
         if let viewCont = self as? UIViewController {
             viewCont.present(alert, animated: animated)
@@ -27,6 +30,7 @@ extension StreamMessageContainer {
             vidViewer.delegate?.presentAlert(alert: alert, animated: animated)
         }
     }
+    #endif
 }
 
 /// Class for controlling the stream messages
