@@ -265,36 +265,46 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             switch decodedStream {
             case .mute(let uid, let mute, let device, let force):
                 if uid == self.userID {
-                    AgoraVideoViewer.agoraPrint(.debug, message: "request effects local user")
-                    if device == .camera {
-                        if self.agoraSettings.cameraEnabled == !mute { return }
-                        if self.agoraSettings.micEnabled == !mute { return }
-                    }
+                    if device == .camera, self.agoraSettings.cameraEnabled == !mute { return }
+                    if device == .microphone, self.agoraSettings.micEnabled == !mute { return }
+
                     AgoraVideoViewer.agoraPrint(
-                        .debug,
+                        .error,
                         message: "user \(uid) (self) should \(mute ? "" : "un")mute" +
                             " their \(device) by \(force ? "force" : "request")"
                     )
-                    #if os(iOS)
-                    func setDevice(_ sender: UIAlertAction? = nil) {
-                        switch device {
-                        case .camera:
-                            self.setCam(to: !mute)
-                        case .microphone:
-                            self.setMic(to: !mute)
-                        }
-                    }
+                    func setDevice(_ sender: Any? = nil) {
+                         switch device {
+                         case .camera:
+                             self.setCam(to: !mute)
+                         case .microphone:
+                             self.setMic(to: !mute)
+                         }
+                     }
                     if force {
                         setDevice()
                         return
                     }
+                    let alertTitle = "\(mute ? "" : "un")mute \(device)?"
+                    #if os(iOS)
                     let alert = UIAlertController(
-                        title: "\(mute ? "" : "un")mute \(device)?", message: nil,
+                        title: alertTitle, message: nil,
                         preferredStyle: .actionSheet
                     )
                     alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.presentAlert(alert: alert, animated: true)
+                    #else
+                    let alert = NSAlert()
+                    alert.addButton(withTitle: "Confirm")
+                    alert.addButton(withTitle: "Cancel")
+                    alert.messageText = alertTitle
+                    alert.alertStyle = .warning
+                    alert.beginSheetModal(for: self.window!) { modalResponse in
+                        if modalResponse.rawValue == 1000 {
+                            setDevice()
+                        }
+                    }
                     #endif
                 }
             // More cases will be added to this switch later

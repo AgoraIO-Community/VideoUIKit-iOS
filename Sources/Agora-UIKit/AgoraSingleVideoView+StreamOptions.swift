@@ -68,11 +68,13 @@ extension AgoraSingleVideoView {
             case .microphone:
                 isMuted = self.audioMuted
             }
-            alert.addAction(UIAlertAction(
-                                title: self.userOptionsString(for: enumCase, isMuted: isMuted),
-                                style: .default,
-                                handler: optionsActionSelected(sender:)
-            ))
+            alert.addAction(
+                UIAlertAction(
+                    title: self.userOptionsString(for: enumCase, isMuted: isMuted),
+                    style: .default,
+                    handler: optionsActionSelected(sender:)
+                )
+            )
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.streamContainer?.presentAlert(alert: alert, animated: true)
@@ -81,9 +83,10 @@ extension AgoraSingleVideoView {
     /// Action selected such as mute/unmute microphone/camera.
     /// - Parameter sender: UIAlertAction that was selected.
     open func optionsActionSelected(sender: UIAlertAction) {
-        guard let actionTitle = sender.title else { return }
-        if let reqError = self.streamContainer?.streamController?.createRequest(to: self.uid, fromString: actionTitle),
-           !reqError {
+        if let actionTitle = sender.title,
+           let reqError = self.streamContainer?.streamController?.createRequest(
+            to: self.uid, fromString: actionTitle
+           ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
         }
     }
@@ -91,14 +94,11 @@ extension AgoraSingleVideoView {
     /// Options button has been selected, now display available requests
     /// - Parameter sender: Button that was selected
     @objc public func optionsBtnSelected(sender: NSPopUpButton) {
-        guard let selectedType = UserOptions(rawValue: sender.selectedItem?.title ?? "") else {
-            return
-        }
-        switch selectedType {
-        case .camera:
-            self.streamContainer?.streamController?.sendMuteRequest(to: self.uid, mute: true, device: .camera)
-        case .microphone:
-            self.streamContainer?.streamController?.sendMuteRequest(to: self.uid, mute: true, device: .microphone)
+        if let actionTitle = sender.selectedItem?.title,
+           let reqError = self.streamContainer?.streamController?.createRequest(
+            to: self.uid, fromString: actionTitle
+           ), !reqError {
+            AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
         }
     }
     #endif

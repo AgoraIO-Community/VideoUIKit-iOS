@@ -9,7 +9,7 @@ import Foundation
 
 extension AgoraVideoViewer {
     /// Print level that will be visible in the developer console, default `.error`
-    static var printLevel: PrintType = .warning
+    static var printLevel: PrintType = .error
     /// Level for an internal print statement
     enum PrintType: Int {
         /// To use when an internal error has occurred
@@ -30,11 +30,9 @@ extension AgoraVideoViewer {
         }
     }
     internal static func agoraPrint(_ tag: PrintType, message: Any) {
-        #if DEBUG
         if tag.rawValue <= AgoraVideoViewer.printLevel.rawValue {
             print("[AgoraVideoViewer \(tag.printString)]: \(message)")
         }
-        #endif
     }
 
     /// Helper method to fill a view with this view
