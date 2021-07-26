@@ -7,18 +7,31 @@ let package = Package(
     name: "AgoraUIKit_iOS",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"])
+        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"]),
+        .library(name: "AgoraUIKit_iOS_RTMExt", targets: ["AgoraUIKit_iOS_RTMExt"])
     ],
-    dependencies: [.package(
-        name: "AgoraRtcKit",
-        url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-        from: "3.4.5"
-    )],
+    dependencies: [
+        .package(
+            name: "AgoraRtcKit",
+            url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
+            from: "3.4.5"
+        ),
+        .package(
+            name: "AgoraRtmKit",
+            url: "https://github.com/AgoraIO/AgoraRtm_iOS",
+            from: "1.4.7"
+        ),
+    ],
     targets: [
         .target(
             name: "AgoraUIKit_iOS",
             dependencies: ["AgoraRtcKit"],
             path: "Sources/Agora-UIKit"
+        ),
+        .target(
+            name: "AgoraUIKit_iOS_RTMExt",
+            dependencies: ["AgoraUIKit_iOS", "AgoraRtmKit"],
+            path: "Sources/Agora-UIKit_RTMExt"
         )
     ]
 )

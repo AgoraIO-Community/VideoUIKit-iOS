@@ -19,8 +19,8 @@ class ViewController: UIViewController {
         agSettings.enabledButtons = [.cameraButton, .micButton, .flipButton]
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
-                appId: <#Agora App ID#>,
-                appToken: <#Agora Token or nil#>
+                appId: "",
+                appToken: nil
             ),
             style: .floating,
             agoraSettings: agSettings,

@@ -24,7 +24,7 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.swift_versions = ['5.0']
 
   s.source_files = 'Sources/Agora-UIKit/*'
-  s.dependency 'AgoraRtcEngine_macOS', '~> 3.4.0'
+  s.dependency 'AgoraRtcEngine_macOS', '~> 3.5.0'
   
   s.static_framework = false
 end
