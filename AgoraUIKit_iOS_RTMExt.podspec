@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint Agora-UIKit.podspec' to ensure this is a
+# Be sure to run `pod lib lint AgoraUIKit_iOS.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,12 +7,12 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'AgoraUIKit_macOS'
-  s.version          = '1.5.2'
-  s.summary          = 'Agora video session AppKit template.'
+  s.name             = 'AgoraUIKit_iOS_RTMExt'
+  s.version          = '1.6.0'
+  s.summary          = 'Agora video session UIKit template.'
 
   s.description      = <<-DESC
-Use this Pod to create a video AppKit view that can be easily added to your macOS application.
+Use this Pod to create a video UIKit view that can be easily added to your iOS application.
                        DESC
 
   s.homepage         = 'https://github.com/AgoraIO-Community/iOS-UIKit'
@@ -20,11 +20,11 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.author           = { 'Max Cobb' => 'max@agora.io' }
   s.source           = { :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git', :tag => s.version.to_s }
 
-  s.macos.deployment_target = '10.14'
+  s.ios.deployment_target = '13.0'
   s.swift_versions = ['5.0']
 
-  s.source_files = 'Sources/Agora-UIKit/*'
-  s.dependency 'AgoraRtcEngine_macOS', '~> 3.4.0'
-  
-  s.static_framework = false
+  s.source_files = 'Sources/Agora-UIKit_RTMExt/*'
+  s.dependency 'AgoraUIKit_iOS', '~> 1.5.0'
+
+  s.static_framework = true
 end
