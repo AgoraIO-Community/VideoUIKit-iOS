@@ -48,7 +48,7 @@ extension AgoraVideoViewer {
                 return
             }
             let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseDict = responseJSON as? [String: Any], let token = responseDict["token"] as? String {
+            if let responseDict = responseJSON as? [String: Any], let token = responseDict["rtcToken"] as? String {
                 callback(.success(token))
             } else {
                 callback(.failure(TokenError.invalidData))
