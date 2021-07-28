@@ -6,6 +6,6 @@ target 'Agora-UIKit-Example' do
   use_frameworks!
 
   # Pods for Agora-UIKit-Example
-  pod 'AgoraUIKit_iOS_RTMExt', :path => '../'
+  pod 'AgoraUIKit_iOS', :path => '../'
 
 end

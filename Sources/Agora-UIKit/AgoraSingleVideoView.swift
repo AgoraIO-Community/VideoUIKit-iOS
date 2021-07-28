@@ -14,6 +14,15 @@ import AgoraRtcKit
 
 /// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
+
+    /// Devices that can be muted/unmuted
+    public enum MutingDevices: Int, CaseIterable {
+        /// The device camera
+        case camera
+        /// The device microphone
+        case microphone
+    }
+
     /// Is the video turned off for this user.
     public var videoMuted: Bool = true {
         didSet {
@@ -31,7 +40,7 @@ public class AgoraSingleVideoView: MPView {
         }
     }
 
-    var streamContainer: StreamMessageContainer?
+    var streamContainer: SingleVideoViewDelegate?
 
     /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {
@@ -138,7 +147,7 @@ public class AgoraSingleVideoView: MPView {
     ///   - streamContainer: Container to access the StreamMessageContainer.
     public init(
         uid: UInt, micColor: MPColor, showOptions: Bool = false,
-        streamContainer: StreamMessageContainer? = nil
+        streamContainer: SingleVideoViewDelegate? = nil
     ) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor

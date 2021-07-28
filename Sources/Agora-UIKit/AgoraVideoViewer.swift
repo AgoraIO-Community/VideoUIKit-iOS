@@ -20,13 +20,17 @@ public struct AgoraConnectionData {
     var appToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser
     var channel: String?
+    public var rtcId: UInt?
+    public var rtmId: String
+    public var username: String?
     /// Create AgoraConnectionData object
     /// - Parameters:
     ///   - appId: Agora App ID from https://agora.io
     ///   - appToken: Token to be used to connect to a channel, can be nil.
-    public init(appId: String, appToken: String? = nil) {
+    public init(appId: String, appToken: String? = nil, rtmId: String? = nil) {
         self.appId = appId
         self.appToken = appToken
+        self.rtmId = rtmId ?? UUID().uuidString
     }
 }
 
@@ -79,7 +83,7 @@ public extension AgoraVideoViewerDelegate {
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
-open class AgoraVideoViewer: MPView, StreamMessageContainer {
+open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
@@ -89,7 +93,7 @@ open class AgoraVideoViewer: MPView, StreamMessageContainer {
     public internal(set) var agoraSettings: AgoraSettings
 
     /// Stream Controller class for managing stream messages
-    public var streamController: StreamMessageController?
+    public var rtmController: AgoraRtmController?
 
     /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {
@@ -133,7 +137,10 @@ open class AgoraVideoViewer: MPView, StreamMessageContainer {
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
-    public internal(set) lazy var userID: UInt = 0
+    public var userID: UInt {
+        get { self.connectionData.rtcId ?? 0 }
+        set { self.connectionData.rtcId = newValue }
+    }
     internal var connectionData: AgoraConnectionData!
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.

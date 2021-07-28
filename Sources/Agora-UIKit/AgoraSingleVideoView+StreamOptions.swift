@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension AgoraSingleVideoView {
 
@@ -15,7 +16,7 @@ extension AgoraSingleVideoView {
     ///   - isMuted: Boolean option to mute or unmute device
     /// - Returns: String to be displayed in the mute/unmute option
     open func userOptionsString(
-        for option: StreamMessageController.MutingDevices, isMuted: Bool
+        for option: AgoraRtmController.MutingDevices, isMuted: Bool
     ) -> String {
         switch option {
         case .camera:
@@ -60,7 +61,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: Button that was selected
     @objc open func optionsBtnSelected(sender: UIButton) {
         let alert = UIAlertController(title: "Request Action", message: nil, preferredStyle: .actionSheet)
-        StreamMessageController.MutingDevices.allCases.forEach { enumCase in
+        AgoraRtmController.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:
@@ -84,7 +85,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: UIAlertAction that was selected.
     open func optionsActionSelected(sender: UIAlertAction) {
         if let actionTitle = sender.title,
-           let reqError = self.streamContainer?.streamController?.createRequest(
+           let reqError = self.streamContainer?.rtmController?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")

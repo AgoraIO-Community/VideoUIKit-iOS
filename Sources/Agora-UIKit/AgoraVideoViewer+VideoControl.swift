@@ -309,15 +309,63 @@ extension AgoraVideoViewer {
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel(channel: channel)
-            self?.setupDataStream()
+            self?.setupDataStream(joining: channel)
         }
     }
 
     /// Initialise data stream to send small messages across the channel.
-    open func setupDataStream() {
-        self.streamController = StreamMessageController(
-            streamID: 10007, config: AgoraDataStreamConfig(), engine: self.agkit
+    open func setupDataStream(joining channel: String) {
+        self.rtmController = AgoraRtmController(agoraVideoViewer: self)
+        self.rtmController?.joinChannel(named: channel, callback: { streee, chann, joinStatus in
+            print(joinStatus)
+        })
+    }
+
+    public func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest) {
+        guard let device = AgoraSingleVideoView.MutingDevices(rawValue: muteReq.device) else {
+            return
+        }
+        if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
+        if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }
+
+        AgoraVideoViewer.agoraPrint(
+            .error,
+            message: "user \(muteReq.rtcId) (self) should \(muteReq.mute ? "" : "un")mute" +
+                " their \(device) by \(muteReq.isForceful ? "force" : "request")"
         )
+        func setDevice(_ sender: Any? = nil) {
+            switch device {
+            case .camera:
+                self.setCam(to: !muteReq.mute)
+            case .microphone:
+                self.setMic(to: !muteReq.mute)
+            }
+        }
+        if muteReq.isForceful {
+            setDevice()
+            return
+        }
+        let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device)?"
+        #if os(iOS)
+        let alert = UIAlertController(
+            title: alertTitle, message: nil,
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.presentAlert(alert: alert, animated: true)
+        #else
+        let alert = NSAlert()
+        alert.addButton(withTitle: "Confirm")
+        alert.addButton(withTitle: "Cancel")
+        alert.messageText = alertTitle
+        alert.alertStyle = .warning
+        alert.beginSheetModal(for: self.window!) { modalResponse in
+            if modalResponse.rawValue == 1000 {
+                setDevice()
+            }
+        }
+        #endif
     }
 
     internal func handleAlreadyInChannel(

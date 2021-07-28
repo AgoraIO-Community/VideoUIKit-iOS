@@ -8,7 +8,6 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [
         .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"]),
-        .library(name: "AgoraUIKit_iOS_RTMExt", targets: ["AgoraUIKit_iOS_RTMExt"])
     ],
     dependencies: [
         .package(
@@ -25,13 +24,8 @@ let package = Package(
     targets: [
         .target(
             name: "AgoraUIKit_iOS",
-            dependencies: ["AgoraRtcKit"],
+            dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
             path: "Sources/Agora-UIKit"
-        ),
-        .target(
-            name: "AgoraUIKit_iOS_RTMExt",
-            dependencies: ["AgoraUIKit_iOS", "AgoraRtmKit"],
-            path: "Sources/Agora-UIKit_RTMExt"
         )
     ]
 )

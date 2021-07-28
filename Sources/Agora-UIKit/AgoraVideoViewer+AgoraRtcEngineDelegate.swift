@@ -260,55 +260,55 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      @param data     Data received by the local user.
      */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, receiveStreamMessageFromUid uid: UInt, streamId: Int, data: Data) {
-        if self.streamController?.streamID == streamId,
-           let decodedStream = self.streamController?.decodeStream(data: data, from: uid) {
-            switch decodedStream {
-            case .mute(let uid, let mute, let device, let force):
-                if uid == self.userID {
-                    if device == .camera, self.agoraSettings.cameraEnabled == !mute { return }
-                    if device == .microphone, self.agoraSettings.micEnabled == !mute { return }
-
-                    AgoraVideoViewer.agoraPrint(
-                        .error,
-                        message: "user \(uid) (self) should \(mute ? "" : "un")mute" +
-                            " their \(device) by \(force ? "force" : "request")"
-                    )
-                    func setDevice(_ sender: Any? = nil) {
-                         switch device {
-                         case .camera:
-                             self.setCam(to: !mute)
-                         case .microphone:
-                             self.setMic(to: !mute)
-                         }
-                     }
-                    if force {
-                        setDevice()
-                        return
-                    }
-                    let alertTitle = "\(mute ? "" : "un")mute \(device)?"
-                    #if os(iOS)
-                    let alert = UIAlertController(
-                        title: alertTitle, message: nil,
-                        preferredStyle: .actionSheet
-                    )
-                    alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.presentAlert(alert: alert, animated: true)
-                    #else
-                    let alert = NSAlert()
-                    alert.addButton(withTitle: "Confirm")
-                    alert.addButton(withTitle: "Cancel")
-                    alert.messageText = alertTitle
-                    alert.alertStyle = .warning
-                    alert.beginSheetModal(for: self.window!) { modalResponse in
-                        if modalResponse.rawValue == 1000 {
-                            setDevice()
-                        }
-                    }
-                    #endif
-                }
-            // More cases will be added to this switch later
-            }
-        }
+//        if self.streamController?.streamID == streamId,
+//           let decodedStream = self.streamController?.decodeStream(data: data, from: uid) {
+//            switch decodedStream {
+//            case .mute(let uid, let mute, let device, let force):
+//                if uid == self.userID {
+//                    if device == .camera, self.agoraSettings.cameraEnabled == !mute { return }
+//                    if device == .microphone, self.agoraSettings.micEnabled == !mute { return }
+//
+//                    AgoraVideoViewer.agoraPrint(
+//                        .error,
+//                        message: "user \(uid) (self) should \(mute ? "" : "un")mute" +
+//                            " their \(device) by \(force ? "force" : "request")"
+//                    )
+//                    func setDevice(_ sender: Any? = nil) {
+//                         switch device {
+//                         case .camera:
+//                             self.setCam(to: !mute)
+//                         case .microphone:
+//                             self.setMic(to: !mute)
+//                         }
+//                     }
+//                    if force {
+//                        setDevice()
+//                        return
+//                    }
+//                    let alertTitle = "\(mute ? "" : "un")mute \(device)?"
+//                    #if os(iOS)
+//                    let alert = UIAlertController(
+//                        title: alertTitle, message: nil,
+//                        preferredStyle: .actionSheet
+//                    )
+//                    alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
+//                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                    self.presentAlert(alert: alert, animated: true)
+//                    #else
+//                    let alert = NSAlert()
+//                    alert.addButton(withTitle: "Confirm")
+//                    alert.addButton(withTitle: "Cancel")
+//                    alert.messageText = alertTitle
+//                    alert.alertStyle = .warning
+//                    alert.beginSheetModal(for: self.window!) { modalResponse in
+//                        if modalResponse.rawValue == 1000 {
+//                            setDevice()
+//                        }
+//                    }
+//                    #endif
+//                }
+//            // More cases will be added to this switch later
+//            }
+//        }
     }
 }
