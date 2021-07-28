@@ -59,28 +59,29 @@ open class AgoraRtmController: NSObject {
         var username: String?
         var platform: String = "iOS"
     }
-    var personalData: UserData {
-        UserData(
-            rtmId: self.connectionData.rtmId,
-            rtcId: self.connectionData.rtcId,
-            username: self.connectionData.username
-        )
-    }
 
     public struct MuteRequest: Codable {
         public var rtcId: UInt
         public var mute: Bool
-        public var device: AgoraSingleVideoView.MutingDevices.RawValue
+        public var device: AgoraRtmController.MutingDevices.RawValue
         public var isForceful: Bool
         public init(
             rtcId: UInt, mute: Bool,
-            device: AgoraSingleVideoView.MutingDevices.RawValue, isForceful: Bool
+            device: AgoraRtmController.MutingDevices.RawValue, isForceful: Bool
         ) {
             self.rtcId = rtcId
             self.mute = mute
             self.device = device
             self.isForceful = isForceful
         }
+    }
+
+    var personalData: UserData {
+        UserData(
+            rtmId: self.connectionData.rtmId,
+            rtcId: self.connectionData.rtcId,
+            username: self.connectionData.username
+        )
     }
 
     init?(agoraVideoViewer: AgoraVideoViewer) {

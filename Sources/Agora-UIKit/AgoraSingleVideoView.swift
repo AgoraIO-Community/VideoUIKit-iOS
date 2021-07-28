@@ -40,7 +40,7 @@ public class AgoraSingleVideoView: MPView {
         }
     }
 
-    var streamContainer: SingleVideoViewDelegate?
+    var singleVideoViewDelegate: SingleVideoViewDelegate?
 
     /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {
@@ -147,11 +147,11 @@ public class AgoraSingleVideoView: MPView {
     ///   - streamContainer: Container to access the StreamMessageContainer.
     public init(
         uid: UInt, micColor: MPColor, showOptions: Bool = false,
-        streamContainer: SingleVideoViewDelegate? = nil
+        delegate: SingleVideoViewDelegate? = nil
     ) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
-        self.streamContainer = streamContainer
+        self.singleVideoViewDelegate = delegate
         super.init(frame: .zero)
         self.setBackground()
         self.canvas.uid = uid
@@ -165,7 +165,7 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.view = hostingView
         self.addSubview(hostingView)
         self.setupMutedFlag()
-        self.setupOptions(visible: streamContainer != nil ? showOptions : false)
+        self.setupOptions(visible: delegate != nil ? showOptions : false)
     }
 
     func setupOptions(visible showOptions: Bool) {

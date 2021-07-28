@@ -35,7 +35,7 @@ extension AgoraVideoViewer {
         }
         let remoteVideoView = AgoraSingleVideoView(
             uid: userId, micColor: self.agoraSettings.colors.micFlag,
-            showOptions: self.agoraSettings.showRemoteRequestOptions, streamContainer: self
+            showOptions: self.agoraSettings.showRemoteRequestOptions, delegate: self
         )
         remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)

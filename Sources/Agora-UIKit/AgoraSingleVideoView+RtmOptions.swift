@@ -1,12 +1,16 @@
 //
-//  AgoraSingleVideoView+StreamOptions.swift
+//  AgoraSingleVideoView+RtmOptions.swift
 //  AgoraUIKit_iOS
 //
 //  Created by Max Cobb on 19/07/2021.
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
+#else
+import AppKit
+#endif
 
 extension AgoraSingleVideoView {
 
@@ -43,7 +47,7 @@ extension AgoraSingleVideoView {
             attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
         )
         userOptionsBtn.menu?.insertItem(actionItem, at: 0)
-        StreamMessageController.MutingDevices.allCases.forEach { enumCase in
+        AgoraRtmController.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:
@@ -78,14 +82,14 @@ extension AgoraSingleVideoView {
             )
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.streamContainer?.presentAlert(alert: alert, animated: true)
+        self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true)
     }
 
     /// Action selected such as mute/unmute microphone/camera.
     /// - Parameter sender: UIAlertAction that was selected.
     open func optionsActionSelected(sender: UIAlertAction) {
         if let actionTitle = sender.title,
-           let reqError = self.streamContainer?.rtmController?.createRequest(
+           let reqError = self.singleVideoViewDelegate?.rtmController?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
@@ -96,7 +100,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: Button that was selected
     @objc public func optionsBtnSelected(sender: NSPopUpButton) {
         if let actionTitle = sender.selectedItem?.title,
-           let reqError = self.streamContainer?.streamController?.createRequest(
+           let reqError = self.singleVideoViewDelegate?.rtmController?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
