@@ -135,7 +135,7 @@ public class AgoraSingleVideoView: MPView {
     /// - Parameters:
     ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
     ///   - micColor: Color to be applied when the local or remote user mutes their microphone
-    ///   - streamContainer: Container to access the StreamMessageContainer.
+    ///   - delegate: Object used for accessing the AgoraRtmController and presenting alerts
     public init(
         uid: UInt, micColor: MPColor, delegate: SingleVideoViewDelegate? = nil
     ) {

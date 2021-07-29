@@ -1,5 +1,5 @@
 //
-//  StreamMessageController.swift
+//  AgoraRtmController.swift
 //  AgoraUIKit_macOS
 //
 //  Created by Max Cobb on 14/07/2021.
@@ -8,9 +8,9 @@
 import AgoraRtcKit
 import AgoraRtmKit
 
-/// Protocol for being able to access the StreamMessageController and presenting alerts
+/// Protocol for being able to access the AgoraRtmController and presenting alerts
 public protocol SingleVideoViewDelegate: AnyObject {
-    /// Stream Controller class for managing stream messages
+    /// RTM Controller class for managing RTM messages
     var rtmController: AgoraRtmController? { get set }
     #if os(iOS)
     /// presentAlert is a way to show any alerts that want to display.
@@ -40,7 +40,7 @@ extension SingleVideoViewDelegate {
     #endif
 }
 
-/// Class for controlling the stream messages
+/// Class for controlling the RTM messages
 open class AgoraRtmController: NSObject {
     var engine: AgoraRtcEngineKit { self.videoViewer.agkit }
     var connectionData: AgoraConnectionData { self.videoViewer.connectionData }
@@ -210,14 +210,14 @@ open class AgoraRtmController: NSObject {
 
 // MARK: Helper Methods
 extension AgoraRtmController {
-    /// Type of decoded stream coming from other users
+    /// Type of decoded message coming from other users
     public enum DecodedRtmMessage {
         /// Mute is when a user is requesting another user to mute or unmute a device
         case mute(_: MuteRequest)
         /// DecodedRtmMessage type containing data about a user (local or remote)
         case userData(_: UserData)
     }
-    func decodeStream(data: Data, from rtmId: String) -> DecodedRtmMessage? {
+    func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmMessage? {
         let decoder = JSONDecoder()
         if let muteReq = try? decoder.decode(MuteRequest.self, from: data) {
             return .mute(muteReq)

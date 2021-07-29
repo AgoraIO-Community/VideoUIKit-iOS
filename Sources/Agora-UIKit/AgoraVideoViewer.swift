@@ -95,7 +95,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
-    /// Stream Controller class for managing stream messages
+    /// Controller class for managing RTM messages
     public var rtmController: AgoraRtmController?
 
     /// The rendering mode of the video view for all active videos.

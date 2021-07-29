@@ -72,7 +72,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     ///   - rawMsg: Incoming Raw message.
     ///   - peerId: Id of the peer this message is coming from
     open func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        if let decodedRaw = self.decodeStream(data: rawMsg.rawData, from: peerId) {
+        if let decodedRaw = self.decodeRawRtmData(data: rawMsg.rawData, from: peerId) {
             switch decodedRaw {
             case .mute(let muteReq):
                 self.videoViewer.handleMuteRequest(muteReq: muteReq)
