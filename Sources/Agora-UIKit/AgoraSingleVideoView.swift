@@ -15,14 +15,6 @@ import AgoraRtcKit
 /// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
 
-    /// Devices that can be muted/unmuted
-    public enum MutingDevices: Int, CaseIterable {
-        /// The device camera
-        case camera
-        /// The device microphone
-        case microphone
-    }
-
     /// Is the video turned off for this user.
     public var videoMuted: Bool = true {
         didSet {

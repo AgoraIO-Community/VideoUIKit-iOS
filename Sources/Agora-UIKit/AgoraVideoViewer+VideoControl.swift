@@ -321,8 +321,10 @@ extension AgoraVideoViewer {
         })
     }
 
-    public func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest) {
-        guard let device = AgoraSingleVideoView.MutingDevices(rawValue: muteReq.device) else {
+    /// Handle mute request, by showing popup or directly changing the device state
+    /// - Parameter muteReq: Incoming mute request data
+    open func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest) {
+        guard let device = AgoraRtmController.MutingDevices(rawValue: muteReq.device) else {
             return
         }
         if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }

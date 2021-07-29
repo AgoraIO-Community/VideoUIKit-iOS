@@ -32,6 +32,12 @@ extension AgoraSingleVideoView {
 
     func updateUserOptions() {
         #if os(macOS)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.updateUserOptions()
+            }
+            return
+        }
         guard let userOptions = self.userOptions as? NSPopUpButton else {
             return
         }

@@ -18,10 +18,13 @@ public struct AgoraConnectionData {
     var appId: String
     /// Token to be used to connect to a channel, can be nil.
     var appToken: String?
-    /// Channel the object is connected to. This cannot be set with the initialiser
+    /// Channel the object is connected to. This cannot be set with the initialiser.
     var channel: String?
+    /// Agora Real-time Communication Identifier (Agora Video/Audio SDK).
     public var rtcId: UInt?
+    /// Agora Real-time Messaging Identifier (Agora RTM SDK).
     public var rtmId: String
+    /// Username to be shared of the local user.
     public var username: String?
     /// Create AgoraConnectionData object
     /// - Parameters:
