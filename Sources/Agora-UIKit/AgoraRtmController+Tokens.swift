@@ -64,7 +64,7 @@ extension AgoraRtmController {
         case .success(let token):
             self.updateToken(token)
         case .failure(let err):
-            AgoraVideoViewer.agoraPrint(.debug, message: "Could not fetch rtm token: \(err)")
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch rtm token: \(err)")
         }
     }
 
@@ -72,17 +72,17 @@ extension AgoraRtmController {
         self.rtmKit.renewToken(token) { _, renewStatus in
             switch renewStatus {
             case .ok:
-               AgoraVideoViewer.agoraPrint(.debug, message: "token renewal success")
+               AgoraVideoViewer.agoraPrint(.verbose, message: "token renewal success")
             case .failure, .invalidArgument, .rejected, .tooOften,
                  .tokenExpired, .invalidToken,
                  .notInitialized, .notLoggedIn:
                 AgoraVideoViewer.agoraPrint(
-                    .debug,
+                    .error,
                     message: "cannot renew token: \(renewStatus): \(renewStatus.rawValue)"
                 )
             @unknown default:
                 AgoraVideoViewer.agoraPrint(
-                    .debug,
+                    .error,
                     message: "cannot renew token (unknown): \(renewStatus): \(renewStatus.rawValue)"
                 )
            }

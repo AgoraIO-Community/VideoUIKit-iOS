@@ -15,8 +15,7 @@ extension AgoraVideoViewer {
             return self.userVideoLookup[self.userID]
         }
         let vidView = AgoraSingleVideoView(
-            uid: self.userID, micColor: self.agoraSettings.colors.micFlag,
-            showOptions: false
+            uid: self.userID, micColor: self.agoraSettings.colors.micFlag
         )
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
@@ -34,10 +33,12 @@ extension AgoraVideoViewer {
             return remoteView
         }
         let remoteVideoView = AgoraSingleVideoView(
-            uid: userId, micColor: self.agoraSettings.colors.micFlag,
-            showOptions: self.agoraSettings.showRemoteRequestOptions, delegate: self
+            uid: userId, micColor: self.agoraSettings.colors.micFlag, delegate: self
         )
         remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
+        if self.rtmController?.rtcLookup.index(forKey: userId) != nil {
+            remoteVideoView.showOptions = self.agoraSettings.showRemoteRequestOptions
+        }
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)
         self.userVideoLookup[userId] = remoteVideoView
         if self.activeSpeaker == nil {

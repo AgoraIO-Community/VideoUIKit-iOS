@@ -115,7 +115,7 @@ open class AgoraRtmController: NSObject {
                     }
                 case .failure(let failErr):
                     completion(.invalidToken)
-                   AgoraVideoViewer.agoraPrint(.debug, message: "could not fetch token: \(failErr)")
+                   AgoraVideoViewer.agoraPrint(.error, message: "could not fetch token: \(failErr)")
                 }
             }
         } else {
@@ -133,7 +133,6 @@ open class AgoraRtmController: NSObject {
         switch code {
         case .ok, .alreadyLogin:
             self.loginStatus = .loggedIn
-            AgoraVideoViewer.agoraPrint(.debug, message: "logged into rtm")
             for step in self.afterLoginSteps {
                 step()
             }
@@ -142,9 +141,9 @@ open class AgoraRtmController: NSObject {
         case .unknown, .rejected, .invalidArgument, .invalidAppId,
              .invalidToken, .tokenExpired, .notAuthorized,
              .timeout, .loginTooOften, .loginNotInitialized:
-            AgoraVideoViewer.agoraPrint(.debug, message: "could not log into rtm")
+            AgoraVideoViewer.agoraPrint(.error, message: "could not log into rtm")
         @unknown default:
-            AgoraVideoViewer.agoraPrint(.debug, message: "unknown login code")
+            AgoraVideoViewer.agoraPrint(.error, message: "unknown login code")
         }
         self.loginStatus = .loginFailed(code)
     }
@@ -194,7 +193,6 @@ open class AgoraRtmController: NSObject {
     ) {
         switch code {
         case .channelErrorOk:
-            AgoraVideoViewer.agoraPrint(.debug, message: "joined channel!")
             self.sendPersonalData(to: channel)
             self.channels[name] = channel
         case .channelErrorFailure, .channelErrorRejected,
@@ -202,9 +200,9 @@ open class AgoraRtmController: NSObject {
              .channelErrorExceedLimit, .channelErrorAlreadyJoined,
              .channelErrorTooOften, .sameChannelErrorTooOften,
              .channelErrorNotInitialized, .channelErrorNotLoggedIn:
-            AgoraVideoViewer.agoraPrint(.debug, message: "could not join channel")
+            AgoraVideoViewer.agoraPrint(.error, message: "could not join channel: \(code.rawValue)")
         @unknown default:
-            AgoraVideoViewer.agoraPrint(.debug, message: "join channel unknown response")
+            AgoraVideoViewer.agoraPrint(.error, message: "join channel unknown response: \(code.rawValue)")
         }
     }
 

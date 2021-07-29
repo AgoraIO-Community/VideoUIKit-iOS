@@ -135,11 +135,9 @@ public class AgoraSingleVideoView: MPView {
     /// - Parameters:
     ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
     ///   - micColor: Color to be applied when the local or remote user mutes their microphone
-    ///   - showOptions: Whether we want to show options to mute/unmute this user
     ///   - streamContainer: Container to access the StreamMessageContainer.
     public init(
-        uid: UInt, micColor: MPColor, showOptions: Bool = false,
-        delegate: SingleVideoViewDelegate? = nil
+        uid: UInt, micColor: MPColor, delegate: SingleVideoViewDelegate? = nil
     ) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
@@ -157,7 +155,7 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.view = hostingView
         self.addSubview(hostingView)
         self.setupMutedFlag()
-        self.setupOptions(visible: delegate != nil ? showOptions : false)
+        self.setupOptions(visible: false)
     }
 
     func setupOptions(visible showOptions: Bool) {
