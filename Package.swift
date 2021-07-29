@@ -7,7 +7,7 @@ let package = Package(
     name: "AgoraUIKit_iOS",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"]),
+        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"])
     ],
     dependencies: [
         .package(
@@ -19,7 +19,7 @@ let package = Package(
             name: "AgoraRtmKit",
             url: "https://github.com/AgoraIO/AgoraRtm_iOS",
             from: "1.4.7"
-        ),
+        )
     ],
     targets: [
         .target(

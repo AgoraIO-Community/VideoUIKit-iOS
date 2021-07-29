@@ -15,9 +15,7 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
         }
-        if self.controlContainer == nil {
-            self.addVideoButtons()
-        }
+        if self.controlContainer == nil { self.addVideoButtons() }
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
@@ -93,9 +91,7 @@ extension AgoraVideoViewer {
                         // if permissions are now granted
                         self.setMic(to: enabled, completion: completion)
                     }
-                } else {
-                    completion?(false)
-                }
+                } else { completion?(false) }
             }) {
             return
         }
@@ -133,9 +129,7 @@ extension AgoraVideoViewer {
 
     /// Turn screen sharing on/off
     @objc open func toggleScreenShare() {
-        guard let ssButton = self.getScreenShareButton() else {
-            return
-        }
+        guard let ssButton = self.getScreenShareButton() else { return }
         #if os(iOS)
         ssButton.isSelected.toggle()
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
@@ -309,65 +303,16 @@ extension AgoraVideoViewer {
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel(channel: channel)
-            self?.setupDataStream(joining: channel)
+            self?.setupRtmController(joining: channel)
         }
     }
 
-    /// Initialise data stream to send small messages across the channel.
-    open func setupDataStream(joining channel: String) {
+    /// Initialise RTM to send messages across the network.
+    open func setupRtmController(joining channel: String) {
         self.rtmController = AgoraRtmController(agoraVideoViewer: self)
-        self.rtmController?.joinChannel(named: channel, callback: { streee, chann, joinStatus in
+        self.rtmController?.joinChannel(named: channel, callback: { _, _, joinStatus in
             print(joinStatus)
         })
-    }
-
-    /// Handle mute request, by showing popup or directly changing the device state
-    /// - Parameter muteReq: Incoming mute request data
-    open func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest) {
-        guard let device = AgoraRtmController.MutingDevices(rawValue: muteReq.device) else {
-            return
-        }
-        if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
-        if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }
-
-        AgoraVideoViewer.agoraPrint(
-            .error,
-            message: "user \(muteReq.rtcId) (self) should \(muteReq.mute ? "" : "un")mute" +
-                " their \(device) by \(muteReq.isForceful ? "force" : "request")"
-        )
-        func setDevice(_ sender: Any? = nil) {
-            switch device {
-            case .camera:
-                self.setCam(to: !muteReq.mute)
-            case .microphone:
-                self.setMic(to: !muteReq.mute)
-            }
-        }
-        if muteReq.isForceful {
-            setDevice()
-            return
-        }
-        let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device)?"
-        #if os(iOS)
-        let alert = UIAlertController(
-            title: alertTitle, message: nil,
-            preferredStyle: .actionSheet
-        )
-        alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.presentAlert(alert: alert, animated: true)
-        #else
-        let alert = NSAlert()
-        alert.addButton(withTitle: "Confirm")
-        alert.addButton(withTitle: "Cancel")
-        alert.messageText = alertTitle
-        alert.alertStyle = .warning
-        alert.beginSheetModal(for: self.window!) { modalResponse in
-            if modalResponse.rawValue == 1000 {
-                setDevice()
-            }
-        }
-        #endif
     }
 
     internal func handleAlreadyInChannel(

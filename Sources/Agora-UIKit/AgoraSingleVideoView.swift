@@ -32,7 +32,7 @@ public class AgoraSingleVideoView: MPView {
         }
     }
 
-    var singleVideoViewDelegate: SingleVideoViewDelegate?
+    weak var singleVideoViewDelegate: SingleVideoViewDelegate?
 
     /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {

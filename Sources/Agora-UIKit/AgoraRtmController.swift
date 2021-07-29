@@ -9,7 +9,7 @@ import AgoraRtcKit
 import AgoraRtmKit
 
 /// Protocol for being able to access the StreamMessageController and presenting alerts
-public protocol SingleVideoViewDelegate {
+public protocol SingleVideoViewDelegate: AnyObject {
     /// Stream Controller class for managing stream messages
     var rtmController: AgoraRtmController? { get set }
     #if os(iOS)
@@ -81,34 +81,6 @@ open class AgoraRtmController: NSObject {
         var platform: String = "iOS"
     }
 
-    /// Structure that contains information about a mute request
-    public struct MuteRequest: Codable {
-        /// RTC ID that the request is intended for
-        public var rtcId: UInt
-        /// Whether the request is to mute or unmute a device
-        public var mute: Bool
-        /// Device to be muted or unmuted
-        public var device: AgoraRtmController.MutingDevices.RawValue
-        /// Whether this is a request or a forceful change
-        public var isForceful: Bool
-
-        /// Create a new Mute Request
-        /// - Parameters:
-        ///   - rtcId: RTC Id of the target remote user
-        ///   - mute: Whether the request is to mute or unmute a device
-        ///   - device: Device to be muted or unmuted
-        ///   - isForceful: Whether this is a request or a forceful change
-        public init(
-            rtcId: UInt, mute: Bool,
-            device: AgoraRtmController.MutingDevices, isForceful: Bool
-        ) {
-            self.rtcId = rtcId
-            self.mute = mute
-            self.device = device.rawValue
-            self.isForceful = isForceful
-        }
-    }
-
     var personalData: UserData {
         UserData(
             rtmId: self.connectionData.rtmId,
@@ -126,7 +98,7 @@ open class AgoraRtmController: NSObject {
         }
         super.init()
         self.rtmKit.agoraRtmDelegate = self
-        self.rtmLogin() {_ in}
+        self.rtmLogin {_ in}
     }
 
     func rtmLogin(completion: @escaping (AgoraRtmLoginErrorCode) -> Void) {
@@ -202,7 +174,7 @@ open class AgoraRtmController: NSObject {
             guard let newChannel = self.rtmKit.createChannel(withId: channel, delegate: self) else {
                 return
             }
-            newChannel.join() {
+            newChannel.join {
                 callback?(channel, newChannel, $0)
                 self.rtmChannelJoined(
                     name: channel, channel: newChannel, code: $0
@@ -233,134 +205,6 @@ open class AgoraRtmController: NSObject {
             AgoraVideoViewer.agoraPrint(.debug, message: "could not join channel")
         @unknown default:
             AgoraVideoViewer.agoraPrint(.debug, message: "join channel unknown response")
-        }
-    }
-
-    /// Devices that can be muted/unmuted
-    public enum MutingDevices: Int, CaseIterable {
-        /// The device camera
-        case camera
-        /// The device microphone
-        case microphone
-    }
-
-
-    /// Create and send request to user to mute/unmute a device
-    /// - Parameters:
-    ///   - uid: RTM User ID to send the request to
-    ///   - str: String from the action label to
-    /// - Returns: Boolean stating if the request was valid or not
-    open func createRequest(
-        to uid: UInt,
-        fromString str: String
-    ) -> Bool {
-        switch str {
-        case MPButton.unmuteCameraString:
-            self.sendMuteRequest(to: uid, mute: false, device: .camera)
-        case MPButton.muteCameraString:
-            self.sendMuteRequest(to: uid, mute: true, device: .camera)
-        case MPButton.unmuteMicString:
-            self.sendMuteRequest(to: uid, mute: false, device: .microphone)
-        case MPButton.muteMicString:
-            self.sendMuteRequest(to: uid, mute: true, device: .microphone)
-        default:
-            return false
-        }
-        return true
-    }
-
-    /// Create and send request to mute/unmute a device
-    /// - Parameters:
-    ///   - rtcId: RTC User ID to send the request to
-    ///   - mute: Whether the device should be muted or unmuted
-    ///   - device: Type of device (camera/microphone)
-    ///   - isForceful: Whether the request should force its way through, otherwise a request is made
-    open func sendMuteRequest(to rtcId: UInt, mute: Bool, device: MutingDevices, isForceful: Bool = false) {
-        let muteReq = MuteRequest(rtcId: rtcId, mute: mute, device: device, isForceful: isForceful)
-        self.sendRaw(message: muteReq, user: rtcId) { sendStatus in
-            if sendStatus == .ok {
-                print("message was sent!")
-            } else {
-                print(sendStatus)
-            }
-        }
-    }
-}
-
-extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
-    /// The token used to connect to the current active channel has expired.
-    /// - Parameter kit: Agora RTM Engine
-    open func rtmKitTokenDidExpire(_ kit: AgoraRtmKit) {
-        if let tokenURL = self.videoViewer.agoraSettings.tokenURL {
-            AgoraRtmController.fetchRtmToken(
-                urlBase: tokenURL, userId: self.connectionData.rtmId,
-                callback: self.newTokenFetched(result:)
-            )
-        }
-    }
-
-    /**
-     Occurs when receiving a peer-to-peer message.
-
-     @param kit An [AgoraRtmKit](AgoraRtmKit) instance.
-     @param message The received message. Ensure that you check the `type` property when receiving the message instance: If the message type is `AgoraRtmMessageTypeRaw`, you need to downcast the received instance from AgoraRtmMessage to AgoraRtmRawMessage. See AgoraRtmMessageType.
-     @param peerId The user ID of the sender.
-     */
-    open func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
-        if let rawMsg = message as? AgoraRtmRawMessage {
-            self.decodeRawMessage(rawMsg: rawMsg, from: peerId)
-        }
-    }
-
-    /**
-     Occurs when a user joins the channel.
-
-     When a remote user calls the [joinWithCompletion]([AgoraRtmChannel joinWithCompletion:]) method and successfully joins the channel, the local user receives this callback.
-
-     **NOTE**
-
-     This callback is disabled when the number of the channel members exceeds 512.
-
-     @param channel The channel that the user joins. See AgoraRtmChannel.
-     @param member The user joining the channel. See AgoraRtmMember.
-     */
-    open func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember) {
-        self.sendPersonalData(to: member.userId)
-    }
-
-    /**
-     Occurs when receiving a channel message.
-
-     When a remote channel member calls the [sendMessage]([AgoraRtmChannel sendMessage:completion:]) method and successfully sends out a channel message, the local user receives this callback.
-
-     @param channel The channel, to which the local user belongs. See AgoraRtmChannel.
-     @param message The received channel message. See AgoraRtmMessage. Ensure that you check the `type` property when receiving the message instance: If the message type is `AgoraRtmMessageTypeRaw`, you need to downcast the received instance from AgoraRtmMessage to AgoraRtmRawMessage. See AgoraRtmMessageType.
-     @param member The message sender. See AgoraRtmMember.
-     */
-    open func channel(_ channel: AgoraRtmChannel, messageReceived message: AgoraRtmMessage, from member: AgoraRtmMember) {
-        if let rawMsg = message as? AgoraRtmRawMessage {
-            self.decodeRawMessage(rawMsg: rawMsg, from: member.userId)
-        }
-    }
-
-    /// Decode an incoming AgoraRtmRawMessage
-    /// - Parameters:
-    ///   - rawMsg: Incoming Raw message.
-    ///   - peerId: Id of the peer this message is coming from
-    open func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        if let decodedRaw = self.decodeStream(data: rawMsg.rawData, from: peerId) {
-            switch decodedRaw {
-            case .mute(let muteReq):
-                self.videoViewer.handleMuteRequest(muteReq: muteReq)
-            case .userData(let user):
-                AgoraVideoViewer.agoraPrint(
-                    .error, message: "Received user data: \(user.rtmId), \(String(describing: user.rtcId))"
-                )
-                self.rtmLookup[user.rtmId] = user
-                if let rtcId = user.rtcId {
-                    self.rtcLookup[rtcId] = user.rtmId
-                }
-            }
         }
     }
 
@@ -469,81 +313,3 @@ extension AgoraRtmController {
     }
 
 }
-
-extension AgoraRtmController {
-
-    /// Error types to expect from fetchToken on failing ot retrieve valid token.
-    public enum TokenError: Error {
-        /// No data returned from the token request
-        case noData
-        /// Data corrupted or in the wrong format
-        case invalidData
-        /// URL could not be created
-        case invalidURL
-    }
-
-    /// Requests the token from our backend token service
-    /// - Parameter urlBase: base URL specifying where the token server is located
-    /// - Parameter channelName: Name of the channel we're requesting for
-    /// - Parameter userId: User ID of the user trying to join (0 for any user)
-    /// - Parameter callback: Callback method for returning either the string token or error
-    public static func fetchRtmToken(
-        urlBase: String, userId: String,
-        callback: @escaping (Result<String, Error>) -> Void
-    ) {
-        guard let fullURL = URL(string: "\(urlBase)/rtm/\(userId)") else {
-            callback(.failure(TokenError.invalidURL))
-            return
-        }
-        var request = URLRequest(
-            url: fullURL,
-            timeoutInterval: 10
-        )
-        request.httpMethod = "GET"
-
-        let task = URLSession.shared.dataTask(with: request) { data, _, err in
-            guard let data = data else {
-                if let err = err {
-                    callback(.failure(err))
-                } else {
-                    callback(.failure(TokenError.noData))
-                }
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseDict = responseJSON as? [String: Any], let token = responseDict["rtmToken"] as? String {
-                callback(.success(token))
-            } else {
-                callback(.failure(TokenError.invalidData))
-            }
-        }
-
-        task.resume()
-    }
-
-    func newTokenFetched(result: Result<String, Error>) {
-        switch result {
-        case .success(let token):
-            self.updateToken(token)
-        case .failure(let err):
-            AgoraVideoViewer.agoraPrint(.debug, message: "Could not fetch rtm token: \(err)")
-            break
-        }
-    }
-
-    func updateToken(_ token: String) {
-        self.rtmKit.renewToken(token) { token, renewStatus in
-            switch renewStatus {
-            case .ok:
-               AgoraVideoViewer.agoraPrint(.debug, message: "token renewal success")
-            case .failure, .invalidArgument, .rejected, .tooOften,
-                 .tokenExpired, .invalidToken,
-                 .notInitialized, .notLoggedIn:
-                AgoraVideoViewer.agoraPrint(.debug, message: "cannot renew token: \(renewStatus): \(renewStatus.rawValue)")
-            @unknown default:
-                AgoraVideoViewer.agoraPrint(.debug, message: "cannot renew token (unknown): \(renewStatus): \(renewStatus.rawValue)")
-           }
-        }
-    }
-}
-
