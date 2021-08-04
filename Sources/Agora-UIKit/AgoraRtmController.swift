@@ -74,7 +74,7 @@ open class AgoraRtmController: NSObject {
     /// Settings used for the display and behaviour
     var agoraSettings: AgoraSettings { self.delegate.agSettings }
     /// Delegate for fetching data for our RTM Controller
-    var delegate: RtmControllerDelegate
+    weak var delegate: RtmControllerDelegate!
 
     /// Status of the RTM Engine
     public enum LoginStatus {
@@ -273,7 +273,9 @@ extension AgoraRtmController {
                 )
             case .errorFailure, .errorTimeout, .tooOften,
                  .invalidMessage, .errorNotInitialized, .notLoggedIn:
-                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState.rawValue)")
+                AgoraVideoViewer.agoraPrint(
+                    .error, message: "Could not send message to channel \(sendMsgState.rawValue)"
+                )
             @unknown default:
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }
@@ -290,7 +292,9 @@ extension AgoraRtmController {
             case .failure, .timeout, .tooOften,
                  .invalidMessage, .notInitialized, .notLoggedIn, .peerUnreachable,
                  .cachedByServer, .invalidUserId, .imcompatibleMessage:
-                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState.rawValue)")
+                AgoraVideoViewer.agoraPrint(
+                    .error, message: "Could not send message to channel \(sendMsgState.rawValue)"
+                )
             @unknown default:
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }

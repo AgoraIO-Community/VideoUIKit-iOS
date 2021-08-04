@@ -2,3 +2,5 @@ line_length:
   ignores_comments: true
 excluded:
   - Agora-*-Example
+  - Sources/Agora-UIKit/AgoraUIKit+MD5.swift
+  - .build

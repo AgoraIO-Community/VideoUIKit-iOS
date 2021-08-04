@@ -13,13 +13,16 @@ final class RtmMessagesTests: XCTestCase {
         XCTAssert(rawMsg.text == "AgoraUIKit", "Message text data should be AgoraUIKit")
         let msgText = String(data: rawMsg.rawData, encoding: .utf8)
 
-        let unencodedJSON = try! JSONSerialization.jsonObject(
+        guard let unencodedJSON = try? JSONSerialization.jsonObject(
             with: rawMsg.rawData, options: .allowFragments
-        ) as? Dictionary<String, Any>
-        XCTAssert((unencodedJSON?["rtcId"] as! UInt) == muteReq.rtcId, "rtcId invalid!")
-        XCTAssert((unencodedJSON?["mute"] as! Bool) == muteReq.mute, "mute invalid!")
-        XCTAssert((unencodedJSON?["device"] as! Int) == muteReq.device, "device invalid!")
-        XCTAssert((unencodedJSON?["isForceful"] as! Bool) == muteReq.isForceful, "mute invalid!")
+        ) as? [String: Any] else {
+            XCTFail("Could not unencode data")
+            return
+        }
+        XCTAssert((unencodedJSON["rtcId"] as? UInt) == muteReq.rtcId, "rtcId invalid!")
+        XCTAssert((unencodedJSON["mute"] as? Bool) == muteReq.mute, "mute invalid!")
+        XCTAssert((unencodedJSON["device"] as? Int) == muteReq.device, "device invalid!")
+        XCTAssert((unencodedJSON["isForceful"] as? Bool) == muteReq.isForceful, "mute invalid!")
         let msgTextValid = "{\"rtcId\":999,\"mute\":true,\"device\":0,\"isForceful\":true}"
 
         XCTAssertEqual(msgText, msgTextValid, "Message text not matching mstTextValid")
