@@ -26,6 +26,7 @@ let package = Package(
             name: "AgoraUIKit_iOS",
             dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
             path: "Sources/Agora-UIKit"
-        )
+        ),
+        .testTarget(name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit_iOS"], path: "Tests/Agora-UIKit-Tests")
     ]
 )

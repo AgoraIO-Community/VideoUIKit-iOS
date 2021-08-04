@@ -15,9 +15,9 @@ extension AgoraRtmController {
     /// Devices that can be muted/unmuted
     public enum MutingDevices: Int, CaseIterable {
         /// The device camera
-        case camera
+        case camera = 0
         /// The device microphone
-        case microphone
+        case microphone = 1
     }
 
     /// Structure that contains information about a mute request
@@ -77,14 +77,18 @@ extension AgoraRtmController {
     ///   - rtcId: RTC User ID to send the request to
     ///   - mute: Whether the device should be muted or unmuted
     ///   - device: Type of device (camera/microphone)
-    ///   - isForceful: Whether the request should force its way through, otherwise a request is made
+    ///   - isForceful: Whether the request should force its way through, otherwise a request is made. Cannot forcefully unmute.
     open func sendMuteRequest(to rtcId: UInt, mute: Bool, device: MutingDevices, isForceful: Bool = false) {
+        if isForceful == true, mute == false {
+            AgoraVideoViewer.agoraPrint(.error, message: "Invalid mute request")
+            return
+        }
         let muteReq = MuteRequest(rtcId: rtcId, mute: mute, device: device, isForceful: isForceful)
         self.sendRaw(message: muteReq, user: rtcId) { sendStatus in
             if sendStatus == .ok {
-                print("message was sent!")
+                AgoraVideoViewer.agoraPrint(.verbose, message: "message was sent!")
             } else {
-                print(sendStatus)
+                AgoraVideoViewer.agoraPrint(.error, message: sendStatus)
             }
         }
     }

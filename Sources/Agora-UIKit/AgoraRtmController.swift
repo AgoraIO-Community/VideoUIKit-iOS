@@ -40,11 +40,42 @@ extension SingleVideoViewDelegate {
     #endif
 }
 
+/// Delegate for fetching data for our RTM Controller
+public protocol RtmControllerDelegate: AnyObject {
+    /// Instance of the RTC Engine being used
+    var rtcEngine: AgoraRtcEngineKit { get }
+    /// Struct for holding data about the connection to Agora service
+    var agConnection: AgoraConnectionData { get set }
+    /// Settings used for the display and behaviour
+    var agSettings: AgoraSettings { get }
+    /// Handle mute request, by showing popup or directly changing the device state
+    /// - Parameter muteReq: Incoming mute request data
+    func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest)
+    /// Property used to access all the RTC connections to other broadcasters in an RTC channel
+    var videoLookup: [UInt: AgoraSingleVideoView] { get }
+}
+
+extension AgoraVideoViewer: RtmControllerDelegate {
+    public var agConnection: AgoraConnectionData {
+        get { self.connectionData }
+        set { self.connectionData = newValue }
+    }
+    public var rtcEngine: AgoraRtcEngineKit { self.agkit }
+    public var agSettings: AgoraSettings { self.agoraSettings }
+    public var videoLookup: [UInt: AgoraSingleVideoView] { self.userVideoLookup }
+}
+
 /// Class for controlling the RTM messages
 open class AgoraRtmController: NSObject {
-    var engine: AgoraRtcEngineKit { self.videoViewer.agkit }
-    var connectionData: AgoraConnectionData { self.videoViewer.connectionData }
-    var agoraSettings: AgoraSettings { self.videoViewer.agoraSettings }
+    /// Instance of the RTC Engine being used
+    var engine: AgoraRtcEngineKit { self.delegate.rtcEngine }
+    /// Struct for holding data about the connection to Agora service
+    var connectionData: AgoraConnectionData { self.delegate.agConnection }
+    /// Settings used for the display and behaviour
+    var agoraSettings: AgoraSettings { self.delegate.agSettings }
+    /// Delegate for fetching data for our RTM Controller
+    var delegate: RtmControllerDelegate
+
     /// Status of the RTM Engine
     public enum LoginStatus {
         /// Login has not been attempted
@@ -58,7 +89,7 @@ open class AgoraRtmController: NSObject {
     }
     /// Status of the RTM Engine
     public internal(set) var loginStatus: LoginStatus = .offline
-    var videoViewer: AgoraVideoViewer
+//    var videoViewer: AgoraVideoViewer
     var rtmKit: AgoraRtmKit
     /// Lookup remote user RTM ID based on their RTC ID
     public internal(set) var rtcLookup: [UInt: String] = [:]
@@ -78,20 +109,20 @@ open class AgoraRtmController: NSObject {
         /// Username to be displayed for remote users
         var username: String?
         /// Agora UIKit platform (iOS, Android, Flutter, React Native)
-        var platform: String = "iOS"
+        var uikit: AgoraUIKit = .current
     }
 
     var personalData: UserData {
         UserData(
             rtmId: self.connectionData.rtmId,
-            rtcId: self.connectionData.rtcId,
+            rtcId: self.connectionData.rtcId == 0 ? nil : self.connectionData.rtcId,
             username: self.connectionData.username
         )
     }
 
-    init?(agoraVideoViewer: AgoraVideoViewer) {
-        self.videoViewer = agoraVideoViewer
-        if let rtmKit = AgoraRtmKit(appId: agoraVideoViewer.connectionData.appId, delegate: nil) {
+    init?(delegate: RtmControllerDelegate) {
+        self.delegate = delegate
+        if let rtmKit = AgoraRtmKit(appId: delegate.agConnection.appId, delegate: nil) {
             self.rtmKit = rtmKit
         } else {
             return nil
@@ -217,7 +248,13 @@ extension AgoraRtmController {
         /// DecodedRtmMessage type containing data about a user (local or remote)
         case userData(_: UserData)
     }
-    func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmMessage? {
+
+    /// Decode message to a compatible DecodedRtmMessage type.
+    /// - Parameters:
+    ///   - data: Raw data input, should be utf8 encoded JSON string of MuteRequest or UserData.
+    ///   - rtmId: Sender Real-time Messaging ID.
+    /// - Returns: DecodedRtmMessage enum of the appropriate type.
+    internal static func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmMessage? {
         let decoder = JSONDecoder()
         if let muteReq = try? decoder.decode(MuteRequest.self, from: data) {
             return .mute(muteReq)
@@ -231,10 +268,12 @@ extension AgoraRtmController {
         self.sendRaw(message: self.personalData, channel: channel) { sendMsgState in
             switch sendMsgState {
             case .errorOk:
-                break
+                AgoraVideoViewer.agoraPrint(
+                    .verbose, message: "Personal data sent to channel successfully"
+                )
             case .errorFailure, .errorTimeout, .tooOften,
                  .invalidMessage, .errorNotInitialized, .notLoggedIn:
-                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState)")
+                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState.rawValue)")
             @unknown default:
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }
@@ -245,11 +284,13 @@ extension AgoraRtmController {
         self.sendRaw(message: self.personalData, member: member) { sendMsgState in
             switch sendMsgState {
             case .ok:
-                break
+                AgoraVideoViewer.agoraPrint(
+                    .verbose, message: "Personal data sent to member successfully"
+                )
             case .failure, .timeout, .tooOften,
                  .invalidMessage, .notInitialized, .notLoggedIn, .peerUnreachable,
                  .cachedByServer, .invalidUserId, .imcompatibleMessage:
-                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState)")
+                AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel \(sendMsgState.rawValue)")
             @unknown default:
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }
@@ -269,28 +310,38 @@ extension AgoraRtmController {
         }
     }
 
+    /// Create raw message from codable object
+    /// - Parameter codableObj: Codable object to be sent over the Real-time Messaging network.
+    /// - Returns: AgoraRtmRawMessage that is ready to be sent across the Agora Real-time Messaging network.
+    internal static func createRawRtm<Value>(from codableObj: Value) -> AgoraRtmRawMessage? where Value: Codable {
+        if let data = try? JSONEncoder().encode(codableObj) {
+            return AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit")
+        }
+        AgoraVideoViewer.agoraPrint(.error, message: "Message could not be encoded to JSON")
+        return nil
+    }
+
     func sendRaw<Value>(
         message: Value, channel: AgoraRtmChannel,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
     ) where Value: Codable {
-        if let data = try? JSONEncoder().encode(message) {
-            channel.send(
-                AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit"),
-                completion: callback
-            )
+        if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
+            channel.send(rawMsg, completion: callback)
+            return
         }
+        callback(.invalidMessage)
     }
 
     func sendRaw<Value>(
         message: Value, member: String,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
-        if let data = try? JSONEncoder().encode(message) {
+        if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
             self.rtmKit.send(
-                AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit"),
-                toPeer: member, completion: callback
+                rawMsg, toPeer: member, completion: callback
             )
         }
+        callback(.imcompatibleMessage)
     }
 
     func sendRaw<Value>(
@@ -298,11 +349,8 @@ extension AgoraRtmController {
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
         if let rtcUser = self.rtcLookup[user] {
-            if let data = try? JSONEncoder().encode(message) {
-                self.rtmKit.send(
-                    AgoraRtmRawMessage(
-                        rawData: data, description: "AgoraUIKit"
-                    ), toPeer: rtcUser, completion: callback)
+            if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
+                self.rtmKit.send(rawMsg, toPeer: rtcUser, completion: callback)
                 return
             }
             callback(.imcompatibleMessage)

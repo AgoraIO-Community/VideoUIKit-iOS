@@ -309,10 +309,8 @@ extension AgoraVideoViewer {
 
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
-        self.rtmController = AgoraRtmController(agoraVideoViewer: self)
-        self.rtmController?.joinChannel(named: channel, callback: { _, _, joinStatus in
-            print(joinStatus)
-        })
+        self.rtmController = AgoraRtmController(delegate: self)
+        self.rtmController?.joinChannel(named: channel)
     }
 
     internal func handleAlreadyInChannel(

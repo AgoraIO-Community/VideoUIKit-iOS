@@ -5,13 +5,18 @@
 //  Created by Max Cobb on 29/07/2021.
 //
 
+#if os(iOS)
+import UIKit.UIDevice
+#else
+import IOKit
+#endif
 import AgoraRtmKit
 
 extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     /// The token used to connect to the current active channel has expired.
     /// - Parameter kit: Agora RTM Engine
     open func rtmKitTokenDidExpire(_ kit: AgoraRtmKit) {
-        if let tokenURL = self.videoViewer.agoraSettings.tokenURL {
+        if let tokenURL = self.agoraSettings.tokenURL {
             AgoraRtmController.fetchRtmToken(
                 urlBase: tokenURL, userId: self.connectionData.rtmId,
                 callback: self.newTokenFetched(result:)
@@ -72,10 +77,10 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     ///   - rawMsg: Incoming Raw message.
     ///   - peerId: Id of the peer this message is coming from
     open func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        if let decodedRaw = self.decodeRawRtmData(data: rawMsg.rawData, from: peerId) {
+        if let decodedRaw = AgoraRtmController.decodeRawRtmData(data: rawMsg.rawData, from: peerId) {
             switch decodedRaw {
             case .mute(let muteReq):
-                self.videoViewer.handleMuteRequest(muteReq: muteReq)
+                self.delegate.handleMuteRequest(muteReq: muteReq)
             case .userData(let user):
                 AgoraVideoViewer.agoraPrint(
                     .verbose, message: "Received user data: \(user.rtmId), \(String(describing: user.rtcId))"
@@ -83,7 +88,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
                 self.rtmLookup[user.rtmId] = user
                 if let rtcId = user.rtcId {
                     self.rtcLookup[rtcId] = user.rtmId
-                    self.videoViewer.userVideoLookup[rtcId]?
+                    self.delegate.videoLookup[rtcId]?
                         .showOptions = self.agoraSettings.showRemoteRequestOptions
                 }
             }
