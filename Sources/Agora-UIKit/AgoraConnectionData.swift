@@ -14,11 +14,11 @@ import IOKit
 /// Storing struct for holding data about the connection to Agora service
 public struct AgoraConnectionData {
     /// Agora App ID from https://agora.io
-    var appId: String
+    public var appId: String
     /// Token to be used to connect to a channel, can be nil.
-    var appToken: String?
+    public var appToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
-    var channel: String?
+    public var channel: String?
     /// Agora Real-time Communication Identifier (Agora Video/Audio SDK).
     public var rtcId: UInt
     /// Agora Real-time Messaging Identifier (Agora RTM SDK).

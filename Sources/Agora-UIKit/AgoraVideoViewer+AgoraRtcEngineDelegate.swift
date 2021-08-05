@@ -28,6 +28,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
         // Only show the camera options when we are a broadcaster
         self.getControlContainer().isHidden = !isHost
+        self.rtmController?.broadcastPersonalData()
     }
 
     /// New User joined the channel

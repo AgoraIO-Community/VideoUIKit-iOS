@@ -53,6 +53,7 @@ public protocol RtmControllerDelegate: AnyObject {
     func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest)
     /// Property used to access all the RTC connections to other broadcasters in an RTC channel
     var videoLookup: [UInt: AgoraSingleVideoView] { get }
+    var userRole: AgoraClientRole { get set }
 }
 
 extension AgoraVideoViewer: RtmControllerDelegate {
@@ -108,6 +109,8 @@ open class AgoraRtmController: NSObject {
         var rtcId: UInt?
         /// Username to be displayed for remote users
         var username: String?
+        /// Role of the user (broadcaster or audience)
+        var role: AgoraClientRole.RawValue
         /// Agora UIKit platform (iOS, Android, Flutter, React Native)
         var uikit: AgoraUIKit = .current
     }
@@ -116,7 +119,8 @@ open class AgoraRtmController: NSObject {
         UserData(
             rtmId: self.connectionData.rtmId,
             rtcId: self.connectionData.rtcId == 0 ? nil : self.connectionData.rtcId,
-            username: self.connectionData.username
+            username: self.connectionData.username,
+            role: self.delegate.userRole.rawValue
         )
     }
 
@@ -179,7 +183,7 @@ open class AgoraRtmController: NSObject {
         self.loginStatus = .loginFailed(code)
     }
 
-    func joinChannel(
+    open func joinChannel(
         named channel: String,
         callback: (
             (String, AgoraRtmChannel, AgoraRtmJoinChannelErrorCode) -> Void
@@ -213,6 +217,21 @@ open class AgoraRtmController: NSObject {
         }
     }
 
+    open func leaveChannel(named channel: String) {
+        if let rtmChannel = self.channels[channel] {
+            rtmChannel.leave { leaveStatus in
+                if leaveStatus == .ok {
+                    AgoraVideoViewer.agoraPrint(.verbose, message: "Successfully left RTM channel")
+                    self.channels.removeValue(forKey: channel)
+                    return
+                }
+                AgoraVideoViewer.agoraPrint(
+                    .error, message: "Could not leave RTM channel \(channel): \(leaveStatus.rawValue)"
+                )
+            }
+        }
+    }
+
     /// Called after AgoraRtmController joins a channel
     /// - Parameters:
     ///   - name: name of the channel joined
@@ -236,7 +255,6 @@ open class AgoraRtmController: NSObject {
             AgoraVideoViewer.agoraPrint(.error, message: "join channel unknown response: \(code.rawValue)")
         }
     }
-
 }
 
 // MARK: Helper Methods
@@ -264,7 +282,13 @@ extension AgoraRtmController {
         return nil
     }
 
-    func sendPersonalData(to channel: AgoraRtmChannel) {
+    open func broadcastPersonalData() {
+        for channel in self.channels {
+            self.sendPersonalData(to: channel.value)
+        }
+    }
+
+    open func sendPersonalData(to channel: AgoraRtmChannel) {
         self.sendRaw(message: self.personalData, channel: channel) { sendMsgState in
             switch sendMsgState {
             case .errorOk:

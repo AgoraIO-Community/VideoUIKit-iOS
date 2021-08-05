@@ -56,6 +56,7 @@ Issue Number: N/A
 
 ### UIKit Update Checklist (Minor or Patch Release)
 
+- [ ] Updated version number in `Sources/Agora-UIKit/AgoraUIKit.swift`
 - [ ] Using the latest version of Agora's Video SDK
 - [ ] Example apps are all functional
 - [ ] Core features are still working (both ways across platforms)
