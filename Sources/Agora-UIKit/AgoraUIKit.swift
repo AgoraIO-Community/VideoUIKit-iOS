@@ -18,7 +18,7 @@ public struct AgoraUIKit: Codable {
     fileprivate(set) var version: String
     fileprivate(set) var framework: String
     /// Version of UIKit being used
-    static let version = "1.5.0"
+    static let version = "1.6.0"
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     static let framework = "native"
     #if os(iOS)
