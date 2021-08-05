@@ -10,6 +10,7 @@ import Foundation
 /// Agora UIKit data structure. Access `AgoraUIKit.current` for information
 /// about your UIKit version.
 public struct AgoraUIKit: Codable {
+    /// Instance of the current AgoraUIKit instance.
     public static var current: AgoraUIKit {
         AgoraUIKit(version: AgoraUIKit.version, platform: AgoraUIKit.platform, framework: AgoraUIKit.framework)
     }

@@ -53,6 +53,7 @@ public protocol RtmControllerDelegate: AnyObject {
     func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest)
     /// Property used to access all the RTC connections to other broadcasters in an RTC channel
     var videoLookup: [UInt: AgoraSingleVideoView] { get }
+    /// The role for the user. Either `.audience` or `.broadcaster`.
     var userRole: AgoraClientRole { get set }
 }
 
@@ -183,6 +184,10 @@ open class AgoraRtmController: NSObject {
         self.loginStatus = .loginFailed(code)
     }
 
+    /// Joins an RTM channel.
+    /// - Parameters:
+    ///   - channel: Channel name to join
+    ///   - callback: Join completion with channel name, channel object and join status code.
     open func joinChannel(
         named channel: String,
         callback: (
@@ -217,12 +222,15 @@ open class AgoraRtmController: NSObject {
         }
     }
 
+    /// Leave RTM channel by name.
+    /// - Parameter channel: name of the channel you want to leave.
     open func leaveChannel(named channel: String) {
         if let rtmChannel = self.channels[channel] {
             rtmChannel.leave { leaveStatus in
                 if leaveStatus == .ok {
                     AgoraVideoViewer.agoraPrint(.verbose, message: "Successfully left RTM channel")
                     self.channels.removeValue(forKey: channel)
+//                    self.rtmKit.destroyChannel(withId: channel)
                     return
                 }
                 AgoraVideoViewer.agoraPrint(
@@ -282,12 +290,16 @@ extension AgoraRtmController {
         return nil
     }
 
+    /// Share local UserData to all connected channels.
+    /// Call this method when personal details are updated.
     open func broadcastPersonalData() {
         for channel in self.channels {
             self.sendPersonalData(to: channel.value)
         }
     }
 
+    /// Share local UserData to a specific channel
+    /// - Parameter channel: Channel to share UserData with.
     open func sendPersonalData(to channel: AgoraRtmChannel) {
         self.sendRaw(message: self.personalData, channel: channel) { sendMsgState in
             switch sendMsgState {
@@ -306,7 +318,9 @@ extension AgoraRtmController {
         }
     }
 
-    func sendPersonalData(to member: String) {
+    /// Share local UserData to a specific RTM member
+    /// - Parameter member: Member to share UserData with.
+    open func sendPersonalData(to member: String) {
         self.sendRaw(message: self.personalData, member: member) { sendMsgState in
             switch sendMsgState {
             case .ok:

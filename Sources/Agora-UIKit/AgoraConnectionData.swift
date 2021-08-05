@@ -42,6 +42,11 @@ public struct AgoraConnectionData {
         /// will be applied for any nil values
         case staticValues(rtmId: String?, rtcId: UInt?)
     }
+    /// Generate an Agora RTC ID based on a String
+    /// - Parameters:
+    ///   - vendor: Input string, which determines the output ID
+    ///   - charSet: charSet to use for fetching numbers, leave this undeclared.
+    /// - Returns: UInt to be used when connecting to Agora RTC.
     public static func uidFrom(vendor: String, charSet: String = "0123456789") -> UInt {
         let baseUID = UInt(vendor.filter(charSet.contains).suffix(9)) ?? 0
         if baseUID > 100 {
