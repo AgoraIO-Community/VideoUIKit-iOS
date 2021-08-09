@@ -127,9 +127,7 @@ open class AgoraRtmController: NSObject {
         self.delegate = delegate
         if let rtmKit = AgoraRtmKit(appId: delegate.agConnection.appId, delegate: nil) {
             self.rtmKit = rtmKit
-        } else {
-            return nil
-        }
+        } else { return nil }
         super.init()
         self.rtmKit.agoraRtmDelegate = self
         self.rtmLogin {_ in}
@@ -149,7 +147,7 @@ open class AgoraRtmController: NSObject {
                     }
                 case .failure(let failErr):
                     completion(.invalidToken)
-                   AgoraVideoViewer.agoraPrint(.error, message: "could not fetch token: \(failErr)")
+                    AgoraVideoViewer.agoraPrint(.error, message: "could not fetch token: \(failErr)")
                 }
             }
         } else {
@@ -175,7 +173,7 @@ open class AgoraRtmController: NSObject {
         case .unknown, .rejected, .invalidArgument, .invalidAppId,
              .invalidToken, .tokenExpired, .notAuthorized,
              .timeout, .loginTooOften, .loginNotInitialized:
-            AgoraVideoViewer.agoraPrint(.error, message: "could not log into rtm")
+            AgoraVideoViewer.agoraPrint(.error, message: "could not log into rtm: \(code.rawValue)")
         @unknown default:
             AgoraVideoViewer.agoraPrint(.error, message: "unknown login code")
         }
@@ -213,9 +211,7 @@ open class AgoraRtmController: NSObject {
             }
             newChannel.join {
                 callback?(channel, newChannel, $0)
-                self.rtmChannelJoined(
-                    name: channel, channel: newChannel, code: $0
-                )
+                self.rtmChannelJoined(name: channel, channel: newChannel, code: $0)
             }
         }
     }
@@ -251,11 +247,10 @@ open class AgoraRtmController: NSObject {
         case .channelErrorOk:
             self.sendPersonalData(to: channel)
             self.channels[name] = channel
-        case .channelErrorFailure, .channelErrorRejected,
-             .channelErrorInvalidArgument, .channelErrorTimeout,
-             .channelErrorExceedLimit, .channelErrorAlreadyJoined,
-             .channelErrorTooOften, .sameChannelErrorTooOften,
-             .channelErrorNotInitialized, .channelErrorNotLoggedIn:
+        case .channelErrorFailure, .channelErrorRejected, .channelErrorInvalidArgument,
+             .channelErrorTimeout, .channelErrorExceedLimit, .channelErrorAlreadyJoined,
+             .channelErrorTooOften, .sameChannelErrorTooOften, .channelErrorNotInitialized,
+             .channelErrorNotLoggedIn:
             AgoraVideoViewer.agoraPrint(.error, message: "could not join channel: \(code.rawValue)")
         @unknown default:
             AgoraVideoViewer.agoraPrint(.error, message: "join channel unknown response: \(code.rawValue)")
@@ -291,9 +286,7 @@ extension AgoraRtmController {
     /// Share local UserData to all connected channels.
     /// Call this method when personal details are updated.
     open func broadcastPersonalData() {
-        for channel in self.channels {
-            self.sendPersonalData(to: channel.value)
-        }
+        for channel in self.channels { self.sendPersonalData(to: channel.value) }
     }
 
     /// Share local UserData to a specific channel
@@ -344,8 +337,7 @@ extension AgoraRtmController {
         if let channel = self.channels[channel],
            let data = try? JSONEncoder().encode(message) {
             channel.send(
-                AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit"),
-                completion: callback
+                AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit"), completion: callback
             )
         }
     }
@@ -377,9 +369,7 @@ extension AgoraRtmController {
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
         if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
-            self.rtmKit.send(
-                rawMsg, toPeer: member, completion: callback
-            )
+            self.rtmKit.send(rawMsg, toPeer: member, completion: callback)
         }
         callback(.imcompatibleMessage)
     }
@@ -397,5 +387,4 @@ extension AgoraRtmController {
         }
         callback(.peerUnreachable)
     }
-
 }
