@@ -83,7 +83,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
                 self.delegate.handleMuteRequest(muteReq: muteReq)
             case .userData(let user):
                 AgoraVideoViewer.agoraPrint(
-                    .verbose, message: "Received user data: \(user.rtmId), \(String(describing: user.rtcId))"
+                    .verbose, message: "Received user data: \n\(user.prettyPrint())"
                 )
                 self.rtmLookup[user.rtmId] = user
                 if let rtcId = user.rtcId {

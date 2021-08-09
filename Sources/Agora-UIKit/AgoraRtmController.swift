@@ -80,8 +80,38 @@ open class AgoraRtmController: NSObject {
         var username: String?
         /// Role of the user (broadcaster or audience)
         var role: AgoraClientRole.RawValue
+        /// Properties about the Agora SDK versions this user is using
+        var agora: AgoraVersions = .current
         /// Agora UIKit platform (iOS, Android, Flutter, React Native)
         var uikit: AgoraUIKit = .current
+        func prettyPrint() -> String {
+            """
+            rtm: \(rtmId)
+            rtc: \(rtcId ?? 0)
+            username: \(username ?? "nil")
+            role: \(role)
+            agora: \n\(agora.prettyPrint())
+            uikit: \n\(uikit.prettyPrint())
+            """
+        }
+    }
+
+    /// Data about the Agora SDK versions a user is using (local or remote)
+    public struct AgoraVersions: Codable {
+        /// Versions of the local users current RTM and RTC SDKs
+        static var current: AgoraVersions {
+            AgoraVersions(rtm: AgoraRtmKit.getSDKVersion(), rtc: AgoraRtcEngineKit.getSdkVersion())
+        }
+        /// Version string of the RTM SDK
+        var rtm: String
+        /// Version string of the RTC SDK
+        var rtc: String
+        func prettyPrint() -> String {
+            """
+                rtc: \(rtc)
+                rtm: \(rtm)
+            """
+        }
     }
 
     var personalData: UserData {

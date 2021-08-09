@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AgoraRtcKit
 
 /// Agora UIKit data structure. Access `AgoraUIKit.current` for information
 /// about your UIKit version.
@@ -14,8 +15,11 @@ public struct AgoraUIKit: Codable {
     public static var current: AgoraUIKit {
         AgoraUIKit(version: AgoraUIKit.version, platform: AgoraUIKit.platform, framework: AgoraUIKit.framework)
     }
+    /// Platform that is being used: ios, macos, android, unknown
     fileprivate(set) var platform: String
+    /// Version of UIKit being used
     fileprivate(set) var version: String
+    /// Framework type of UIKit. "native", "flutter", "reactnative"
     fileprivate(set) var framework: String
     /// Version of UIKit being used
     static let version = "1.6.0"
@@ -36,4 +40,12 @@ public struct AgoraUIKit: Codable {
         self.platform = platform
         self.framework = framework
     }
+    func prettyPrint() -> String {
+        """
+            version: \(version)
+            platform: \(platform)
+            framework: \(framework)
+        """
+    }
+
 }
