@@ -44,6 +44,9 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     func extraButtons() -> [NSButton]
     #endif
+    /// A pong request has just come back to the local user, indicating that someone is still present in RTM
+    /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
+    func incomingPongRequest(from peerId: String)
 }
 
 public extension AgoraVideoViewerDelegate {
@@ -61,6 +64,7 @@ public extension AgoraVideoViewerDelegate {
     #else
     func extraButtons() -> [NSButton] { [] }
     #endif
+    func incomingPongRequest(from peerId: String) {}
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings

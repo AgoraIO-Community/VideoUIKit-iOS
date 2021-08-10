@@ -19,6 +19,9 @@ public protocol RtmControllerDelegate: AnyObject {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data
     func handleMuteRequest(muteReq: AgoraRtmController.MuteRequest)
+    /// A pong request has just come back to the local user, indicating that someone is still present in RTM
+    /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
+    func handlePongRequest(from peerId: String)
     /// Property used to access all the RTC connections to other broadcasters in an RTC channel
     var videoLookup: [UInt: AgoraSingleVideoView] { get }
     /// The role for the user. Either `.audience` or `.broadcaster`.
@@ -33,6 +36,9 @@ extension AgoraVideoViewer: RtmControllerDelegate {
     public var rtcEngine: AgoraRtcEngineKit { self.agkit }
     public var agSettings: AgoraSettings { self.agoraSettings }
     public var videoLookup: [UInt: AgoraSingleVideoView] { self.userVideoLookup }
+    public func handlePongRequest(from peerId: String) {
+        self.delegate?.incomingPongRequest(from: peerId)
+    }
 }
 
 /// Class for controlling the RTM messages
@@ -261,11 +267,13 @@ open class AgoraRtmController: NSObject {
 // MARK: Helper Methods
 extension AgoraRtmController {
     /// Type of decoded message coming from other users
-    public enum DecodedRtmMessage {
+    public enum DecodedRtmAction {
         /// Mute is when a user is requesting another user to mute or unmute a device
         case mute(_: MuteRequest)
-        /// DecodedRtmMessage type containing data about a user (local or remote)
+        /// DecodedRtmAction type containing data about a user (local or remote)
         case userData(_: UserData)
+        /// Message that contains a small action request, such as a ping or requesting a user's data
+        case genericAction(_: RtmGenericRequest)
     }
 
     /// Decode message to a compatible DecodedRtmMessage type.
@@ -273,12 +281,14 @@ extension AgoraRtmController {
     ///   - data: Raw data input, should be utf8 encoded JSON string of MuteRequest or UserData.
     ///   - rtmId: Sender Real-time Messaging ID.
     /// - Returns: DecodedRtmMessage enum of the appropriate type.
-    internal static func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmMessage? {
+    internal static func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmAction? {
         let decoder = JSONDecoder()
-        if let muteReq = try? decoder.decode(MuteRequest.self, from: data) {
-            return .mute(muteReq)
-        } else if let userData = try? decoder.decode(UserData.self, from: data) {
+        if let userData = try? decoder.decode(UserData.self, from: data) {
             return .userData(userData)
+        } else if let muteReq = try? decoder.decode(MuteRequest.self, from: data) {
+            return .mute(muteReq)
+        } else if let genericRequest = try? decoder.decode(RtmGenericRequest.self, from: data) {
+            return .genericAction(genericRequest)
         }
         return nil
     }
