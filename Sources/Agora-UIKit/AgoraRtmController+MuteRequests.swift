@@ -48,19 +48,20 @@ extension AgoraRtmController {
         }
     }
 
+    /// Enum of request types being made.
+    public enum GenericRequestType: String, Codable {
+        /// Send this type when you are requesting a user's UserData
+        case userdata
+        /// Send this type when you are requesting a user's presence
+        case ping
+        /// Send this type back to a presence request (ping)
+        case pong
+    }
+
     /// Request to be sent over RTM that has no content other than the type
     public struct RtmGenericRequest: Codable {
-        /// Enum of request types being made.
-        public enum RequestType: String, Codable {
-            /// Send this type when you are requesting a user's UserData
-            case userdata
-            /// Send this type when you are requesting a user's presence
-            case ping
-            /// Send this type back to a presence request (ping)
-            case pong
-        }
         /// Type of generic request.
-        public var type: RequestType
+        public var type: GenericRequestType
     }
 
     /// Create and send request to user to mute/unmute a device
