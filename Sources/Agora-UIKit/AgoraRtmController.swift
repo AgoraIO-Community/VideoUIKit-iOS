@@ -124,8 +124,7 @@ open class AgoraRtmController: NSObject {
         UserData(
             rtmId: self.connectionData.rtmId,
             rtcId: self.connectionData.rtcId == 0 ? nil : self.connectionData.rtcId,
-            username: self.connectionData.username,
-            role: self.delegate.userRole.rawValue
+            username: self.connectionData.username, role: self.delegate.userRole.rawValue
         )
     }
 
@@ -145,8 +144,7 @@ open class AgoraRtmController: NSObject {
             AgoraRtmController.fetchRtmToken(urlBase: tokenURL, userId: self.connectionData.rtmId) { fetchResult in
                 switch fetchResult {
                 case .success(let token):
-                    self.rtmKit.login(
-                        byToken: token, user: self.connectionData.rtmId
+                    self.rtmKit.login(byToken: token, user: self.connectionData.rtmId
                     ) { errcode in
                         self.rtmLoggedIn(code: errcode)
                         completion(errcode)
@@ -171,9 +169,7 @@ open class AgoraRtmController: NSObject {
         switch code {
         case .ok, .alreadyLogin:
             self.loginStatus = .loggedIn
-            for step in self.afterLoginSteps {
-                step()
-            }
+            for step in self.afterLoginSteps { step() }
             self.afterLoginSteps.removeAll()
             return
         case .unknown, .rejected, .invalidArgument, .invalidAppId,
@@ -206,11 +202,8 @@ open class AgoraRtmController: NSObject {
                 }
             }
         case .loggingIn:
-            self.afterLoginSteps.append {
-                self.joinChannel(named: channel, callback: callback)
-            }
-        case .loginFailed(let loginErr):
-            print("login failed: \(loginErr.rawValue)")
+            self.afterLoginSteps.append { self.joinChannel(named: channel, callback: callback) }
+        case .loginFailed(let loginErr): print("login failed: \(loginErr.rawValue)")
         case .loggedIn:
             guard let newChannel = self.rtmKit.createChannel(withId: channel, delegate: self) else {
                 return
@@ -230,7 +223,6 @@ open class AgoraRtmController: NSObject {
                 if leaveStatus == .ok {
                     AgoraVideoViewer.agoraPrint(.verbose, message: "Successfully left RTM channel")
                     self.channels.removeValue(forKey: channel)
-//                    self.rtmKit.destroyChannel(withId: channel)
                     return
                 }
                 AgoraVideoViewer.agoraPrint(
@@ -328,9 +320,8 @@ extension AgoraRtmController {
                 AgoraVideoViewer.agoraPrint(
                     .verbose, message: "Personal data sent to member successfully"
                 )
-            case .failure, .timeout, .tooOften,
-                 .invalidMessage, .notInitialized, .notLoggedIn, .peerUnreachable,
-                 .cachedByServer, .invalidUserId, .imcompatibleMessage:
+            case .failure, .timeout, .tooOften, .invalidMessage, .notInitialized, .notLoggedIn,
+                 .peerUnreachable, .cachedByServer, .invalidUserId, .imcompatibleMessage:
                 AgoraVideoViewer.agoraPrint(
                     .error, message: "Could not send message to channel \(sendMsgState.rawValue)"
                 )
@@ -344,8 +335,7 @@ extension AgoraRtmController {
         message: Value, channel: String,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
     ) where Value: Codable {
-        if let channel = self.channels[channel],
-           let data = try? JSONEncoder().encode(message) {
+        if let channel = self.channels[channel], let data = try? JSONEncoder().encode(message) {
             channel.send(
                 AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit"), completion: callback
             )
@@ -389,12 +379,8 @@ extension AgoraRtmController {
         message: Value, user: UInt,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
-        if let rtcUser = self.rtcLookup[user] {
-            guard let rawMsg = AgoraRtmController.createRawRtm(from: message) else {
-                callback(.imcompatibleMessage)
-                return
-            }
-            self.rtmKit.send(rawMsg, toPeer: rtcUser, completion: callback)
+        if let rtmId = self.rtcLookup[user] {
+            self.sendRaw(message: message, member: rtmId, callback: callback)
         } else {
             callback(.peerUnreachable)
         }
