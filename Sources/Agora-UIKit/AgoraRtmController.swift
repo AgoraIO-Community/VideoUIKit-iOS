@@ -378,10 +378,11 @@ extension AgoraRtmController {
         message: Value, member: String,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
-        if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
-            self.rtmKit.send(rawMsg, toPeer: member, completion: callback)
+        guard let rawMsg = AgoraRtmController.createRawRtm(from: message) else {
+            callback(.imcompatibleMessage)
+            return
         }
-        callback(.imcompatibleMessage)
+        self.rtmKit.send(rawMsg, toPeer: member, completion: callback)
     }
 
     func sendRaw<Value>(
@@ -389,12 +390,13 @@ extension AgoraRtmController {
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
         if let rtcUser = self.rtcLookup[user] {
-            if let rawMsg = AgoraRtmController.createRawRtm(from: message) {
-                self.rtmKit.send(rawMsg, toPeer: rtcUser, completion: callback)
+            guard let rawMsg = AgoraRtmController.createRawRtm(from: message) else {
+                callback(.imcompatibleMessage)
                 return
             }
-            callback(.imcompatibleMessage)
+            self.rtmKit.send(rawMsg, toPeer: rtcUser, completion: callback)
+        } else {
+            callback(.peerUnreachable)
         }
-        callback(.peerUnreachable)
     }
 }
