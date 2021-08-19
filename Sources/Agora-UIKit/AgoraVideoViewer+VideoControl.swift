@@ -6,6 +6,7 @@
 //
 
 import AgoraRtcKit
+import AVKit
 
 extension AgoraVideoViewer {
 

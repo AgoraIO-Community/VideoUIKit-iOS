@@ -34,13 +34,15 @@ final class RtmMessagesTests: XCTestCase {
         }
 
         switch decodedMsg {
-        case .userData(_):
-            XCTFail("Should not decode to userData")
         case .mute(let decodedMuteReq):
             XCTAssert(decodedMuteReq.rtcId == muteReq.rtcId, "rtcId invalid!")
             XCTAssert(decodedMuteReq.mute == muteReq.mute, "mute invalid!")
             XCTAssert(decodedMuteReq.device == muteReq.device, "device invalid!")
             XCTAssert(decodedMuteReq.isForceful == muteReq.isForceful, "mute invalid!")
+        case .userData(_):
+            XCTFail("Should not decode to userData")
+        case .genericAction(_):
+            XCTFail("Should not decode to genericAction")
         }
     }
 }
