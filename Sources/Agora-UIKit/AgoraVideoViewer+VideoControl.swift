@@ -11,7 +11,7 @@ import AVKit
 extension AgoraVideoViewer {
 
     /// Setup the canvas and rendering for the device's local video
-    func setupAgoraVideo() {
+    open func setupAgoraVideo() {
         if self.agkit.enableVideo() < 0 {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
@@ -24,7 +24,7 @@ extension AgoraVideoViewer {
     /// - Parameters:
     ///     - enabled: Should the camera be enabled.
     ///     - completion: completion when the setting has been changed, or failed due to permissions.
-    func setCam(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
+    open func setCam(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
         if enabled == self.agoraSettings.cameraEnabled {
             completion?(true)
             return
@@ -147,7 +147,7 @@ extension AgoraVideoViewer {
         #endif
     }
 
-    func startSharingScreen(displayId: UInt = 0) {
+    open func startSharingScreen(displayId: UInt = 0) {
         #if os(macOS)
         let rectangle = CGRect.zero
         let parameters = AgoraScreenCaptureParameters()
@@ -202,7 +202,7 @@ extension AgoraVideoViewer {
 
     /// Change the role of the local user when connecting to a channel
     /// - Parameter role: new role for the local user.
-    public func setRole(to role: AgoraClientRole) {
+    open func setRole(to role: AgoraClientRole) {
         // Check if we have access to mic + camera
         // before changing the user role.
         if role == .broadcaster {
@@ -233,7 +233,7 @@ extension AgoraVideoViewer {
     ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
     ///                   Default: `false`
     ///     - uid: UID to be set when user joins the channel, default will be 0.
-    public func join(
+    open func join(
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
@@ -267,7 +267,7 @@ extension AgoraVideoViewer {
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
     ///                   Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
-    public func join(
+    open func join(
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) {
@@ -331,10 +331,12 @@ extension AgoraVideoViewer {
     }
 
     /// Leave channel stops all preview elements
-    /// - Parameter leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
+    /// - Parameters:
+    ///     - stopPreview: Stops the local preview and the video
+    ///     - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
-    public func leaveChannel(_ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil) -> Int32 {
+    open func leaveChannel(stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil) -> Int32 {
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
             // Returning 0 to just say we are not in a channel
@@ -342,7 +344,7 @@ extension AgoraVideoViewer {
         }
         self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
-        if self.userRole == .broadcaster {
+        if stopPreview, self.userRole == .broadcaster {
             agkit.stopPreview()
         }
         self.activeSpeaker = nil
@@ -360,14 +362,14 @@ extension AgoraVideoViewer {
 
     /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
     /// - Parameter newToken: new token to be applied to the current connection.
-    public func updateToken(_ newToken: String) {
+    open func updateToken(_ newToken: String) {
         self.currentToken = newToken
         self.agkit.renewToken(newToken)
     }
 
     /// Leave any open channels and kills the Agora Engine instance.
-    public func exit() {
-        self.leaveChannel()
+    open func exit() {
+        self.leaveChannel(stopPreview: true)
         AgoraRtcEngineKit.destroy()
     }
 }
