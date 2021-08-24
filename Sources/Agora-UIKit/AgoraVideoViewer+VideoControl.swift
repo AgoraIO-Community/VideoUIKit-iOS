@@ -336,7 +336,10 @@ extension AgoraVideoViewer {
     ///     - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
-    open func leaveChannel(stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil) -> Int32 {
+    open func leaveChannel(
+        stopPreview: Bool = true,
+        _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
+    ) -> Int32 {
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
             // Returning 0 to just say we are not in a channel
