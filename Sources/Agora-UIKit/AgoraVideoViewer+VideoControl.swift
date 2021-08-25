@@ -167,7 +167,7 @@ extension AgoraVideoViewer {
         beautifyButton.isSelected.toggle()
         beautifyButton.backgroundColor = beautifyButton.isSelected ? .systemGreen : .systemGray
         self.agkit.setVoiceBeautifierPreset(
-            beautifyButton.isSelected ? .timbreTransformationClear : .voiceBeautifierOff
+            beautifyButton.isSelected ? .timbreTransformationClear : .presetOff
         )
         self.agkit.setBeautyEffectOptions(beautifyButton.isSelected, options: self.beautyOptions)
         #else
