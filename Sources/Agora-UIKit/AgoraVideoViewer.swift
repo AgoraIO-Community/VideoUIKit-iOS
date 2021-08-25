@@ -226,7 +226,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         let engine = AgoraRtcEngineKit.sharedEngine(
             withAppId: connectionData.appId, delegate: self
         )
-        engine.enableAudioVolumeIndication(1000, smooth: 3, report_vad: true)
+        engine.enableAudioVolumeIndication(1000, smooth: 3)
         engine.setChannelProfile(.liveBroadcasting)
         if self.agoraSettings.usingDualStream {
             engine.enableDualStreamMode(true)
