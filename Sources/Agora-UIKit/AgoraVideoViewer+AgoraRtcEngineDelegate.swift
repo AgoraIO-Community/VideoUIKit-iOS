@@ -56,7 +56,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     /// This callback does not work properly when the number of users (in the communication profile) or broadcasters (in the live interactive streaming profile) in the channel exceeds 17.
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit, remoteAudioStateChangedOfUid uid: UInt,
-        state: AgoraAudioRemoteState, reason: AgoraAudioRemoteStateReason, elapsed: Int
+        state: AgoraAudioRemoteState, reason: AgoraAudioRemoteReason, elapsed: Int
     ) {
         if state == .stopped || state == .starting {
             if let videoView = self.userVideoLookup[uid] {
@@ -69,6 +69,8 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             }
         }
     }
+
+
 
     /**
      Occurs when a remote user (Communication)/host (Live Broadcast) leaves a channel. Same as userOfflineBlock.
@@ -135,7 +137,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt,
-        state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int
+        state: AgoraVideoRemoteState, reason: AgoraVideoRemoteReason, elapsed: Int
     ) {
         switch state {
         case .decoding:
@@ -161,7 +163,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit,
-        localVideoStateChange state: AgoraLocalVideoStreamState,
+        localVideoStateChangedOf state: AgoraVideoLocalState,
         error: AgoraLocalVideoStreamError
     ) {
         switch state {
@@ -185,7 +187,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit,
-        localAudioStateChange state: AgoraAudioLocalState,
+        localAudioStateChanged state: AgoraAudioLocalState,
         error: AgoraAudioLocalError
     ) {
         switch state {
