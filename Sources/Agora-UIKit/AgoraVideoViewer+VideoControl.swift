@@ -313,7 +313,8 @@ extension AgoraVideoViewer {
         self.agkit.joinChannel(
             byToken: token,
             channelId: channel,
-            info: nil, uid: self.userID
+            uid: self.userID,
+            mediaOptions: AgoraRtcChannelMediaOptions()
         ) { [weak self] _, uid, _ in
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
