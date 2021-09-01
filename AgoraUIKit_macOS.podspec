@@ -27,5 +27,7 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.pod_target_xcconfig = { 'ONLY_ACTIVE_ARCH' => 'YES' }
   s.dependency 'AgoraRtcEngine_macOS', '~> 3.5.0'
   s.dependency 'AgoraRtm_macOS', '~> 1.4.8'
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=macos*]' => 'arm64' }
+
   s.static_framework = false
 end
