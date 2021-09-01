@@ -1,17 +1,21 @@
 # Agora UIKit for iOS and macOS
 
 <p align="center">
-<img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
-<img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
-<img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
-<img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
-<img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/>
+  <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
+  <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
+  <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
+  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
+  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/>
+  <a href="https://www.agora.io/en/join-slack/">
+    <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
+  </a>
 </p>
+
 
 
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
-![floating_view.jpg](https://raw.githubusercontent.com/AgoraIO-Community/iOS-UIKit/2f308d3897e3291e12bf6204f0ad722979da6b2a/media/floating_view.jpg)
+<p align="center"><img src="https://raw.githubusercontent.com/AgoraIO-Community/iOS-UIKit/2f308d3897e3291e12bf6204f0ad722979da6b2a/media/floating_view.jpg"/></p>
 
 ## Requirements
 
@@ -102,3 +106,15 @@ agoraView.join(channel: "test", as: .broadcaster)
 ## Documentation
 
 For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/iOS-UIKit/).
+
+### Roadmap
+
+- [x] Muting/Unmuting a remote member
+- [ ] Usernames
+- [ ] Promoting an audience member to a broadcaster role.
+- [ ] Layout for Voice Calls
+- [ ] Cloud recording
+
+## UIKits
+
+The plan is to grow this library and have similar offerings across all supported platforms. There are already similar libraries for [Android](https://github.com/AgoraIO-Community/Android-UIKit/), [React Native](https://github.com/AgoraIO-Community/ReactNative-UIKit), and [Flutter](https://github.com/AgoraIO-Community/Flutter-UIKit/), so be sure to check them out.

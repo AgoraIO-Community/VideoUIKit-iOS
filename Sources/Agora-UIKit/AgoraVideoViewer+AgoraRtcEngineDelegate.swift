@@ -28,6 +28,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
         // Only show the camera options when we are a broadcaster
         self.getControlContainer().isHidden = !isHost
+        self.rtmController?.broadcastPersonalData()
     }
 
     /// New User joined the channel
@@ -227,7 +228,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 userId: self.userID, callback: self.newTokenFetched
             )
         }
-        self.delegate?.tokenDidExpire?(engine)
+        self.delegate?.tokenDidExpire(engine)
     }
 
     /**
@@ -247,6 +248,6 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 userId: self.userID, callback: self.newTokenFetched
             )
         }
-        self.delegate?.tokenWillExpire?(engine, tokenPrivilegeWillExpire: token)
+        self.delegate?.tokenWillExpire(engine, tokenPrivilegeWillExpire: token)
     }
 }

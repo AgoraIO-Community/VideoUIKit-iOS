@@ -32,7 +32,7 @@ public struct AgoraViewer: UIViewRepresentable {
         self.viewer.agoraSettings
     }
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
-    public var delegate: AgoraVideoViewerDelegate? {
+    weak public var delegate: AgoraVideoViewerDelegate? {
         get { self.viewer.delegate }
         set { self.viewer.delegate = newValue }
     }

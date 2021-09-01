@@ -9,16 +9,24 @@ let package = Package(
     products: [
         .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"])
     ],
-    dependencies: [.package(
-        name: "AgoraRtcKit",
-        url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-        from: "3.4.5"
-    )],
+    dependencies: [
+        .package(
+            name: "AgoraRtcKit",
+            url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
+            from: "3.4.5"
+        ),
+        .package(
+            name: "AgoraRtmKit",
+            url: "https://github.com/AgoraIO/AgoraRtm_iOS",
+            from: "1.4.7"
+        )
+    ],
     targets: [
         .target(
             name: "AgoraUIKit_iOS",
-            dependencies: ["AgoraRtcKit"],
+            dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
             path: "Sources/Agora-UIKit"
-        )
+        ),
+        .testTarget(name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit_iOS"], path: "Tests/Agora-UIKit-Tests")
     ]
 )

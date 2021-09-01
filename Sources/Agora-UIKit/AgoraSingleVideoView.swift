@@ -14,18 +14,30 @@ import AgoraRtcKit
 
 /// View for the individual Agora Camera Feed.
 public class AgoraSingleVideoView: MPView {
+
     /// Is the video turned off for this user.
     public var videoMuted: Bool = true {
         didSet {
             if oldValue != videoMuted {
                 self.canvas.view?.isHidden = videoMuted
             }
+            self.updateUserOptions()
         }
     }
     /// Is the microphone muted for this user.
     public var audioMuted: Bool = true {
         didSet {
             self.mutedFlag.isHidden = !audioMuted
+            self.updateUserOptions()
+        }
+    }
+
+    weak var singleVideoViewDelegate: SingleVideoViewDelegate?
+
+    /// Whether the options label should be visible or not.
+    public var showOptions: Bool = true {
+        didSet {
+            self.userOptions?.isHidden = !self.showOptions
         }
     }
     /// Unique ID for this user, used by the video feed.
@@ -42,14 +54,54 @@ public class AgoraSingleVideoView: MPView {
 
     var micFlagColor: MPColor
 
+    enum UserOptions: String {
+        case camera
+        case microphone
+    }
+
+    lazy var userOptions: MPView? = {
+        #if os(iOS)
+        let userOptionsBtn = MPButton.newToggleButton(
+            unselected: MPButton.ellipsisSymbol
+        )
+        userOptionsBtn.layer.zPosition = 3
+        userOptionsBtn.tintColor = .systemGray
+        #else
+        let userOptionsBtn = NSPopUpButton(frame: .zero, pullsDown: true)
+
+//        userOptionsBtn.wantsLayer = true
+//        userOptionsBtn.layer?.backgroundColor = .white
+        (userOptionsBtn.cell as? NSButtonCell)?.backgroundColor = .selectedContentBackgroundColor
+        self.addItems(to: userOptionsBtn)
+        #endif
+        self.addSubview(userOptionsBtn)
+        #if os(iOS)
+        userOptionsBtn.frame = CGRect(
+            origin: CGPoint(x: 10, y: 10),
+            size: CGSize(width: 40, height: 25)
+        )
+        userOptionsBtn.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
+        userOptionsBtn.addTarget(self, action: #selector(optionsBtnSelected), for: .touchUpInside)
+        #else
+        userOptionsBtn.isBordered = false
+        userOptionsBtn.wantsLayer = true
+        userOptionsBtn.layer?.backgroundColor = .clear
+        userOptionsBtn.frame = CGRect(
+            origin: CGPoint(x: 10, y: self.frame.height - 30),
+            size: CGSize(width: 40, height: 25)
+        )
+        userOptionsBtn.autoresizingMask = [.minYMargin, .maxXMargin]
+        userOptionsBtn.target = self
+        userOptionsBtn.action = #selector(optionsBtnSelected)
+        #endif
+//        userOptionsBtn.isHidden = true
+        return userOptionsBtn
+    }()
+
     /// Icon to show if this user is muting their microphone
     lazy var mutedFlag: MPView = {
         #if os(iOS)
-        let muteFlag = UIImageView(
-            image: UIImage(
-                systemName: MPButton.micSlashSymbol
-            )
-        )
+        let muteFlag = UIImageView(image: UIImage(systemName: MPButton.micSlashSymbol))
         muteFlag.tintColor = self.micFlagColor
         #else
         let muteFlag = MPButton()
@@ -83,9 +135,13 @@ public class AgoraSingleVideoView: MPView {
     /// - Parameters:
     ///   - uid: User ID of the `AgoraRtcVideoCanvas` inside this view
     ///   - micColor: Color to be applied when the local or remote user mutes their microphone
-    public init(uid: UInt, micColor: MPColor) {
+    ///   - delegate: Object used for accessing the AgoraRtmController and presenting alerts
+    public init(
+        uid: UInt, micColor: MPColor, delegate: SingleVideoViewDelegate? = nil
+    ) {
         self.canvas = AgoraRtcVideoCanvas()
         self.micFlagColor = micColor
+        self.singleVideoViewDelegate = delegate
         super.init(frame: .zero)
         self.setBackground()
         self.canvas.uid = uid
@@ -99,6 +155,11 @@ public class AgoraSingleVideoView: MPView {
         self.canvas.view = hostingView
         self.addSubview(hostingView)
         self.setupMutedFlag()
+        self.setupOptions(visible: false)
+    }
+
+    func setupOptions(visible showOptions: Bool) {
+        self.showOptions = showOptions
     }
 
     private func setupMutedFlag() {

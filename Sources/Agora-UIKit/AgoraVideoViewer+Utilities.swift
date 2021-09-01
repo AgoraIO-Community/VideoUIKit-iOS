@@ -9,9 +9,9 @@ import Foundation
 
 extension AgoraVideoViewer {
     /// Print level that will be visible in the developer console, default `.error`
-    static var printLevel: PrintType = .warning
+    public static var printLevel: PrintType = .warning
     /// Level for an internal print statement
-    enum PrintType: Int {
+    public enum PrintType: Int {
         /// To use when an internal error has occurred
         case error = 0
         /// To use when something is not being used or running correctly
@@ -22,19 +22,17 @@ extension AgoraVideoViewer {
         case verbose = 3
         var printString: String {
             switch self {
-            case .verbose: return "INFO"
-            case .debug: return "DEBUG"
-            case .warning: return "WARNING"
             case .error: return "ERROR"
+            case .warning: return "WARNING"
+            case .debug: return "DEBUG"
+            case .verbose: return "INFO"
             }
         }
     }
     internal static func agoraPrint(_ tag: PrintType, message: Any) {
-        #if DEBUG
         if tag.rawValue <= AgoraVideoViewer.printLevel.rawValue {
             print("[AgoraVideoViewer \(tag.printString)]: \(message)")
         }
-        #endif
     }
 
     /// Helper method to fill a view with this view

@@ -9,60 +9,66 @@
 import UIKit
 #elseif os(macOS)
 import AppKit
+import IOKit
+import CoreFoundation
+import CommonCrypto
 #endif
 import AgoraRtcKit
 
-/// Storing struct for holding data about the connection to Agora service
-public struct AgoraConnectionData {
-    /// Agora App ID from https://agora.io
-    var appId: String
-    /// Token to be used to connect to a channel, can be nil.
-    var appToken: String?
-    /// Channel the object is connected to. This cannot be set with the initialiser
-    var channel: String?
-    /// Create AgoraConnectionData object
-    /// - Parameters:
-    ///   - appId: Agora App ID from https://agora.io
-    ///   - appToken: Token to be used to connect to a channel, can be nil.
-    public init(appId: String, appToken: String? = nil) {
-        self.appId = appId
-        self.appToken = appToken
-    }
-}
-
 /// An interface for getting some common delegate callbacks without needing to subclass.
-@objc public protocol AgoraVideoViewerDelegate: AnyObject {
+public protocol AgoraVideoViewerDelegate: AnyObject {
     /// Local user has joined the channel of a given name
     /// - Parameter channel: Name of the channel local user has joined.
-    @objc optional func joinedChannel(channel: String)
+    func joinedChannel(channel: String)
     /// Local user has left the active channel.
     /// - Parameter channel: Name of the channel local user has left.
-    @objc optional func leftChannel(_ channel: String)
+    func leftChannel(_ channel: String)
     /// The token used to connect to the current active channel will expire in 30 seconds.
     /// - Parameters:
     ///   - engine: Agora RTC Engine
     ///   - token: Current token that will expire.
-    @objc optional func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
+    func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String)
     /// The token used to connect to the current active channel has expired.
     /// - Parameter engine: Agora RTC Engine
-    @objc optional func tokenDidExpire(_ engine: AgoraRtcEngineKit)
+    func tokenDidExpire(_ engine: AgoraRtcEngineKit)
     #if os(iOS)
     /// presentAlert is a way to show any alerts that the AgoraVideoViewer wants to display.
     /// These could be relating to video or audio permissions.
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
-    @objc optional func presentAlert(alert: UIAlertController, animated: Bool)
+    func presentAlert(alert: UIAlertController, animated: Bool)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
-    @objc optional func extraButtons() -> [UIButton]
+    func extraButtons() -> [UIButton]
     #else
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
-    @objc optional func extraButtons() -> [NSButton]
+    func extraButtons() -> [NSButton]
     #endif
+    /// A pong request has just come back to the local user, indicating that someone is still present in RTM
+    /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
+    func incomingPongRequest(from peerId: String)
+}
+
+public extension AgoraVideoViewerDelegate {
+    func joinedChannel(channel: String) {}
+    func leftChannel(_ channel: String) {}
+    func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {}
+    func tokenDidExpire(_ engine: AgoraRtcEngineKit) {}
+    #if os(iOS)
+    func presentAlert(alert: UIAlertController, animated: Bool) {
+        if let viewCont = self as? UIViewController {
+            viewCont.present(alert, animated: animated)
+        }
+    }
+    func extraButtons() -> [UIButton] { [] }
+    #else
+    func extraButtons() -> [NSButton] { [] }
+    #endif
+    func incomingPongRequest(from peerId: String) {}
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
-open class AgoraVideoViewer: MPView {
+open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
@@ -70,6 +76,9 @@ open class AgoraVideoViewer: MPView {
     /// Settings and customisations such as position of on-screen buttons, collection view of all channel members,
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
+
+    /// Controller class for managing RTM messages
+    public var rtmController: AgoraRtmController?
 
     /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {
@@ -113,7 +122,10 @@ open class AgoraVideoViewer: MPView {
     }
 
     /// Setting to zero will tell Agora to assign one for you once connected.
-    public internal(set) lazy var userID: UInt = 0
+    public var userID: UInt {
+        get { self.connectionData.rtcId }
+        set { self.connectionData.rtcId = newValue }
+    }
     internal var connectionData: AgoraConnectionData!
 
     /// Gets and sets the role for the user. Either `.audience` or `.broadcaster`.
@@ -230,7 +242,6 @@ open class AgoraVideoViewer: MPView {
     public var style: AgoraVideoViewer.Style = .floating {
         didSet {
             if oldValue != self.style {
-                AgoraVideoViewer.agoraPrint(.verbose, message: "changed style")
                 switch self.style {
                 case .collection: self.backgroundVideoHolder.isHidden = true
                 default: self.backgroundVideoHolder.isHidden = false
@@ -296,7 +307,8 @@ open class AgoraVideoViewer: MPView {
         super.init(coder: coder)
     }
 
-    internal var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {
+    /// Property used to access all the RTC connections to other broadcasters in an RTC channel
+    public internal(set) var userVideoLookup: [UInt: AgoraSingleVideoView] = [:] {
         didSet { reorganiseVideos() }
     }
 
