@@ -12,8 +12,8 @@ let package = Package(
     dependencies: [
         .package(
             name: "AgoraRtcKit",
-            url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-            from: "3.4.5"
+            url: "https://github.com/agorabuilder/AgoraFFmpegPlayer_iOS_Preview",
+            from: "4.0.0"
         ),
         .package(
             name: "AgoraRtmKit",
