@@ -8,7 +8,7 @@
 import AgoraRtcKit
 
 extension AgoraVideoViewer {
-    /// Enable/Disable extension.
+    /// Enable/Disable extension. No different from the Agora SDK call.
     /// - Parameters:
     ///   - vendor: name for provider, e.g. agora.builtin.
     ///   - extension: name for extension, e.g. agora.beauty.
@@ -17,6 +17,24 @@ extension AgoraVideoViewer {
     @discardableResult
     func enableExtension(withVendor vendor: String, extension extString: String, enabled: Bool) -> Int32 {
         return self.agkit.enableExtension(withVendor: vendor, extension: extString, enabled: enabled)
+    }
+
+
+    /// Set extension specific property. This method passes all properties without making any changes.
+    /// - Parameters:
+    ///   - vendor: name for provider, e.g. agora.builtin.
+    ///   - extension: name for extension, e.g. agora.beauty.
+    ///   - key: key for the property.
+    ///   - value: string value to set.
+    /// - Returns: `0` = Success. `<0` = Failure.
+    @discardableResult
+    func setExtensionProperty(
+        _ vendor: String, extension extString: String, key: String, value: String
+    ) -> Int32 {
+        return self.agkit.setExtensionPropertyWithVendor(
+            vendor, extension: extString, key: key,
+            value: value
+        )
     }
 
     /// Set extension specific property. Property value is a string and will be wrapped in quoatation marks
@@ -55,6 +73,23 @@ extension AgoraVideoViewer {
         return self.agkit.setExtensionPropertyWithVendor(
             vendor, extension: extString, key: key,
             value: "\"\(strValue)\""
+        )
+    }
+
+    /// Set extension specific property. Property value is a string and will be wrapped in quoatation marks
+    /// - Parameters:
+    ///   - vendor: name for provider, e.g. agora.builtin.
+    ///   - extension: name for extension, e.g. agora.beauty.
+    ///   - key: key for the property.
+    ///   - value: Boolean value to set.
+    /// - Returns: `0` = Success. `<0` = Failure.
+    @discardableResult
+    func setExtensionProperty(
+        _ vendor: String, extension extString: String, key: String, value: Bool
+    ) -> Int32 {
+        return self.agkit.setExtensionPropertyWithVendor(
+            vendor, extension: extString, key: key,
+            value: value.description
         )
     }
 }
