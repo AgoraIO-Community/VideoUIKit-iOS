@@ -16,7 +16,7 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
         }
-        if self.controlContainer == nil { self.addVideoButtons() }
+        self.getControlContainer()
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 

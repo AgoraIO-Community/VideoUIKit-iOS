@@ -39,8 +39,7 @@ extension AgoraVideoViewer {
     /// Add all the relevant buttons.
     /// The buttons are set to add to their respective parent views
     /// Whenever called, so I'm discarding the result for most of them here.
-    internal func addVideoButtons() {
-        let container = self.getControlContainer()
+    internal func addVideoButtons(to container: MPBlurView) {
         let builtinButtons = [
             self.getCameraButton(), self.getMicButton(), self.getFlipButton(), self.getBeautifyButton(),
             self.getScreenShareButton()
@@ -114,6 +113,7 @@ extension AgoraVideoViewer {
         #endif
     }
 
+    @discardableResult
     internal func getControlContainer() -> MPBlurView {
         if let controlContainer = self.controlContainer {
             return controlContainer
@@ -132,6 +132,7 @@ extension AgoraVideoViewer {
         container.isUserInteractionEnabled = true
         #endif
         self.controlContainer = container
+        self.addVideoButtons(to: container)
         return container
     }
 
