@@ -11,7 +11,7 @@ import AgoraUIKit_iOS
 struct ContentView: View {
     @State private var connectedToChannel = false
 
-    let agview = AgoraViewer(
+    static var agview = AgoraViewer(
         connectionData: AgoraConnectionData(
             appId: <#Agora App ID#>,
             appToken: <#Agora Token or nil#>
@@ -22,7 +22,7 @@ struct ContentView: View {
     @State private var agoraViewerStyle = 0
     var body: some View {
         ZStack {
-            agview
+            ContentView.agview
             VStack {
                 Picker("Format", selection: $agoraViewerStyle) {
                     Text("Floating").tag(0)
@@ -34,7 +34,7 @@ struct ContentView: View {
                 ).onChange(
                     of: agoraViewerStyle,
                     perform: {
-                        self.agview.viewer.style = $0 == 0 ? .floating : .grid
+                        ContentView.agview.viewer.style = $0 == 0 ? .floating : .grid
                     }
                 )
                 Spacer()
@@ -49,7 +49,7 @@ struct ContentView: View {
                                 Text("Connect").padding(3.0).background(Color.green).cornerRadius(3.0)
                             }
                         }
-                    ).disabled(connectedToChannel)
+                    )
                     Spacer()
                 }
                 Spacer()
@@ -59,15 +59,11 @@ struct ContentView: View {
     }
 
     func connectToAgora() {
-        guard agview.viewer.checkForPermissions(alsoRequest: true) else {
-            connectToAgora()
-            return
-        }
         connectedToChannel.toggle()
         if connectedToChannel {
-            agview.join(channel: "test", with: nil, as: .broadcaster)
+            ContentView.agview.join(channel: "test", with: nil, as: .broadcaster)
         } else {
-            agview.viewer.leaveChannel()
+            ContentView.agview.viewer.leaveChannel()
         }
     }
 }
