@@ -19,7 +19,6 @@ extension AgoraVideoViewer {
         return self.agkit.enableExtension(withVendor: vendor, extension: extString, enabled: enabled)
     }
 
-
     /// Set extension specific property. This method passes all properties without making any changes.
     /// - Parameters:
     ///   - vendor: name for provider, e.g. agora.builtin.
