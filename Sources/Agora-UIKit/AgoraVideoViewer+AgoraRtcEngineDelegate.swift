@@ -150,6 +150,16 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         }
     }
 
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit, didJoinChannel channel: String,
+        withUid uid: UInt, elapsed: Int
+    ) {
+        self.userID = uid
+        if self.userRole == .broadcaster { self.addLocalVideo() }
+        self.setupRtmController(joining: channel)
+        self.delegate?.joinedChannel(channel: channel)
+    }
+
     /**
      Occurs when the local video stream state changes.
      The SDK reports the current video state in this callback.
