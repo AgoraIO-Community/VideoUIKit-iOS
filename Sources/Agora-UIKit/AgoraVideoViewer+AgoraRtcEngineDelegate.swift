@@ -70,8 +70,6 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         }
     }
 
-
-
     /**
      Occurs when a remote user (Communication)/host (Live Broadcast) leaves a channel. Same as userOfflineBlock.
 
@@ -150,6 +148,16 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
+    }
+
+    open func rtcEngine(
+        _ engine: AgoraRtcEngineKit, didJoinChannel channel: String,
+        withUid uid: UInt, elapsed: Int
+    ) {
+        self.userID = uid
+        if self.userRole == .broadcaster { self.addLocalVideo() }
+        self.setupRtmController(joining: channel)
+        self.delegate?.joinedChannel(channel: channel)
     }
 
     /**

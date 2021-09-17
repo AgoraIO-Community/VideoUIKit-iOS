@@ -16,7 +16,7 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
         }
-        if self.controlContainer == nil { self.addVideoButtons() }
+        self.getControlContainer()
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
@@ -301,12 +301,8 @@ extension AgoraVideoViewer {
             channelId: channel,
             uid: self.userID,
             mediaOptions: AgoraRtcChannelMediaOptions()
-        ) { [weak self] _, uid, _ in
-            self?.userID = uid
-            if self?.userRole == .broadcaster { self?.addLocalVideo() }
-            self?.delegate?.joinedChannel(channel: channel)
-            self?.setupRtmController(joining: channel)
-        }
+        )
+        // Delegate method is called upon success
     }
 
     /// Initialise RTM to send messages across the network.
