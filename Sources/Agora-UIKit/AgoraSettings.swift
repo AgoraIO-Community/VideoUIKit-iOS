@@ -57,6 +57,8 @@ public struct AgoraSettings {
     public var floatPosition: Position = .top
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
+
+    public var videoSource: AgoraVideoSourceProtocol? = nil
     /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()
 
