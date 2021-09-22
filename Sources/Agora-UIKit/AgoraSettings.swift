@@ -80,6 +80,17 @@ public struct AgoraSettings {
         /// - `true`: The external video source is encoded.
         /// - `false`: The external video source is not encoded.
         public let encoded: Bool
+
+        /// Create a settings object for applying external videos
+        /// - Parameters:
+        ///   - enabled: Determines whether to enable the external video source.
+        ///   - texture: Determines whether to use textured video data.
+        ///   - encoded: Determines whether the external video source is encoded.
+        public init(enabled: Bool, texture: Bool, encoded: Bool) {
+            self.enabled = enabled
+            self.texture = texture
+            self.encoded = encoded
+        }
     }
 
     /// External video source settings parameters
