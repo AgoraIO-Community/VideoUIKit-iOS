@@ -66,7 +66,7 @@ public struct AgoraSettings {
         }()
         /// Create instance with all properties set to `false`
         public static let allFalse: ExternalVideoSettings = {
-            ExternalVideoSettings(enabled: true, texture: true, encoded: true)
+            ExternalVideoSettings(enabled: false, texture: false, encoded: false)
         }()
         /// Determines whether to enable the external video source.
         /// - `true`: Use external video source.
