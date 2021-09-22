@@ -46,6 +46,19 @@ public struct AgoraSettings {
         /// At the left of the view
         case left
     }
+
+    public enum VerticalAlign {
+        case top
+        case middle
+        case bottom
+    }
+
+    public enum HorizontalAlign {
+        case left
+        case middle
+        case right
+    }
+
     /// The rendering mode of the video view for all videos within the view.
     public var videoRenderMode: AgoraVideoRenderMode = .fit
     /// Which buttons should be enabled in this AgoraVideoView.
@@ -116,6 +129,13 @@ public struct AgoraSettings {
         }
     }
 
+    enum UserLabelStyle {
+        case username
+    }
+
+    var userLabelStyle: UserLabelStyle? = .username
+
+    var userLabelPosition: (vAlign: VerticalAlign, hAlign: HorizontalAlign) = (.bottom, .left)
     /// If the camera is enabled. Set this before joining a channel to not require camera permissions
     /// and camera to not be activated at all.
     public var cameraEnabled: Bool = true

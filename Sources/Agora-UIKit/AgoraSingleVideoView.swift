@@ -156,6 +156,48 @@ public class AgoraSingleVideoView: MPView {
         self.addSubview(hostingView)
         self.setupMutedFlag()
         self.setupOptions(visible: false)
+        self.setupUsername()
+    }
+
+    var usernameLabel: MPLabel?
+
+    open func setupUsername() {
+        guard let singleViewDelegate = self.singleVideoViewDelegate,
+              let label = self.usernameLabel ?? singleViewDelegate.usernameLabel(),
+              let username = singleViewDelegate.getUsername(for: uid, channel: "")
+        else {
+            return
+        }
+        self.usernameLabel = label
+        label.text = username
+        self.addSubview(label)
+        label.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
+        /*
+        switch singleViewDelegate.usernamePosition().vAlign {
+        case .top:
+            label.frame.origin.y = 0
+            label.autoresizingMask.insert(.flexibleBottomMargin)
+        case .middle:
+            label.frame.origin.y = (self.frame.height - label.frame.height) / 2
+            label.autoresizingMask.insert(.flexibleTopMargin)
+            label.autoresizingMask.insert(.flexibleBottomMargin)
+        case .bottom:
+            label.frame.origin.y = self.frame.height - label.frame.height
+            label.autoresizingMask.insert(.flexibleTopMargin)
+        }
+        switch singleViewDelegate.usernamePosition().hAlign {
+        case .left:
+            label.frame.origin.x = 0
+            label.autoresizingMask.insert(.flexibleRightMargin)
+        case .middle:
+            label.frame.origin.x = (self.bounds.width - label.frame.width) / 2
+            label.autoresizingMask.insert(.flexibleLeftMargin)
+            label.autoresizingMask.insert(.flexibleRightMargin)
+        case .right:
+            label.frame.origin.x = self.bounds.width - label.frame.width
+            label.autoresizingMask.insert(.flexibleLeftMargin)
+        }
+        */
     }
 
     func setupOptions(visible showOptions: Bool) {
@@ -198,6 +240,7 @@ public class AgoraSingleVideoView: MPView {
         backgroundView.autoresizingMask = [.width, .height]
         #endif
     }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

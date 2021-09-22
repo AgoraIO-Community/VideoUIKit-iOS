@@ -23,6 +23,7 @@ public protocol SingleVideoViewDelegate: AnyObject {
     ///   - animated: Whether the presentation should be animated or not
     func presentAlert(alert: UIAlertController, animated: Bool)
     #endif
+    func usernameLabel() -> MPLabel?
 }
 
 extension SingleVideoViewDelegate {
@@ -41,4 +42,29 @@ extension SingleVideoViewDelegate {
         }
     }
     #endif
+    public func usernameLabel() -> MPLabel? {
+        if let vidViewer = self as? AgoraVideoViewer {
+            switch vidViewer.agSettings.userLabelStyle {
+            case .none:
+                return nil
+            case .username:
+                return UILabel()
+            }
+        }
+        return nil
+    }
+    public func usernamePosition() -> (
+        vAlign: AgoraSettings.VerticalAlign, hAlign: AgoraSettings.HorizontalAlign
+    ) {
+        if let vidViewer = self as? AgoraVideoViewer {
+            return vidViewer.agSettings.userLabelPosition
+        }
+        return (.bottom, .left)
+    }
+    public func getUsername(for uid: UInt, channel: String) -> String? {
+        guard let rtmId = self.rtmController?.rtcLookup[uid],
+              let rtmUsername = self.rtmController?.rtmLookup[rtmId]?.username
+        else { return nil }
+        return rtmUsername
+    }
 }
