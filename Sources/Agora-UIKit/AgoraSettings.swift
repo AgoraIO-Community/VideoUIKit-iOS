@@ -57,6 +57,15 @@ public struct AgoraSettings {
     public var floatPosition: Position = .top
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
+
+    /// Video source be to be used by Agora
+    ///
+    /// In real-time communications, the SDK uses the default video input source (the built-in camera) to publish streams.
+    /// To use an external video source, add AgoraVideoSourceProtocol to the custom video source, and then
+    /// use this method to add the external video source into the SDK.
+    /// You can call this method either before or after joining a channel.
+    public var videoSource: AgoraVideoSourceProtocol?
+
     /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()
 
