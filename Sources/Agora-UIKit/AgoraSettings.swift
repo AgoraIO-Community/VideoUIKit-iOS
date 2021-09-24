@@ -58,13 +58,43 @@ public struct AgoraSettings {
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
 
-    /// Video source be to be used by Agora
-    ///
-    /// In real-time communications, the SDK uses the default video input source (the built-in camera) to publish streams.
-    /// To use an external video source, add AgoraVideoSourceProtocol to the custom video source, and then
-    /// use this method to add the external video source into the SDK.
-    /// You can call this method either before or after joining a channel.
-    public var videoSource: AgoraVideoSourceProtocol?
+    /// Settings for applying external videos
+    public struct ExternalVideoSettings {
+        /// Create instance with all properties set to `true`
+        public static let allTrue: ExternalVideoSettings = {
+            ExternalVideoSettings(enabled: true, texture: true, encoded: true)
+        }()
+        /// Create instance with all properties set to `false`
+        public static let allFalse: ExternalVideoSettings = {
+            ExternalVideoSettings(enabled: false, texture: false, encoded: false)
+        }()
+        /// Determines whether to enable the external video source.
+        /// - `true`: Use external video source.
+        /// - `false`: Do not use external video source.
+        public let enabled: Bool
+        /// Determines whether to use textured video data.
+        /// - `true`: Use the texture as an input.
+        /// - `false`: Do not use the texture as an input.
+        public let texture: Bool
+        /// Determines whether the external video source is encoded.
+        /// - `true`: The external video source is encoded.
+        /// - `false`: The external video source is not encoded.
+        public let encoded: Bool
+
+        /// Create a settings object for applying external videos
+        /// - Parameters:
+        ///   - enabled: Determines whether to enable the external video source.
+        ///   - texture: Determines whether to use textured video data.
+        ///   - encoded: Determines whether the external video source is encoded.
+        public init(enabled: Bool, texture: Bool, encoded: Bool) {
+            self.enabled = enabled
+            self.texture = texture
+            self.encoded = encoded
+        }
+    }
+
+    /// External video source settings parameters
+    public var externalVideoSource: ExternalVideoSettings = .allFalse
 
     /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()

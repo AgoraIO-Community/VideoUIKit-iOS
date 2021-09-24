@@ -17,9 +17,12 @@ extension AgoraVideoViewer {
             return
         }
         self.getControlContainer()
-        if let videoSource = self.agSettings.videoSource {
-            self.agkit.setVideoSource(videoSource)
-        }
+
+        self.agkit.setExternalVideoSource(
+            agSettings.externalVideoSource.enabled,
+            useTexture: agSettings.externalVideoSource.texture,
+            encodedFrame: agSettings.externalVideoSource.encoded
+        )
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
     }
 
