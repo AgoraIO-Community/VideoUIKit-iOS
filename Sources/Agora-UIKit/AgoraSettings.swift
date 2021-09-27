@@ -66,6 +66,38 @@ public struct AgoraSettings {
     /// You can call this method either before or after joining a channel.
     public var videoSource: AgoraVideoSourceProtocol?
 
+    /// Settings for applying external videos
+    public struct ExternalAudioSettings {
+        /// Determines whether to enable the external audio source:
+        /// - `true`: Enable the external audio source.
+        /// - `false`: (default) Disable the external audio source.
+        public let enabled: Bool
+
+        /// The Sample rate (Hz) of the external audio source, which can set be as 8000, 16000, 32000, 44100, or 48000.
+        public let sampleRate: Int
+
+        /// The number of channels of the external audio source, which can be set as 1 or 2:
+        /// - 1: Mono.
+        /// - 2: Stereo.
+        public let channels: Int
+
+        /// Create a settings object for applying external videos
+        /// - Parameters:
+        ///   - enabled: Determines whether to enable the external audio source.
+        ///   - sampleRate: The Sample rate (Hz) of the external audio source.
+        ///   - channels: The number of channels of the external audio source.
+        public init(enabled: Bool, sampleRate: Int, channels: Int) {
+            self.enabled = enabled
+            self.sampleRate = sampleRate
+            self.channels = channels
+        }
+    }
+
+    /// External audio source settings parameters
+    public var externalAudioSettings: ExternalAudioSettings = .init(
+        enabled: false, sampleRate: 8000, channels: 2
+    )
+
     /// Colors for views inside AgoraVideoViewer
     public var colors: AgoraViewerColors = AgoraViewerColors()
 
