@@ -19,15 +19,16 @@ extension AgoraVideoViewer {
         self.getControlContainer()
 
         self.agkit.setExternalVideoSource(
-            agSettings.externalVideoSource.enabled,
-            useTexture: agSettings.externalVideoSource.texture,
-            encodedFrame: agSettings.externalVideoSource.encoded
+            agSettings.externalVideoSettings.enabled,
+            useTexture: agSettings.externalVideoSettings.texture,
+            encodedFrame: agSettings.externalVideoSettings.encoded
         )
         if self.agSettings.externalAudioSettings.enabled {
             let audioSource = self.agSettings.externalAudioSettings
-            self.agkit.enableExternalAudioSource(
-                withSampleRate: .init(audioSource.sampleRate),
-                channelsPerFrame: .init(audioSource.channels)
+            self.agkit.setExternalAudioSource(
+                audioSource.enabled,
+                sampleRate: .init(audioSource.sampleRate),
+                channels: .init(audioSource.channels)
             )
         }
         self.agkit.setVideoEncoderConfiguration(self.agoraSettings.videoConfiguration)
