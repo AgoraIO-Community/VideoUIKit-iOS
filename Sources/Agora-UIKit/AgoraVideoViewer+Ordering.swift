@@ -19,7 +19,7 @@ extension AgoraVideoViewer {
         )
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
-        if !self.agSettings.externalVideoSource.enabled {
+        if !self.agSettings.externalVideoSettings.enabled {
             self.agkit.startPreview()
         }
         self.userVideoLookup[self.userID] = vidView
