@@ -94,7 +94,7 @@ public struct AgoraSettings {
     }
 
     /// External audio source settings parameters
-    public var externalAudioSource: ExternalAudioSettings = .init(
+    public var externalAudioSettings: ExternalAudioSettings = .init(
         enabled: false, sampleRate: 8000, channels: 2
     )
 
