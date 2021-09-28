@@ -90,6 +90,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
                     self.rtcLookup[rtcId] = user.rtmId
                     self.delegate.videoLookup[rtcId]?
                         .showOptions = self.agoraSettings.showRemoteRequestOptions
+                    self.updatedUser(rtc: rtcId, rtm: user.rtmId)
                 }
             case .genericAction(let genericAction):
                 switch genericAction.type {

@@ -15,7 +15,8 @@ extension AgoraVideoViewer {
             return self.userVideoLookup[self.userID]
         }
         let vidView = AgoraSingleVideoView(
-            uid: self.userID, micColor: self.agoraSettings.colors.micFlag
+            uid: self.userID, micColor: self.agoraSettings.colors.micFlag,
+            delegate: self
         )
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)

@@ -129,13 +129,24 @@ public struct AgoraSettings {
         }
     }
 
-    enum UserLabelStyle {
-        case username
+    /// Content of the local or remote user
+    public struct UserLabelContent: OptionSet {
+        public var rawValue: Int
+        /// Username of the local or remote user.
+        public static let username = UserLabelContent(rawValue: 1 << 0)
+
+        /// Initialiser for creating an option set
+        /// - Parameter rawValue: Raw value to be applied, used for choosing the button options
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
     }
 
-    var userLabelStyle: UserLabelStyle? = .username
+    var userLabelStyle: UserLabelContent = [.username]
 
-    var userLabelPosition: (vAlign: VerticalAlign, hAlign: HorizontalAlign) = (.bottom, .left)
+    let userLabelPosition: (vAlign: VerticalAlign, hAlign: HorizontalAlign) = (
+        .top, .left
+    )
     /// If the camera is enabled. Set this before joining a channel to not require camera permissions
     /// and camera to not be activated at all.
     public var cameraEnabled: Bool = true

@@ -326,6 +326,7 @@ extension AgoraVideoViewer {
     open func setupRtmController(joining channel: String) {
         if self.rtmController == nil {
             self.rtmController = AgoraRtmController(delegate: self)
+            self.rtmController?.setLocalUser()
         }
         self.rtmController?.joinChannel(named: channel)
     }

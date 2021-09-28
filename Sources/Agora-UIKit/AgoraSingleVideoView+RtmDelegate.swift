@@ -23,7 +23,7 @@ public protocol SingleVideoViewDelegate: AnyObject {
     ///   - animated: Whether the presentation should be animated or not
     func presentAlert(alert: UIAlertController, animated: Bool)
     #endif
-    func usernameLabel() -> MPLabel?
+    func userLabel() -> MPTextView?
 }
 
 extension SingleVideoViewDelegate {
@@ -42,13 +42,26 @@ extension SingleVideoViewDelegate {
         }
     }
     #endif
-    public func usernameLabel() -> MPLabel? {
+    public func userLabel() -> MPTextView? {
         if let vidViewer = self as? AgoraVideoViewer {
-            switch vidViewer.agSettings.userLabelStyle {
-            case .none:
-                return nil
-            case .username:
-                return UILabel()
+            if vidViewer.agSettings.userLabelStyle != [] {
+                let textView = MPTextView()
+                #if os(iOS)
+                textView.textContainerInset = .init(
+                    top: 2, left: 1, bottom: 2, right: 1
+                )
+                textView.backgroundColor = .tertiarySystemBackground.withAlphaComponent(0.2)
+                textView.textColor = .label
+                textView.autoresizingMask = [
+                    .flexibleRightMargin, .flexibleBottomMargin
+                ]
+                #else
+                textView.textContainerInset = .init(width: 1, height: 4)
+                textView.backgroundColor = .clear
+                textView.textColor = .lightGray
+                textView.autoresizingMask = [.maxXMargin, .minYMargin]
+                #endif
+                return textView
             }
         }
         return nil
@@ -61,10 +74,16 @@ extension SingleVideoViewDelegate {
         }
         return (.bottom, .left)
     }
-    public func getUsername(for uid: UInt, channel: String) -> String? {
-        guard let rtmId = self.rtmController?.rtcLookup[uid],
-              let rtmUsername = self.rtmController?.rtmLookup[rtmId]?.username
-        else { return nil }
-        return rtmUsername
+    public func getUserLabelContent(for uid: UInt, channel: String) -> String? {
+        var rtnString = ""
+        guard let rtmController = self.rtmController else {
+            return nil
+        }
+        if rtmController.agoraSettings.userLabelStyle.contains(.username),
+           let rtmId = self.rtmController?.rtcLookup[uid],
+           let rtmUsername = self.rtmController?.rtmLookup[rtmId]?.username {
+            rtnString = rtmUsername
+        }
+        return rtnString.isEmpty ? nil : rtnString
     }
 }

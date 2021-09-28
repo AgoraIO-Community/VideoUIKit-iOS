@@ -138,6 +138,16 @@ open class AgoraRtmController: NSObject {
         self.rtmLogin {_ in}
     }
 
+    open func setLocalUser() {
+        self.rtcLookup[self.personalData.rtcId ?? 0] = self.personalData.rtmId
+        self.rtmLookup[self.personalData.rtmId] = self.personalData
+        self.updatedUser(rtc: self.personalData.rtcId ?? 0, rtm: self.personalData.rtmId)
+    }
+
+    open func updatedUser(rtc: UInt, rtm: String) {
+        self.delegate.videoLookup[rtc]?.refreshUserLabel()
+    }
+
     func rtmLogin(completion: @escaping (AgoraRtmLoginErrorCode) -> Void) {
         self.loginStatus = .loggingIn
         if let tokenURL = self.agoraSettings.tokenURL {
