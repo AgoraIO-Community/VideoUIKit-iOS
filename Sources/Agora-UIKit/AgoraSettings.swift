@@ -11,9 +11,15 @@ import AgoraRtmKit
 /// Settings used for the display and behaviour of AgoraVideoViewer
 public struct AgoraSettings {
 
-    var rtcDelegate: AgoraRtcEngineDelegate?
-    var rtmDelegate: AgoraRtmDelegate?
-    var rtmChannelDelegate: AgoraRtmChannelDelegate?
+    /// Delegate for Agora Rtc Engine callbacks
+    public weak var rtcDelegate: AgoraRtcEngineDelegate?
+
+    /// Delegate for Agora RTM callbacks
+    public weak var rtmDelegate: AgoraRtmDelegate?
+
+    /// Delegate for Agora RTM Channel callbacks
+    public weak var rtmChannelDelegate: AgoraRtmChannelDelegate?
+
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.
     /// It will follow the URL pattern found in
@@ -70,6 +76,9 @@ public struct AgoraSettings {
     /// use this method to add the external video source into the SDK.
     /// You can call this method either before or after joining a channel.
     public var videoSource: AgoraVideoSourceProtocol?
+
+    /// Whether to show your own camera feed
+    public var showSelf: Bool = true
 
     /// Settings for applying external videos
     public struct ExternalAudioSettings {

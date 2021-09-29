@@ -314,15 +314,21 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
         if self.style == .floating {
+            if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agSettings.showSelf {
+                return [:]
+            }
             return self.userVideoLookup.filter {
                 $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
             }
         } else if self.style == .grid {
-            return self.userVideoLookup
+            return self.userVideoLookup.filter { ($0.key != self.userID || self.agSettings.showSelf) }
         } else {
             return [:]
         }
     }
+
+    /// Video views to be displayed in the floating collection view.
+    var collectionViewVideos: [AgoraSingleVideoView] = []
 
     /// Container for the buttons (such as mute, flip camera etc.)
     public var controlContainer: MPBlurView?

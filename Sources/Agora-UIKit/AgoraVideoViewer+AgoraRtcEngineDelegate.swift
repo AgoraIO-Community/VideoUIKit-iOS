@@ -70,7 +70,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 }
             }
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, remoteAudioStateChangedOfUid: uid, state: state, reason: reason, elapsed: elapsed)
+        self.agSettings.rtcDelegate?.rtcEngine?(
+            engine, remoteAudioStateChangedOfUid: uid, state: state,
+            reason: reason, elapsed: elapsed
+        )
     }
 
     /**
@@ -153,7 +156,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, remoteVideoStateChangedOfUid: uid, state: state, reason: reason, elapsed: elapsed)
+        self.agSettings.rtcDelegate?.rtcEngine?(
+            engine, remoteVideoStateChangedOfUid: uid, state: state,
+            reason: reason, elapsed: elapsed
+        )
     }
 
     /**

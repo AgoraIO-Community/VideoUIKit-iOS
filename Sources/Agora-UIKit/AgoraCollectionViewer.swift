@@ -219,14 +219,18 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     }
     #endif
 
-    /// Video views to be displayed in the floating collection view.
-    var collectionViewVideos: [AgoraSingleVideoView] {
+    internal func refreshCollectionData() {
         switch self.style {
         case .floating, .collection:
-            return Array(self.userVideoLookup.values)
+            if self.agSettings.showSelf {
+                self.collectionViewVideos = Array(self.userVideoLookup.values)
+            } else {
+                self.collectionViewVideos = Array(self.userVideoLookup.filter { $0.key != self.userID}.values)
+            }
         default:
-            return []
+            self.collectionViewVideos.removeAll()
         }
+        self.floatingVideoHolder.reloadData()
     }
 
     /// Both AppKit and UIKit delegate methods call this function, to have it all in one place

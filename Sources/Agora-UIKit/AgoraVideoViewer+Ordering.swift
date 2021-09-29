@@ -82,7 +82,7 @@ extension AgoraVideoViewer {
             }
             return
         }
-        self.floatingVideoHolder.reloadData()
+        self.refreshCollectionData()
         self.floatingVideoHolder.isHidden = self.collectionViewVideos.isEmpty
         self.organiseGrid()
 
