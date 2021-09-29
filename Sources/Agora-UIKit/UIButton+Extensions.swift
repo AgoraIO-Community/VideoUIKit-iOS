@@ -20,7 +20,7 @@ extension MPButton {
     static func newToggleButton(unselected: String, selected: String? = nil) -> MPButton {
         #if os(iOS)
         let button = MPButton(type: .custom)
-        #else
+        #elseif os(macOS)
         let button = MPButton()
         button.wantsLayer = true
         #endif
@@ -30,7 +30,7 @@ extension MPButton {
                 systemName: selected,
                 withConfiguration: MPImage.SymbolConfiguration(scale: AgoraSettings.buttonIconScale)
             ), for: .selected)
-            #else
+            #elseif os(macOS)
             button.alternateTitle = selected
             #endif
         }
@@ -39,7 +39,7 @@ extension MPButton {
             systemName: unselected,
             withConfiguration: MPImage.SymbolConfiguration(scale: AgoraSettings.buttonIconScale)
         ), for: .normal)
-        #else
+        #elseif os(macOS)
         button.title = unselected
         button.font = .systemFont(ofSize: AgoraSettings.buttonIconSize)
         #endif
@@ -73,7 +73,7 @@ extension MPButton {
         get { self.isSelected }
         set { self.isSelected = newValue }
     }
-    #else
+    #elseif os(macOS)
     /// SF Symbol name for camera icon for builtin button
     static var videoSymbol = "􀌟"
     /// SF Symbol name for camera alt icon for builtin button

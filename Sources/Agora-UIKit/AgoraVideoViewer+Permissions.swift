@@ -80,7 +80,7 @@ extension AgoraVideoViewer {
             URL(string: UIApplication.openSettingsURLString)!,
             options: [:]
         )
-        #else
+        #elseif os(macOS)
         NSWorkspace.shared.open(
             URL(fileURLWithPath: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera")
         )
@@ -120,7 +120,7 @@ extension AgoraVideoViewer {
         DispatchQueue.main.async {
             self.delegate?.presentAlert(alert: alertView, animated: true)
         }
-        #else
+        #elseif os(macOS)
         let alertView = NSAlert()
         alertView.messageText = "Camera and Microphone"
         alertView.informativeText = "To become a host, you must enable the microphone and camera"

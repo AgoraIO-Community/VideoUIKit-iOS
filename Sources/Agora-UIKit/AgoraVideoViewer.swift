@@ -40,7 +40,7 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     func presentAlert(alert: UIAlertController, animated: Bool)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     func extraButtons() -> [UIButton]
-    #else
+    #elseif os(macOS)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     func extraButtons() -> [NSButton]
     #endif
@@ -61,7 +61,7 @@ public extension AgoraVideoViewerDelegate {
         }
     }
     func extraButtons() -> [UIButton] { [] }
-    #else
+    #elseif os(macOS)
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
@@ -154,7 +154,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
                 #if os(iOS)
                 collView.frame.origin = .zero
                 collView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
-                #else
+                #elseif os(macOS)
                 collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
                 collView.autoresizingMask = [.width, .minYMargin]
                 #endif
@@ -162,7 +162,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
                 #if os(iOS)
                 collView.frame.origin = CGPoint(x: 0, y: self.bounds.height - smallerDim)
                 collView.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
-                #else
+                #elseif os(macOS)
                 collView.frame.origin = .zero
                 collView.autoresizingMask = [.width, .maxYMargin]
                 #endif
@@ -174,21 +174,21 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
                 collView.frame.origin = .zero
                 #if os(iOS)
                 collView.autoresizingMask = [.flexibleHeight, .flexibleRightMargin]
-                #else
+                #elseif os(macOS)
                 collView.autoresizingMask = [.height, .maxXMargin]
                 #endif
             } else {
                 collView.frame.origin = CGPoint(x: self.bounds.width - smallerDim, y: 0)
                 #if os(iOS)
                 collView.autoresizingMask = [.flexibleHeight, .flexibleLeftMargin]
-                #else
+                #elseif os(macOS)
                 collView.autoresizingMask = [.height, .minXMargin]
                 #endif
             }
         }
         #if os(iOS)
         self.bringSubviewToFront(collView)
-        #else
+        #elseif os(macOS)
         self.addSubview(collView, positioned: .above, relativeTo: nil)
         #endif
         return collView
@@ -200,7 +200,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         #if os(iOS)
         self.addSubview(rtnView)
         self.sendSubviewToBack(rtnView)
-        #else
+        #elseif os(macOS)
         self.addSubview(rtnView, positioned: .below, relativeTo: nil)
         rtnView.wantsLayer = true
         rtnView.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
@@ -208,7 +208,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         rtnView.frame = self.bounds
         #if os(iOS)
         rtnView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        #else
+        #elseif os(macOS)
         rtnView.autoresizingMask = [.width, .height]
         #endif
         // Had issues with `self.style == .collection`, so changed to switch case

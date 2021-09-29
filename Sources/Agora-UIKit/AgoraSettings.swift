@@ -6,9 +6,14 @@
 //
 
 import AgoraRtcKit
+import AgoraRtmKit
 
 /// Settings used for the display and behaviour of AgoraVideoViewer
 public struct AgoraSettings {
+
+    var rtcDelegate: AgoraRtcEngineDelegate?
+    var rtmDelegate: AgoraRtmDelegate?
+    var rtmChannelDelegate: AgoraRtmChannelDelegate?
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.
     /// It will follow the URL pattern found in
@@ -146,7 +151,7 @@ public struct AgoraSettings {
     #if os(iOS)
     /// Scale of the icons within the buttons in the builtin button tray
     static var buttonIconScale: UIImage.SymbolScale = .large
-    #else
+    #elseif os(macOS)
     /// Font size of the builtin buttons SF Symbol text
     static var buttonIconSize: CGFloat = 20
     #endif
