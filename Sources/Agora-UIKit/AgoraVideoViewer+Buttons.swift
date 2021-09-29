@@ -27,7 +27,7 @@ extension AgoraVideoViewer {
         container.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
         container.layer.cornerRadius = self.agoraSettings.buttonSize / 3
         container.clipsToBounds = true
-        #else
+        #elseif os(macOS)
         container.frame = CGRect(
             origin: CGPoint(x: (self.bounds.width - CGFloat(contWidth)) / 2, y: 10),
             size: CGSize(width: contWidth, height: self.agoraSettings.buttonSize + buttonMargin * 2))
@@ -52,7 +52,7 @@ extension AgoraVideoViewer {
             let button = elem.element
             #if os(iOS)
             container.contentView.addSubview(button)
-            #else
+            #elseif os(macOS)
             container.addSubview(button)
             #endif
             button.frame = CGRect(
@@ -71,7 +71,7 @@ extension AgoraVideoViewer {
                 button.backgroundColor = self.agoraSettings.colors.buttonDefaultNormal
                 button.tintColor = self.agoraSettings.colors.buttonTintColor
             }
-            #else
+            #elseif os(macOS)
             button.isBordered = false
             button.layer?.cornerRadius = buttonSize / 2
             if elem.offset < builtinButtons.count {
@@ -93,7 +93,7 @@ extension AgoraVideoViewer {
             ? self.agoraSettings.colors.camButtonNormal : self.agoraSettings.colors.camButtonSelected
         self.micButton?.backgroundColor = self.agoraSettings.micEnabled
             ? self.agoraSettings.colors.micButtonNormal : self.agoraSettings.colors.micButtonSelected
-        #else
+        #elseif os(macOS)
         self.camButton?.layer?.backgroundColor = (
             self.agoraSettings.cameraEnabled
                 ? self.agoraSettings.colors.camButtonNormal
@@ -120,7 +120,7 @@ extension AgoraVideoViewer {
         }
         #if os(iOS)
         let container = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
-        #else
+        #elseif os(macOS)
         let container = NSVisualEffectView()
         container.blendingMode = .withinWindow
         container.material = .menu
@@ -147,7 +147,7 @@ extension AgoraVideoViewer {
         )
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleCam), for: .touchUpInside)
-        #else
+        #elseif os(macOS)
         button.target = self
         button.action = #selector(self.toggleCam)
         #endif
@@ -167,7 +167,7 @@ extension AgoraVideoViewer {
         )
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleMic), for: .touchUpInside)
-        #else
+        #elseif os(macOS)
         button.target = self
         button.action = #selector(toggleMic)
         #endif
@@ -181,7 +181,7 @@ extension AgoraVideoViewer {
     open func getScreenShareButton() -> MPButton? {
         #if os(iOS)
         return nil
-        #else
+        #elseif os(macOS)
         if !self.agoraSettings.enabledButtons.contains(.screenShareButton) { return nil }
 
         if let ssButton = self.screenShareButton { return ssButton }
@@ -219,7 +219,7 @@ extension AgoraVideoViewer {
 
         self.flipButton = button
         return button
-        #else
+        #elseif os(macOS)
         return nil
         #endif
     }
@@ -235,7 +235,7 @@ extension AgoraVideoViewer {
         let button = MPButton.newToggleButton(unselected: MPButton.wandSymbol)
         #if os(iOS)
         button.addTarget(self, action: #selector(toggleBeautify), for: .touchUpInside)
-        #else
+        #elseif os(macOS)
         button.target = self
         button.action = #selector(toggleBeautify)
         #endif

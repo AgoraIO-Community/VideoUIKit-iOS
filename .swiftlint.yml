@@ -3,4 +3,6 @@ line_length:
 excluded:
   - Agora-*-Example
   - Sources/Agora-UIKit/AgoraUIKit+MD5.swift
+  - Sources/Agora-UIKit/AgoraRtmController+RtmDelegateOverflows.swift
+  - Sources/Agora-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift
   - .build

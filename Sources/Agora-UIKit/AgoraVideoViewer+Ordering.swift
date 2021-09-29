@@ -82,7 +82,7 @@ extension AgoraVideoViewer {
             }
             return
         }
-        self.floatingVideoHolder.reloadData()
+        self.refreshCollectionData()
         self.floatingVideoHolder.isHidden = self.collectionViewVideos.isEmpty
         self.organiseGrid()
 
@@ -112,7 +112,7 @@ extension AgoraVideoViewer {
                 .flexibleWidth, .flexibleHeight,
                 .flexibleBottomMargin, .flexibleTopMargin, .flexibleLeftMargin, .flexibleRightMargin
             ]
-            #else
+            #elseif os(macOS)
             videoSessionView.autoresizingMask = [
                 .width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin
             ]
@@ -155,7 +155,7 @@ extension AgoraVideoViewer {
                 .flexibleTopMargin, .flexibleBottomMargin,
                 .flexibleWidth, .flexibleHeight
             ]
-            #else
+            #elseif os(macOS)
             videoSessionView.autoresizingMask = [.width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin]
             #endif
             if self.agoraSettings.usingDualStream && videoID != self.userID {
@@ -177,13 +177,13 @@ extension AgoraVideoViewer {
             if self.agoraSettings.floatPosition == .top {
                 #if os(iOS)
                 backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
-                #else
+                #elseif os(macOS)
                 backgroundVideoHolder.frame.origin = .zero
                 #endif
             } else {
                 #if os(iOS)
                 backgroundVideoHolder.frame.origin = .zero
-                #else
+                #elseif os(macOS)
                 backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
                 #endif
             }
@@ -214,7 +214,7 @@ extension AgoraVideoViewer {
         }
         #if os(iOS)
         self.backgroundVideoHolder.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        #else
+        #elseif os(macOS)
         self.backgroundVideoHolder.autoresizingMask = [.width, .height]
         #endif
 

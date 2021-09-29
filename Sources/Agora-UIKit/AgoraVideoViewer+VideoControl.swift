@@ -64,7 +64,7 @@ extension AgoraVideoViewer {
             #if os(iOS)
             camButton.backgroundColor = camButton.isOn
                 ? self.agoraSettings.colors.camButtonSelected : self.agoraSettings.colors.camButtonNormal
-            #else
+            #elseif os(macOS)
             if !camButton.alternateTitle.isEmpty {
                 swap(&camButton.title, &camButton.alternateTitle)
             }
@@ -119,7 +119,7 @@ extension AgoraVideoViewer {
             #if os(iOS)
             micButton.backgroundColor = micButton.isOn
                 ? self.agoraSettings.colors.micButtonSelected : self.agoraSettings.colors.micButtonNormal
-            #else
+            #elseif os(macOS)
             if !micButton.alternateTitle.isEmpty {
                 swap(&micButton.title, &micButton.alternateTitle)
             }
@@ -145,7 +145,7 @@ extension AgoraVideoViewer {
         #if os(iOS)
         ssButton.isSelected.toggle()
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
-        #else
+        #elseif os(macOS)
         ssButton.layer?.backgroundColor = (
             ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray
         ).cgColor
@@ -184,7 +184,7 @@ extension AgoraVideoViewer {
             beautifyButton.isSelected ? .timbreTransformationClear : .voiceBeautifierOff
         )
         self.agkit.setBeautyEffectOptions(beautifyButton.isSelected, options: self.beautyOptions)
-        #else
+        #elseif os(macOS)
 
         beautifyButton.layer?.backgroundColor = (
             beautifyButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
