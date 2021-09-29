@@ -66,7 +66,7 @@ public class AgoraSingleVideoView: MPView {
         )
         userOptionsBtn.layer.zPosition = 3
         userOptionsBtn.tintColor = .systemGray
-        #else
+        #elseif os(macOS)
         let userOptionsBtn = NSPopUpButton(frame: .zero, pullsDown: true)
 
 //        userOptionsBtn.wantsLayer = true
@@ -82,7 +82,7 @@ public class AgoraSingleVideoView: MPView {
         )
         userOptionsBtn.autoresizingMask = [.flexibleBottomMargin, .flexibleRightMargin]
         userOptionsBtn.addTarget(self, action: #selector(optionsBtnSelected), for: .touchUpInside)
-        #else
+        #elseif os(macOS)
         userOptionsBtn.isBordered = false
         userOptionsBtn.wantsLayer = true
         userOptionsBtn.layer?.backgroundColor = .clear
@@ -103,7 +103,7 @@ public class AgoraSingleVideoView: MPView {
         #if os(iOS)
         let muteFlag = UIImageView(image: UIImage(systemName: MPButton.micSlashSymbol))
         muteFlag.tintColor = self.micFlagColor
-        #else
+        #elseif os(macOS)
         let muteFlag = MPButton()
         muteFlag.font = .systemFont(ofSize: NSFont.systemFontSize * 1.5)
         muteFlag.attributedTitle = NSAttributedString(
@@ -118,7 +118,7 @@ public class AgoraSingleVideoView: MPView {
             size: CGSize(width: 25, height: 25)
         )
         muteFlag.autoresizingMask = [.flexibleBottomMargin, .flexibleLeftMargin]
-        #else
+        #elseif os(macOS)
         muteFlag.isBordered = false
         muteFlag.wantsLayer = true
         muteFlag.layer?.backgroundColor = .clear
@@ -149,7 +149,7 @@ public class AgoraSingleVideoView: MPView {
         hostingView.frame = self.bounds
         #if os(iOS)
         hostingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        #else
+        #elseif os(macOS)
         hostingView.autoresizingMask = [.width, .height]
         #endif
         self.canvas.view = hostingView
@@ -177,7 +177,7 @@ public class AgoraSingleVideoView: MPView {
                 withConfiguration: UIImage.SymbolConfiguration(scale: .large)),
             for: .normal
         )
-        #else
+        #elseif os(macOS)
         backgroundView.wantsLayer = true
         backgroundView.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         let bgButton = MPButton()
@@ -193,7 +193,7 @@ public class AgoraSingleVideoView: MPView {
         #if os(iOS)
         bgButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         backgroundView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        #else
+        #elseif os(macOS)
         bgButton.autoresizingMask = [.width, .height]
         backgroundView.autoresizingMask = [.width, .height]
         #endif

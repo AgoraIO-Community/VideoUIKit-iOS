@@ -7,7 +7,7 @@
 
 #if os(iOS)
 import UIKit.UIDevice
-#else
+#elseif os(macOS)
 import IOKit
 #endif
 
@@ -116,7 +116,7 @@ public struct AgoraConnectionData {
             guard let vendorId = UIDevice.current.identifierForVendor?.uuidString else {
                 fatalError("Could not generate vendor Id")
             }
-            #else
+            #elseif os(macOS)
             let vendorId = AgoraConnectionData.fetchSerialMd5()
             #endif
             self.rtcId = AgoraConnectionData.uidFrom(vendor: vendorId)

@@ -7,7 +7,7 @@
 
 #if os(iOS)
 import UIKit
-#else
+#elseif os(macOS)
 import AppKit
 #endif
 
@@ -147,7 +147,7 @@ extension AgoraVideoViewer {
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.presentAlert(alert: alert, animated: true)
-        #else
+        #elseif os(macOS)
         let alert = NSAlert()
         alert.addButton(withTitle: "Confirm")
         alert.addButton(withTitle: "Cancel")

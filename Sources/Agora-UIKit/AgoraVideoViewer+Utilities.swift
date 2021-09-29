@@ -45,7 +45,7 @@ extension AgoraVideoViewer {
         self.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         self.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         self.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        #else
+        #elseif os(macOS)
         self.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         self.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         #endif
