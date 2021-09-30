@@ -8,7 +8,7 @@
 import Foundation
 #if os(iOS)
 import UIKit
-#else
+#elseif os(macOS)
 import AppKit
 #endif
 
@@ -101,7 +101,7 @@ extension AgoraSingleVideoView {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
         }
     }
-    #else
+    #elseif os(macOS)
     /// Options button has been selected, now display available requests
     /// - Parameter sender: Button that was selected
     @objc public func optionsBtnSelected(sender: NSPopUpButton) {

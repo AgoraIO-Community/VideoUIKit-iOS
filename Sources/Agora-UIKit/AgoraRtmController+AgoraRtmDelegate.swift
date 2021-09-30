@@ -7,7 +7,7 @@
 
 #if os(iOS)
 import UIKit.UIDevice
-#else
+#elseif os(macOS)
 import IOKit
 #endif
 import AgoraRtmKit
@@ -22,6 +22,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
                 callback: self.newTokenFetched(result:)
             )
         }
+        self.delegate.agSettings.rtmDelegate?.rtmKitTokenDidExpire?(kit)
     }
 
     /**
@@ -35,6 +36,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
         if let rawMsg = message as? AgoraRtmRawMessage {
             self.decodeRawMessage(rawMsg: rawMsg, from: peerId)
         }
+        self.delegate.agSettings.rtmDelegate?.rtmKit?(kit, messageReceived: message, fromPeer: peerId)
     }
 
     /**
@@ -51,6 +53,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
      */
     open func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember) {
         self.sendPersonalData(to: member.userId)
+        self.delegate.agSettings.rtmChannelDelegate?.channel?(channel, memberJoined: member)
     }
 
     /**
@@ -70,6 +73,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
         if let rawMsg = message as? AgoraRtmRawMessage {
             self.decodeRawMessage(rawMsg: rawMsg, from: member.userId)
         }
+        self.delegate.agSettings.rtmChannelDelegate?.channel?(channel, messageReceived: message, from: member)
     }
 
     /// Decode an incoming AgoraRtmRawMessage
@@ -108,5 +112,4 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
             }
         }
     }
-
 }
