@@ -331,6 +331,11 @@ extension AgoraRtmController {
         }
     }
 
+    /// Send a raw codable message over RTM to the channel.
+    /// - Parameters:
+    ///   - message: Codable message to send over RTM.
+    ///   - channel: String channel name to send the message to.
+    ///   - callback: Callback, to see if the message was sent successfully.
     public func sendRaw<Value>(
         message: Value, channel: String,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
@@ -353,6 +358,11 @@ extension AgoraRtmController {
         return nil
     }
 
+    /// Send a raw codable message over RTM to the channel
+    /// - Parameters:
+    ///   - message: Codable message to send over RTM
+    ///   - channel: AgoraRtmChannel to send the message over
+    ///   - callback: Callback, to see if the message was sent successfully.
     public func sendRaw<Value>(
         message: Value, channel: AgoraRtmChannel,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
@@ -364,6 +374,11 @@ extension AgoraRtmController {
         callback(.invalidMessage)
     }
 
+    /// Send a raw codable message over RTM to a member
+    /// - Parameters:
+    ///   - message: Codable message to send over RTM
+    ///   - channel: member, or RTM ID to send the message to
+    ///   - callback: Callback, to see if the message was sent successfully.
     public func sendRaw<Value>(
         message: Value, member: String,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
@@ -375,6 +390,11 @@ extension AgoraRtmController {
         self.rtmKit.send(rawMsg, toPeer: member, completion: callback)
     }
 
+    /// Send a raw codable message over RTM to a member
+    /// - Parameters:
+    ///   - message: Codable message to send over RTM
+    ///   - channel: member, or RTC User ID to send the message to
+    ///   - callback: Callback, to see if the message was sent successfully.
     public func sendRaw<Value>(
         message: Value, user: UInt,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
