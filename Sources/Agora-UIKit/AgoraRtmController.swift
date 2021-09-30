@@ -66,7 +66,7 @@ open class AgoraRtmController: NSObject {
     /// Status of the RTM Engine
     public internal(set) var loginStatus: LoginStatus = .offline
 //    var videoViewer: AgoraVideoViewer
-    var rtmKit: AgoraRtmKit
+    public internal(set) var rtmKit: AgoraRtmKit
     /// Lookup remote user RTM ID based on their RTC ID
     public internal(set) var rtcLookup: [UInt: String] = [:]
     /// Get remote user data from their RTM ID
@@ -331,7 +331,7 @@ extension AgoraRtmController {
         }
     }
 
-    func sendRaw<Value>(
+    public func sendRaw<Value>(
         message: Value, channel: String,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
     ) where Value: Codable {
@@ -345,7 +345,7 @@ extension AgoraRtmController {
     /// Create raw message from codable object
     /// - Parameter codableObj: Codable object to be sent over the Real-time Messaging network.
     /// - Returns: AgoraRtmRawMessage that is ready to be sent across the Agora Real-time Messaging network.
-    internal static func createRawRtm<Value>(from codableObj: Value) -> AgoraRtmRawMessage? where Value: Codable {
+    public static func createRawRtm<Value>(from codableObj: Value) -> AgoraRtmRawMessage? where Value: Codable {
         if let data = try? JSONEncoder().encode(codableObj) {
             return AgoraRtmRawMessage(rawData: data, description: "AgoraUIKit")
         }
@@ -353,7 +353,7 @@ extension AgoraRtmController {
         return nil
     }
 
-    func sendRaw<Value>(
+    public func sendRaw<Value>(
         message: Value, channel: AgoraRtmChannel,
         callback: @escaping (AgoraRtmSendChannelMessageErrorCode) -> Void
     ) where Value: Codable {
@@ -364,7 +364,7 @@ extension AgoraRtmController {
         callback(.invalidMessage)
     }
 
-    func sendRaw<Value>(
+    public func sendRaw<Value>(
         message: Value, member: String,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
@@ -375,7 +375,7 @@ extension AgoraRtmController {
         self.rtmKit.send(rawMsg, toPeer: member, completion: callback)
     }
 
-    func sendRaw<Value>(
+    public func sendRaw<Value>(
         message: Value, user: UInt,
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
