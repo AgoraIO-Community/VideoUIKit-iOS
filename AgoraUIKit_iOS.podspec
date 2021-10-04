@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AgoraUIKit_iOS'
-  s.version          = '1.6.6'
+  s.version          = '1.6.7'
   s.summary          = 'Agora video session UIKit template.'
 
   s.description      = <<-DESC

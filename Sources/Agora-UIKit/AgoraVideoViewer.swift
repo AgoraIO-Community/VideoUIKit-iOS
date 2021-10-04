@@ -47,6 +47,11 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// A pong request has just come back to the local user, indicating that someone is still present in RTM
     /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
     func incomingPongRequest(from peerId: String)
+    /// State of RTM has changed
+    /// - Parameters:
+    ///   - oldState: Previous state of RTM
+    ///   - newState: New state of RTM
+    func rtmStateChanged(from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus)
 }
 
 public extension AgoraVideoViewerDelegate {
@@ -65,6 +70,9 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
+    func rtmStateChanged(
+        from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
+    ) {}
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
@@ -136,6 +144,17 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     internal var currentToken: String? {
         get { self.connectionData.appToken }
         set { self.connectionData.appToken = newValue }
+    }
+
+    /// Status of the RTM Engine
+    var rtmState: AgoraRtmController.RTMStatus {
+        if let rtmc = self.rtmController {
+            return rtmc.rtmStatus
+        } else if self.agSettings.rtmEnabled {
+            return .initFailed
+        } else {
+            return .offline
+        }
     }
 
     lazy internal var floatingVideoHolder: MPCollectionView = {

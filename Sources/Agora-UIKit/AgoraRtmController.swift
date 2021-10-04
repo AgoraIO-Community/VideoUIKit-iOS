@@ -26,6 +26,14 @@ public protocol RtmControllerDelegate: AnyObject {
     var videoLookup: [UInt: AgoraSingleVideoView] { get }
     /// The role for the user. Either `.audience` or `.broadcaster`.
     var userRole: AgoraClientRole { get set }
+    /// Delegate for the AgoraVideoViewer, used for some important callback methods.
+    var agoraViewerDelegate: AgoraVideoViewerDelegate? { get }
+}
+
+public extension AgoraVideoViewer {
+    var agoraViewerDelegate: AgoraVideoViewerDelegate? {
+        return self.delegate
+    }
 }
 
 extension AgoraVideoViewer: RtmControllerDelegate {
@@ -53,18 +61,28 @@ open class AgoraRtmController: NSObject {
     weak var delegate: RtmControllerDelegate!
 
     /// Status of the RTM Engine
-    public enum LoginStatus {
+    public enum RTMStatus {
+        /// Initialisation failed
+        case initFailed
         /// Login has not been attempted
         case offline
+        /// RTM is initialising, process is not yet complete
+        case initialising
         /// Currently attempting to log in
         case loggingIn
         /// RTM has logged in
         case loggedIn
+        /// RTM is logged in, and connected to the current channel
+        case connected
         /// RTM Login Failed
         case loginFailed(AgoraRtmLoginErrorCode)
     }
     /// Status of the RTM Engine
-    public internal(set) var loginStatus: LoginStatus = .offline
+    public internal(set) var rtmStatus: RTMStatus = .initialising {
+        didSet {
+            self.delegate.agoraViewerDelegate?.rtmStateChanged(from: oldValue, to: self.rtmStatus)
+        }
+    }
 //    var videoViewer: AgoraVideoViewer
     public internal(set) var rtmKit: AgoraRtmKit
     /// Lookup remote user RTM ID based on their RTC ID
@@ -134,12 +152,13 @@ open class AgoraRtmController: NSObject {
             self.rtmKit = rtmKit
         } else { return nil }
         super.init()
+        self.rtmStatus = .offline
         self.rtmKit.agoraRtmDelegate = self
         self.rtmLogin {_ in}
     }
 
     func rtmLogin(completion: @escaping (AgoraRtmLoginErrorCode) -> Void) {
-        self.loginStatus = .loggingIn
+        self.rtmStatus = .loggingIn
         if let tokenURL = self.agoraSettings.tokenURL {
             AgoraRtmController.fetchRtmToken(urlBase: tokenURL, userId: self.connectionData.rtmId) { fetchResult in
                 switch fetchResult {
@@ -168,7 +187,7 @@ open class AgoraRtmController: NSObject {
     open func rtmLoggedIn(code: AgoraRtmLoginErrorCode) {
         switch code {
         case .ok, .alreadyLogin:
-            self.loginStatus = .loggedIn
+            self.rtmStatus = .loggedIn
             for step in self.afterLoginSteps { step() }
             self.afterLoginSteps.removeAll()
             return
@@ -179,7 +198,7 @@ open class AgoraRtmController: NSObject {
         @unknown default:
             AgoraVideoViewer.agoraPrint(.error, message: "unknown login code")
         }
-        self.loginStatus = .loginFailed(code)
+        self.rtmStatus = .loginFailed(code)
     }
 
     /// Joins an RTM channel.
@@ -192,7 +211,7 @@ open class AgoraRtmController: NSObject {
             (String, AgoraRtmChannel, AgoraRtmJoinChannelErrorCode) -> Void
         )? = nil
     ) {
-        switch loginStatus {
+        switch rtmStatus {
         case .offline:
             self.rtmLogin { err in
                 if err == .ok || err == .alreadyLogin {
@@ -203,8 +222,9 @@ open class AgoraRtmController: NSObject {
             }
         case .loggingIn:
             self.afterLoginSteps.append { self.joinChannel(named: channel, callback: callback) }
-        case .loginFailed(let loginErr): print("login failed: \(loginErr.rawValue)")
-        case .loggedIn:
+        case .loginFailed(let loginErr):
+            AgoraVideoViewer.agoraPrint(.error, message: "login failed: \(loginErr.rawValue)")
+        case .loggedIn, .connected:
             guard let newChannel = self.rtmKit.createChannel(withId: channel, delegate: self) else {
                 return
             }
@@ -212,6 +232,12 @@ open class AgoraRtmController: NSObject {
                 callback?(channel, newChannel, $0)
                 self.rtmChannelJoined(name: channel, channel: newChannel, code: $0)
             }
+        case .initialising:
+            self.afterLoginSteps.append {
+                self.joinChannel(named: channel, callback: callback)
+            }
+        case .initFailed:
+            AgoraVideoViewer.agoraPrint(.error, message: "Cannot log into a channel if RTM failed")
         }
     }
 
@@ -243,6 +269,7 @@ open class AgoraRtmController: NSObject {
     ) {
         switch code {
         case .channelErrorOk:
+            self.rtmStatus = .connected
             self.sendPersonalData(to: channel)
             self.channels[name] = channel
         case .channelErrorFailure, .channelErrorRejected, .channelErrorInvalidArgument,
