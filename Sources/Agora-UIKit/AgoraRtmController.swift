@@ -83,7 +83,8 @@ open class AgoraRtmController: NSObject {
             self.delegate.agoraViewerDelegate?.rtmStateChanged(from: oldValue, to: self.rtmStatus)
         }
     }
-//    var videoViewer: AgoraVideoViewer
+
+    /// Reference to the Agora Real-time Messaging engine used by this class.
     public internal(set) var rtmKit: AgoraRtmKit
     /// Lookup remote user RTM ID based on their RTC ID
     public internal(set) var rtcLookup: [UInt: String] = [:]

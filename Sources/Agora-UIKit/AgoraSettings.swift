@@ -110,6 +110,7 @@ public struct AgoraSettings {
     /// External video source settings parameters
     public var externalVideoSettings: ExternalVideoSettings = .allFalse
 
+    /// External video source settings parameters
     @available(*, deprecated, renamed: "externalVideoSettings")
     public var externalVideoSource: ExternalVideoSettings {
         get { self.externalVideoSettings }
