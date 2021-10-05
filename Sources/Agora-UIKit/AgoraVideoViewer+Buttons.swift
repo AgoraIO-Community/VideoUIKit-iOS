@@ -48,6 +48,9 @@ extension AgoraVideoViewer {
         let buttonSize = self.agoraSettings.buttonSize
         let buttonMargin = self.agoraSettings.buttonMargin
 
+        if builtinButtons.isEmpty {
+            return
+        }
         buttons.enumerated().forEach({ (elem) in
             let button = elem.element
             #if os(iOS)
