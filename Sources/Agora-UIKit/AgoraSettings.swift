@@ -20,6 +20,9 @@ public struct AgoraSettings {
     /// Delegate for Agora RTM Channel callbacks
     public weak var rtmChannelDelegate: AgoraRtmChannelDelegate?
 
+    /// Whether RTM should be initialised and used
+    public var rtmEnabled: Bool = true
+
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.
     /// It will follow the URL pattern found in
