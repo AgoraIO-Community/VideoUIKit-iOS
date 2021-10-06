@@ -162,6 +162,15 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         )
     }
 
+    /**
+     Occurs when the local user successfully joins a specified channel.
+
+     - Parameters:
+        - engine: AgoraRtcEngineKit object
+        - channel: The channel name.
+        - uid: The user ID.
+        - elapsed: The time elapsed (ms) from the local user calling `joinChannelByToken` until this event occurs.
+     */
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit, didJoinChannel channel: String,
         withUid uid: UInt, elapsed: Int
