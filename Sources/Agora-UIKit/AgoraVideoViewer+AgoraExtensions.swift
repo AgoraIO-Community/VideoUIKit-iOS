@@ -7,7 +7,7 @@
 
 import AgoraRtcKit
 
-extension AgoraVideoViewer {
+public extension AgoraVideoViewer {
     /// Enable/Disable extension. No different from the Agora SDK call.
     /// - Parameters:
     ///   - vendor: name for provider, e.g. agora.builtin.
