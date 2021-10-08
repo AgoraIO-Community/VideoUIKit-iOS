@@ -7,7 +7,7 @@
 
 import AgoraRtcKit
 
-public extension AgoraVideoViewer {
+extension AgoraVideoViewer {
     /// Enable/Disable extension. No different from the Agora SDK call.
     /// - Parameters:
     ///   - vendor: name for provider, e.g. agora.builtin.
@@ -15,7 +15,7 @@ public extension AgoraVideoViewer {
     ///   - enabled: enable or disable. - true: enable. - false: disable.
     /// - Returns: `0`: Success. `<0`: Failure.
     @discardableResult
-    func enableExtension(withVendor vendor: String, extension extString: String, enabled: Bool) -> Int32 {
+    open func enableExtension(withVendor vendor: String, extension extString: String, enabled: Bool) -> Int32 {
         return self.agkit.enableExtension(withVendor: vendor, extension: extString, enabled: enabled)
     }
 
@@ -27,7 +27,7 @@ public extension AgoraVideoViewer {
     ///   - value: string value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    func setExtensionProperty(
+    open func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, value: String
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(
@@ -44,7 +44,7 @@ public extension AgoraVideoViewer {
     ///   - codable: value to set for the property, must be encodable to a JSON string.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    func setExtensionProperty<T>(
+    open func setExtensionProperty<T>(
         _ vendor: String, extension extString: String, key: String, codable: T
     ) -> Int32? where T: Encodable {
         guard let encodedData = try? JSONEncoder().encode(codable),
@@ -66,7 +66,7 @@ public extension AgoraVideoViewer {
     ///   - strValue: string value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    func setExtensionProperty(
+    open func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, strValue: String
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(
@@ -83,7 +83,7 @@ public extension AgoraVideoViewer {
     ///   - value: Boolean value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    func setExtensionProperty(
+    open func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, value: Bool
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(
