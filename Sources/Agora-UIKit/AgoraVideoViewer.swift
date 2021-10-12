@@ -147,7 +147,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     /// Status of the RTM Engine
-    var rtmState: AgoraRtmController.RTMStatus {
+    public var rtmStatus: AgoraRtmController.RTMStatus {
         if let rtmc = self.rtmController {
             return rtmc.rtmStatus
         } else if self.agSettings.rtmEnabled {
