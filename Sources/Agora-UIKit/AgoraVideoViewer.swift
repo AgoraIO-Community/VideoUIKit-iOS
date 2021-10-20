@@ -277,7 +277,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
     ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
     public init(
-        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .grid,
+        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .floating,
         agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
     ) {
         self.agoraSettings = agoraSettings
