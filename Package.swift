@@ -12,14 +12,14 @@ let package = Package(
     dependencies: [
         .package(
             name: "AgoraRtcKit",
-            url: "https://github.com/agorabuilder/AgoraFFmpegPlayer_iOS_Preview",
-            from: "4.0.0"
+            url: "https://github.com/agorabuilder/AgoraRtcEngine_iOS_Preview",
+            .upToNextMajor(from: .init(4, 0, 0, prereleaseIdentifiers: ["-preview"], buildMetadataIdentifiers: []))
         ),
         .package(
             name: "AgoraRtmKit",
             url: "https://github.com/AgoraIO/AgoraRtm_iOS",
-            from: "1.4.7"
-        )
+            .exact("1.4.8-230")
+        ),
     ],
     targets: [
         .target(
