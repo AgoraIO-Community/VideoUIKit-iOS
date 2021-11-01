@@ -19,7 +19,7 @@ let package = Package(
             name: "AgoraRtmKit",
             url: "https://github.com/AgoraIO/AgoraRtm_iOS",
             .exact("1.4.8-230")
-        ),
+        )
     ],
     targets: [
         .target(
