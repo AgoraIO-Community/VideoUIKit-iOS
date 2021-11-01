@@ -141,9 +141,9 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         didSet { self.agkit.setClientRole(self.userRole) }
     }
 
-    internal var currentToken: String? {
-        get { self.connectionData.appToken }
-        set { self.connectionData.appToken = newValue }
+    internal var currentRtcToken: String? {
+        get { self.connectionData.rtcToken }
+        set { self.connectionData.rtcToken = newValue }
     }
 
     /// Status of the RTM Engine
@@ -293,7 +293,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     @IBInspectable var appID: String = "" {
         didSet {
             if self.connectionData == nil {
-                self.connectionData = AgoraConnectionData(appId: appID)
+                self.connectionData = AgoraConnectionData(appId: appID, rtcToken: nil)
             }
         }
     }

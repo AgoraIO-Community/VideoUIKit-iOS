@@ -16,7 +16,15 @@ public struct AgoraConnectionData {
     /// Agora App ID from https://agora.io
     public var appId: String
     /// Token to be used to connect to a channel, can be nil.
-    public var appToken: String?
+    public var rtcToken: String?
+
+    @available(*, deprecated, renamed: "rtcToken")
+    public var appToken: String? {
+        get { self.rtcToken }
+        set { self.rtcToken = newValue }
+    }
+
+    public var rtmToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
     public var channel: String?
     /// Agora Real-time Communication Identifier (Agora Video/Audio SDK).
@@ -25,10 +33,6 @@ public struct AgoraConnectionData {
     public var rtmId: String
     /// Username to be shared of the local user.
     public var username: String?
-    /// Create AgoraConnectionData object
-    /// - Parameters:
-    ///   - appId: Agora App ID from https://agora.io
-    ///   - appToken: Token to be used to connect to a channel, can be nil.
 
     /// Logic to be applied when determining RTM and RTC Ids
     public enum IDLogic {
@@ -95,18 +99,27 @@ public struct AgoraConnectionData {
     }
     #endif
 
-    /// Create a new AgoraConnectionData object
-    /// - Parameters:
-    ///   - appId: Agora App ID from https://agora.io
-    ///   - appToken: Token to be used to connect to a channel, can be nil.
-    ///   - rtmId: Optional Agora Real-time Messaging Identifier (Agora RTM SDK).
-    ///   - idLogic: Logic to be applied when determining RTM and RTC Ids
+    @available(*, deprecated, message: "Use initialiser with rtcToken parameter instead")
     public init(
         appId: String, appToken: String? = nil,
         idLogic: IDLogic = .vendorIdEncodedRtc
     ) {
+        self.init(appId: appId, rtcToken: appToken, idLogic: idLogic)
+    }
+
+    /// Create a new AgoraConnectionData object
+    /// - Parameters:
+    ///   - appId: Agora App ID from https://agora.io
+    ///   - rtcToken: Token to be used to connect to a video channel, can be nil.
+    ///   - rtmToken: Token to be used to connect to an RTM channel, can be nil.
+    ///   - idLogic: Logic to be applied when determining RTM and RTC Ids
+    public init(
+        appId: String, rtcToken: String? = nil, rtmToken: String? = nil,
+        idLogic: IDLogic = .vendorIdEncodedRtc
+    ) {
         self.appId = appId
-        self.appToken = appToken
+        self.rtcToken = rtcToken
+        self.rtmToken = rtmToken
         switch idLogic {
         case .random:
             self.rtmId = UUID().uuidString
