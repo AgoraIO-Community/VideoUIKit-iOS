@@ -274,7 +274,7 @@ extension AgoraVideoViewer {
             }
             return
         }
-        self.join(channel: channel, with: self.currentToken, as: role, uid: uid)
+        self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
     }
 
     /// Join the Agora channel
@@ -308,7 +308,7 @@ extension AgoraVideoViewer {
         self.userRole = role
         if let uid = uid { self.userID = uid }
 
-        self.currentToken = token
+        self.currentRtcToken = token
         self.setupAgoraVideo()
         self.connectionData.channel = channel
         if !self.agoraSettings.cameraEnabled { self.agkit.enableLocalVideo(false) }
@@ -387,7 +387,7 @@ extension AgoraVideoViewer {
     /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
     /// - Parameter newToken: new token to be applied to the current connection.
     open func updateToken(_ newToken: String) {
-        self.currentToken = newToken
+        self.currentRtcToken = newToken
         self.agkit.renewToken(newToken)
     }
 

@@ -78,7 +78,7 @@ Once installed, open your application `.xcworkspace` file.
 Decide where you want to add your `AgoraVideoViewer`, and in the same file import `Agora_UIKit` or `Agora_AppKit` for iOS and macOS respectively.
 Next, create an `AgoraVideoViewer` object and frame it in your scene like you would any other `UIView` or `NSView`. The `AgoraVideoViewer` object must be provided `AgoraConnectionData` and a UIViewController/NSViewController on creation.
 
-AgoraConnectionData has two values for initialising. These are appId and appToken.
+AgoraConnectionData has two values for initialising. These are appId and rtcToken, as well as an optional rtmToken.
 
 An `AgoraVideoViewer` can be created like this:
 
@@ -88,7 +88,8 @@ import AgoraUIKit_iOS
 let agoraView = AgoraVideoViewer(
     connectionData: AgoraConnectionData(
         appId: "my-app-id",
-        appToken: "my-channel-token"
+        rtcToken: "my-channel-token",
+        rtmToken: "my-channel-rtm-token"
     ),
     style: .grid,
     delegate: self

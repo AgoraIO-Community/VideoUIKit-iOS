@@ -14,7 +14,7 @@ struct ContentView: View {
     static var agview = AgoraViewer(
         connectionData: AgoraConnectionData(
             appId: <#Agora App ID#>,
-            appToken: <#Agora Token or nil#>
+            rtcToken: <#Agora Token or nil#>
         ),
         style: .floating
     )

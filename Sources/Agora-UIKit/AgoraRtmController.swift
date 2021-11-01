@@ -176,7 +176,7 @@ open class AgoraRtmController: NSObject {
             }
         } else {
             self.rtmKit.login(
-                byToken: self.connectionData.appToken, user: self.connectionData.rtmId
+                byToken: self.connectionData.rtmToken, user: self.connectionData.rtmId
             ) { errcode in
                 self.rtmLoggedIn(code: errcode)
                 completion(errcode)
