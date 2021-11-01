@@ -13,7 +13,7 @@ let package = Package(
         .package(
             name: "AgoraRtcKit",
             url: "https://github.com/agorabuilder/AgoraRtcEngine_iOS_Preview",
-            .exact("4.0.0-preview.3")
+            .upToNextMajor(from: .init(4, 0, 0, prereleaseIdentifiers: ["-preview"], buildMetadataIdentifiers: []))
         ),
         .package(
             name: "AgoraRtmKit",
