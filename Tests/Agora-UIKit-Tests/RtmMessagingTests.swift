@@ -39,9 +39,9 @@ final class RtmMessagesTests: XCTestCase {
             XCTAssert(decodedMuteReq.mute == muteReq.mute, "mute invalid!")
             XCTAssert(decodedMuteReq.device == muteReq.device, "device invalid!")
             XCTAssert(decodedMuteReq.isForceful == muteReq.isForceful, "mute invalid!")
-        case .userData(_):
+        case .userData:
             XCTFail("Should not decode to userData")
-        case .genericAction(_):
+        case .genericAction:
             XCTFail("Should not decode to genericAction")
         }
     }
