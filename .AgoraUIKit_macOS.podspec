@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AgoraUIKit_macOS'
-  s.version          = '1.7.0'
+  s.version          = '1.7.1'
   s.summary          = 'Agora video session AppKit template.'
 
   s.description      = <<-DESC
@@ -26,8 +26,6 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.source_files = 'Sources/Agora-UIKit/*'
   s.pod_target_xcconfig = { 'ONLY_ACTIVE_ARCH' => 'YES' }
   s.dependency 'AgoraRtcEngine_macOS', '~> 3.5.0'
-  s.dependency 'AgoraRtm_macOS', '~> 1.4.8'
-  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=macos*]' => 'arm64' }
-
+  s.dependency 'AgoraRtm_macOS', '~> 1.4.9'
   s.static_framework = false
 end
