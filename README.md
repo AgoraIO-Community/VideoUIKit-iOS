@@ -15,7 +15,9 @@
 
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgoraIO-Community/iOS-UIKit/2f308d3897e3291e12bf6204f0ad722979da6b2a/media/floating_view.jpg"/></p>
+<p align="center">
+  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/raw/main/media/agora-uikit-banner.png"/>
+</p>
 
 ## Requirements
 
