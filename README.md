@@ -42,6 +42,8 @@ Go to File > Swift Packages > Add Package Dependency, and paste in this link:
 
 `https://github.com/AgoraIO-Community/iOS-UIKit`
 
+If you are using the developer preview, add `4.0.0-preview` in the version box there, otherwise use a version from `1.0.0` up to `2.0.0`.
+
 ---
 
 If you have issues installing the Swift Package:
@@ -75,7 +77,7 @@ The installation will change slightly once this pod is out of pre-release.
 
 ## Usage
 
-Once installed, open your application `.xcworkspace` file.
+Once installed, open your application `.xcodeproj` file. Or `.xcworkspace` if using CocoaPods.
 
 Decide where you want to add your `AgoraVideoViewer`, and in the same file import `Agora_UIKit` or `Agora_AppKit` for iOS and macOS respectively.
 Next, create an `AgoraVideoViewer` object and frame it in your scene like you would any other `UIView` or `NSView`. The `AgoraVideoViewer` object must be provided `AgoraConnectionData` and a UIViewController/NSViewController on creation.
@@ -85,6 +87,7 @@ AgoraConnectionData has two values for initialising. These are appId and rtcToke
 An `AgoraVideoViewer` can be created like this:
 
 ```swift
+import AgoraRtcKit
 import AgoraUIKit_iOS
 
 let agoraView = AgoraVideoViewer(
