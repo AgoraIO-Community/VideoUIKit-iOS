@@ -96,6 +96,8 @@ open class AgoraRtmController: NSObject {
 
     /// Data about a user (local or remote)
     public struct UserData: Codable {
+        /// Type of message being sent
+        var messageType: String? = "UserData"
         /// ID used in the RTM connection
         var rtmId: String
         /// ID used in the RTC (Video/Audio) connection
