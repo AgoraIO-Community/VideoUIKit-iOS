@@ -9,8 +9,7 @@ final class RtmMessagesTests: XCTestCase {
             rtcId: 999, mute: true, device: .camera, isForceful: true
         )
         guard let rawMsg = AgoraRtmController.createRawRtm(from: muteReq) else {
-            XCTFail("MuteRequest should be encodable")
-            return
+            return XCTFail("MuteRequest should be encodable")
         }
         XCTAssert(rawMsg.text == "AgoraUIKit", "Message text data should be AgoraUIKit")
         let msgText = String(data: rawMsg.rawData, encoding: .utf8)
@@ -18,21 +17,20 @@ final class RtmMessagesTests: XCTestCase {
         guard let unencodedJSON = try? JSONSerialization.jsonObject(
             with: rawMsg.rawData, options: .allowFragments
         ) as? [String: Any] else {
-            XCTFail("Could not unencode data")
-            return
+            return XCTFail("Could not unencode data")
         }
         XCTAssertEqual((unencodedJSON["rtcId"] as? UInt), muteReq.rtcId, "rtcId invalid!")
         XCTAssertEqual((unencodedJSON["mute"] as? Bool), muteReq.mute, "mute invalid!")
         XCTAssertEqual((unencodedJSON["device"] as? Int), muteReq.device, "device invalid!")
         XCTAssertEqual((unencodedJSON["isForceful"] as? Bool), muteReq.isForceful, "mute invalid!")
-        let msgTextValid = "{\"rtcId\":999,\"mute\":true,\"messageType\":\"MuteRequest\",\"device\":0,\"isForceful\":true}"
+        let msgTextValid = "{\"rtcId\":999,\"mute\":true,\"messageType\":"
+                        + "\"MuteRequest\",\"device\":0,\"isForceful\":true}"
 
         XCTAssertEqual(msgText, msgTextValid, "Message text not matching mstTextValid")
         guard let decodedMsg = AgoraRtmController.decodeRawRtmData(
                 data: rawMsg.rawData, from: ""
         ) else {
-            XCTFail("Failed to decode message")
-            return
+            return XCTFail("Failed to decode message")
         }
 
         switch decodedMsg {
@@ -49,10 +47,12 @@ final class RtmMessagesTests: XCTestCase {
     }
 
     func testEncodeUserData() throws {
-        let userData = AgoraRtmController.UserData(rtmId: "1234-5678", rtcId: 190, username: "username", role: AgoraClientRole.broadcaster.rawValue, agora: .current, uikit: .current)
+        let userData = AgoraRtmController.UserData(
+            rtmId: "1234-5678", rtcId: 190, username: "username",
+            role: AgoraClientRole.broadcaster.rawValue, agora: .current, uikit: .current
+        )
         guard let rawMsg = AgoraRtmController.createRawRtm(from: userData) else {
-            XCTFail("UserData should be encodable")
-            return
+            return XCTFail("UserData should be encodable")
         }
         XCTAssert(rawMsg.text == "AgoraUIKit", "Message text data should be AgoraUIKit")
         let msgText = String(data: rawMsg.rawData, encoding: .utf8)
@@ -60,8 +60,7 @@ final class RtmMessagesTests: XCTestCase {
         guard let unencodedJSON = try? JSONSerialization.jsonObject(
             with: rawMsg.rawData, options: .allowFragments
         ) as? [String: Any] else {
-            XCTFail("Could not unencode data")
-            return
+            return XCTFail("Could not unencode data")
         }
         XCTAssertEqual((unencodedJSON["rtcId"] as? UInt), userData.rtcId, "rtcId invalid!")
         XCTAssertEqual((unencodedJSON["role"] as? Int), userData.role, "mute invalid!")
@@ -70,29 +69,25 @@ final class RtmMessagesTests: XCTestCase {
             XCTAssertEqual((agoraData["rtc"] as? String), AgoraRtcEngineKit.getSdkVersion(), "rtcId invalid!")
             XCTAssertEqual((agoraData["rtm"] as? String), AgoraRtmKit.getSDKVersion(), "mute invalid!")
         } else { XCTFail("Could not parse agora version data") }
-        let msgTextValid = "{\"uikit\":{\"platform\":\"ios\",\"version\":\"\(AgoraUIKit.version)\",\"framework\":\"native\"},"
-                        + "\"role\":1,\"rtmId\":\"1234-5678\",\"username\":\"username\","
-                        + "\"agora\":{\"rtm\":\"\(AgoraRtmKit.getSDKVersion()!)\",\"rtc\":\"\(AgoraRtcEngineKit.getSdkVersion())\"},"
+        let msgTextValid = "{\"uikit\":{"
+                        + "\"platform\":\"ios\",\"version\":\"\(AgoraUIKit.version)\",\"framework\":\"native\"},"
+                        + "\"role\":1,\"rtmId\":\"1234-5678\",\"username\":\"username\",\"agora\":{\"rtm\":"
+                        + "\"\(AgoraRtmKit.getSDKVersion()!)\",\"rtc\":\"\(AgoraRtcEngineKit.getSdkVersion())\"},"
                         + "\"messageType\":\"UserData\",\"rtcId\":190}"
 
         XCTAssertEqual(msgText, msgTextValid, "Message text not matching msgTextValid")
-        guard let decodedMsg = AgoraRtmController.decodeRawRtmData(
-                data: rawMsg.rawData, from: ""
-        ) else {
-            XCTFail("Failed to decode message")
-            return
+        guard let decodedMsg = AgoraRtmController.decodeRawRtmData(data: rawMsg.rawData, from: "") else {
+            return XCTFail("Failed to decode message")
         }
 
         switch decodedMsg {
-        case .mute:
-            XCTFail("Should not decode to userData")
         case .userData(let decodedUserData):
             XCTAssertEqual(decodedUserData.rtcId, userData.rtcId, "rtcId invalid!")
             XCTAssertEqual(decodedUserData.rtmId, userData.rtmId, "rtmId invalid!")
             XCTAssertEqual(decodedUserData.agora.rtc, AgoraRtcEngineKit.getSdkVersion(), "RTC version invalid!")
             XCTAssertEqual(decodedUserData.uikit.framework, "native", "RTC version invalid!")
-        case .genericAction:
-            XCTFail("Should not decode to genericAction")
+        default:
+            XCTFail("Should decode to userData")
         }
     }
 }
