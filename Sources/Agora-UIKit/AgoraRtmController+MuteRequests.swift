@@ -22,6 +22,8 @@ extension AgoraRtmController {
 
     /// Structure that contains information about a mute request
     public struct MuteRequest: Codable {
+        /// Type of message being sent
+        public var messageType: String? = "MuteRequest"
         /// RTC ID that the request is intended for
         public var rtcId: UInt
         /// Whether the request is to mute or unmute a device

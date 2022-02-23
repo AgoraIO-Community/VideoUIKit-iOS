@@ -204,6 +204,9 @@ public struct AgoraSettings {
     /// Font size of the builtin buttons SF Symbol text
     static var buttonIconSize: CGFloat = 20
     #endif
+
+    /// Enable the voice activity detection of the local user. Default: `false`
+    public var reportLocalVolume: Bool = false
 }
 
 /// Colors for views inside AgoraVideoViewer

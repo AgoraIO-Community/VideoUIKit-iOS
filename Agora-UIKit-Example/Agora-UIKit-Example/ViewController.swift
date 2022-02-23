@@ -7,6 +7,7 @@
 
 import UIKit
 
+import AgoraRtcKit
 import AgoraUIKit_iOS
 
 class ViewController: UIViewController {
