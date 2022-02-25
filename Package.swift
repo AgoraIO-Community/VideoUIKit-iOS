@@ -13,7 +13,7 @@ let package = Package(
         .package(
             name: "AgoraRtcKit",
             url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-            from: "3.4.5"
+            "3.4.5"..."3.6.2"
         ),
         .package(
             name: "AgoraRtmKit",
@@ -25,6 +25,7 @@ let package = Package(
         .target(
             name: "AgoraUIKit_iOS",
             dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
+//            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmKit"],
             path: "Sources/Agora-UIKit"
         ),
         .testTarget(name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit_iOS"], path: "Tests/Agora-UIKit-Tests")
