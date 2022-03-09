@@ -64,7 +64,7 @@ extension AgoraRtmController {
     public struct RtmDataRequest: Codable {
         /// Type of message being sent
         public var messageType: String? = "RtmDataRequest"
-        /// Type of generic request.
+        /// Type of data request.
         public var type: DataRequestType
     }
 
