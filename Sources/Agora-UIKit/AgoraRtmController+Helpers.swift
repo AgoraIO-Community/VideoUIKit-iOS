@@ -16,7 +16,7 @@ extension AgoraRtmController {
         /// DecodedRtmAction type containing data about a user (local or remote)
         case userData(_: UserData)
         /// Message that contains a small action request, such as a ping or requesting a user's data
-        case genericAction(_: RtmGenericRequest)
+        case dataRequest(_: RtmDataRequest)
     }
 
     /// Decode message to a compatible DecodedRtmMessage type.
@@ -30,8 +30,8 @@ extension AgoraRtmController {
             return .userData(userData)
         } else if let muteReq = try? decoder.decode(MuteRequest.self, from: data) {
             return .mute(muteReq)
-        } else if let genericRequest = try? decoder.decode(RtmGenericRequest.self, from: data) {
-            return .genericAction(genericRequest)
+        } else if let requestVal = try? decoder.decode(RtmDataRequest.self, from: data) {
+            return .dataRequest(requestVal)
         }
         return nil
     }
