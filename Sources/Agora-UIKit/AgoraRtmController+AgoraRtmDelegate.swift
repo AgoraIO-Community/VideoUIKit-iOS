@@ -95,13 +95,13 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
                     self.delegate.videoLookup[rtcId]?
                         .showOptions = self.agoraSettings.showRemoteRequestOptions
                 }
-            case .genericAction(let genericAction):
-                switch genericAction.type {
-                case .userdata:
+            case .dataRequest(let requestVal):
+                switch requestVal.type {
+                case .userData:
                     self.sendPersonalData(to: peerId)
                 case .ping:
                     self.sendRaw(
-                        message: RtmGenericRequest(type: .pong), member: peerId
+                        message: RtmDataRequest(type: .pong), member: peerId
                     ) {_ in }
                 case .pong:
                     AgoraVideoViewer.agoraPrint(

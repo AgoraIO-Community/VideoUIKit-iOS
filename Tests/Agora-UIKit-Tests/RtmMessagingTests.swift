@@ -41,8 +41,8 @@ final class RtmMessagesTests: XCTestCase {
             XCTAssertEqual(decodedMuteReq.isForceful, muteReq.isForceful, "mute invalid!")
         case .userData:
             XCTFail("Should not decode to userData")
-        case .genericAction:
-            XCTFail("Should not decode to genericAction")
+        case .dataRequest:
+            XCTFail("Should not decode to dataRequest")
         }
     }
 
