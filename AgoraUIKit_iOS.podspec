@@ -25,7 +25,7 @@ Use this Pod to create a video UIKit view that can be easily added to your iOS a
 
   s.source_files = 'Sources/Agora-UIKit/*'
   s.dependency 'AgoraRtcEngine_iOS_Preview', '4.0.0-preview.5'
-  s.dependency 'AgoraRtm_iOS', '~> 1.4.9'
+  s.dependency 'AgoraRtm_iOS', '~> 1.4.10'
 
   s.static_framework = true
 end
