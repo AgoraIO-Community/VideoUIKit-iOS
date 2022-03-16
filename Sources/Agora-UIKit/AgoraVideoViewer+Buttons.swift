@@ -17,7 +17,10 @@ import AppKit
 
 extension AgoraVideoViewer {
     #if os(iOS)
-    fileprivate func iOSContainerSizing(_ frameOriginY: inout CGFloat, _ resizeMask: inout UIView.AutoresizingMask, _ containerSize: inout CGSize, _ contWidth: CGFloat, _ frameOriginX: inout CGFloat) {
+    fileprivate func platformContainerSizing(
+        _ frameOriginX: inout CGFloat, _ frameOriginY: inout CGFloat, _ contWidth: CGFloat,
+        _ resizeMask: inout UIView.AutoresizingMask, _ containerSize: inout CGSize
+    ) {
         resizeMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
         switch self.agSettings.buttonPosition {
         case .top:
@@ -38,7 +41,10 @@ extension AgoraVideoViewer {
     }
     #elseif os(macOS)
 
-    fileprivate func macOSContainerSizing(_ frameOriginX: inout CGFloat, _ contWidth: CGFloat, _ frameOriginY: inout CGFloat, _ resizeMask: inout NSView.AutoresizingMask, _ containerSize: inout CGSize) {
+    fileprivate func platformContainerSizing(
+        _ frameOriginX: inout CGFloat, _ frameOriginY: inout CGFloat, _ contWidth: CGFloat,
+        _ resizeMask: inout NSView.AutoresizingMask, _ containerSize: inout CGSize
+    ) {
         switch self.agSettings.buttonPosition {
         case .top, .bottom:
             frameOriginX = (self.bounds.width - CGFloat(contWidth)) / 2
@@ -68,12 +74,11 @@ extension AgoraVideoViewer {
         var frameOriginX = (self.bounds.width - CGFloat(contWidth)) / 2
         var frameOriginY = self.bounds.height - self.agoraSettings.buttonSize - 20 - 10
         var resizeMask: MPView.AutoresizingMask = []
+        platformContainerSizing(&frameOriginX, &frameOriginY, contWidth, &resizeMask, &containerSize)
         #if os(iOS)
-        iOSContainerSizing(&frameOriginY, &resizeMask, &containerSize, contWidth, &frameOriginX)
         container.layer.cornerRadius = self.agoraSettings.buttonSize / 3
         container.clipsToBounds = true
         #elseif os(macOS)
-        macOSContainerSizing(&frameOriginX, contWidth, &frameOriginY, &resizeMask, &containerSize)
         container.layer?.cornerRadius = self.agoraSettings.buttonSize / 3
         #endif
         container.frame = CGRect(origin: CGPoint(x: frameOriginX, y: frameOriginY), size: containerSize)
