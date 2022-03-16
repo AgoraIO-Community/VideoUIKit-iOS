@@ -51,7 +51,7 @@ public struct AgoraSettings {
     }
     /// Position, top, left, bottom or right.
     public enum Position {
-        /// At the top of the view
+        /// At the top of the view. Not recommended for floating layout.
         case top
         /// At the right of the view
         case right
