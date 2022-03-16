@@ -1,14 +1,18 @@
-on: push
 name: "Pod Lint"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+    - "*"
+
 jobs:
   podlint:
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@master
-    - name: Set XCode Version
-      run: |
-        ls /Applications/Xcode*
-        sudo xcode-select -s /Applications/Xcode_11.7.app
     - name: Pod Lint
       run: |
         pod lib lint --allow-warnings --skip-import-validation
