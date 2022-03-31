@@ -1,15 +1,16 @@
 # Agora UIKit for iOS and macOS
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
-  <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
-  <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
-  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
-  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/>
-  <a href="https://www.agora.io/en/join-slack/">
-    <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
-  </a>
+    <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
+    <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/></br>
+    <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
+    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
+    <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
+    <a href="https://www.agora.io/en/join-slack/">
+        <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
+    </a>
 </p>
+
 
 
 
