@@ -14,6 +14,9 @@ import CoreFoundation
 import CommonCrypto
 #endif
 import AgoraRtcKit
+#if canImport(AgoraRtmKit)
+import AgoraRtmKit
+#endif
 
 /// An interface for getting some common delegate callbacks without needing to subclass.
 public protocol AgoraVideoViewerDelegate: AnyObject {
@@ -47,11 +50,23 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// A pong request has just come back to the local user, indicating that someone is still present in RTM
     /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
     func incomingPongRequest(from peerId: String)
+    #if canImport(AgoraRtmKit)
     /// State of RTM has changed
     /// - Parameters:
     ///   - oldState: Previous state of RTM
     ///   - newState: New state of RTM
     func rtmStateChanged(from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus)
+
+    /// Called after AgoraRtmController joins a channel
+    /// - Parameters:
+    ///   - name: name of the channel joined
+    ///   - channel: instance of joined `AgoraRtmChannel`
+    ///   - code: Error codes related to joining a channel.
+    func rtmChannelJoined(
+        name: String, channel: AgoraRtmChannel,
+        code: AgoraRtmJoinChannelErrorCode
+    )
+    #endif
 }
 
 public extension AgoraVideoViewerDelegate {
@@ -70,9 +85,15 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
+    #if canImport(AgoraRtmKit)
     func rtmStateChanged(
         from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
     ) {}
+    func rtmChannelJoined(
+        name: String, channel: AgoraRtmChannel,
+        code: AgoraRtmJoinChannelErrorCode
+    ) {}
+    #endif
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings

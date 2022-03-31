@@ -324,15 +324,20 @@ extension AgoraVideoViewer {
 
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
+        self.setupRtmController { rtmController in
+            rtmController?.joinChannel(named: channel)
+        }
+    }
+
+    open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
         if !self.agSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
                 self.rtmController = AgoraRtmController(delegate: self)
                 if self.rtmController == nil {
                     AgoraVideoViewer.agoraPrint(.error, message: "Error initialising RTM")
-                } else {
-                    self.rtmController?.joinChannel(named: channel)
                 }
+                callback?(self.rtmController)
             }
         }
     }

@@ -28,6 +28,15 @@ public protocol RtmControllerDelegate: AnyObject {
     var userRole: AgoraClientRole { get set }
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     var agoraViewerDelegate: AgoraVideoViewerDelegate? { get }
+    /// Called after AgoraRtmController joins a channel
+    /// - Parameters:
+    ///   - name: name of the channel joined
+    ///   - channel: instance of joined `AgoraRtmChannel`
+    ///   - code: Error codes related to joining a channel.
+    func rtmChannelJoined(
+        name: String, channel: AgoraRtmChannel,
+        code: AgoraRtmJoinChannelErrorCode
+    )
 }
 
 public extension AgoraVideoViewer {
@@ -47,6 +56,12 @@ extension AgoraVideoViewer: RtmControllerDelegate {
     public func handlePongRequest(from peerId: String) {
         self.delegate?.incomingPongRequest(from: peerId)
     }
+    public func rtmChannelJoined(
+        name: String, channel: AgoraRtmChannel, code: AgoraRtmJoinChannelErrorCode
+    ) {
+        self.delegate?.rtmChannelJoined(name: name, channel: channel, code: code)
+    }
+
 }
 
 /// Class for controlling the RTM messages
@@ -282,5 +297,6 @@ open class AgoraRtmController: NSObject {
         @unknown default:
             AgoraVideoViewer.agoraPrint(.error, message: "join channel unknown response: \(code.rawValue)")
         }
+        self.delegate.rtmChannelJoined(name: name, channel: channel, code: code)
     }
 }
