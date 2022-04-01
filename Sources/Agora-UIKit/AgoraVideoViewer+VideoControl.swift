@@ -363,8 +363,7 @@ extension AgoraVideoViewer {
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
     open func leaveChannel(
-        stopPreview: Bool = true,
-        _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
+        stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
@@ -373,19 +372,14 @@ extension AgoraVideoViewer {
         }
         self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
-        if stopPreview, self.userRole == .broadcaster {
-            agkit.stopPreview()
-        }
+        if stopPreview, self.userRole == .broadcaster { agkit.stopPreview() }
         self.activeSpeaker = nil
         self.remoteUserIDs = []
         self.userVideoLookup = [:]
         self.backgroundVideoHolder.subviews.forEach { $0.removeFromSuperview() }
         self.controlContainer?.isHidden = true
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
-        defer {
-            if leaveChannelRtn == 0 { delegate?.leftChannel(chName) }
-        }
-
+        defer { if leaveChannelRtn == 0 { delegate?.leftChannel(chName) } }
         return leaveChannelRtn
     }
 
