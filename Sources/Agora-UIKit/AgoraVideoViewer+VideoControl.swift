@@ -324,15 +324,20 @@ extension AgoraVideoViewer {
 
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
+        self.setupRtmController { rtmController in
+            rtmController?.joinChannel(named: channel)
+        }
+    }
+
+    open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
         if !self.agSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
                 self.rtmController = AgoraRtmController(delegate: self)
                 if self.rtmController == nil {
                     AgoraVideoViewer.agoraPrint(.error, message: "Error initialising RTM")
-                } else {
-                    self.rtmController?.joinChannel(named: channel)
                 }
+                callback?(self.rtmController)
             }
         }
     }
@@ -358,8 +363,7 @@ extension AgoraVideoViewer {
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
     open func leaveChannel(
-        stopPreview: Bool = true,
-        _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
+        stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
@@ -368,19 +372,14 @@ extension AgoraVideoViewer {
         }
         self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
-        if stopPreview, self.userRole == .broadcaster {
-            agkit.stopPreview()
-        }
+        if stopPreview, self.userRole == .broadcaster { agkit.stopPreview() }
         self.activeSpeaker = nil
         self.remoteUserIDs = []
         self.userVideoLookup = [:]
         self.backgroundVideoHolder.subviews.forEach { $0.removeFromSuperview() }
         self.controlContainer?.isHidden = true
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
-        defer {
-            if leaveChannelRtn == 0 { delegate?.leftChannel(chName) }
-        }
-
+        defer { if leaveChannelRtn == 0 { delegate?.leftChannel(chName) } }
         return leaveChannelRtn
     }
 
