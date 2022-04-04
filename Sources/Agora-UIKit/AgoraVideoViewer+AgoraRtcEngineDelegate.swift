@@ -28,8 +28,8 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
         // Only show the camera options when we are a broadcaster
         self.getControlContainer().isHidden = !isHost
-        self.rtmController?.broadcastPersonalData()
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChanged: oldRole, newRole: newRole)
+        self.broadcastPersonalData()
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChanged: oldRole, newRole: newRole)
     }
 
     /// New User joined the channel
@@ -44,7 +44,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     ) {
         // Keeping track of all people in the session
         self.remoteUserIDs.insert(uid)
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, didJoinedOfUid: uid, elapsed: elapsed)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didJoinedOfUid: uid, elapsed: elapsed)
     }
 
     /// This callback indicates the state change of the local audio stream, including the state of the audio recording and encoding, and allows you to troubleshoot issues when exceptions occur.
@@ -70,7 +70,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 }
             }
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(
+        self.agoraSettings.rtcDelegate?.rtcEngine?(
             engine, remoteAudioStateChangedOfUid: uid, state: state,
             reason: reason, elapsed: elapsed
         )
@@ -105,7 +105,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             // and remove this view from the list
             self.removeUserVideo(with: uid)
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, didOfflineOfUid: uid, reason: reason)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOfflineOfUid: uid, reason: reason)
     }
 
     /**
@@ -126,7 +126,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, activeSpeaker speakerUid: UInt) {
         self.activeSpeaker = speakerUid
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, activeSpeaker: speakerUid)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, activeSpeaker: speakerUid)
     }
 
     /**
@@ -156,7 +156,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(
+        self.agoraSettings.rtcDelegate?.rtcEngine?(
             engine, remoteVideoStateChangedOfUid: uid, state: state,
             reason: reason, elapsed: elapsed
         )
@@ -182,7 +182,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, localVideoStateChange: state, error: error)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, localVideoStateChange: state, error: error)
     }
 
     /**
@@ -207,7 +207,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, localAudioStateChange: state, error: error)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, localAudioStateChange: state, error: error)
     }
 
     /**
@@ -225,7 +225,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
      */
     open func rtcEngine(_ engine: AgoraRtcEngineKit, firstLocalAudioFramePublished elapsed: Int) {
         self.addLocalVideo()?.audioMuted = false
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, firstLocalAudioFramePublished: elapsed)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstLocalAudioFramePublished: elapsed)
     }
 
     /**
@@ -244,7 +244,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             )
         }
         self.delegate?.tokenDidExpire(engine)
-        self.agSettings.rtcDelegate?.rtcEngineRequestToken?(engine)
+        self.agoraSettings.rtcDelegate?.rtcEngineRequestToken?(engine)
     }
 
     /**
@@ -265,6 +265,6 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             )
         }
         self.delegate?.tokenWillExpire(engine, tokenPrivilegeWillExpire: token)
-        self.agSettings.rtcDelegate?.rtcEngine?(engine, tokenPrivilegeWillExpire: token)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, tokenPrivilegeWillExpire: token)
     }
 }

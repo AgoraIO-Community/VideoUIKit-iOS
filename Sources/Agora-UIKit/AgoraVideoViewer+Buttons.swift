@@ -22,14 +22,14 @@ extension AgoraVideoViewer {
         _ resizeMask: inout UIView.AutoresizingMask, _ containerSize: inout CGSize
     ) {
         resizeMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
-        switch self.agSettings.buttonPosition {
+        switch self.agoraSettings.buttonPosition {
         case .top:
             frameOriginY = 30
             resizeMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin]
         case .left, .right:
             containerSize = CGSize(width: containerSize.height, height: containerSize.width)
             frameOriginY = (self.bounds.height - CGFloat(contWidth)) / 2
-            if self.agSettings.buttonPosition == .left {
+            if self.agoraSettings.buttonPosition == .left {
                 frameOriginX = 30
                 resizeMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
             } else {

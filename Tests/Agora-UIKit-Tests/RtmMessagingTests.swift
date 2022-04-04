@@ -1,11 +1,13 @@
 import XCTest
 import AgoraRtcKit
 import AgoraRtmKit
+#if canImport(AgoraRtmController)
+@testable import AgoraRtmController
 @testable import AgoraUIKit_iOS
 
 final class RtmMessagesTests: XCTestCase {
     func testEncodeMuteReq() throws {
-        let muteReq = AgoraRtmController.MuteRequest(
+        let muteReq = AgoraVideoViewer.MuteRequest(
             rtcId: 999, mute: true, device: .camera, isForceful: true
         )
         guard let rawMsg = AgoraRtmController.createRawRtm(from: muteReq) else {
@@ -27,7 +29,7 @@ final class RtmMessagesTests: XCTestCase {
                         + "\"MuteRequest\",\"device\":0,\"isForceful\":true}"
 
         XCTAssertEqual(msgText, msgTextValid, "Message text not matching mstTextValid")
-        guard let decodedMsg = AgoraRtmController.decodeRawRtmData(
+        guard let decodedMsg = AgoraVideoViewer.decodeRawRtmData(
                 data: rawMsg.rawData, from: ""
         ) else {
             return XCTFail("Failed to decode message")
@@ -47,7 +49,7 @@ final class RtmMessagesTests: XCTestCase {
     }
 
     func testEncodeUserData() throws {
-        let userData = AgoraRtmController.UserData(
+        let userData = AgoraVideoViewer.UserData(
             rtmId: "1234-5678", rtcId: 190, username: "username",
             role: AgoraClientRole.broadcaster.rawValue, agora: .current, uikit: .current
         )
@@ -76,7 +78,7 @@ final class RtmMessagesTests: XCTestCase {
                         + "\"messageType\":\"UserData\",\"rtcId\":190}"
 
         XCTAssertEqual(msgText, msgTextValid, "Message text not matching msgTextValid")
-        guard let decodedMsg = AgoraRtmController.decodeRawRtmData(data: rawMsg.rawData, from: "") else {
+        guard let decodedMsg = AgoraVideoViewer.decodeRawRtmData(data: rawMsg.rawData, from: "") else {
             return XCTFail("Failed to decode message")
         }
 
@@ -91,3 +93,4 @@ final class RtmMessagesTests: XCTestCase {
         }
     }
 }
+#endif

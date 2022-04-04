@@ -222,7 +222,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
     internal func refreshCollectionData() {
         switch self.style {
         case .floating, .collection:
-            if self.agSettings.showSelf {
+            if self.agoraSettings.showSelf {
                 self.collectionViewVideos = Array(self.userVideoLookup.values)
             } else {
                 self.collectionViewVideos = Array(self.userVideoLookup.filter { $0.key != self.userID}.values)

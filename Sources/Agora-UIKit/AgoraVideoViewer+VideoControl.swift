@@ -7,6 +7,9 @@
 
 import AgoraRtcKit
 import AVKit
+#if canImport(AgoraRtmController)
+import AgoraRtmController
+#endif
 
 extension AgoraVideoViewer {
 
@@ -17,11 +20,11 @@ extension AgoraVideoViewer {
             return
         }
         self.getControlContainer()
-        if let videoSource = self.agSettings.videoSource {
+        if let videoSource = self.agoraSettings.videoSource {
             self.agkit.setVideoSource(videoSource)
         }
-        if self.agSettings.externalAudioSettings.enabled {
-            let audioSource = self.agSettings.externalAudioSettings
+        if self.agoraSettings.externalAudioSettings.enabled {
+            let audioSource = self.agoraSettings.externalAudioSettings
             self.agkit.enableExternalAudioSource(
                 withSampleRate: .init(audioSource.sampleRate),
                 channelsPerFrame: .init(audioSource.channels)
@@ -322,6 +325,7 @@ extension AgoraVideoViewer {
         }
     }
 
+    #if canImport(AgoraRtmController)
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
         self.setupRtmController { rtmController in
@@ -330,7 +334,7 @@ extension AgoraVideoViewer {
     }
 
     open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
-        if !self.agSettings.rtmEnabled { return }
+        if !self.agoraSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
                 self.rtmController = AgoraRtmController(delegate: self)
@@ -341,6 +345,7 @@ extension AgoraVideoViewer {
             }
         }
     }
+    #endif
 
     internal func handleAlreadyInChannel(
         channel: String, with token: String?,

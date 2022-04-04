@@ -10,11 +10,22 @@ import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
+#if canImport(AgoraRtmController)
+import AgoraRtmController
+#endif
 
 /// Protocol for being able to access the AgoraRtmController and presenting alerts
 public protocol SingleVideoViewDelegate: AnyObject {
+    #if canImport(AgoraRtmController)
     /// RTM Controller class for managing RTM messages
     var rtmController: AgoraRtmController? { get set }
+    func createRequest(
+        to uid: UInt,
+        fromString str: String
+    ) -> Bool
+    func sendMuteRequest(to rtcId: UInt, mute: Bool, device: AgoraVideoViewer.MutingDevices, isForceful: Bool)
+
+    #endif
     #if os(iOS)
     /// presentAlert is a way to show any alerts that want to display.
     /// These could be relating to video or audio unmuting requests.

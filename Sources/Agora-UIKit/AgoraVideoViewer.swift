@@ -14,8 +14,9 @@ import CoreFoundation
 import CommonCrypto
 #endif
 import AgoraRtcKit
-#if canImport(AgoraRtmKit)
+#if canImport(AgoraRtmController)
 import AgoraRtmKit
+import AgoraRtmController
 #endif
 
 /// An interface for getting some common delegate callbacks without needing to subclass.
@@ -85,7 +86,7 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
-    #if canImport(AgoraRtmKit)
+    #if canImport(AgoraRtmController)
     func rtmStateChanged(
         from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
     ) {}
@@ -98,6 +99,10 @@ public extension AgoraVideoViewerDelegate {
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
+
+    public var rtcLookup: [UInt : String] = [:]
+
+    public var rtmLookup: [String : Codable] = [:]
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
@@ -171,7 +176,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     var rtmState: AgoraRtmController.RTMStatus {
         if let rtmc = self.rtmController {
             return rtmc.rtmStatus
-        } else if self.agSettings.rtmEnabled {
+        } else if self.agoraSettings.rtmEnabled {
             return .initFailed
         } else {
             return .offline
@@ -354,14 +359,14 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
         if self.style == .floating {
-            if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agSettings.showSelf {
+            if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agoraSettings.showSelf {
                 return [:]
             }
             return self.userVideoLookup.filter {
                 $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
             }
         } else if self.style == .grid {
-            return self.userVideoLookup.filter { ($0.key != self.userID || self.agSettings.showSelf) }
+            return self.userVideoLookup.filter { ($0.key != self.userID || self.agoraSettings.showSelf) }
         } else {
             return [:]
         }

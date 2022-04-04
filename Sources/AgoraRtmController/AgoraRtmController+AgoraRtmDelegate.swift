@@ -16,13 +16,13 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     /// The token used to connect to the current active channel has expired.
     /// - Parameter kit: Agora RTM Engine
     open func rtmKitTokenDidExpire(_ kit: AgoraRtmKit) {
-        if let tokenURL = self.agoraSettings.tokenURL {
+        if let tokenURL = self.delegate?.rtmToken {
             AgoraRtmController.fetchRtmToken(
-                urlBase: tokenURL, userId: self.connectionData.rtmId,
+                urlBase: tokenURL, userId: self.delegate.rtmId,
                 callback: self.newTokenFetched(result:)
             )
         }
-        self.delegate.agSettings.rtmDelegate?.rtmKitTokenDidExpire?(kit)
+        self.rtmDelegate?.rtmKitTokenDidExpire?(kit)
     }
 
     /**
@@ -36,7 +36,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
         if let rawMsg = message as? AgoraRtmRawMessage {
             self.decodeRawMessage(rawMsg: rawMsg, from: peerId)
         }
-        self.delegate.agSettings.rtmDelegate?.rtmKit?(kit, messageReceived: message, fromPeer: peerId)
+        self.rtmDelegate?.rtmKit?(kit, messageReceived: message, fromPeer: peerId)
     }
 
     /**
@@ -52,8 +52,8 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
      @param member The user joining the channel. See AgoraRtmMember.
      */
     open func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember) {
-        self.sendPersonalData(to: member.userId)
-        self.delegate.agSettings.rtmChannelDelegate?.channel?(channel, memberJoined: member)
+        self.delegate?.channel(channel, memberJoined: member)
+        self.rtmChannelDelegate?.channel?(channel, memberJoined: member)
     }
 
     /**
@@ -73,7 +73,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
         if let rawMsg = message as? AgoraRtmRawMessage {
             self.decodeRawMessage(rawMsg: rawMsg, from: member.userId)
         }
-        self.delegate.agSettings.rtmChannelDelegate?.channel?(channel, messageReceived: message, from: member)
+        self.rtmChannelDelegate?.channel?(channel, messageReceived: message, from: member)
     }
 
     /// Decode an incoming AgoraRtmRawMessage
@@ -81,35 +81,6 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     ///   - rawMsg: Incoming Raw message.
     ///   - peerId: Id of the peer this message is coming from
     open func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        if let decodedRaw = AgoraRtmController.decodeRawRtmData(data: rawMsg.rawData, from: peerId) {
-            switch decodedRaw {
-            case .mute(let muteReq):
-                self.delegate.handleMuteRequest(muteReq: muteReq)
-            case .userData(let user):
-                AgoraVideoViewer.agoraPrint(
-                    .verbose, message: "Received user data: \n\(user.prettyPrint())"
-                )
-                self.rtmLookup[user.rtmId] = user
-                if let rtcId = user.rtcId {
-                    self.rtcLookup[rtcId] = user.rtmId
-                    self.delegate.videoLookup[rtcId]?
-                        .showOptions = self.agoraSettings.showRemoteRequestOptions
-                }
-            case .dataRequest(let requestVal):
-                switch requestVal.type {
-                case .userData:
-                    self.sendPersonalData(to: peerId)
-                case .ping:
-                    self.sendRaw(
-                        message: RtmDataRequest(type: .pong), member: peerId
-                    ) {_ in }
-                case .pong:
-                    AgoraVideoViewer.agoraPrint(
-                        .verbose, message: "Received pong from \(peerId)"
-                    )
-                    self.delegate.handlePongRequest(from: peerId)
-                }
-            }
-        }
+        self.delegate.decodeRawMessage(rawMsg: rawMsg, from: peerId)
     }
 }
