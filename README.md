@@ -125,3 +125,12 @@ For full documentation, see our [AgoraUIKit documentation page](https://agoraio-
 ## UIKits
 
 The plan is to grow this library and have similar offerings across all supported platforms. There are already similar libraries for [Android](https://github.com/AgoraIO-Community/Android-UIKit/), [React Native](https://github.com/AgoraIO-Community/ReactNative-UIKit), and [Flutter](https://github.com/AgoraIO-Community/Flutter-UIKit/), so be sure to check them out.
+
+## Diagrams
+
+- UML Diagram
+
+<p align="center">
+    <img src="media/iOSAgoraUIKitUML.svg" alt="UML of iOS Agora UIKit"/>
+</p>
+

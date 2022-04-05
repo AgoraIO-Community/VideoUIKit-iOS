@@ -5,9 +5,11 @@
 //  Created by Max Cobb on 04/04/2022.
 //
 
-import AgoraRtmKit
+import Foundation
 #if canImport(AgoraRtmController)
+import AgoraRtmKit
 import AgoraRtmController
+#endif
 
 extension AgoraVideoViewer {
     /// Type of decoded message coming from other users
@@ -37,6 +39,7 @@ extension AgoraVideoViewer {
         return nil
     }
 
+    #if canImport(AgoraRtmController)
     /// Share local UserData to all connected channels.
     /// Call this method when personal details are updated.
     open func broadcastPersonalData() {
@@ -63,6 +66,7 @@ extension AgoraVideoViewer {
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }
         }
+        AgoraVideoViewer.agoraPrint(.warning, message: "AgoraRtmController not included, override this method to send personal data")
     }
 
     /// Share local UserData to a specific RTM member
@@ -84,6 +88,5 @@ extension AgoraVideoViewer {
             }
         }
     }
-
+    #endif
 }
-#endif

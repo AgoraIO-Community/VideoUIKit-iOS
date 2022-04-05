@@ -6,7 +6,9 @@
 //
 
 import AgoraRtcKit
+#if canImport(AgoraRtmController)
 import AgoraRtmKit
+#endif
 
 /// Settings used for the display and behaviour of AgoraVideoViewer
 public struct AgoraSettings {
@@ -14,6 +16,7 @@ public struct AgoraSettings {
     /// Delegate for Agora Rtc Engine callbacks
     public weak var rtcDelegate: AgoraRtcEngineDelegate?
 
+    #if canImport(AgoraRtmController)
     /// Delegate for Agora RTM callbacks
     public weak var rtmDelegate: AgoraRtmDelegate?
 
@@ -22,6 +25,7 @@ public struct AgoraSettings {
 
     /// Whether RTM should be initialised and used
     public var rtmEnabled: Bool = true
+    #endif
 
     /// URL to fetch tokens from. If supplied, this package will automatically fetch tokens
     /// when the Agora Engine indicates it will be needed.

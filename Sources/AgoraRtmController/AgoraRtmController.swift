@@ -30,7 +30,7 @@ public protocol RtmControllerDelegate: AnyObject {
     var rtcId: UInt? { get }
     var appId: String { get }
     var rtmToken: String? { get set }
-    var tokenUrl: String? { get }
+    var tokenURL: String? { get set }
     func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember)
     func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String)
     func rtmStateChanged(from: AgoraRtmController.RTMStatus, to: AgoraRtmController.RTMStatus)
@@ -114,7 +114,7 @@ open class AgoraRtmController: NSObject {
 
     func rtmLogin(completion: @escaping (AgoraRtmLoginErrorCode) -> Void) {
         self.rtmStatus = .loggingIn
-        if let tokenURL = self.delegate.tokenUrl, let rtmId = self.delegate?.rtmId {
+        if let tokenURL = self.delegate.tokenURL, let rtmId = self.delegate?.rtmId {
             AgoraRtmController.fetchRtmToken(urlBase: tokenURL, userId: rtmId) { fetchResult in
                 switch fetchResult {
                 case .success(let token):

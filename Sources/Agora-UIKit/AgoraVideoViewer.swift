@@ -51,7 +51,7 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// A pong request has just come back to the local user, indicating that someone is still present in RTM
     /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
     func incomingPongRequest(from peerId: String)
-    #if canImport(AgoraRtmKit)
+    #if canImport(AgoraRtmController)
     /// State of RTM has changed
     /// - Parameters:
     ///   - oldState: Previous state of RTM
@@ -111,8 +111,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
+    #if canImport(AgoraRtmController)
     /// Controller class for managing RTM messages
     public var rtmController: AgoraRtmController?
+    #endif
 
     /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {
@@ -172,6 +174,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         set { self.connectionData.rtcToken = newValue }
     }
 
+    #if canImport(AgoraRtmController)
     /// Status of the RTM Engine
     var rtmState: AgoraRtmController.RTMStatus {
         if let rtmc = self.rtmController {
@@ -182,6 +185,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
             return .offline
         }
     }
+    #endif
 
     lazy internal var floatingVideoHolder: MPCollectionView = {
         let collView = AgoraCollectionViewer()
@@ -340,9 +344,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     /// Used by storyboard to set the AgoraSettings tokenURL
-    @IBInspectable var tokenURL: String = "" {
-        didSet {
-            self.agoraSettings.tokenURL = tokenURL
+    @IBInspectable public var tokenURL: String? {
+        get { self.agoraSettings.tokenURL }
+        set {
+            self.agoraSettings.tokenURL = newValue
         }
     }
     /// Create view from NSCoder, this initialiser requires an appID key with a String value.

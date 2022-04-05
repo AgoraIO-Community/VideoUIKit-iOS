@@ -28,7 +28,10 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
         // Only show the camera options when we are a broadcaster
         self.getControlContainer().isHidden = !isHost
+
+        #if canImport(AgoraRtmController)
         self.broadcastPersonalData()
+        #endif
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChanged: oldRole, newRole: newRole)
     }
 

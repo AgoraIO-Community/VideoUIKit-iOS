@@ -1,8 +1,8 @@
 import XCTest
 import AgoraRtcKit
+#if canImport(AgoraRtmController) && canImport(AgoraUIKit_iOS)
 import AgoraRtmKit
-#if canImport(AgoraRtmController)
-@testable import AgoraRtmController
+import AgoraRtmController
 @testable import AgoraUIKit_iOS
 
 final class RtmMessagesTests: XCTestCase {

@@ -6,6 +6,8 @@
 //
 
 import XCTest
+#if canImport(AgoraRtmController) && canImport(AgoraUIKit_iOS)
+@testable import AgoraRtmController
 @testable import AgoraUIKit_iOS
 
 final class RtcEncodingTests: XCTestCase {
@@ -32,3 +34,4 @@ final class RtcEncodingTests: XCTestCase {
         XCTAssertEqual(encodedeffsTest, encodedeffsTestCorrect, "UDID did not encode correctly: \(encodedeffsTest)")
     }
 }
+#endif

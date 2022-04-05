@@ -13,6 +13,25 @@ import AppKit
 #endif
 
 extension AgoraSingleVideoView {
+    func updateUserOptions() {
+        #if os(macOS) && canImport(AgoraRtmController)
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.updateUserOptions()
+            }
+            return
+        }
+        guard let userOptions = self.userOptions as? NSPopUpButton else {
+            return
+        }
+        userOptions.removeAllItems()
+        self.addItems(to: userOptions)
+        #endif
+    }
+}
+
+#if canImport(AgoraRtmController)
+extension AgoraSingleVideoView {
 
     /// Find the string for the option ready to request the remote user to mute or unmute their mic or camera
     /// - Parameters:
@@ -30,21 +49,6 @@ extension AgoraSingleVideoView {
         }
     }
 
-    func updateUserOptions() {
-        #if os(macOS)
-        if !Thread.isMainThread {
-            DispatchQueue.main.async {
-                self.updateUserOptions()
-            }
-            return
-        }
-        guard let userOptions = self.userOptions as? NSPopUpButton else {
-            return
-        }
-        userOptions.removeAllItems()
-        self.addItems(to: userOptions)
-        #endif
-    }
     #if os(macOS)
     open func addItems(to userOptionsBtn: NSPopUpButton) {
         let actionItem = NSMenuItem()
@@ -115,3 +119,4 @@ extension AgoraSingleVideoView {
     #endif
 
 }
+#endif

@@ -12,6 +12,7 @@ import AppKit
 #endif
 #if canImport(AgoraRtmController)
 import AgoraRtmController
+#endif
 
 extension AgoraVideoViewer {
     /// Devices that can be muted/unmuted
@@ -70,6 +71,7 @@ extension AgoraVideoViewer {
         public var type: DataRequestType
     }
 
+    #if canImport(AgoraRtmController)
     /// Create and send request to mute/unmute a device
     /// - Parameters:
     ///   - rtcId: RTC User ID to send the request to
@@ -90,9 +92,11 @@ extension AgoraVideoViewer {
             }
         }
     }
+    #endif
 
 }
 
+#if canImport(AgoraRtmController)
 extension SingleVideoViewDelegate {
     /// Create and send request to user to mute/unmute a device
     /// - Parameters:
@@ -118,7 +122,7 @@ extension SingleVideoViewDelegate {
         return true
     }
 }
-
+#endif
 
 
 extension AgoraVideoViewer {
@@ -172,4 +176,3 @@ extension AgoraVideoViewer {
     }
 
 }
-#endif
