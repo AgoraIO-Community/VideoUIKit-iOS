@@ -27,7 +27,7 @@ extension AgoraVideoViewer {
     ///   - data: Raw data input, should be utf8 encoded JSON string of MuteRequest or UserData.
     ///   - rtmId: Sender Real-time Messaging ID.
     /// - Returns: DecodedRtmMessage enum of the appropriate type.
-    internal static func decodeRawRtmData(data: Data, from rtmId: String) -> DecodedRtmAction? {
+    internal static func decodeRtmData(data: Data, from rtmId: String) -> DecodedRtmAction? {
         let decoder = JSONDecoder()
         if let userData = try? decoder.decode(AgoraVideoViewer.UserData.self, from: data) {
             return .userData(userData)
@@ -51,7 +51,7 @@ extension AgoraVideoViewer {
     /// Share local UserData to a specific channel
     /// - Parameter channel: Channel to share UserData with.
     open func sendPersonalData(to channel: AgoraRtmChannel) {
-        self.rtmController?.sendRaw(message: self.personalData(), channel: channel) { sendMsgState in
+        self.rtmController?.sendCodable(message: self.personalData(), channel: channel) { sendMsgState in
             switch sendMsgState {
             case .errorOk:
                 AgoraVideoViewer.agoraPrint(
@@ -72,7 +72,7 @@ extension AgoraVideoViewer {
     /// Share local UserData to a specific RTM member
     /// - Parameter member: Member to share UserData with.
     open func sendPersonalData(to member: String) {
-        self.rtmController?.sendRaw(message: self.personalData(), member: member) { sendMsgState in
+        self.rtmController?.sendCodable(message: self.personalData(), member: member) { sendMsgState in
             switch sendMsgState {
             case .ok:
                 AgoraVideoViewer.agoraPrint(

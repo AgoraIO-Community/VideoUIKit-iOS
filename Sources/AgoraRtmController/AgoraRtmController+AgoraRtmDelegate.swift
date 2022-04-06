@@ -33,9 +33,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
      @param peerId The user ID of the sender.
      */
     open func rtmKit(_ kit: AgoraRtmKit, messageReceived message: AgoraRtmMessage, fromPeer peerId: String) {
-        if let rawMsg = message as? AgoraRtmRawMessage {
-            self.decodeRawMessage(rawMsg: rawMsg, from: peerId)
-        }
+        self.decodeMessage(message: message, from: peerId)
         self.rtmDelegate?.rtmKit?(kit, messageReceived: message, fromPeer: peerId)
     }
 
@@ -70,17 +68,15 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
         messageReceived message: AgoraRtmMessage,
         from member: AgoraRtmMember
     ) {
-        if let rawMsg = message as? AgoraRtmRawMessage {
-            self.decodeRawMessage(rawMsg: rawMsg, from: member.userId)
-        }
+        self.decodeMessage(message: message, from: member.userId)
         self.rtmChannelDelegate?.channel?(channel, messageReceived: message, from: member)
     }
 
-    /// Decode an incoming AgoraRtmRawMessage
+    /// Decode an incoming AgoraRtmMessage
     /// - Parameters:
-    ///   - rawMsg: Incoming Raw message.
+    ///   - message: Incoming RTM message.
     ///   - peerId: Id of the peer this message is coming from
-    open func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        self.delegate.decodeRawMessage(rawMsg: rawMsg, from: peerId)
+    open func decodeMessage(message: AgoraRtmMessage, from peerId: String) {
+        self.delegate.decodeMessage(message: message, from: peerId)
     }
 }

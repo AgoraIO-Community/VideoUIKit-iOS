@@ -84,7 +84,7 @@ extension AgoraVideoViewer {
             return
         }
         let muteReq = MuteRequest(rtcId: rtcId, mute: mute, device: device, isForceful: isForceful)
-        self.rtmController?.sendRaw(message: muteReq, user: rtcId) { sendStatus in
+        self.rtmController?.sendCodable(message: muteReq, user: rtcId) { sendStatus in
             if sendStatus == .ok {
                 AgoraVideoViewer.agoraPrint(.verbose, message: "message was sent!")
             } else {

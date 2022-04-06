@@ -82,41 +82,51 @@ extension AgoraVideoViewer: RtmControllerDelegate {
         self.delegate?.rtmStateChanged(from: from, to: to)
     }
 
-    /// Decode an incoming AgoraRtmRawMessage
+    /// Decode an incoming AgoraRtmMessage
     /// - Parameters:
-    ///   - rawMsg: Incoming Raw message.
+    ///   - message: Incoming RTM message.
     ///   - peerId: Id of the peer this message is coming from
-    public func decodeRawMessage(rawMsg: AgoraRtmRawMessage, from peerId: String) {
-        if let decodedRaw = AgoraVideoViewer.decodeRawRtmData(
-            data: rawMsg.rawData, from: peerId
-        ) {
-            switch decodedRaw {
-            case .mute(let muteReq):
-                self.handleMuteRequest(muteReq: muteReq)
-            case .userData(let user):
+    public func decodeMessage(message: AgoraRtmMessage, from peerId: String) {
+        var messageData: Data!
+        if let message = message as? AgoraRtmRawMessage {
+            messageData = message.rawData
+        } else if let msgData = Data(base64Encoded: message.text) {
+            messageData = msgData
+        } else {
+            return
+        }
+        if let decodedMsg = AgoraVideoViewer.decodeRtmData(
+            data: messageData, from: peerId
+        ) { self.handleDecodedMessage(decodedMsg, from: peerId) }
+    }
+
+    func handleDecodedMessage(_ rtmAction: DecodedRtmAction, from peerId: String) {
+        switch rtmAction {
+        case .mute(let muteReq):
+            self.handleMuteRequest(muteReq: muteReq)
+        case .userData(let user):
+            AgoraVideoViewer.agoraPrint(
+                .verbose, message: "Received user data: \n\(user.prettyPrint())"
+            )
+            self.rtmLookup[user.rtmId] = user
+            if let rtcId = user.rtcId {
+                self.rtcLookup[rtcId] = user.rtmId
+                self.videoLookup[rtcId]?
+                    .showOptions = self.agoraSettings.showRemoteRequestOptions
+            }
+        case .dataRequest(let requestVal):
+            switch requestVal.type {
+            case .userData:
+                self.sendPersonalData(to: peerId)
+            case .ping:
+                self.rtmController?.sendCodable(
+                    message: RtmDataRequest(type: .pong), member: peerId
+                ) {_ in }
+            case .pong:
                 AgoraVideoViewer.agoraPrint(
-                    .verbose, message: "Received user data: \n\(user.prettyPrint())"
+                    .verbose, message: "Received pong from \(peerId)"
                 )
-                self.rtmLookup[user.rtmId] = user
-                if let rtcId = user.rtcId {
-                    self.rtcLookup[rtcId] = user.rtmId
-                    self.videoLookup[rtcId]?
-                        .showOptions = self.agoraSettings.showRemoteRequestOptions
-                }
-            case .dataRequest(let requestVal):
-                switch requestVal.type {
-                case .userData:
-                    self.sendPersonalData(to: peerId)
-                case .ping:
-                    self.rtmController?.sendRaw(
-                        message: RtmDataRequest(type: .pong), member: peerId
-                    ) {_ in }
-                case .pong:
-                    AgoraVideoViewer.agoraPrint(
-                        .verbose, message: "Received pong from \(peerId)"
-                    )
-                    self.handlePongRequest(from: peerId)
-                }
+                self.handlePongRequest(from: peerId)
             }
         }
     }
