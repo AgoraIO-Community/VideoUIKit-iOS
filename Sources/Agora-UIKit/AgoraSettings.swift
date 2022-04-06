@@ -6,7 +6,7 @@
 //
 
 import AgoraRtcKit
-#if canImport(AgoraRtmController)
+#if canImport(AgoraRtmControl)
 import AgoraRtmKit
 #endif
 
@@ -16,7 +16,7 @@ public struct AgoraSettings {
     /// Delegate for Agora Rtc Engine callbacks
     public weak var rtcDelegate: AgoraRtcEngineDelegate?
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Delegate for Agora RTM callbacks
     public weak var rtmDelegate: AgoraRtmDelegate?
 

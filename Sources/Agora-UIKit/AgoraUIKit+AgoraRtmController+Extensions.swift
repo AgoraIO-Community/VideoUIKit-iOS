@@ -72,9 +72,9 @@ extension AgoraVideoViewer {
     public var videoLookup: [UInt: AgoraSingleVideoView] { self.userVideoLookup }
 
 }
-#if canImport(AgoraRtmController)
+#if canImport(AgoraRtmControl)
 import AgoraRtmKit
-import AgoraRtmController
+import AgoraRtmControl
 
 extension AgoraVideoViewer: RtmControllerDelegate {
 

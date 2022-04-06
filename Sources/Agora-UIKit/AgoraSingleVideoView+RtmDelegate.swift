@@ -10,13 +10,13 @@ import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
-#if canImport(AgoraRtmController)
-import AgoraRtmController
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
 #endif
 
 /// Protocol for being able to access the AgoraRtmController and presenting alerts
 public protocol SingleVideoViewDelegate: AnyObject {
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// RTM Controller class for managing RTM messages
     var rtmController: AgoraRtmController? { get set }
     func createRequest(

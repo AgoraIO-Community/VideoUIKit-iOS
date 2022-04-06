@@ -37,7 +37,7 @@ public class AgoraSingleVideoView: MPView {
     /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {
         didSet {
-            #if canImport(AgoraRtmController)
+            #if canImport(AgoraRtmControl)
             self.userOptions?.isHidden = !self.showOptions
             #endif
         }
@@ -61,7 +61,7 @@ public class AgoraSingleVideoView: MPView {
         case microphone
     }
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     lazy var userOptions: MPView? = {
         #if os(iOS)
         let userOptionsBtn = MPButton.newToggleButton(

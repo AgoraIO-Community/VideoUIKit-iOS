@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint AgoraUIKit_iOS.podspec' to ensure this is a
+# Be sure to run `pod lib lint AgoraRtmControl.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'AgoraUIKit'
+  s.name             = 'AgoraRtmControl'
   s.version          = '1.8.0'
   s.summary          = 'Agora video session UIKit template.'
 
@@ -24,6 +24,6 @@ Use this Pod to create a video UIKit view that can be easily added to your iOS a
   s.swift_versions = ['5.0']
 
   s.static_framework = true
-  s.source_files = 'Sources/Agora-UIKit/*'
-  s.dependency 'AgoraRtcEngine_iOS/RtcBasic', '~> 3.6.2'
+  s.source_files = "Sources/AgoraRtmControl/*"
+  s.dependency 'AgoraRtm_iOS', '~> 1.4.10'
 end

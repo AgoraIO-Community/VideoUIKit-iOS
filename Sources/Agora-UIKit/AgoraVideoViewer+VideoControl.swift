@@ -7,8 +7,8 @@
 
 import AgoraRtcKit
 import AVKit
-#if canImport(AgoraRtmController)
-import AgoraRtmController
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
 #endif
 
 extension AgoraVideoViewer {
@@ -321,13 +321,13 @@ extension AgoraVideoViewer {
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel(channel: channel)
-            #if canImport(AgoraRtmController)
+            #if canImport(AgoraRtmControl)
             self?.setupRtmController(joining: channel)
             #endif
         }
     }
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
         self.setupRtmController { rtmController in

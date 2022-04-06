@@ -14,9 +14,9 @@ import CoreFoundation
 import CommonCrypto
 #endif
 import AgoraRtcKit
-#if canImport(AgoraRtmController)
+#if canImport(AgoraRtmControl)
 import AgoraRtmKit
-import AgoraRtmController
+import AgoraRtmControl
 #endif
 
 /// An interface for getting some common delegate callbacks without needing to subclass.
@@ -51,7 +51,7 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// A pong request has just come back to the local user, indicating that someone is still present in RTM
     /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
     func incomingPongRequest(from peerId: String)
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// State of RTM has changed
     /// - Parameters:
     ///   - oldState: Previous state of RTM
@@ -86,7 +86,7 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     func rtmStateChanged(
         from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
     ) {}
@@ -111,7 +111,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Controller class for managing RTM messages
     public var rtmController: AgoraRtmController?
     #endif
@@ -174,7 +174,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         set { self.connectionData.rtcToken = newValue }
     }
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Status of the RTM Engine
     var rtmState: AgoraRtmController.RTMStatus {
         if let rtmc = self.rtmController {

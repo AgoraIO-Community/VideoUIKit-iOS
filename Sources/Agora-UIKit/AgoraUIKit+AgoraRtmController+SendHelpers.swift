@@ -6,9 +6,9 @@
 //
 
 import Foundation
-#if canImport(AgoraRtmController)
+#if canImport(AgoraRtmControl)
 import AgoraRtmKit
-import AgoraRtmController
+import AgoraRtmControl
 #endif
 
 extension AgoraVideoViewer {
@@ -39,7 +39,7 @@ extension AgoraVideoViewer {
         return nil
     }
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Share local UserData to all connected channels.
     /// Call this method when personal details are updated.
     open func broadcastPersonalData() {

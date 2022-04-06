@@ -10,8 +10,8 @@ import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
-#if canImport(AgoraRtmController)
-import AgoraRtmController
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
 #endif
 
 extension AgoraVideoViewer {
@@ -71,7 +71,7 @@ extension AgoraVideoViewer {
         public var type: DataRequestType
     }
 
-    #if canImport(AgoraRtmController)
+    #if canImport(AgoraRtmControl)
     /// Create and send request to mute/unmute a device
     /// - Parameters:
     ///   - rtcId: RTC User ID to send the request to
@@ -96,7 +96,7 @@ extension AgoraVideoViewer {
 
 }
 
-#if canImport(AgoraRtmController)
+#if canImport(AgoraRtmControl)
 extension SingleVideoViewDelegate {
     /// Create and send request to user to mute/unmute a device
     /// - Parameters:
