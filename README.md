@@ -65,9 +65,14 @@ target 'Agora-UIKit-Example' do
 
   # Uncomment the next line if you want to install for iOS
   # pod 'AgoraUIKit_iOS', '~> 1.0'
+  # And this line if you also want the RTM integrations
+  # pod 'AgoraRtmControl_iOS', '~> 1.0'
+
 
   # Uncomment the next line if you want to install for macOS
   # pod 'AgoraUIKit_macOS', '~> 1.0'
+  # And this line if you also want the RTM integrations
+  # pod 'AgoraRtmControl_macOS', '~> 1.0'
 end
 ```
 
@@ -89,7 +94,7 @@ An `AgoraVideoViewer` can be created like this:
 
 ```swift
 import AgoraRtcKit
-import AgoraUIKit_iOS
+import AgoraUIKit
 
 let agoraView = AgoraVideoViewer(
     connectionData: AgoraConnectionData(
@@ -133,4 +138,3 @@ The plan is to grow this library and have similar offerings across all supported
 <p align="center">
     <img src="media/iOSAgoraUIKitUML.svg" alt="UML of iOS Agora UIKit"/>
 </p>
-
