@@ -47,9 +47,8 @@ If you are using the developer preview, add `4.0.0-preview` in the version box t
 
 ---
 
-If you have issues installing the Swift Package:
-
-In Xcode's File menu, select 'Swift Packages' and then 'Reset Package Caches'.
+> If you have issues installing the Swift Package:
+> In Xcode's File menu, select 'Swift Packages' and then 'Reset Package Caches'.
 
 ### CocoaPods
 
