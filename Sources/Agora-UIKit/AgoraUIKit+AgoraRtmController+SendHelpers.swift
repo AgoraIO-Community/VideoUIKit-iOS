@@ -51,6 +51,10 @@ extension AgoraVideoViewer {
     /// Share local UserData to a specific channel
     /// - Parameter channel: Channel to share UserData with.
     open func sendPersonalData(to channel: AgoraRtmChannel) {
+        if self.rtmController == nil {
+            AgoraVideoViewer.agoraPrint(.warning, message: "AgoraRtmController not included, override this method to send personal data")
+            return
+        }
         self.rtmController?.sendCodable(message: self.personalData(), channel: channel) { sendMsgState in
             switch sendMsgState {
             case .errorOk:
@@ -66,7 +70,6 @@ extension AgoraVideoViewer {
                 AgoraVideoViewer.agoraPrint(.error, message: "Could not send message to channel (unknown)")
             }
         }
-        AgoraVideoViewer.agoraPrint(.warning, message: "AgoraRtmController not included, override this method to send personal data")
     }
 
     /// Share local UserData to a specific RTM member
