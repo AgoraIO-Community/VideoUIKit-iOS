@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'AgoraUIKit_macOS'
   s.module_name      = 'AgoraUIKit'
-  s.version          = '1.8.0-rc.1'
+  s.version          = '1.8.0-rc.2'
   s.summary          = 'Agora video session AppKit template.'
 
   s.description      = <<-DESC
@@ -21,7 +21,7 @@ Use this Pod to create a video AppKit view that can be easily added to your macO
   s.author           = { 'Max Cobb' => 'max@agora.io' }
   s.source           = { :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git', :tag => s.version.to_s }
 
-  s.macos.deployment_target = '10.14'
+  s.macos.deployment_target = '10.15'
   s.swift_versions = ['5.0']
 
   s.static_framework = true

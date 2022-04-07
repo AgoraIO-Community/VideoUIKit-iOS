@@ -6,7 +6,7 @@
 //
 
 import Cocoa
-import AgoraUIKit_macOS
+import AgoraUIKit
 
 class ViewController: NSViewController {
 

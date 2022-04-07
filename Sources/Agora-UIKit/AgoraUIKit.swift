@@ -22,7 +22,7 @@ public struct AgoraUIKit: Codable {
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     fileprivate(set) var framework: String
     /// Version of UIKit being used
-    static let version = "1.8.0-rc.1"
+    static let version = "1.8.0-rc.2"
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     static let framework = "native"
     #if os(iOS)

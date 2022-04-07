@@ -10,11 +10,14 @@ import Foundation
 import UIKit
 #elseif os(macOS)
 import AppKit
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
+#endif
 #endif
 
 extension AgoraSingleVideoView {
     func updateUserOptions() {
-        #if os(macOS) && canImport(AgoraRtmControl)
+        #if os(macOS) && canImport(AgoraRtmController)
         if !Thread.isMainThread {
             DispatchQueue.main.async {
                 self.updateUserOptions()
@@ -57,7 +60,7 @@ extension AgoraSingleVideoView {
             attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
         )
         userOptionsBtn.menu?.insertItem(actionItem, at: 0)
-        AgoraRtmController.MutingDevices.allCases.forEach { enumCase in
+        AgoraVideoViewer.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:
@@ -110,7 +113,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: Button that was selected
     @objc public func optionsBtnSelected(sender: NSPopUpButton) {
         if let actionTitle = sender.selectedItem?.title,
-           let reqError = self.singleVideoViewDelegate?.rtmController?.createRequest(
+           let reqError = self.singleVideoViewDelegate?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")

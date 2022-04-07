@@ -7,5 +7,4 @@ target 'Agora-UIKit-Example' do
 
   # Pods for Agora-UIKit-Example
   pod 'AgoraUIKit_iOS', :path => '../'
-  pod 'AgoraRtmControl', :path => '../'
 end
