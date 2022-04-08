@@ -15,7 +15,7 @@ Instantly integrate Agora in your own application or prototype using iOS or macO
 <p align="center">
   <img src="https://github.com/AgoraIO-Community/iOS-UIKit/raw/main/media/agora-uikit-banner.png"/>
 </p>
-[More information available on this repo's Wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki)
+[More information available on this repo\'s Wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki)
 
 [Click here for full documentation](https://agoraio-community.github.io/iOS-UIKit/)
 
@@ -61,11 +61,17 @@ Frame your newly created AgoraVideoViewer in the app scene, then join a channel 
 agoraView.join(channel: "test", as: .broadcaster)
 ```
 
+[More examples available on the wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki/Examples)
+
 ## Documentation
 
 For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/iOS-UIKit/).
 
-### Roadmap
+## Error Handling and Troubleshooting
+
+For tips on how to overcome some common errors, [see the wiki page](https://github.com/AgoraIO-Community/iOS-UIKit/wiki/Error-Handling-and-Troubleshooting).
+
+## Roadmap
 
 - [x] Muting/Unmuting a remote member
 - [x] Usernames ([Settable value, not currently rendered](https://agoraio-community.github.io/iOS-UIKit/documentation/agorauikit_ios/agoraconnectiondata/username))
@@ -77,10 +83,18 @@ For full documentation, see our [AgoraUIKit documentation page](https://agoraio-
 
 The plan is to grow this library and have similar offerings across all supported platforms. There are already similar libraries for [Android](https://github.com/AgoraIO-Community/Android-UIKit/), [React Native](https://github.com/AgoraIO-Community/ReactNative-UIKit), [Flutter](https://github.com/AgoraIO-Community/Flutter-UIKit/) and [Web React](https://github.com/AgoraIO-Community/Web-React-UIKit) so be sure to check them out.
 
-## UML Diagram
+## UML Diagrams
 
-- UML Diagram
+- AgoraUIKit
 
 <p align="center">
-    <img src="media/iOSAgoraUIKitUML.svg" alt="UML of iOS Agora UIKit"/>
+    <img src="media/uml_agorauikit.svg" alt="UML of AgoraUIKit"/>
 </p>
+
+- AgoraRtmControl
+
+<p align="center">
+    <img src="media/uml_agorartmcontrol.svg" alt="UML of AgoraRtmControl"/>
+</p>
+
+> generated with `swiftplantuml classdiagram Sources`
