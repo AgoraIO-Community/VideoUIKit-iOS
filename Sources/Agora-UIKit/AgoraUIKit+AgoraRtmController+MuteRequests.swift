@@ -124,7 +124,6 @@ extension SingleVideoViewDelegate {
 }
 #endif
 
-
 extension AgoraVideoViewer {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data

@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [
         .library(name: "AgoraUIKit", targets: ["AgoraUIKit"]),
-        .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"]),
+        .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"])
     ],
     dependencies: [
         .package(

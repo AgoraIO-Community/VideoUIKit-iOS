@@ -100,9 +100,9 @@ public extension AgoraVideoViewerDelegate {
 /// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
-    public var rtcLookup: [UInt : String] = [:]
+    public var rtcLookup: [UInt: String] = [:]
 
-    public var rtmLookup: [String : Codable] = [:]
+    public var rtmLookup: [String: Codable] = [:]
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?

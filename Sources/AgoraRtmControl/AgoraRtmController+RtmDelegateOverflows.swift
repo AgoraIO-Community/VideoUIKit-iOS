@@ -45,4 +45,3 @@ extension AgoraRtmController {
         self.rtmChannelDelegate?.channel?(channel, imageMessageReceived: message, from: member)
     }
 }
-

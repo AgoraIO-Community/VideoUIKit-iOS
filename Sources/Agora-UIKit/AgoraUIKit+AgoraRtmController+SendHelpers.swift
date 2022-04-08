@@ -52,7 +52,9 @@ extension AgoraVideoViewer {
     /// - Parameter channel: Channel to share UserData with.
     open func sendPersonalData(to channel: AgoraRtmChannel) {
         if self.rtmController == nil {
-            AgoraVideoViewer.agoraPrint(.warning, message: "AgoraRtmController not included, override this method to send personal data")
+            AgoraVideoViewer.agoraPrint(
+                .warning, message: "AgoraRtmController not included, override this method to send personal data"
+            )
             return
         }
         self.rtmController?.sendCodable(message: self.personalData(), channel: channel) { sendMsgState in

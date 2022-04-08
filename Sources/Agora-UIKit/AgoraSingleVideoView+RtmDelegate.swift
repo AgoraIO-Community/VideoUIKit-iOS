@@ -49,6 +49,8 @@ extension SingleVideoViewDelegate {
             viewCont.present(alert, animated: animated)
         } else if let vidViewer = self as? AgoraVideoViewer {
             vidViewer.delegate?.presentAlert(alert: alert, animated: animated)
+        } else {
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
         }
     }
     #endif

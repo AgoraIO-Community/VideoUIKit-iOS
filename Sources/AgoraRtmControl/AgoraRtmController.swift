@@ -33,7 +33,7 @@ public protocol RtmControllerDelegate: AnyObject {
     var tokenURL: String? { get set }
     func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember)
     func decodeMessage(message: AgoraRtmMessage, from peerId: String)
-    func rtmStateChanged(from: AgoraRtmController.RTMStatus, to: AgoraRtmController.RTMStatus)
+    func rtmStateChanged(from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus)
 }
 
 /// Class for controlling the RTM messages

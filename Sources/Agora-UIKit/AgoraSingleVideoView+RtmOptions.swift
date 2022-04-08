@@ -95,7 +95,11 @@ extension AgoraSingleVideoView {
             )
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true)
+        if self.singleVideoViewDelegate != nil {
+            self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true)
+        } else {
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
+        }
     }
 
     /// Action selected such as mute/unmute microphone/camera.

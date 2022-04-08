@@ -149,15 +149,10 @@ extension AgoraVideoViewer {
         ssButton.isSelected.toggle()
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
         #elseif os(macOS)
-        ssButton.layer?.backgroundColor = (
-            ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray
-        ).cgColor
+        ssButton.layer?.backgroundColor = (ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
 
-        if ssButton.isOn {
-            self.startSharingScreen()
-        } else {
-            self.agkit.stopScreenCapture()
-        }
+        if ssButton.isOn { self.startSharingScreen()
+        } else { self.agkit.stopScreenCapture() }
         #endif
     }
 
@@ -254,14 +249,12 @@ extension AgoraVideoViewer {
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
+        if self.connectionData == nil { fatalError("No app ID is provided") }
         if fetchToken {
             if let tokenURL = self.agoraSettings.tokenURL {
                 AgoraVideoViewer.fetchToken(
-                    urlBase: tokenURL, channelName: channel,
-                    userId: self.userID) { result in
+                    urlBase: tokenURL, channelName: channel, userId: self.userID
+                ) { result in
                     switch result {
                     case .success(let token):
                         self.join(channel: channel, with: token, as: role, uid: uid)
@@ -288,14 +281,10 @@ extension AgoraVideoViewer {
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
+        if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
-                if error != nil {
-                    return
-                }
+                if error != nil { return }
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }

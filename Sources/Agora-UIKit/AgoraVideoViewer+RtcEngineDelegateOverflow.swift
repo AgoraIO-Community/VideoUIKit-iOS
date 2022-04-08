@@ -298,53 +298,28 @@ extension AgoraVideoViewer {
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurStreamMessageErrorFromUid uid: UInt, streamId: Int, error: Int, missed: Int, cached: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOccurStreamMessageErrorFromUid: uid, streamId: streamId, error: error, missed: missed, cached: cached)
     }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, contentInspectResult result: AgoraContentInspectResult) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, contentInspectResult: result)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, didRequest info: AgoraRtcAudioFileInfo, error: AgoraAudioFileInfoError) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRequest: info, error: error)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccStats currentStats: AgoraWlAccStats, averageStats: AgoraWlAccStats) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, wlAccStats: currentStats, averageStats: averageStats)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccMessage reason: AgoraWlAccReason, action: AgoraWlAccAction, wlAccMsg: String) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, wlAccMessage: reason, action: action, wlAccMsg: wlAccMsg)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioDeviceTestVolume volumeType: AgoraAudioDeviceTestVolumeType, volume: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, reportAudioDeviceTestVolume: volumeType, volume: volume)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, didClientRoleChangeFailed reason: AgoraClientRoleChangeFailedReason, currentRole: AgoraClientRole) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChangeFailed: reason, currentRole: currentRole)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, snapshotTaken channel: String, uid: UInt, filePath: String, width: Int, height: Int, errCode: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, snapshotTaken: channel, uid: uid, filePath: filePath, width: width, height: height, errCode: errCode)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, didProxyConnected channel: String, withUid uid: UInt, proxyType: AgoraProxyType, localProxyIp: String, elapsed: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didProxyConnected: channel, withUid: uid, proxyType: proxyType, localProxyIp: localProxyIp, elapsed: elapsed)
+    }
 }
-
-/*
-extension AgoraVideoViewer {
-    open func rtcEngineRequestToken(_ engine: AgoraRtcEngineKit) {
-        self.agoraSettings.rtcDelegate?.rtcEngineRequestToken?(engine)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, tokenPrivilegeWillExpire: token)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, activeSpeaker speakerUid: UInt) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, activeSpeaker: speakerUid)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, firstLocalAudioFramePublished elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstLocalAudioFramePublished: elapsed)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didClientRoleChanged oldRole: AgoraClientRole, newRole: AgoraClientRole) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChanged: oldRole, newRole: newRole)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinedOfUid uid: UInt, elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didJoinedOfUid: uid, elapsed: elapsed)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didOfflineOfUid uid: UInt, reason: AgoraUserOfflineReason) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOfflineOfUid: uid, reason: reason)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, localVideoStateChange state: AgoraLocalVideoStreamState, error: AgoraLocalVideoStreamError) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, localVideoStateChange: state, error: error)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, localAudioStateChange state: AgoraAudioLocalState, error: AgoraAudioLocalError) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, localAudioStateChange: state, error: error)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, remoteVideoStateChangedOfUid uid: UInt, state: AgoraVideoRemoteState, reason: AgoraVideoRemoteStateReason, elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, remoteVideoStateChangedOfUid: uid, state: state, reason: reason, elapsed: elapsed)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, remoteAudioStateChangedOfUid uid: UInt, state: AgoraAudioRemoteState, reason: AgoraAudioRemoteStateReason, elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, remoteAudioStateChangedOfUid: uid, state: state, reason: reason, elapsed: elapsed)
-    }
-
-}
-*/

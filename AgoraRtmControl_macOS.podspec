@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'AgoraRtmControl_macOS'
   s.module_name      = 'AgoraRtmControl'
-  s.version          = '1.8.0-rc.2'
+  s.version          = '1.8.0-rc.3'
   s.summary          = 'Agora Real-time Messaging Wrapper.'
 
   s.description      = <<-DESC

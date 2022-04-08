@@ -62,8 +62,6 @@ extension AgoraVideoViewer {
         }
     }
 
-
-
     public var agConnection: AgoraConnectionData {
         get { self.connectionData }
         set { self.connectionData = newValue }
@@ -78,9 +76,9 @@ import AgoraRtmControl
 
 extension AgoraVideoViewer: RtmControllerDelegate {
 
-    public func rtmStateChanged(from: AgoraRtmController.RTMStatus, to: AgoraRtmController.RTMStatus) {
-        self.delegate?.rtmStateChanged(from: from, to: to)
-    }
+    public func rtmStateChanged(
+        from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
+    ) { self.delegate?.rtmStateChanged(from: oldState, to: newState) }
 
     /// Decode an incoming AgoraRtmMessage
     /// - Parameters:
