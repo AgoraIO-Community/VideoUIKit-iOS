@@ -68,10 +68,13 @@ extension AgoraVideoViewer {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didLeaveChannelWith: stats)
     }
 
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, networkTypeChangedTo type: AgoraNetworkType) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, networkTypeChangedTo: type)
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, networkTypeChangedToType type: AgoraNetworkType) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, networkTypeChangedToType: type)
     }
 
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, reportLocalVoicePitchFrequency pitchInHz: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, reportLocalVoicePitchFrequency: pitchInHz)
+    }
 
     open func rtcEngine(_ engine: AgoraRtcEngineKit, firstLocalAudioFrame elapsed: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstLocalAudioFrame: elapsed)
