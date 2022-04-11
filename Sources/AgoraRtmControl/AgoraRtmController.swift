@@ -24,15 +24,30 @@ public protocol RtmControllerDelegate: AnyObject {
     /// Get remote user data from their RTM ID
     var rtmLookup: [String: Codable] { get set }
 
+    /// Delegate used for RTM
     var rtmDelegate: AgoraRtmDelegate? { get }
+    /// Delegate used for RTM channel messages
     var rtmChannelDelegate: AgoraRtmChannelDelegate? { get }
+    /// ID used by RTM
     var rtmId: String { get }
+    /// ID used by RTC
     var rtcId: UInt? { get }
+    /// App ID used, found on console.agora.io
     var appId: String { get }
+    /// Token to connect to Agora RTM
     var rtmToken: String? { get set }
+    /// URL for fetching Agora RTM tokens
     var tokenURL: String? { get set }
     func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember)
+    /// Method to catch messages incoming from RTM, used to decode them and run any relevant actions
+    /// - Parameters:
+    ///   - message: Message received from RTM
+    ///   - peerId: ID of the user who sent the message
     func decodeMessage(message: AgoraRtmMessage, from peerId: String)
+    /// State of the RTM Controller has changed
+    /// - Parameters:
+    ///   - oldState: Previous state of AgoraRtmController
+    ///   - newState: New state of AgoraRtmController
     func rtmStateChanged(from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus)
 }
 

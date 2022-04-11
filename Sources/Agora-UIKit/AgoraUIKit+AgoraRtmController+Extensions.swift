@@ -159,11 +159,12 @@ extension AgoraVideoViewer: RtmControllerDelegate {
     public func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember) {
         self.sendPersonalData(to: member.userId)
     }
-    func personalData() -> some Codable {
+    public func personalData() -> some Codable {
         UserData(
             rtmId: self.rtmId,
             rtcId: self.rtcId == 0 ? nil : self.rtcId,
-        username: self.connectionData?.username, role: self.userRole.rawValue
+            username: self.connectionData?.username,
+            role: self.userRole.rawValue
         )
     }
 }
