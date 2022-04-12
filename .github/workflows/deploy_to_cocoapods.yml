@@ -22,6 +22,10 @@ jobs:
       run: |
         set -eo pipefail
         export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+        export VRSN=$(grep 'static let version' Sources/Agora-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')
+        if [ "$LIB_VERSION" != "$VRSN" ]; then
+          exit 1
+        fi
         pod trunk push AgoraRtmControl_macOS.podspec --allow-warnings --skip-import-validation;
         pod trunk push AgoraRtmControl_iOS.podspec --allow-warnings --skip-import-validation;
         pod trunk push AgoraUIKit_macOS.podspec --allow-warnings --skip-import-validation --synchronous;
