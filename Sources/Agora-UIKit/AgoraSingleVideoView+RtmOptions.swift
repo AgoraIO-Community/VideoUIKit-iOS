@@ -17,7 +17,7 @@ import AgoraRtmControl
 
 extension AgoraSingleVideoView {
     func updateUserOptions() {
-        #if os(macOS) && canImport(AgoraRtmController)
+        #if os(macOS) && canImport(AgoraRtmControl)
         if !Thread.isMainThread {
             DispatchQueue.main.async {
                 self.updateUserOptions()

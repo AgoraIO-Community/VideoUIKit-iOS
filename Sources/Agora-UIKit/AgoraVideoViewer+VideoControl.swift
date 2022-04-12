@@ -158,8 +158,10 @@ extension AgoraVideoViewer {
 
     /// Start a new screen capture (macOS only for now)
     /// - Parameter displayId: The display ID of the screen to be shared. This parameter specifies which screen you want to share.
-    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Voice/screensharing_mac?platform=macOS)
-    open func startSharingScreen(displayId: UInt = 0) {
+    /// - Parameter contentHint: The content hint for screen sharing, see [AgoraVideoContentHint](https://docs.agora.io/en/Interactive%20Broadcast/API%20Reference/oc/Constants/AgoraVideoContentHint.html?platform=macOS).
+    ///
+    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Video/screensharing_mac?platform=macOS)
+    open func startSharingScreen(displayId: UInt = 0, contentHint: AgoraVideoContentHint = .none) {
         #if os(macOS)
         let rectangle = CGRect.zero
         let parameters = AgoraScreenCaptureParameters()
@@ -168,7 +170,7 @@ extension AgoraVideoViewer {
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
         self.agkit.startScreenCapture(byDisplayId: displayId, rectangle: rectangle, parameters: parameters)
-        self.agkit.setScreenCapture(.none)
+        self.agkit.setScreenCaptureContentHint(contentHint)
         #endif
     }
 

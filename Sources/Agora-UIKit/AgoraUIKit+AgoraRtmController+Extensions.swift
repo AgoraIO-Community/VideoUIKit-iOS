@@ -88,7 +88,7 @@ extension AgoraVideoViewer: RtmControllerDelegate {
         var messageData: Data!
         if let message = message as? AgoraRtmRawMessage {
             messageData = message.rawData
-        } else if let msgData = Data(base64Encoded: message.text) {
+        } else if let msgData = message.text.data(using: .utf8) {
             messageData = msgData
         } else {
             return

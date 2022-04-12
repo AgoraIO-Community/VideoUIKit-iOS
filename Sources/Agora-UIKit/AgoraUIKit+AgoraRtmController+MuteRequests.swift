@@ -21,6 +21,14 @@ extension AgoraVideoViewer {
         case camera = 0
         /// The device microphone
         case microphone = 1
+        var strVal: String {
+            switch self {
+            case .camera:
+                return "camera"
+            case .microphone:
+                return "micropohne"
+            }
+        }
     }
 
     /// Structure that contains information about a mute request
@@ -137,7 +145,7 @@ extension AgoraVideoViewer {
         AgoraVideoViewer.agoraPrint(
             .error,
             message: "user \(muteReq.rtcId) (self) should \(muteReq.mute ? "" : "un")mute" +
-                " their \(device) by \(muteReq.isForceful ? "force" : "request")"
+                " their \(device.strVal) by \(muteReq.isForceful ? "force" : "request")"
         )
         func setDevice(_ sender: Any? = nil) {
             switch device {
@@ -151,7 +159,7 @@ extension AgoraVideoViewer {
             setDevice()
             return
         }
-        let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device)?"
+        let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device.strVal)?"
         #if os(iOS)
         let alert = UIAlertController(
             title: alertTitle, message: nil,

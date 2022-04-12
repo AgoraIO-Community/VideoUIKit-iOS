@@ -6,6 +6,7 @@ target 'Agora-AppKit-Example' do
   use_frameworks!
 
   # Pods for Agora-UIKit-Example
+  pod 'AgoraRtmControl_macOS', :path => '../'
   pod 'AgoraUIKit_macOS', :path => '../'
 
 end
