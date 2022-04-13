@@ -1,12 +1,10 @@
 # Uncomment the next line to define a global platform for your project
-platform :macos, '10.15'
+# platform :ios, '9.0'
 
-target 'Agora-AppKit-Example' do
+target 'Agora-UIKit-Example' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for Agora-UIKit-Example
-  pod 'AgoraRtmControl_macOS', :path => '../'
-  pod 'AgoraUIKit_macOS', :path => '../'
-
+  pod 'AgoraUIKit_iOS', :path => '../'
 end

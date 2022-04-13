@@ -7,6 +7,9 @@
 
 import AgoraRtcKit
 import AVKit
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
+#endif
 
 extension AgoraVideoViewer {
 
@@ -17,11 +20,11 @@ extension AgoraVideoViewer {
             return
         }
         self.getControlContainer()
-        if let videoSource = self.agSettings.videoSource {
+        if let videoSource = self.agoraSettings.videoSource {
             self.agkit.setVideoSource(videoSource)
         }
-        if self.agSettings.externalAudioSettings.enabled {
-            let audioSource = self.agSettings.externalAudioSettings
+        if self.agoraSettings.externalAudioSettings.enabled {
+            let audioSource = self.agoraSettings.externalAudioSettings
             self.agkit.enableExternalAudioSource(
                 withSampleRate: .init(audioSource.sampleRate),
                 channelsPerFrame: .init(audioSource.channels)
@@ -146,22 +149,19 @@ extension AgoraVideoViewer {
         ssButton.isSelected.toggle()
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
         #elseif os(macOS)
-        ssButton.layer?.backgroundColor = (
-            ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray
-        ).cgColor
+        ssButton.layer?.backgroundColor = (ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
 
-        if ssButton.isOn {
-            self.startSharingScreen()
-        } else {
-            self.agkit.stopScreenCapture()
-        }
+        if ssButton.isOn { self.startSharingScreen()
+        } else { self.agkit.stopScreenCapture() }
         #endif
     }
 
     /// Start a new screen capture (macOS only for now)
     /// - Parameter displayId: The display ID of the screen to be shared. This parameter specifies which screen you want to share.
-    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Voice/screensharing_mac?platform=macOS)
-    open func startSharingScreen(displayId: UInt = 0) {
+    /// - Parameter contentHint: The content hint for screen sharing, see [AgoraVideoContentHint](https://docs.agora.io/en/Interactive%20Broadcast/API%20Reference/oc/Constants/AgoraVideoContentHint.html?platform=macOS).
+    ///
+    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Video/screensharing_mac?platform=macOS)
+    open func startSharingScreen(displayId: UInt = 0, contentHint: AgoraVideoContentHint = .none) {
         #if os(macOS)
         let rectangle = CGRect.zero
         let parameters = AgoraScreenCaptureParameters()
@@ -170,7 +170,7 @@ extension AgoraVideoViewer {
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
         self.agkit.startScreenCapture(byDisplayId: displayId, rectangle: rectangle, parameters: parameters)
-        self.agkit.setScreenCapture(.none)
+        self.agkit.setScreenCaptureContentHint(contentHint)
         #endif
     }
 
@@ -251,14 +251,12 @@ extension AgoraVideoViewer {
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
+        if self.connectionData == nil { fatalError("No app ID is provided") }
         if fetchToken {
             if let tokenURL = self.agoraSettings.tokenURL {
                 AgoraVideoViewer.fetchToken(
-                    urlBase: tokenURL, channelName: channel,
-                    userId: self.userID) { result in
+                    urlBase: tokenURL, channelName: channel, userId: self.userID
+                ) { result in
                     switch result {
                     case .success(let token):
                         self.join(channel: channel, with: token, as: role, uid: uid)
@@ -285,14 +283,10 @@ extension AgoraVideoViewer {
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
+        if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
-                if error != nil {
-                    return
-                }
+                if error != nil { return }
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }
@@ -318,10 +312,13 @@ extension AgoraVideoViewer {
             self?.userID = uid
             if self?.userRole == .broadcaster { self?.addLocalVideo() }
             self?.delegate?.joinedChannel(channel: channel)
+            #if canImport(AgoraRtmControl)
             self?.setupRtmController(joining: channel)
+            #endif
         }
     }
 
+    #if canImport(AgoraRtmControl)
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
         self.setupRtmController { rtmController in
@@ -330,7 +327,7 @@ extension AgoraVideoViewer {
     }
 
     open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
-        if !self.agSettings.rtmEnabled { return }
+        if !self.agoraSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
                 self.rtmController = AgoraRtmController(delegate: self)
@@ -341,6 +338,7 @@ extension AgoraVideoViewer {
             }
         }
     }
+    #endif
 
     internal func handleAlreadyInChannel(
         channel: String, with token: String?,

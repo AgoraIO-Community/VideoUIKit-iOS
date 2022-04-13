@@ -22,14 +22,14 @@ extension AgoraVideoViewer {
         _ resizeMask: inout UIView.AutoresizingMask, _ containerSize: inout CGSize
     ) {
         resizeMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin]
-        switch self.agSettings.buttonPosition {
+        switch self.agoraSettings.buttonPosition {
         case .top:
             frameOriginY = 30
             resizeMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin]
         case .left, .right:
             containerSize = CGSize(width: containerSize.height, height: containerSize.width)
             frameOriginY = (self.bounds.height - CGFloat(contWidth)) / 2
-            if self.agSettings.buttonPosition == .left {
+            if self.agoraSettings.buttonPosition == .left {
                 frameOriginX = 30
                 resizeMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
             } else {
@@ -45,10 +45,10 @@ extension AgoraVideoViewer {
         _ frameOriginX: inout CGFloat, _ frameOriginY: inout CGFloat, _ contWidth: CGFloat,
         _ resizeMask: inout NSView.AutoresizingMask, _ containerSize: inout CGSize
     ) {
-        switch self.agSettings.buttonPosition {
+        switch self.agoraSettings.buttonPosition {
         case .top, .bottom:
             frameOriginX = (self.bounds.width - CGFloat(contWidth)) / 2
-            if self.agSettings.buttonPosition == .top {
+            if self.agoraSettings.buttonPosition == .top {
                 frameOriginY = self.bounds.height - self.agoraSettings.buttonSize - 20 - 10
                 resizeMask = [.minXMargin, .maxXMargin, .minYMargin]
             } else {
@@ -58,7 +58,7 @@ extension AgoraVideoViewer {
         case .left, .right:
             containerSize = CGSize(width: containerSize.height, height: containerSize.width)
             frameOriginY = (self.bounds.height - CGFloat(contWidth)) / 2
-            if self.agSettings.buttonPosition == .left {
+            if self.agoraSettings.buttonPosition == .left {
                 frameOriginX = 20
                 resizeMask = [.minYMargin, .maxXMargin, .maxYMargin]
             } else {

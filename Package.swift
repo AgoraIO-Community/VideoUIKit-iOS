@@ -7,27 +7,35 @@ let package = Package(
     name: "AgoraUIKit_iOS",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"])
+        .library(name: "AgoraUIKit", targets: ["AgoraUIKit"]),
+        .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"])
     ],
     dependencies: [
         .package(
             name: "AgoraRtcKit",
             url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-            "3.4.5"..."3.6.2"
+            .upToNextMinor(from: Version(3, 7, 0))
         ),
         .package(
             name: "AgoraRtmKit",
             url: "https://github.com/AgoraIO/AgoraRtm_iOS",
-            from: "1.4.10"
+            .upToNextMinor(from: Version(1, 4, 10))
         )
     ],
     targets: [
         .target(
-            name: "AgoraUIKit_iOS",
-            dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
-//            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmKit"],
+            name: "AgoraUIKit",
+            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit")],
             path: "Sources/Agora-UIKit"
         ),
-        .testTarget(name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit_iOS"], path: "Tests/Agora-UIKit-Tests")
+        .target(
+            name: "AgoraRtmControl",
+            dependencies: ["AgoraRtmKit"],
+            path: "Sources/AgoraRtmControl"
+        ),
+        .testTarget(
+            name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit", "AgoraRtmControl"],
+            path: "Tests/Agora-UIKit-Tests"
+        )
     ]
 )

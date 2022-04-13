@@ -24,6 +24,7 @@ public struct AgoraConnectionData {
         set { self.rtcToken = newValue }
     }
 
+    /// Token to be used to connect to a RTM channel, can be nil.
     public var rtmToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
     public var channel: String?

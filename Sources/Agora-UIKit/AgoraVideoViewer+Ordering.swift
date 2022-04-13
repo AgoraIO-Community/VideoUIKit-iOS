@@ -37,7 +37,7 @@ extension AgoraVideoViewer {
             uid: userId, micColor: self.agoraSettings.colors.micFlag, delegate: self
         )
         remoteVideoView.canvas.renderMode = self.agoraSettings.videoRenderMode
-        if self.rtmController?.rtcLookup.index(forKey: userId) != nil {
+        if self.rtcLookup.index(forKey: userId) != nil {
             remoteVideoView.showOptions = self.agoraSettings.showRemoteRequestOptions
         }
         self.agkit.setupRemoteVideo(remoteVideoView.canvas)
@@ -63,7 +63,7 @@ extension AgoraVideoViewer {
               let canView = userSingleView.canvas.view else {
             return
         }
-        self.agkit.muteRemoteVideoStream(userId, mute: true)
+//        self.agkit.muteRemoteVideoStream(userId, mute: true)
         userSingleView.canvas.view = nil
         canView.removeFromSuperview()
         self.userVideoLookup.removeValue(forKey: userId)

@@ -37,7 +37,9 @@ public class AgoraSingleVideoView: MPView {
     /// Whether the options label should be visible or not.
     public var showOptions: Bool = true {
         didSet {
+            #if canImport(AgoraRtmControl)
             self.userOptions?.isHidden = !self.showOptions
+            #endif
         }
     }
     /// Unique ID for this user, used by the video feed.
@@ -59,6 +61,7 @@ public class AgoraSingleVideoView: MPView {
         case microphone
     }
 
+    #if canImport(AgoraRtmControl)
     lazy var userOptions: MPView? = {
         #if os(iOS)
         let userOptionsBtn = MPButton.newToggleButton(
@@ -97,6 +100,7 @@ public class AgoraSingleVideoView: MPView {
 //        userOptionsBtn.isHidden = true
         return userOptionsBtn
     }()
+    #endif
 
     /// Icon to show if this user is muting their microphone
     lazy var mutedFlag: MPView = {

@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F327EEC928057D2A00C86D3D /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = F327EEC828057D2A00C86D3D /* AgoraUIKit */; };
+		F327EECB28057D3200C86D3D /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = F327EECA28057D3200C86D3D /* AgoraRtmControl */; };
 		F327FCFB259B97ED00922764 /* Agora_SwiftUI_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F327FCFA259B97ED00922764 /* Agora_SwiftUI_ExampleApp.swift */; };
 		F327FCFD259B97ED00922764 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F327FCFC259B97ED00922764 /* ContentView.swift */; };
 		F327FCFF259B97EF00922764 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F327FCFE259B97EF00922764 /* Assets.xcassets */; };
 		F327FD02259B97EF00922764 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F327FD01259B97EF00922764 /* Preview Assets.xcassets */; };
-		F3DDD460278D8C38003D4A16 /* AgoraUIKit_iOS in Frameworks */ = {isa = PBXBuildFile; productRef = F3DDD45F278D8C38003D4A16 /* AgoraUIKit_iOS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +30,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3DDD460278D8C38003D4A16 /* AgoraUIKit_iOS in Frameworks */,
+				F327EEC928057D2A00C86D3D /* AgoraUIKit in Frameworks */,
+				F327EECB28057D3200C86D3D /* AgoraRtmControl in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +108,8 @@
 			);
 			name = "Agora-SwiftUI-Example";
 			packageProductDependencies = (
-				F3DDD45F278D8C38003D4A16 /* AgoraUIKit_iOS */,
+				F327EEC828057D2A00C86D3D /* AgoraUIKit */,
+				F327EECA28057D3200C86D3D /* AgoraRtmControl */,
 			);
 			productName = "Agora-SwiftUI-Example";
 			productReference = F327FCF7259B97ED00922764 /* Agora-SwiftUI-Example.app */;
@@ -353,9 +356,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F3DDD45F278D8C38003D4A16 /* AgoraUIKit_iOS */ = {
+		F327EEC828057D2A00C86D3D /* AgoraUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AgoraUIKit_iOS;
+			productName = AgoraUIKit;
+		};
+		F327EECA28057D3200C86D3D /* AgoraRtmControl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AgoraRtmControl;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
