@@ -63,7 +63,7 @@ extension AgoraVideoViewer {
               let canView = userSingleView.canvas.view else {
             return
         }
-        self.agkit.muteRemoteVideoStream(userId, mute: true)
+//        self.agkit.muteRemoteVideoStream(userId, mute: true)
         userSingleView.canvas.view = nil
         canView.removeFromSuperview()
         self.userVideoLookup.removeValue(forKey: userId)
