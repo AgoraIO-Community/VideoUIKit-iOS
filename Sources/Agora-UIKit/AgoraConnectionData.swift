@@ -5,6 +5,7 @@
 //  Created by Max Cobb on 04/08/2021.
 //
 
+import Foundation
 #if os(iOS)
 import UIKit.UIDevice
 #elseif os(macOS)
