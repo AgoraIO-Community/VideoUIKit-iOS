@@ -101,7 +101,7 @@ extension AgoraVideoViewer {
     func cameraMicSettingsPopup(successHandler: @escaping () -> Void) {
         #if os(iOS)
         if self.delegate?.presentAlert == nil {
-            AgoraVideoViewer.agoraPrint(.error, message: "Could not present settings popup")
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
             // just assume the user accepted this popup and move on
             successHandler()
             return
@@ -118,7 +118,7 @@ extension AgoraVideoViewer {
             successHandler()
         }))
         DispatchQueue.main.async {
-            self.delegate?.presentAlert(alert: alertView, animated: true)
+            self.delegate?.presentAlert(alert: alertView, animated: true, viewer: self)
         }
         #elseif os(macOS)
         let alertView = NSAlert()

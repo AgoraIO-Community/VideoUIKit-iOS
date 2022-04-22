@@ -5,6 +5,7 @@
 //  Created by Max Cobb on 04/08/2021.
 //
 
+import Foundation
 #if os(iOS)
 import UIKit.UIDevice
 #elseif os(macOS)
@@ -24,6 +25,7 @@ public struct AgoraConnectionData {
         set { self.rtcToken = newValue }
     }
 
+    /// Token to be used to connect to a RTM channel, can be nil.
     public var rtmToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
     public var channel: String?

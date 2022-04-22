@@ -14,6 +14,10 @@ import CoreFoundation
 import CommonCrypto
 #endif
 import AgoraRtcKit
+#if canImport(AgoraRtmControl)
+import AgoraRtmKit
+import AgoraRtmControl
+#endif
 
 /// An interface for getting some common delegate callbacks without needing to subclass.
 public protocol AgoraVideoViewerDelegate: AnyObject {
@@ -37,7 +41,7 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
-    func presentAlert(alert: UIAlertController, animated: Bool)
+    func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     func extraButtons() -> [UIButton]
     #elseif os(macOS)
@@ -47,11 +51,23 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// A pong request has just come back to the local user, indicating that someone is still present in RTM
     /// - Parameter peerId: RTM ID of the remote user that sent the pong request.
     func incomingPongRequest(from peerId: String)
+    #if canImport(AgoraRtmControl)
     /// State of RTM has changed
     /// - Parameters:
     ///   - oldState: Previous state of RTM
     ///   - newState: New state of RTM
     func rtmStateChanged(from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus)
+
+    /// Called after AgoraRtmController joins a channel
+    /// - Parameters:
+    ///   - name: name of the channel joined
+    ///   - channel: instance of joined `AgoraRtmChannel`
+    ///   - code: Error codes related to joining a channel.
+    func rtmChannelJoined(
+        name: String, channel: AgoraRtmChannel,
+        code: AgoraRtmJoinChannelErrorCode
+    )
+    #endif
 }
 
 public extension AgoraVideoViewerDelegate {
@@ -60,8 +76,12 @@ public extension AgoraVideoViewerDelegate {
     func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {}
     func tokenDidExpire(_ engine: AgoraRtcEngineKit) {}
     #if os(iOS)
-    func presentAlert(alert: UIAlertController, animated: Bool) {
+    func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?) {
         if let viewCont = self as? UIViewController {
+            if let presenter = alert.popoverPresentationController, let viewer = viewer {
+                presenter.sourceView = viewer
+                presenter.sourceRect = viewer.bounds
+            }
             viewCont.present(alert, animated: animated)
         }
     }
@@ -70,13 +90,19 @@ public extension AgoraVideoViewerDelegate {
     func extraButtons() -> [NSButton] { [] }
     #endif
     func incomingPongRequest(from peerId: String) {}
+    #if canImport(AgoraRtmControl)
     func rtmStateChanged(
         from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
     ) {}
+    func rtmChannelJoined(name: String, channel: AgoraRtmChannel, code: AgoraRtmJoinChannelErrorCode) {}
+    #endif
 }
 
 /// View to contain all the video session objects, including camera feeds and buttons for settings
 open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
+
+    public var rtcLookup: [UInt: String] = [:]
+    public var rtmLookup: [String: Codable] = [:]
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
@@ -85,8 +111,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
+    #if canImport(AgoraRtmControl)
     /// Controller class for managing RTM messages
     public var rtmController: AgoraRtmController?
+    #endif
 
     /// The rendering mode of the video view for all active videos.
     var videoRenderMode: AgoraVideoRenderMode {
@@ -116,9 +144,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     /// The most recently active speaker in the session. This will only ever be set to remote users, not the local user.
-    public internal(set) var activeSpeaker: UInt? {
-        didSet { self.reorganiseVideos() }
-    }
+    public internal(set) var activeSpeaker: UInt? { didSet { self.reorganiseVideos() } }
 
     /// This user will be the main focus when using `.floating` style.
     /// Assigned by clicking a user in the collection view.
@@ -146,16 +172,16 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         set { self.connectionData.rtcToken = newValue }
     }
 
+    #if canImport(AgoraRtmControl)
     /// Status of the RTM Engine
     public var rtmStatus: AgoraRtmController.RTMStatus {
         if let rtmc = self.rtmController {
             return rtmc.rtmStatus
-        } else if self.agSettings.rtmEnabled {
+        } else if self.agoraSettings.rtmEnabled {
             return .initFailed
-        } else {
-            return .offline
-        }
+        } else { return .offline }
     }
+    #endif
 
     lazy internal var floatingVideoHolder: MPCollectionView = {
         let collView = AgoraCollectionViewer()
@@ -245,7 +271,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         let engine = AgoraRtcEngineKit.sharedEngine(
             withAppId: connectionData.appId, delegate: self
         )
-        engine.enableAudioVolumeIndication(1000, smooth: 3) // , reportVad: self.agSettings.reportLocalVolume)
+        engine.enableAudioVolumeIndication(1000, smooth: 3) // , reportVad: self.agoraSettings.reportLocalVolume)
         engine.setChannelProfile(.liveBroadcasting)
         if self.agoraSettings.usingDualStream {
             engine.enableDualStreamMode(true)
@@ -314,9 +340,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     /// Used by storyboard to set the AgoraSettings tokenURL
-    @IBInspectable var tokenURL: String = "" {
-        didSet {
-            self.agoraSettings.tokenURL = tokenURL
+    @IBInspectable public var tokenURL: String? {
+        get { self.agoraSettings.tokenURL }
+        set {
+            self.agoraSettings.tokenURL = newValue
         }
     }
     /// Create view from NSCoder, this initialiser requires an appID key with a String value.
@@ -333,14 +360,14 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
         if self.style == .floating {
-            if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agSettings.showSelf {
+            if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agoraSettings.showSelf {
                 return [:]
             }
             return self.userVideoLookup.filter {
                 $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
             }
         } else if self.style == .grid {
-            return self.userVideoLookup.filter { ($0.key != self.userID || self.agSettings.showSelf) }
+            return self.userVideoLookup.filter { ($0.key != self.userID || self.agoraSettings.showSelf) }
         } else {
             return [:]
         }

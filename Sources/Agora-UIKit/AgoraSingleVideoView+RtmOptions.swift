@@ -10,28 +10,14 @@ import Foundation
 import UIKit
 #elseif os(macOS)
 import AppKit
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
+#endif
 #endif
 
 extension AgoraSingleVideoView {
-
-    /// Find the string for the option ready to request the remote user to mute or unmute their mic or camera
-    /// - Parameters:
-    ///   - option: Device to be muted or umuted
-    ///   - isMuted: Boolean option to mute or unmute device
-    /// - Returns: String to be displayed in the mute/unmute option
-    open func userOptionsString(
-        for option: AgoraRtmController.MutingDevices, isMuted: Bool
-    ) -> String {
-        switch option {
-        case .camera:
-            return isMuted ? MPButton.unmuteCameraString : MPButton.muteCameraString
-        case .microphone:
-            return isMuted ? MPButton.unmuteMicString : MPButton.muteMicString
-        }
-    }
-
     func updateUserOptions() {
-        #if os(macOS)
+        #if os(macOS) && canImport(AgoraRtmControl)
         if !Thread.isMainThread {
             DispatchQueue.main.async {
                 self.updateUserOptions()
@@ -45,6 +31,27 @@ extension AgoraSingleVideoView {
         self.addItems(to: userOptions)
         #endif
     }
+}
+
+#if canImport(AgoraRtmControl)
+extension AgoraSingleVideoView {
+
+    /// Find the string for the option ready to request the remote user to mute or unmute their mic or camera
+    /// - Parameters:
+    ///   - option: Device to be muted or umuted
+    ///   - isMuted: Boolean option to mute or unmute device
+    /// - Returns: String to be displayed in the mute/unmute option
+    open func userOptionsString(
+        for option: AgoraVideoViewer.MutingDevices, isMuted: Bool
+    ) -> String {
+        switch option {
+        case .camera:
+            return isMuted ? MPButton.unmuteCameraString : MPButton.muteCameraString
+        case .microphone:
+            return isMuted ? MPButton.unmuteMicString : MPButton.muteMicString
+        }
+    }
+
     #if os(macOS)
     open func addItems(to userOptionsBtn: NSPopUpButton) {
         let actionItem = NSMenuItem()
@@ -53,7 +60,7 @@ extension AgoraSingleVideoView {
             attributes: [ NSAttributedString.Key.foregroundColor: self.micFlagColor ]
         )
         userOptionsBtn.menu?.insertItem(actionItem, at: 0)
-        AgoraRtmController.MutingDevices.allCases.forEach { enumCase in
+        AgoraVideoViewer.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:
@@ -71,7 +78,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: Button that was selected
     @objc open func optionsBtnSelected(sender: UIButton) {
         let alert = UIAlertController(title: "Request Action", message: nil, preferredStyle: .actionSheet)
-        AgoraRtmController.MutingDevices.allCases.forEach { enumCase in
+        AgoraVideoViewer.MutingDevices.allCases.forEach { enumCase in
             var isMuted: Bool
             switch enumCase {
             case .camera:
@@ -88,14 +95,18 @@ extension AgoraSingleVideoView {
             )
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true)
+        if self.singleVideoViewDelegate != nil {
+            self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true, viewer: self.userOptions ?? self)
+        } else {
+            AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
+        }
     }
 
     /// Action selected such as mute/unmute microphone/camera.
     /// - Parameter sender: UIAlertAction that was selected.
     open func optionsActionSelected(sender: UIAlertAction) {
         if let actionTitle = sender.title,
-           let reqError = self.singleVideoViewDelegate?.rtmController?.createRequest(
+           let reqError = self.singleVideoViewDelegate?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
@@ -106,7 +117,7 @@ extension AgoraSingleVideoView {
     /// - Parameter sender: Button that was selected
     @objc public func optionsBtnSelected(sender: NSPopUpButton) {
         if let actionTitle = sender.selectedItem?.title,
-           let reqError = self.singleVideoViewDelegate?.rtmController?.createRequest(
+           let reqError = self.singleVideoViewDelegate?.createRequest(
             to: self.uid, fromString: actionTitle
            ), !reqError {
             AgoraVideoViewer.agoraPrint(.error, message: "invalid action title: \(actionTitle)")
@@ -115,3 +126,4 @@ extension AgoraSingleVideoView {
     #endif
 
 }
+#endif

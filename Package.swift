@@ -7,7 +7,8 @@ let package = Package(
     name: "AgoraUIKit_iOS",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "AgoraUIKit_iOS", targets: ["AgoraUIKit_iOS"])
+        .library(name: "AgoraUIKit", targets: ["AgoraUIKit"]),
+        .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"])
     ],
     dependencies: [
         .package(
@@ -19,16 +20,24 @@ let package = Package(
         .package(
             name: "AgoraRtmKit",
             url: "https://github.com/AgoraIO/AgoraRtm_iOS",
-            from: "1.4.10"
+            .upToNextMinor(from: Version(1, 4, 10))
         )
     ],
     targets: [
         .target(
-            name: "AgoraUIKit_iOS",
+            name: "AgoraUIKit",
             dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
 //            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmKit"],
             path: "Sources/Agora-UIKit"
         ),
-        .testTarget(name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit_iOS"], path: "Tests/Agora-UIKit-Tests")
+        .target(
+            name: "AgoraRtmControl",
+            dependencies: ["AgoraRtmKit"],
+            path: "Sources/AgoraRtmControl"
+        ),
+        .testTarget(
+            name: "AgoraUIKit-Tests", dependencies: ["AgoraUIKit", "AgoraRtmControl"],
+            path: "Tests/Agora-UIKit-Tests"
+        )
     ]
 )

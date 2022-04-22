@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F39B87D327200A8900C644C7 /* AgoraUIKit_iOS in Frameworks */ = {isa = PBXBuildFile; productRef = F39B87D227200A8900C644C7 /* AgoraUIKit_iOS */; };
+		F366512627FDF05700DDD521 /* AgoraUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = F366512527FDF05700DDD521 /* AgoraUIKit */; };
+		F366512827FDF07100DDD521 /* AgoraRtmControl in Frameworks */ = {isa = PBXBuildFile; productRef = F366512727FDF07100DDD521 /* AgoraRtmControl */; };
 		F3C4328E256FB56C00E2AD43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C4328D256FB56C00E2AD43 /* AppDelegate.swift */; };
 		F3C43290256FB56C00E2AD43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C4328F256FB56C00E2AD43 /* SceneDelegate.swift */; };
 		F3C43292256FB56C00E2AD43 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C43291256FB56C00E2AD43 /* ViewController.swift */; };
@@ -16,8 +17,21 @@
 		F3C4329A256FB56F00E2AD43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3C43298256FB56F00E2AD43 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F33CA68E27FB3C7500541A7A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		F39B87D0272009FA00C644C7 /* iOS-UIKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "iOS-UIKit"; path = ..; sourceTree = "<group>"; };
+		F366512327FDF03F00DDD521 /* iOS-UIKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "iOS-UIKit"; path = ..; sourceTree = "<group>"; };
 		F3C4328A256FB56C00E2AD43 /* Agora-UIKit-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Agora-UIKit-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C4328D256FB56C00E2AD43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3C4328F256FB56C00E2AD43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -33,26 +47,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F39B87D327200A8900C644C7 /* AgoraUIKit_iOS in Frameworks */,
+				F366512627FDF05700DDD521 /* AgoraUIKit in Frameworks */,
+				F366512827FDF07100DDD521 /* AgoraRtmControl in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F39B87CF272009FA00C644C7 /* Packages */ = {
+		E4B1C9811C27629FB0E02419 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F39B87D0272009FA00C644C7 /* iOS-UIKit */,
 			);
-			name = Packages;
+			path = Pods;
 			sourceTree = "<group>";
 		};
-		F39B87D127200A8900C644C7 /* Frameworks */ = {
+		F366512427FDF05700DDD521 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F39B87CF272009FA00C644C7 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				F366512327FDF03F00DDD521 /* iOS-UIKit */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		F3C43281256FB56C00E2AD43 = {
@@ -61,7 +83,8 @@
 				F39B87CF272009FA00C644C7 /* Packages */,
 				F3C4328C256FB56C00E2AD43 /* Agora-UIKit-Example */,
 				F3C4328B256FB56C00E2AD43 /* Products */,
-				F39B87D127200A8900C644C7 /* Frameworks */,
+				E4B1C9811C27629FB0E02419 /* Pods */,
+				F366512427FDF05700DDD521 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +120,7 @@
 				F3C43286256FB56C00E2AD43 /* Sources */,
 				F3C43287256FB56C00E2AD43 /* Frameworks */,
 				F3C43288256FB56C00E2AD43 /* Resources */,
+				F33CA68E27FB3C7500541A7A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -104,7 +128,8 @@
 			);
 			name = "Agora-UIKit-Example";
 			packageProductDependencies = (
-				F39B87D227200A8900C644C7 /* AgoraUIKit_iOS */,
+				F366512527FDF05700DDD521 /* AgoraUIKit */,
+				F366512727FDF07100DDD521 /* AgoraRtmControl */,
 			);
 			productName = "Agora-UIKit-Example";
 			productReference = F3C4328A256FB56C00E2AD43 /* Agora-UIKit-Example.app */;
@@ -366,9 +391,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F39B87D227200A8900C644C7 /* AgoraUIKit_iOS */ = {
+		F366512527FDF05700DDD521 /* AgoraUIKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AgoraUIKit_iOS;
+			productName = AgoraUIKit;
+		};
+		F366512727FDF07100DDD521 /* AgoraRtmControl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AgoraRtmControl;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

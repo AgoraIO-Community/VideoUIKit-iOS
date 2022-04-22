@@ -7,6 +7,9 @@
 
 import AgoraRtcKit
 import AVKit
+#if canImport(AgoraRtmControl)
+import AgoraRtmControl
+#endif
 
 extension AgoraVideoViewer {
 
@@ -19,13 +22,13 @@ extension AgoraVideoViewer {
         self.getControlContainer()
 
         self.agkit.setExternalVideoSource(
-            agSettings.externalVideoSettings.enabled,
-            useTexture: agSettings.externalVideoSettings.texture,
-            encodedFrame: agSettings.externalVideoSettings.encoded
-//            sourceType: agSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
+            agoraSettings.externalVideoSettings.enabled,
+            useTexture: agoraSettings.externalVideoSettings.texture,
+            encodedFrame: agoraSettings.externalVideoSettings.encoded
+//            sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
         )
-        if self.agSettings.externalAudioSettings.enabled {
-            let audioSource = self.agSettings.externalAudioSettings
+        if self.agoraSettings.externalAudioSettings.enabled {
+            let audioSource = self.agoraSettings.externalAudioSettings
             self.agkit.setExternalAudioSource(
                 audioSource.enabled,
                 sampleRate: .init(audioSource.sampleRate),
@@ -150,22 +153,19 @@ extension AgoraVideoViewer {
         ssButton.isSelected.toggle()
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
         #elseif os(macOS)
-        ssButton.layer?.backgroundColor = (
-            ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray
-        ).cgColor
+        ssButton.layer?.backgroundColor = (ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
 
-        if ssButton.isOn {
-            self.startSharingScreen()
-        } else {
-            self.agkit.stopScreenCapture()
-        }
+        if ssButton.isOn { self.startSharingScreen()
+        } else { self.agkit.stopScreenCapture() }
         #endif
     }
 
     /// Start a new screen capture (macOS only for now)
     /// - Parameter displayId: The display ID of the screen to be shared. This parameter specifies which screen you want to share.
-    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Voice/screensharing_mac?platform=macOS)
-    open func startSharingScreen(displayId: UInt = 0) {
+    /// - Parameter contentHint: The content hint for screen sharing, see [AgoraVideoContentHint](https://docs.agora.io/en/Interactive%20Broadcast/API%20Reference/oc/Constants/AgoraVideoContentHint.html?platform=macOS).
+    ///
+    /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Video/screensharing_mac?platform=macOS)
+    open func startSharingScreen(displayId: UInt = 0) { // , contentHint: AgoraVideoContentHint = .none) {
         #if os(macOS)
         let rectangle = CGRect.zero
         let parameters = AgoraScreenCaptureParameters()
@@ -174,7 +174,7 @@ extension AgoraVideoViewer {
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
         self.agkit.startScreenCapture(byDisplayId: displayId, rectangle: rectangle, parameters: parameters)
-        self.agkit.setScreenCapture(.none)
+        self.agkit.setScreenCaptureContentHint(contentHint)
         #endif
     }
 
@@ -255,56 +255,54 @@ extension AgoraVideoViewer {
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
-        if fetchToken {
-            if let tokenURL = self.agoraSettings.tokenURL {
-                AgoraVideoViewer.fetchToken(
-                    urlBase: tokenURL, channelName: channel,
-                    userId: self.userID) { result in
-                    switch result {
-                    case .success(let token):
-                        self.join(channel: channel, with: token, as: role, uid: uid)
-                    case .failure(let err):
-                        AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
-                    }
-                }
-            } else {
-                AgoraVideoViewer.agoraPrint(.error, message: "No token URL provided in AgoraSettings")
-            }
+        if self.connectionData == nil { fatalError("No app ID is provided") }
+        guard fetchToken else {
+            self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
             return
         }
-        self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
+        if let tokenURL = self.agoraSettings.tokenURL {
+            AgoraVideoViewer.fetchToken(
+                urlBase: tokenURL, channelName: channel, userId: self.userID
+            ) { result in
+                switch result {
+                case .success(let token):
+                    DispatchQueue.main.async {
+                        self.join(channel: channel, with: token, as: role, uid: uid)
+                    }
+                case .failure(let err):
+                    AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
+                }
+            }
+        } else {
+            AgoraVideoViewer.agoraPrint(.error, message: "No token URL provided in AgoraSettings")
+        }
     }
 
     /// Join the Agora channel
     /// - Parameters:
     ///   - channel: Channel name to join
     ///   - token: Valid token to join the channel
-    ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
-    ///                   Default: `.broadcaster`
+    ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as. Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
+    /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
+    ///            that means it has continued on another thread, or you area already in the channel.
+    @discardableResult
     open func join(
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
-    ) {
-        if self.connectionData == nil {
-            fatalError("No app ID is provided")
-        }
+    ) -> Int32? {
+        if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
-                if error != nil {
-                    return
-                }
+                if error != nil { return }
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }
-            }) { return }
+            }) { return nil }
         }
         if self.connectionData.channel != nil {
             self.handleAlreadyInChannel(channel: channel, with: token, as: role, uid: uid)
-            return
+            return nil
         }
         self.userRole = role
         if let uid = uid { self.userID = uid }
@@ -314,7 +312,7 @@ extension AgoraVideoViewer {
         self.connectionData.channel = channel
         if !self.agoraSettings.cameraEnabled { self.agkit.enableLocalVideo(false) }
         if !self.agoraSettings.micEnabled { self.agkit.enableLocalAudio(false) }
-        self.agkit.joinChannel(
+        return self.agkit.joinChannel(
             byToken: token,
             channelId: channel,
             uid: self.userID,
@@ -323,20 +321,27 @@ extension AgoraVideoViewer {
         // Delegate method is called upon success
     }
 
+    #if canImport(AgoraRtmControl)
     /// Initialise RTM to send messages across the network.
     open func setupRtmController(joining channel: String) {
-        if !self.agSettings.rtmEnabled { return }
+        self.setupRtmController { rtmController in
+            rtmController?.joinChannel(named: channel)
+        }
+    }
+
+    open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
+        if !self.agoraSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
                 self.rtmController = AgoraRtmController(delegate: self)
                 if self.rtmController == nil {
                     AgoraVideoViewer.agoraPrint(.error, message: "Error initialising RTM")
-                } else {
-                    self.rtmController?.joinChannel(named: channel)
                 }
+                callback?(self.rtmController)
             }
         }
     }
+    #endif
 
     internal func handleAlreadyInChannel(
         channel: String, with token: String?,
@@ -359,8 +364,7 @@ extension AgoraVideoViewer {
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
     open func leaveChannel(
-        stopPreview: Bool = true,
-        _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
+        stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
@@ -369,19 +373,14 @@ extension AgoraVideoViewer {
         }
         self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
-        if stopPreview, self.userRole == .broadcaster {
-            agkit.stopPreview()
-        }
+        if stopPreview, self.userRole == .broadcaster { agkit.stopPreview() }
         self.activeSpeaker = nil
         self.remoteUserIDs = []
         self.userVideoLookup = [:]
         self.backgroundVideoHolder.subviews.forEach { $0.removeFromSuperview() }
         self.controlContainer?.isHidden = true
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
-        defer {
-            if leaveChannelRtn == 0 { delegate?.leftChannel(chName) }
-        }
-
+        defer { if leaveChannelRtn == 0 { delegate?.leftChannel(chName) } }
         return leaveChannelRtn
     }
 

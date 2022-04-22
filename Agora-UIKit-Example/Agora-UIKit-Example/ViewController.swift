@@ -6,9 +6,8 @@
 //
 
 import UIKit
-
 import AgoraRtcKit
-import AgoraUIKit_iOS
+import AgoraUIKit
 
 class ViewController: UIViewController {
 
@@ -18,6 +17,9 @@ class ViewController: UIViewController {
 
         var agSettings = AgoraSettings()
         agSettings.enabledButtons = [.cameraButton, .micButton, .flipButton]
+        agSettings.buttonPosition = .right
+        AgoraVideoViewer.printLevel = .verbose
+        
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
                 appId: <#Agora App ID#>,
@@ -78,10 +80,6 @@ extension ViewController: AgoraVideoViewerDelegate {
         print("zap!")
         sender.isSelected.toggle()
         sender.backgroundColor = sender.isSelected ? .systemYellow : .systemGray
-    }
-
-    func presentAlert(alert: UIAlertController, animated: Bool) {
-        self.present(alert, animated: animated)
     }
 }
 
