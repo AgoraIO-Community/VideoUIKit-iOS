@@ -141,9 +141,7 @@ extension AgoraVideoViewer {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data
     open func handleMuteRequest(muteReq: MuteRequest) {
-        guard let device = MutingDevices(rawValue: muteReq.device) else {
-            return
-        }
+        guard let device = MutingDevices(rawValue: muteReq.device) else { return }
         if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
         if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }
 
@@ -166,16 +164,9 @@ extension AgoraVideoViewer {
         }
         let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device.strVal)?"
         #if os(iOS)
-        let controlStyle: UIAlertController.Style
-        switch UIDevice.current.userInterfaceIdiom {
-        case .pad:
-            controlStyle = .alert
-        default:
-            controlStyle = .actionSheet
-        }
         let alert = UIAlertController(
             title: alertTitle, message: nil,
-            preferredStyle: controlStyle
+            preferredStyle: UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
         )
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

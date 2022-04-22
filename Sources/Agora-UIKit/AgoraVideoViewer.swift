@@ -79,8 +79,8 @@ public extension AgoraVideoViewerDelegate {
     func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?) {
         if let viewCont = self as? UIViewController {
             if let presenter = alert.popoverPresentationController, let viewer = viewer {
-                presenter.sourceView = viewer;
-                presenter.sourceRect = viewer.bounds;
+                presenter.sourceView = viewer
+                presenter.sourceRect = viewer.bounds
             }
             viewCont.present(alert, animated: animated)
         }
@@ -94,10 +94,7 @@ public extension AgoraVideoViewerDelegate {
     func rtmStateChanged(
         from oldState: AgoraRtmController.RTMStatus, to newState: AgoraRtmController.RTMStatus
     ) {}
-    func rtmChannelJoined(
-        name: String, channel: AgoraRtmChannel,
-        code: AgoraRtmJoinChannelErrorCode
-    ) {}
+    func rtmChannelJoined(name: String, channel: AgoraRtmChannel, code: AgoraRtmJoinChannelErrorCode) {}
     #endif
 }
 
@@ -105,7 +102,6 @@ public extension AgoraVideoViewerDelegate {
 open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
     public var rtcLookup: [UInt: String] = [:]
-
     public var rtmLookup: [String: Codable] = [:]
 
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
@@ -148,9 +144,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     /// The most recently active speaker in the session. This will only ever be set to remote users, not the local user.
-    public internal(set) var activeSpeaker: UInt? {
-        didSet { self.reorganiseVideos() }
-    }
+    public internal(set) var activeSpeaker: UInt? { didSet { self.reorganiseVideos() } }
 
     /// This user will be the main focus when using `.floating` style.
     /// Assigned by clicking a user in the collection view.
@@ -185,9 +179,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
             return rtmc.rtmStatus
         } else if self.agoraSettings.rtmEnabled {
             return .initFailed
-        } else {
-            return .offline
-        }
+        } else { return .offline }
     }
     #endif
 

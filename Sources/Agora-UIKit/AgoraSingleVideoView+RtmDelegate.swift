@@ -48,8 +48,8 @@ extension SingleVideoViewDelegate {
 
         if let viewCont = self as? UIViewController {
             if let presenter = alert.popoverPresentationController, let viewer = viewer {
-                presenter.sourceView = viewer;
-                presenter.sourceRect = viewer.bounds;
+                presenter.sourceView = viewer
+                presenter.sourceRect = viewer.bounds
             }
             viewCont.present(alert, animated: animated)
         } else if let vidViewer = self as? AgoraVideoViewer {

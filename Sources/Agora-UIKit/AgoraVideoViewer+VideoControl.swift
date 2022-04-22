@@ -252,34 +252,33 @@ extension AgoraVideoViewer {
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
         if self.connectionData == nil { fatalError("No app ID is provided") }
-        if fetchToken {
-            if let tokenURL = self.agoraSettings.tokenURL {
-                AgoraVideoViewer.fetchToken(
-                    urlBase: tokenURL, channelName: channel, userId: self.userID
-                ) { result in
-                    switch result {
-                    case .success(let token):
-                        DispatchQueue.main.async {
-                            self.join(channel: channel, with: token, as: role, uid: uid)
-                        }
-                    case .failure(let err):
-                        AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
-                    }
-                }
-            } else {
-                AgoraVideoViewer.agoraPrint(.error, message: "No token URL provided in AgoraSettings")
-            }
+        guard fetchToken else {
+            self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
             return
         }
-        self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
+        if let tokenURL = self.agoraSettings.tokenURL {
+            AgoraVideoViewer.fetchToken(
+                urlBase: tokenURL, channelName: channel, userId: self.userID
+            ) { result in
+                switch result {
+                case .success(let token):
+                    DispatchQueue.main.async {
+                        self.join(channel: channel, with: token, as: role, uid: uid)
+                    }
+                case .failure(let err):
+                    AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
+                }
+            }
+        } else {
+            AgoraVideoViewer.agoraPrint(.error, message: "No token URL provided in AgoraSettings")
+        }
     }
 
     /// Join the Agora channel
     /// - Parameters:
     ///   - channel: Channel name to join
     ///   - token: Valid token to join the channel
-    ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
-    ///                   Default: `.broadcaster`
+    ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as. Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
     /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
     ///            that means it has continued on another thread, or you area already in the channel.
