@@ -32,23 +32,28 @@ public protocol SingleVideoViewDelegate: AnyObject {
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
-    func presentAlert(alert: UIAlertController, animated: Bool)
+    func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?)
     #endif
 }
 
 extension SingleVideoViewDelegate {
     #if os(iOS)
-    public func presentAlert(alert: UIAlertController, animated: Bool) {
+    public func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?) {
         if !Thread.isMainThread {
             DispatchQueue.main.async {
-                self.presentAlert(alert: alert, animated: animated)
+                self.presentAlert(alert: alert, animated: animated, viewer: viewer)
             }
             return
         }
+
         if let viewCont = self as? UIViewController {
+            if let presenter = alert.popoverPresentationController, let viewer = viewer {
+                presenter.sourceView = viewer;
+                presenter.sourceRect = viewer.bounds;
+            }
             viewCont.present(alert, animated: animated)
         } else if let vidViewer = self as? AgoraVideoViewer {
-            vidViewer.delegate?.presentAlert(alert: alert, animated: animated)
+            vidViewer.delegate?.presentAlert(alert: alert, animated: animated, viewer: viewer)
         } else {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
         }

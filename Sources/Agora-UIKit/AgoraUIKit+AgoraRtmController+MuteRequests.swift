@@ -166,13 +166,20 @@ extension AgoraVideoViewer {
         }
         let alertTitle = "\(muteReq.mute ? "" : "un")mute \(device.strVal)?"
         #if os(iOS)
+        let controlStyle: UIAlertController.Style
+        switch UIDevice.current.userInterfaceIdiom {
+        case .pad:
+            controlStyle = .alert
+        default:
+            controlStyle = .actionSheet
+        }
         let alert = UIAlertController(
             title: alertTitle, message: nil,
-            preferredStyle: .actionSheet
+            preferredStyle: controlStyle
         )
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.presentAlert(alert: alert, animated: true)
+        self.presentAlert(alert: alert, animated: true, viewer: self)
         #elseif os(macOS)
         let alert = NSAlert()
         alert.addButton(withTitle: "Confirm")

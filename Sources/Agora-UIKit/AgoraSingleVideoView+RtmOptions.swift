@@ -96,7 +96,7 @@ extension AgoraSingleVideoView {
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         if self.singleVideoViewDelegate != nil {
-            self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true)
+            self.singleVideoViewDelegate?.presentAlert(alert: alert, animated: true, viewer: self.userOptions ?? self)
         } else {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not present popup")
         }

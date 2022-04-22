@@ -41,7 +41,7 @@ public protocol AgoraVideoViewerDelegate: AnyObject {
     /// - Parameters:
     ///   - alert: Alert to be displayed
     ///   - animated: Whether the presentation should be animated or not
-    func presentAlert(alert: UIAlertController, animated: Bool)
+    func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?)
     /// An array of any additional buttons to be displayed alongside camera, and microphone buttons
     func extraButtons() -> [UIButton]
     #elseif os(macOS)
@@ -76,8 +76,12 @@ public extension AgoraVideoViewerDelegate {
     func tokenWillExpire(_ engine: AgoraRtcEngineKit, tokenPrivilegeWillExpire token: String) {}
     func tokenDidExpire(_ engine: AgoraRtcEngineKit) {}
     #if os(iOS)
-    func presentAlert(alert: UIAlertController, animated: Bool) {
+    func presentAlert(alert: UIAlertController, animated: Bool, viewer: UIView?) {
         if let viewCont = self as? UIViewController {
+            if let presenter = alert.popoverPresentationController, let viewer = viewer {
+                presenter.sourceView = viewer;
+                presenter.sourceRect = viewer.bounds;
+            }
             viewCont.present(alert, animated: animated)
         }
     }

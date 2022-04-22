@@ -259,7 +259,9 @@ extension AgoraVideoViewer {
                 ) { result in
                     switch result {
                     case .success(let token):
-                        self.join(channel: channel, with: token, as: role, uid: uid)
+                        DispatchQueue.main.async {
+                            self.join(channel: channel, with: token, as: role, uid: uid)
+                        }
                     case .failure(let err):
                         AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
                     }
@@ -279,10 +281,13 @@ extension AgoraVideoViewer {
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as.
     ///                   Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
+    /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
+    ///            that means it has continued on another thread, or you area already in the channel.
+    @discardableResult
     open func join(
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
-    ) {
+    ) -> Int32? {
         if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
@@ -290,11 +295,11 @@ extension AgoraVideoViewer {
                 DispatchQueue.main.async {
                     self.join(channel: channel, with: token, as: role, uid: uid)
                 }
-            }) { return }
+            }) { return nil }
         }
         if self.connectionData.channel != nil {
             self.handleAlreadyInChannel(channel: channel, with: token, as: role, uid: uid)
-            return
+            return nil
         }
         self.userRole = role
         if let uid = uid { self.userID = uid }
@@ -304,7 +309,7 @@ extension AgoraVideoViewer {
         self.connectionData.channel = channel
         if !self.agoraSettings.cameraEnabled { self.agkit.enableLocalVideo(false) }
         if !self.agoraSettings.micEnabled { self.agkit.enableLocalAudio(false) }
-        self.agkit.joinChannel(
+        return self.agkit.joinChannel(
             byToken: token,
             channelId: channel,
             info: nil, uid: self.userID
