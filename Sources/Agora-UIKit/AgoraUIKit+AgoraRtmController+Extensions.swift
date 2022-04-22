@@ -18,7 +18,7 @@ extension AgoraVideoViewer {
         /// ID used in the RTM connection
         var rtmId: String
         /// ID used in the RTC (Video/Audio) connection
-        var rtcId: UInt?
+        var rtcId: Int?
         /// Username to be displayed for remote users
         var username: String?
         /// Role of the user (broadcaster or audience)
@@ -36,6 +36,12 @@ extension AgoraVideoViewer {
             agora: \n\(agora.prettyPrint())
             uikit: \n\(uikit.prettyPrint())
             """
+        }
+        var iOSUInt: UInt? {
+            if let rtcId = rtcId {
+                return UInt(UInt32(bitPattern: Int32(rtcId)))
+            }
+            return nil
         }
     }
 
@@ -107,7 +113,7 @@ extension AgoraVideoViewer: RtmControllerDelegate {
                 .verbose, message: "Received user data: \n\(user.prettyPrint())"
             )
             self.rtmLookup[user.rtmId] = user
-            if let rtcId = user.rtcId {
+            if let rtcId = user.iOSUInt {
                 self.rtcLookup[rtcId] = user.rtmId
                 self.videoLookup[rtcId]?
                     .showOptions = self.agoraSettings.showRemoteRequestOptions
@@ -160,9 +166,10 @@ extension AgoraVideoViewer: RtmControllerDelegate {
         self.sendPersonalData(to: member.userId)
     }
     public func personalData() -> some Codable {
-        UserData(
+        let safeRtcId = Int32(self.rtcId ?? 0)
+        return UserData(
             rtmId: self.rtmId,
-            rtcId: self.rtcId == 0 ? nil : self.rtcId,
+            rtcId: safeRtcId == 0 ? nil : Int(safeRtcId),
             username: self.connectionData?.username,
             role: self.userRole.rawValue
         )

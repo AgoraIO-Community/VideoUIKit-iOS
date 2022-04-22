@@ -81,9 +81,5 @@ extension ViewController: AgoraVideoViewerDelegate {
         sender.isSelected.toggle()
         sender.backgroundColor = sender.isSelected ? .systemYellow : .systemGray
     }
-
-    func presentAlert(alert: UIAlertController, animated: Bool) {
-        self.present(alert, animated: animated)
-    }
 }
 

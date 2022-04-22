@@ -36,7 +36,7 @@ extension AgoraVideoViewer {
         /// Type of message being sent
         public var messageType: String? = "MuteRequest"
         /// RTC ID that the request is intended for
-        public var rtcId: UInt
+        public var rtcId: Int
         /// Whether the request is to mute or unmute a device
         public var mute: Bool
         /// Device to be muted or unmuted
@@ -51,13 +51,16 @@ extension AgoraVideoViewer {
         ///   - device: Device to be muted or unmuted
         ///   - isForceful: Whether this is a request or a forceful change
         public init(
-            rtcId: UInt, mute: Bool,
+            rtcId: Int, mute: Bool,
             device: MutingDevices, isForceful: Bool
         ) {
             self.rtcId = rtcId
             self.mute = mute
             self.device = device.rawValue
             self.isForceful = isForceful
+        }
+        var iOSUInt: UInt? {
+            return UInt(UInt32(bitPattern: Int32(rtcId)))
         }
     }
 
@@ -91,7 +94,9 @@ extension AgoraVideoViewer {
             AgoraVideoViewer.agoraPrint(.error, message: "Invalid mute request")
             return
         }
-        let muteReq = MuteRequest(rtcId: rtcId, mute: mute, device: device, isForceful: isForceful)
+        // This is to make sure the user ID is understood across platforms.
+        let safeRtcId = Int(Int32(bitPattern: UInt32(rtcId)))
+        let muteReq = MuteRequest(rtcId: safeRtcId, mute: mute, device: device, isForceful: isForceful)
         self.rtmController?.sendCodable(message: muteReq, user: rtcId) { sendStatus in
             if sendStatus == .ok {
                 AgoraVideoViewer.agoraPrint(.verbose, message: "message was sent!")
@@ -136,9 +141,7 @@ extension AgoraVideoViewer {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data
     open func handleMuteRequest(muteReq: MuteRequest) {
-        guard let device = MutingDevices(rawValue: muteReq.device) else {
-            return
-        }
+        guard let device = MutingDevices(rawValue: muteReq.device) else { return }
         if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
         if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }
 
@@ -163,11 +166,11 @@ extension AgoraVideoViewer {
         #if os(iOS)
         let alert = UIAlertController(
             title: alertTitle, message: nil,
-            preferredStyle: .actionSheet
+            preferredStyle: UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
         )
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: setDevice))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.presentAlert(alert: alert, animated: true)
+        self.presentAlert(alert: alert, animated: true, viewer: self)
         #elseif os(macOS)
         let alert = NSAlert()
         alert.addButton(withTitle: "Confirm")
