@@ -8,7 +8,6 @@
 import AgoraRtcKit
 
 extension AgoraVideoViewer: AgoraRtcEngineDelegate {
-
     /// Called when the user role successfully changes
     /// - Parameters:
     ///   - engine: AgoraRtcEngine of this session.
@@ -184,6 +183,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         self.setupRtmController(joining: channel)
         #endif
         self.delegate?.joinedChannel(channel: channel)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didJoinChannel: channel, withUid: uid, elapsed: elapsed)
     }
 
     /**

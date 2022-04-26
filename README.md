@@ -4,8 +4,8 @@
     <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
     <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/></br>
     <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
-    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=SwiftPM&logo=swift"/>
-    <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=CocoaPods"/>
+    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=Stable%20Release&logo=swift"/>
+    <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=Pre-release"/>
     <a href="https://www.agora.io/en/join-slack/">
         <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
     </a>
@@ -15,7 +15,8 @@ Instantly integrate Agora in your own application or prototype using iOS or macO
 <p align="center">
   <img src="https://github.com/AgoraIO-Community/iOS-UIKit/raw/main/media/agora-uikit-banner.png"/>
 </p>
-[More information available on this repo\'s Wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki)
+
+[More information available on this repo's Wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki)
 
 [Click here for full documentation](https://agoraio-community.github.io/iOS-UIKit/)
 
