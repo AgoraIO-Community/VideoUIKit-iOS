@@ -312,14 +312,7 @@ extension AgoraVideoViewer {
             byToken: token,
             channelId: channel,
             info: nil, uid: self.userID
-        ) { [weak self] _, uid, _ in
-            self?.userID = uid
-            if self?.userRole == .broadcaster { self?.addLocalVideo() }
-            self?.delegate?.joinedChannel(channel: channel)
-            #if canImport(AgoraRtmControl)
-            self?.setupRtmController(joining: channel)
-            #endif
-        }
+        )
     }
 
     #if canImport(AgoraRtmControl)
