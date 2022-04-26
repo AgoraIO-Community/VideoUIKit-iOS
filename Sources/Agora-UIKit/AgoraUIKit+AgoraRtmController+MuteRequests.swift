@@ -60,7 +60,7 @@ extension AgoraVideoViewer {
             self.isForceful = isForceful
         }
         var iOSUInt: UInt? {
-            return UInt(UInt32(bitPattern: Int32(rtcId)))
+            return AgoraUIKit.intToUInt(self.rtcId)
         }
     }
 
@@ -95,7 +95,7 @@ extension AgoraVideoViewer {
             return
         }
         // This is to make sure the user ID is understood across platforms.
-        let safeRtcId = Int(Int32(bitPattern: UInt32(rtcId)))
+        let safeRtcId = AgoraUIKit.uintToInt(rtcId)
         let muteReq = MuteRequest(rtcId: safeRtcId, mute: mute, device: device, isForceful: isForceful)
         self.rtmController?.sendCodable(message: muteReq, user: rtcId) { sendStatus in
             if sendStatus == .ok {

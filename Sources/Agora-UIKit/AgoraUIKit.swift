@@ -22,7 +22,7 @@ public struct AgoraUIKit: Codable {
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     fileprivate(set) var framework: String
     /// Version of UIKit being used
-    static let version = "1.8.1"
+    static let version = "1.8.2"
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     static let framework = "native"
     #if os(iOS)
@@ -47,5 +47,10 @@ public struct AgoraUIKit: Codable {
             framework: \(framework)
         """
     }
-
+    public static func uintToInt(_ uint: UInt) -> Int {
+        Int(Int32(bitPattern: UInt32(uint)))
+    }
+    public static func intToUInt(_ userInt: Int) -> UInt {
+        UInt(UInt32(bitPattern: Int32(userInt)))
+    }
 }

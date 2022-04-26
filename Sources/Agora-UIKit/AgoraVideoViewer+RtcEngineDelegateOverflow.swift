@@ -226,10 +226,6 @@ extension AgoraVideoViewer {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didApiCallExecute: error, api: api, result: result)
     }
 
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didJoinChannel: channel, withUid: uid, elapsed: elapsed)
-    }
-
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didRejoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRejoinChannel: channel, withUid: uid, elapsed: elapsed)
     }
@@ -307,22 +303,22 @@ extension AgoraVideoViewer {
     public func rtcEngine(_ engine: AgoraRtcEngineKit, didRequest info: AgoraRtcAudioFileInfo, error: AgoraAudioFileInfoError) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRequest: info, error: error)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccStats currentStats: AgoraWlAccStats, averageStats: AgoraWlAccStats) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccStats currentStats: AgoraWlAccStats, averageStats: AgoraWlAccStats) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, wlAccStats: currentStats, averageStats: averageStats)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccMessage reason: AgoraWlAccReason, action: AgoraWlAccAction, wlAccMsg: String) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, wlAccMessage reason: AgoraWlAccReason, action: AgoraWlAccAction, wlAccMsg: String) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, wlAccMessage: reason, action: action, wlAccMsg: wlAccMsg)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioDeviceTestVolume volumeType: AgoraAudioDeviceTestVolumeType, volume: Int) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, reportAudioDeviceTestVolume volumeType: AgoraAudioDeviceTestVolumeType, volume: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, reportAudioDeviceTestVolume: volumeType, volume: volume)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, didClientRoleChangeFailed reason: AgoraClientRoleChangeFailedReason, currentRole: AgoraClientRole) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didClientRoleChangeFailed reason: AgoraClientRoleChangeFailedReason, currentRole: AgoraClientRole) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChangeFailed: reason, currentRole: currentRole)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, snapshotTaken channel: String, uid: UInt, filePath: String, width: Int, height: Int, errCode: Int) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, snapshotTaken channel: String, uid: UInt, filePath: String, width: Int, height: Int, errCode: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, snapshotTaken: channel, uid: uid, filePath: filePath, width: width, height: height, errCode: errCode)
     }
-    public func rtcEngine(_ engine: AgoraRtcEngineKit, didProxyConnected channel: String, withUid uid: UInt, proxyType: AgoraProxyType, localProxyIp: String, elapsed: Int) {
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didProxyConnected channel: String, withUid uid: UInt, proxyType: AgoraProxyType, localProxyIp: String, elapsed: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didProxyConnected: channel, withUid: uid, proxyType: proxyType, localProxyIp: localProxyIp, elapsed: elapsed)
     }
 }
