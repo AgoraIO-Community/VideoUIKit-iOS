@@ -39,7 +39,7 @@ extension AgoraVideoViewer {
         }
         var iOSUInt: UInt? {
             if let rtcId = rtcId {
-                return UInt(UInt32(bitPattern: Int32(rtcId)))
+                return AgoraUIKit.intToUInt(rtcId)
             }
             return nil
         }
@@ -166,7 +166,7 @@ extension AgoraVideoViewer: RtmControllerDelegate {
         self.sendPersonalData(to: member.userId)
     }
     public func personalData() -> some Codable {
-        let safeRtcId = Int32(self.rtcId ?? 0)
+        let safeRtcId = AgoraUIKit.uintToInt(self.rtcId ?? 0)
         return UserData(
             rtmId: self.rtmId,
             rtcId: safeRtcId == 0 ? nil : Int(safeRtcId),

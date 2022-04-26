@@ -8,7 +8,6 @@
 import AgoraRtcKit
 
 extension AgoraVideoViewer: AgoraRtcEngineDelegate {
-
     /// Called when the user role successfully changes
     /// - Parameters:
     ///   - engine: AgoraRtcEngine of this session.
@@ -163,6 +162,24 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
             engine, remoteVideoStateChangedOfUid: uid, state: state,
             reason: reason, elapsed: elapsed
         )
+    }
+
+    /**
+     Occurs when the local user successfully joins a specified channel.
+     - Parameters:
+        - engine: AgoraRtcEngineKit object
+        - channel: The channel name.
+        - uid: The user ID.
+        - elapsed: The time elapsed (ms) from the local user calling `joinChannelByToken` until this event occurs.
+     */
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didJoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
+        self.userID = uid
+        if self.userRole == .broadcaster { self.addLocalVideo() }
+        #if canImport(AgoraRtmControl)
+        self.setupRtmController(joining: channel)
+        #endif
+        self.delegate?.joinedChannel(channel: channel)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didJoinChannel: channel, withUid: uid, elapsed: elapsed)
     }
 
     /**
