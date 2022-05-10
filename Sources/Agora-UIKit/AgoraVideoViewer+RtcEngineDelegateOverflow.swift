@@ -178,10 +178,6 @@ extension AgoraVideoViewer {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, streamPublishedWithUrl: url, errorCode: errorCode)
     }
 
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, rtmpStreamingChangedToState url: String, state: AgoraRtmpStreamPublishState, errCode: AgoraRtmpStreamPublishError) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, rtmpStreamingChangedToState: url, state: state, errCode: errCode)
-    }
-
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didApiCallExecute error: Int, api: String, result: String) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didApiCallExecute: error, api: api, result: result)
     }
@@ -208,10 +204,6 @@ extension AgoraVideoViewer {
 
     open func rtcEngine(_ engine: AgoraRtcEngineKit, firstRemoteVideoFrameOfUid uid: UInt, size: CGSize, elapsed: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstRemoteVideoFrameOfUid: uid, size: size, elapsed: elapsed)
-    }
-
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, firstRemoteVideoDecodedOfUid uid: UInt, size: CGSize, elapsed: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstRemoteVideoDecodedOfUid: uid, size: size, elapsed: elapsed)
     }
 
     open func rtcEngine(_ engine: AgoraRtcEngineKit, audioTransportStatsOfUid uid: UInt, delay: UInt, lost: UInt, rxKBitRate: UInt) {
@@ -267,5 +259,35 @@ extension AgoraVideoViewer {
 
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurStreamMessageErrorFromUid uid: UInt, streamId: Int, error: Int, missed: Int, cached: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOccurStreamMessageErrorFromUid: uid, streamId: streamId, error: error, missed: missed, cached: cached)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, contentInspectResult result: AgoraContentInspectResult) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, contentInspectResult: result)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, remoteUserStateChangedOfUid uid: UInt, state: UInt) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, remoteUserStateChangedOfUid: uid, state: state)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, rtmpStreamingEventWithUrl url: String, eventCode: AgoraRtmpStreamingEvent) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, rtmpStreamingEventWithUrl: url, eventCode: eventCode)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didClientRoleChangeFailed reason: AgoraClientRoleChangeFailedReason, currentRole: AgoraClientRole) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChangeFailed: reason, currentRole: currentRole)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didRhythmPlayerStateChanged state: AgoraRhythmPlayerState, errorCode: AgoraRhythmPlayerError) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRhythmPlayerStateChanged: state, errorCode: errorCode)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, uploadLogResultRequestId requestId: String, success: Bool, reason: AgoraUploadErrorReason) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, uploadLogResultRequestId: requestId, success: success, reason: reason)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, firstRemoteAudioFrameDecodedOfUid uid: UInt, elapsed: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, firstRemoteAudioFrameDecodedOfUid: uid, elapsed: elapsed)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, rtmpStreamingChangedToState url: String, state: AgoraRtmpStreamingState, errCode: AgoraRtmpStreamingErrorCode) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, rtmpStreamingChangedToState: url, state: state, errCode: errCode)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, facePositionDidChangeWidth width: Int32, previewHeight height: Int32, faces: [AgoraFacePositionInfo]?) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, facePositionDidChangeWidth: width, previewHeight: height, faces: faces)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, snapshotTaken channel: String, uid: UInt, filePath: String, width: Int, height: Int, errCode: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, snapshotTaken: channel, uid: uid, filePath: filePath, width: width, height: height, errCode: errCode)
     }
 }

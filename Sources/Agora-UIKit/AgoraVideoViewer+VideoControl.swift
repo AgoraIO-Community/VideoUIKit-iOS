@@ -24,8 +24,8 @@ extension AgoraVideoViewer {
         self.agkit.setExternalVideoSource(
             agoraSettings.externalVideoSettings.enabled,
             useTexture: agoraSettings.externalVideoSettings.texture,
-            encodedFrame: agoraSettings.externalVideoSettings.encoded
-//            sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
+//            encodedFrame: agoraSettings.externalVideoSettings.encoded
+            sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
         )
         if self.agoraSettings.externalAudioSettings.enabled {
             let audioSource = self.agoraSettings.externalAudioSettings
