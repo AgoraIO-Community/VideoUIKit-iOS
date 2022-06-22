@@ -323,6 +323,8 @@ extension AgoraVideoViewer {
         }
     }
 
+    /// Initialise RTM within Agora UIKit.
+    /// - Parameter callback: Return the rtm controller as a callback parameter.
     open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
         if !self.agoraSettings.rtmEnabled { return }
         if self.rtmController == nil {
