@@ -72,7 +72,9 @@ extension AgoraVideoViewer {
         get { self.connectionData }
         set { self.connectionData = newValue }
     }
+    /// AgoraRtcEngineKit being used by this AgoraVideoViewer.
     public var rtcEngine: AgoraRtcEngineKit { self.agkit }
+    /// Property used to access all the RTC connections to other broadcasters in an RTC channel.
     public var videoLookup: [UInt: AgoraSingleVideoView] { self.userVideoLookup }
 
 }
@@ -165,6 +167,9 @@ extension AgoraVideoViewer: RtmControllerDelegate {
     public func channel(_ channel: AgoraRtmChannel, memberJoined member: AgoraRtmMember) {
         self.sendPersonalData(to: member.userId)
     }
+
+    /// The local user's ``UserData`` object.
+    /// - Returns: ``UserData`` object of the local user.
     public func personalData() -> some Codable {
         let safeRtcId = AgoraUIKit.uintToInt(self.rtcId ?? 0)
         return UserData(

@@ -15,7 +15,7 @@ import AppKit
 public class AgoraCollectionViewer: MPCollectionView {
 
     static let cellSpacing: CGFloat = 5
-    static var flowLayout: MPCollectionViewFlowLayout {
+    public static var flowLayout: MPCollectionViewFlowLayout {
         let flowLayout = MPCollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: 100, height: 100)
         flowLayout.scrollDirection = .horizontal
