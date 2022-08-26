@@ -18,7 +18,7 @@ Instantly integrate Agora in your own application or prototype using iOS or macO
 
 [More information available on this repo's Wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki)
 
-[Click here for full documentation](https://agoraio-community.github.io/VideoUIKit-iOS/)
+[Click here for full documentation](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/)
 
 ## Requirements
 
@@ -66,7 +66,7 @@ agoraView.join(channel: "test", as: .broadcaster)
 
 ## Documentation
 
-For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/VideoUIKit-iOS/).
+For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/).
 
 ## Error Handling and Troubleshooting
 
@@ -75,7 +75,7 @@ For tips on how to overcome some common errors, [see the wiki page](https://gith
 ## Roadmap
 
 - [x] Muting/Unmuting a remote member
-- [x] Usernames ([Settable value, not currently rendered](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit_ios/agoraconnectiondata/username))
+- [x] Usernames ([Settable value, not currently rendered](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/agoraconnectiondata/username))
 - [ ] Promoting an audience member to a broadcaster role.
 - [ ] Layout for Voice Calls
 - [ ] Cloud recording
