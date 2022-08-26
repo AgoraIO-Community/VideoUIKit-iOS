@@ -1,6 +1,6 @@
 //
 //  AgoraSingleVideoView+RtmDelegate.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 05/08/2021.
 //

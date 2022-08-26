@@ -1,6 +1,6 @@
 //
 //  AgoraCollectionViewer.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 26/11/2020.
 //
@@ -221,7 +221,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
 
     internal func refreshCollectionData() {
         switch self.style {
-        case .floating, .collection:
+        case .pinned, .collection:
             if self.agoraSettings.showSelf {
                 self.collectionViewVideos = Array(self.userVideoLookup.values)
             } else {
@@ -230,7 +230,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         default:
             self.collectionViewVideos.removeAll()
         }
-        self.floatingVideoHolder.reloadData()
+        self.streamerCollectionView.reloadData()
     }
 
     /// Both AppKit and UIKit delegate methods call this function, to have it all in one place
@@ -248,7 +248,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         }
         var myActiveSpeaker: UInt?
         switch self.style {
-        case .floating:
+        case .pinned:
             myActiveSpeaker = self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID
         default:
             break

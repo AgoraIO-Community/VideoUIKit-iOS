@@ -1,6 +1,6 @@
 //
 //  MPButton+Extensions.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //

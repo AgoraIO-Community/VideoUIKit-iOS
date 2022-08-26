@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //
@@ -128,8 +128,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     public enum Style: Equatable {
         /// grid lays out all the videos in an NxN grid, regardless of how many there are.
         case grid
-        /// floating keeps track of the active speaker, displays them larger and the others in a collection view.
-        case floating
+        /// Pinned style keeps track of the active speaker, displays them larger and the others in a collection view.
+        case pinned
+        /// Legacy, will remove in future versions
+        public static let floating = Style.pinned
         /// collection only shows the collectionview, no other UI is visible, except video controls
         case collection
         /// Method for constructing a custom layout.
@@ -137,7 +139,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
 
         public static func == (lhs: AgoraVideoViewer.Style, rhs: AgoraVideoViewer.Style) -> Bool {
             switch (lhs, rhs) {
-            case (.grid, .grid), (.floating, .floating): return true
+            case (.grid, .grid), (.pinned, .pinned): return true
             default: return false
             }
         }
@@ -146,7 +148,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// The most recently active speaker in the session. This will only ever be set to remote users, not the local user.
     public internal(set) var activeSpeaker: UInt? { didSet { self.reorganiseVideos() } }
 
-    /// This user will be the main focus when using `.floating` style.
+    /// This user will be the main focus when using `.pinned` style.
     /// Assigned by clicking a user in the collection view.
     /// Can be set to local user.
     public var overrideActiveSpeaker: UInt? {
@@ -183,13 +185,13 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
     #endif
 
-    lazy internal var floatingVideoHolder: MPCollectionView = {
+    lazy internal var streamerCollectionView: MPCollectionView = {
         let collView = AgoraCollectionViewer()
         self.addSubview(collView)
         collView.delegate = self
         collView.dataSource = self
 
-        let floatPos = self.agoraSettings.floatPosition
+        let floatPos = self.agoraSettings.collectionPosition
         let smallerDim = 100 + 2 * AgoraCollectionViewer.cellSpacing
         switch floatPos {
         case .top, .bottom:
@@ -271,7 +273,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         let engine = AgoraRtcEngineKit.sharedEngine(
             withAppId: connectionData.appId, delegate: self
         )
-        engine.enableAudioVolumeIndication(1000, smooth: 3) // , reportVad: self.agoraSettings.reportLocalVolume)
+        engine.enableAudioVolumeIndication(1000, smooth: 3, reportVad: self.agoraSettings.reportLocalVolume)
         engine.setChannelProfile(.liveBroadcasting)
         if self.agoraSettings.usingDualStream {
             engine.enableDualStreamMode(true)
@@ -284,7 +286,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }()
 
     /// Style and organisation to be applied to all the videos in this AgoraVideoViewer.
-    public var style: AgoraVideoViewer.Style = .floating {
+    public var style: AgoraVideoViewer.Style = .pinned {
         didSet {
             if oldValue != self.style {
                 switch self.style {
@@ -303,7 +305,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
     ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
     public init(
-        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .floating,
+        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .pinned,
         agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
     ) {
         self.agoraSettings = agoraSettings
@@ -323,12 +325,12 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
             }
         }
     }
-    /// Used by storyboard to set the AgoraVideoViewer style. Valid values are "floating", "grid", "collection"
+    /// Used by storyboard to set the AgoraVideoViewer style. Valid values are "activeSpeaker", "grid", "collection"
     @IBInspectable var styleString: String = "" {
         didSet {
             switch self.styleString {
-            case "floating":
-                self.style = .floating
+            case "pinned":
+                self.style = .pinned
             case "grid":
                 self.style = .grid
             case "collection":
@@ -359,7 +361,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     internal var userVideosForGrid: [UInt: AgoraSingleVideoView] {
-        if self.style == .floating {
+        if self.style == .pinned {
             if self.overrideActiveSpeaker == nil, self.activeSpeaker == nil, !self.agoraSettings.showSelf {
                 return [:]
             }
@@ -373,7 +375,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         }
     }
 
-    /// Video views to be displayed in the floating collection view.
+    /// Video views to be displayed in the pinned collection view.
     var collectionViewVideos: [AgoraSingleVideoView] = []
 
     /// Container for the buttons (such as mute, flip camera etc.)

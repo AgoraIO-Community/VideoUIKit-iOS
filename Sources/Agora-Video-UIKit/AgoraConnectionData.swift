@@ -19,12 +19,6 @@ public struct AgoraConnectionData {
     /// Token to be used to connect to a channel, can be nil.
     public var rtcToken: String?
 
-    @available(*, deprecated, renamed: "rtcToken")
-    public var appToken: String? {
-        get { self.rtcToken }
-        set { self.rtcToken = newValue }
-    }
-
     /// Token to be used to connect to a RTM channel, can be nil.
     public var rtmToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
@@ -100,14 +94,6 @@ public struct AgoraConnectionData {
         return MD5(vendorId)
     }
     #endif
-
-    @available(*, deprecated, message: "Use initialiser with rtcToken parameter instead")
-    public init(
-        appId: String, appToken: String? = nil,
-        idLogic: IDLogic = .vendorIdEncodedRtc
-    ) {
-        self.init(appId: appId, rtcToken: appToken, idLogic: idLogic)
-    }
 
     /// Create a new AgoraConnectionData object
     /// - Parameters:

@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer+VideoControl.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //
@@ -24,8 +24,8 @@ extension AgoraVideoViewer {
         self.agkit.setExternalVideoSource(
             agoraSettings.externalVideoSettings.enabled,
             useTexture: agoraSettings.externalVideoSettings.texture,
-            encodedFrame: agoraSettings.externalVideoSettings.encoded
-//            sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
+//            encodedFrame: agoraSettings.externalVideoSettings.encoded
+            sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
         )
         if self.agoraSettings.externalAudioSettings.enabled {
             let audioSource = self.agoraSettings.externalAudioSettings
@@ -173,8 +173,8 @@ extension AgoraVideoViewer {
         parameters.frameRate = 15
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
-        self.agkit.startScreenCapture(byDisplayId: displayId, rectangle: rectangle, parameters: parameters)
-        self.agkit.setScreenCaptureContentHint(contentHint)
+        self.agkit.startScreenCapture(byDisplayId: UInt32(displayId), regionRect: rectangle, captureParams: parameters)
+//        self.agkit.setScreenCaptureContentHint(contentHint)
         #endif
     }
 
@@ -234,8 +234,7 @@ extension AgoraVideoViewer {
         // Swap the userRole
         self.userRole = role
 
-        // Disable the button, it is re-enabled once the change of role is successful
-        // as dictated by the delegate method
+        // Disable the button, it is re-enabled once the change of role is successful as dictated by the delegate method
         DispatchQueue.main.async {
             // Need to point to the main thread due to the permission popups
             self.agkit.setClientRole(self.userRole)
@@ -329,7 +328,7 @@ extension AgoraVideoViewer {
         }
     }
 
-    /// Initialise RTM within Agora UIKit.
+    /// Initialise RTM within Agora Video Starter Kit.
     /// - Parameter callback: Return the rtm controller as a callback parameter.
     open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
         if !self.agoraSettings.rtmEnabled { return }

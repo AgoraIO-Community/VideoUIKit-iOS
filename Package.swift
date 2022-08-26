@@ -8,14 +8,13 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [
         .library(name: "AgoraUIKit", targets: ["AgoraUIKit", "AgoraRtmControl"]),
-        .library(name: "AgoraUIKitBasic", targets: ["AgoraUIKit"]),
         .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"])
     ],
     dependencies: [
         .package(
             name: "AgoraRtcKit",
             url: "https://github.com/AgoraIO/AgoraRtcEngine_iOS",
-           .upToNextMajor(from: .init(4, 0, 0, prereleaseIdentifiers: ["-beta"], buildMetadataIdentifiers: []))
+           .upToNextMajor(from: .init(4, 0, 0, prereleaseIdentifiers: ["-rc"], buildMetadataIdentifiers: []))
         ),
         .package(
             name: "AgoraRtmKit",
@@ -26,9 +25,8 @@ let package = Package(
     targets: [
         .target(
             name: "AgoraUIKit",
-            dependencies: ["AgoraRtcKit", "AgoraRtmKit"],
-//            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmKit"],
-            path: "Sources/Agora-UIKit"
+            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmControl"],
+            path: "Sources/Agora-Video-UIKit"
         ),
         .target(
             name: "AgoraRtmControl",

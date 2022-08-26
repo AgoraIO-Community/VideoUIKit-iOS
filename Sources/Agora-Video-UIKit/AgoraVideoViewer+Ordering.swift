@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer+Ordering.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //
@@ -85,12 +85,12 @@ extension AgoraVideoViewer {
             return
         }
         self.refreshCollectionData()
-        self.floatingVideoHolder.isHidden = self.collectionViewVideos.isEmpty
+        self.streamerCollectionView.isHidden = self.collectionViewVideos.isEmpty
         self.organiseGrid()
 
         switch self.style {
-        case .grid, .floating, .collection:
-            // these two cases are taken care of from floatingVideoHolder and organiseGrid above
+        case .grid, .pinned, .collection:
+            // these two cases are taken care of from streamerCollectionView and organiseGrid above
             break
         case .custom(let orgCustom):
             // no custom setup yet
@@ -170,13 +170,13 @@ extension AgoraVideoViewer {
     }
 
     fileprivate func setVideoHolderPosition() {
-        switch self.agoraSettings.floatPosition {
+        switch self.agoraSettings.collectionPosition {
         case .top, .bottom:
             backgroundVideoHolder.frame.size = CGSize(
                 width: self.bounds.width,
                 height: self.bounds.height - (100 + 2 * AgoraCollectionViewer.cellSpacing)
             )
-            if self.agoraSettings.floatPosition == .top {
+            if self.agoraSettings.collectionPosition == .top {
                 #if os(iOS)
                 backgroundVideoHolder.frame.origin = CGPoint(x: 0, y: 100 + 2 * AgoraCollectionViewer.cellSpacing)
                 #elseif os(macOS)
@@ -195,7 +195,7 @@ extension AgoraVideoViewer {
                 width: self.bounds.width - (100 + 2 * AgoraCollectionViewer.cellSpacing),
                 height: self.bounds.height
             )
-            if self.agoraSettings.floatPosition == .left {
+            if self.agoraSettings.collectionPosition == .left {
                 backgroundVideoHolder.frame.origin = CGPoint(
                     x: 100 + 2 * AgoraCollectionViewer.cellSpacing, y: 0
                 )
@@ -209,7 +209,7 @@ extension AgoraVideoViewer {
         if self.userVideosForGrid.isEmpty {
             return
         }
-        if floatingVideoHolder.isHidden {
+        if streamerCollectionView.isHidden {
             self.backgroundVideoHolder.frame = self.bounds
         } else {
             setVideoHolderPosition()

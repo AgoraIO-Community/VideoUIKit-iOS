@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer+AgoraRtcEngineDelegate.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //
@@ -192,13 +192,13 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
 
      - Parameters:
         - engine: AgoraRtcEngineKit object.
-        - state: The local video state, see AgoraLocalVideoStreamState. When the state is AgoraLocalVideoStreamStateFailed(3), see the `error` parameter for details.
+        - state: The local video state, see AgoraVideoLocalState. When the state is AgoraVideoLocalStateFailed(3), see the `error` parameter for details.
         - error: The detailed error information of the local video, see AgoraLocalVideoStreamError.
+        - sourceType: Source type of the orignated video source
      */
-    open func rtcEngine(
-        _ engine: AgoraRtcEngineKit,
-        localVideoStateChangedOf state: AgoraVideoLocalState,
-        error: AgoraLocalVideoStreamError
+    public func rtcEngine(
+        _ engine: AgoraRtcEngineKit, localVideoStateChangedOf state: AgoraVideoLocalState,
+        error: AgoraLocalVideoStreamError, sourceType: AgoraVideoSourceType
     ) {
         switch state {
         case .capturing, .stopped:
@@ -206,7 +206,9 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         default:
             break
         }
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, localVideoStateChangedOf: state, error: error)
+        self.agoraSettings.rtcDelegate?.rtcEngine?(
+            engine, localVideoStateChangedOf: state, error: error, sourceType: sourceType
+        )
     }
 
     /**

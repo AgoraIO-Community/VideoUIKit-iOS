@@ -1,6 +1,6 @@
 //
 //  AgoraViewer.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 24/12/2020.
 //
@@ -44,7 +44,7 @@ public struct AgoraViewer: UIViewRepresentable {
     ///   - agoraSettings: Settings for this viewer. This can include style customisations and information of where to get new tokens from.
     ///   - delegate: Delegate for the AgoraVideoViewer, used for some important callback methods.
     public init(
-        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .floating,
+        connectionData: AgoraConnectionData, style: AgoraVideoViewer.Style = .pinned,
         agoraSettings: AgoraSettings = AgoraSettings(), delegate: AgoraVideoViewerDelegate? = nil
     ) {
         self.viewer = AgoraVideoViewer(

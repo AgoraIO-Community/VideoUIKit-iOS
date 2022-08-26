@@ -1,6 +1,6 @@
 //
 //  MPButton+Extensions.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 25/11/2020.
 //
@@ -55,7 +55,7 @@ public struct AgoraSettings {
     }
     /// Position, top, left, bottom or right.
     public enum Position {
-        /// At the top of the view. Not recommended for floating layout.
+        /// At the top of the view.
         case top
         /// At the right of the view
         case right
@@ -71,8 +71,8 @@ public struct AgoraSettings {
     public var enabledButtons: BuiltinButtons = .all
     /// Where the buttons such as camera enable/disable should be positioned within the view.
     public var buttonPosition: Position = .bottom
-    /// Where the floating collection view of video members be positioned within the view.
-    public var floatPosition: Position = .top
+    /// Where the collection view of video members is to be positioned within the view.
+    public var collectionPosition: Position = .top
     /// Agora's video encoder configuration.
     public var videoConfiguration: AgoraVideoEncoderConfiguration = AgoraVideoEncoderConfiguration()
 
@@ -113,13 +113,6 @@ public struct AgoraSettings {
 
     /// External video source settings parameters
     public var externalVideoSettings: ExternalVideoSettings = .allFalse
-
-    /// External video source settings parameters
-    @available(*, deprecated, renamed: "externalVideoSettings")
-    public var externalVideoSource: ExternalVideoSettings {
-        get { self.externalVideoSettings }
-        set { self.externalVideoSettings = newValue }
-    }
 
     /// Whether to show your own camera feed
     public var showSelf: Bool = true

@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer+Utilities.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 27/11/2020.
 //

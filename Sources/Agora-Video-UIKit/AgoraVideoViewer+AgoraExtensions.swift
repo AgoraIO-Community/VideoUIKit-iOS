@@ -1,6 +1,6 @@
 //
 //  AgoraVideoViewer.swift
-//  Agora-UIKit
+//  Agora-Video-UIKit
 //
 //  Created by Max Cobb on 09/09/2021.
 //
