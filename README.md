@@ -1,10 +1,10 @@
 # Agora UIKit for iOS and macOS
 
 <p align="center">
-    <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/Pod%20Lint/badge.svg"/>
-    <img src="https://github.com/AgoraIO-Community/iOS-UIKit/workflows/swiftlint/badge.svg"/></br>
+    <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/Pod%20Lint/badge.svg"/>
+    <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/swiftlint/badge.svg"/></br>
     <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
-    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/iOS-UIKit?color=orange&label=Stable%20Release&logo=swift"/>
+    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/VideoUIKit-iOS?color=orange&label=Stable%20Release&logo=swift"/>
     <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=Pre-release"/>
     <a href="https://www.agora.io/en/join-slack/">
         <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
@@ -13,12 +13,12 @@
 Instantly integrate Agora in your own application or prototype using iOS or macOS.
 
 <p align="center">
-  <img src="https://github.com/AgoraIO-Community/iOS-UIKit/raw/main/media/agora-uikit-banner.png"/>
+  <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/raw/main/media/agora-uikit-banner.png"/>
 </p>
 
-[More information available on this repo's Wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki)
+[More information available on this repo's Wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki)
 
-[Click here for full documentation](https://agoraio-community.github.io/iOS-UIKit/)
+[Click here for full documentation](https://agoraio-community.github.io/VideoUIKit-iOS/)
 
 ## Requirements
 
@@ -35,7 +35,7 @@ Swift Package Manager and CocoaPods are both available offered for installation 
 
 The Pod for this package is called `AgoraUIKit_iOS` and `AgoraUIKit_macOS` for the two available platforms.
 
-See the [Installation wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki/Installation) page for more information on installing the package.
+See the [Installation wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki/Installation) page for more information on installing the package.
 
 ## Usage
 
@@ -62,20 +62,20 @@ Frame your newly created AgoraVideoViewer in the app scene, then join a channel 
 agoraView.join(channel: "test", as: .broadcaster)
 ```
 
-[More examples available on the wiki](https://github.com/AgoraIO-Community/iOS-UIKit/wiki/Examples)
+[More examples available on the wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki/Examples)
 
 ## Documentation
 
-For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/iOS-UIKit/).
+For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/VideoUIKit-iOS/).
 
 ## Error Handling and Troubleshooting
 
-For tips on how to overcome some common errors, [see the wiki page](https://github.com/AgoraIO-Community/iOS-UIKit/wiki/Error-Handling-and-Troubleshooting).
+For tips on how to overcome some common errors, [see the wiki page](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki/Error-Handling-and-Troubleshooting).
 
 ## Roadmap
 
 - [x] Muting/Unmuting a remote member
-- [x] Usernames ([Settable value, not currently rendered](https://agoraio-community.github.io/iOS-UIKit/documentation/agorauikit_ios/agoraconnectiondata/username))
+- [x] Usernames ([Settable value, not currently rendered](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit_ios/agoraconnectiondata/username))
 - [ ] Promoting an audience member to a broadcaster role.
 - [ ] Layout for Voice Calls
 - [ ] Cloud recording
