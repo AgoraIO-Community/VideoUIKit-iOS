@@ -15,11 +15,11 @@ jobs:
 
       - name: Build DocC
         run: |
-          xcodebuild docbuild -scheme AgoraVideoStarterKit -derivedDataPath 'docc' -destination 'generic/platform=iOS';
+          xcodebuild docbuild -scheme AgoraUIKit -derivedDataPath 'docc' -destination 'generic/platform=iOS';
           $(xcrun --find docc) process-archive \
-            transform-for-static-hosting docc/Build/Products/Debug-iphoneos/AgoraVideoStarterKit.doccarchive \
+            transform-for-static-hosting docc/Build/Products/Debug-iphoneos/AgoraUIKit.doccarchive \
             --output-path docs \
-            --hosting-base-path VideoStarterKit-iOS
+            --hosting-base-path VideoUIKit-iOS
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
