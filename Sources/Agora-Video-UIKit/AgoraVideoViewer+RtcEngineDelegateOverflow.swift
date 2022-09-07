@@ -145,7 +145,9 @@ extension AgoraVideoViewer {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRejoinChannel: channel, withUid: uid, elapsed: elapsed)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, videoSizeChangedOfUid uid: UInt, size: CGSize, rotation: Int) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, videoSizeChangedOfUid: uid, size: size, rotation: rotation)
+    }
+    public func rtcEngine(_ engine: AgoraRtcEngineKit, videoSizeChangedOf sourceType: AgoraVideoSourceType, uid: UInt, size: CGSize, rotation: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, videoSizeChangedOf: sourceType, uid: uid, size: size, rotation: rotation)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, networkQuality uid: UInt, txQuality: AgoraNetworkQuality, rxQuality: AgoraNetworkQuality) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, networkQuality: uid, txQuality: txQuality, rxQuality: rxQuality)
