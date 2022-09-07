@@ -20,7 +20,6 @@ jobs:
             transform-for-static-hosting docc/Build/Products/Debug-iphoneos/AgoraUIKit.doccarchive \
             --output-path docs \
             --hosting-base-path VideoUIKit-iOS
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
