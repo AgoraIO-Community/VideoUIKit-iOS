@@ -15,6 +15,7 @@
 		F3C43295256FB56C00E2AD43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3C43293256FB56C00E2AD43 /* Main.storyboard */; };
 		F3C43297256FB56F00E2AD43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3C43296256FB56F00E2AD43 /* Assets.xcassets */; };
 		F3C4329A256FB56F00E2AD43 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3C43298256FB56F00E2AD43 /* LaunchScreen.storyboard */; };
+		F3F97C5728C0A5F600BE8D50 /* file_example_MP3_700KB.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F3F97C5628C0A5F600BE8D50 /* file_example_MP3_700KB.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +41,7 @@
 		F3C43296256FB56F00E2AD43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F3C43299256FB56F00E2AD43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F3C4329B256FB56F00E2AD43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F3F97C5628C0A5F600BE8D50 /* file_example_MP3_700KB.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = file_example_MP3_700KB.mp3; path = ../../file_example_MP3_700KB.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,20 +57,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E4B1C9811C27629FB0E02419 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		F366512427FDF05700DDD521 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		F39B87CF272009FA00C644C7 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,8 +71,6 @@
 				F39B87CF272009FA00C644C7 /* Packages */,
 				F3C4328C256FB56C00E2AD43 /* Agora-UIKit-Example */,
 				F3C4328B256FB56C00E2AD43 /* Products */,
-				E4B1C9811C27629FB0E02419 /* Pods */,
-				F366512427FDF05700DDD521 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +89,7 @@
 				F3C4328F256FB56C00E2AD43 /* SceneDelegate.swift */,
 				F3C43291256FB56C00E2AD43 /* ViewController.swift */,
 				F3C43293256FB56C00E2AD43 /* Main.storyboard */,
+				F3F97C5628C0A5F600BE8D50 /* file_example_MP3_700KB.mp3 */,
 				F3C43296256FB56F00E2AD43 /* Assets.xcassets */,
 				F3C43298256FB56F00E2AD43 /* LaunchScreen.storyboard */,
 				F3C4329B256FB56F00E2AD43 /* Info.plist */,
@@ -174,6 +161,7 @@
 			files = (
 				F3C4329A256FB56F00E2AD43 /* LaunchScreen.storyboard in Resources */,
 				F3C43297256FB56F00E2AD43 /* Assets.xcassets in Resources */,
+				F3F97C5728C0A5F600BE8D50 /* file_example_MP3_700KB.mp3 in Resources */,
 				F3C43295256FB56C00E2AD43 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
