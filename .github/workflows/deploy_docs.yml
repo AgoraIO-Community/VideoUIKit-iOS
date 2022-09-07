@@ -12,16 +12,15 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-
-      - name: Build DocC
+      - name: Build DocC 🛠
         run: |
+          sudo xcode-select -s /Applications/Xcode_14.0.app;
           xcodebuild docbuild -scheme AgoraUIKit -derivedDataPath 'docc' -destination 'generic/platform=iOS';
           $(xcrun --find docc) process-archive \
             transform-for-static-hosting docc/Build/Products/Debug-iphoneos/AgoraUIKit.doccarchive \
             --output-path docs \
-            --hosting-base-path VideoUIKit-iOS
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+            --hosting-base-path VideoUIKit-iOS;
+      - name: Deploy to GitHub Pages 🐙
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          folder: docs
