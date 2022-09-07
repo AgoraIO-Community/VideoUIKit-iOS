@@ -2,8 +2,8 @@ line_length:
   ignores_comments: true
 excluded:
   - Agora-*-Example
-  - Sources/Agora-UIKit/AgoraUIKit+MD5.swift
+  - Sources/Agora-Video-UIKit/AgoraUIKit+MD5.swift
   - Sources/AgoraRtmControl/AgoraRtmController+RtmDelegateOverflows.swift
-  - Sources/Agora-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift
+  - Sources/Agora-Video-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift
   - .build
   - docc
