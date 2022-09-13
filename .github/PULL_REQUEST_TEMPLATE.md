@@ -1,4 +1,4 @@
-<!-- Please refer to our contributing documentation for any questions on submitting a pull request, or let us know here if you need any help: https://github.com/AgoraIO-Community/iOS-UIKit/blob/main/CONTRIBUTING.md -->
+<!-- Please refer to our contributing documentation for any questions on submitting a pull request, or let us know here if you need any help: https://github.com/AgoraIO-Community/VideoUIKit-iOS/blob/main/CONTRIBUTING.md -->
 
 > Release Version:
 
