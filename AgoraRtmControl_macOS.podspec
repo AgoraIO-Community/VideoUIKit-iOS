@@ -17,10 +17,10 @@ Use this Pod to interact with Agora Real-time messaging SDK with additional prop
 to make the usage simpler with the AgoraRtmController class.
                        DESC
 
-  s.homepage         = 'https://github.com/AgoraIO-Community/iOS-UIKit'
+  s.homepage         = 'https://github.com/AgoraIO-Community/VideoUIKit-iOS'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Max Cobb' => 'max@agora.io' }
-  s.source           = { :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/AgoraIO-Community/VideoUIKit-iOS.git', :tag => s.version.to_s }
 
   s.macos.deployment_target = '10.14'
   s.swift_versions = ['5.0']

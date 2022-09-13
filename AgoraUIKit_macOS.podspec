@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
 Use this Pod to create a video AppKit view that can be easily added to your macOS application.
                        DESC
 
-  s.homepage         = 'https://github.com/AgoraIO-Community/iOS-UIKit'
+  s.homepage         = 'https://github.com/AgoraIO-Community/VideoUIKit-iOS'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Max Cobb' => 'max@agora.io' }
-  s.source           = { :git => 'https://github.com/AgoraIO-Community/iOS-UIKit.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/AgoraIO-Community/VideoUIKit-iOS.git', :tag => s.version.to_s }
 
   s.macos.deployment_target = '10.15'
   s.swift_versions = ['5.0']

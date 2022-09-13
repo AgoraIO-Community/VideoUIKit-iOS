@@ -82,7 +82,7 @@ For tips on how to overcome some common errors, [see the wiki page](https://gith
 
 ## UIKits
 
-The plan is to grow this library and have similar offerings across all supported platforms. There are already similar libraries for [Android](https://github.com/AgoraIO-Community/Android-UIKit/), [React Native](https://github.com/AgoraIO-Community/ReactNative-UIKit), [Flutter](https://github.com/AgoraIO-Community/Flutter-UIKit/) and [Web React](https://github.com/AgoraIO-Community/Web-React-UIKit) so be sure to check them out.
+The plan is to grow this library and have similar offerings across all supported platforms. There are already similar libraries for [Android](https://github.com/AgoraIO-Community/VideoUIKit-Android), [React Native](https://github.com/AgoraIO-Community/VideoUIKit-ReactNative), [Flutter](https://github.com/AgoraIO-Community/VideoUIKit-Flutter) and [Web React](https://github.com/AgoraIO-Community/VideoUIKit-Web-React) so be sure to check them out.
 
 ## UML Diagrams
 
