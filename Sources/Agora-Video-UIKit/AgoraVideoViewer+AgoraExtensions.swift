@@ -15,7 +15,7 @@ extension AgoraVideoViewer {
     ///   - enabled: enable or disable. - true: enable. - false: disable.
     /// - Returns: `0`: Success. `<0`: Failure.
     @discardableResult
-    open func enableExtension(withVendor vendor: String, extension extString: String, enabled: Bool) -> Int32 {
+    @objc open func enableExtension(withVendor vendor: String, extension extString: String, enabled: Bool) -> Int32 {
         return self.agkit.enableExtension(withVendor: vendor, extension: extString, enabled: enabled)
     }
 
@@ -27,7 +27,7 @@ extension AgoraVideoViewer {
     ///   - value: string value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    open func setExtensionProperty(
+    @objc open func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, value: String
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(
@@ -44,7 +44,7 @@ extension AgoraVideoViewer {
     ///   - codable: value to set for the property, must be encodable to a JSON string.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    open func setExtensionProperty<T>(
+    public func setExtensionProperty<T>(
         _ vendor: String, extension extString: String, key: String, codable: T
     ) -> Int32? where T: Encodable {
         guard let encodedData = try? JSONEncoder().encode(codable),
@@ -66,7 +66,7 @@ extension AgoraVideoViewer {
     ///   - strValue: string value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    open func setExtensionProperty(
+    @objc open func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, strValue: String
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(
@@ -83,7 +83,7 @@ extension AgoraVideoViewer {
     ///   - value: Boolean value to set.
     /// - Returns: `0` = Success. `<0` = Failure.
     @discardableResult
-    open func setExtensionProperty(
+    public func setExtensionProperty(
         _ vendor: String, extension extString: String, key: String, value: Bool
     ) -> Int32 {
         return self.agkit.setExtensionPropertyWithVendor(

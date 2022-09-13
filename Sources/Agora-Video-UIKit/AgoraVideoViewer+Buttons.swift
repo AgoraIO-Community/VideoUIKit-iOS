@@ -190,7 +190,7 @@ extension AgoraVideoViewer {
 
     /// Get the button for enabling/disabling the camera
     /// - Returns: The button for enabling/disabling the camera if enabled, otherwise nil
-    open func getCameraButton() -> MPButton? {
+    @objc open func getCameraButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.cameraButton) { return nil }
         if let camButton = self.camButton { return camButton }
 
@@ -210,7 +210,7 @@ extension AgoraVideoViewer {
 
     /// Get the button for muting/unmuting the microphone
     /// - Returns: The button for muting/unmuting the microphone if enabled, otherwise nil
-    open func getMicButton() -> MPButton? {
+    @objc open func getMicButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.micButton) { return nil }
         if let micButton = self.micButton { return micButton }
 
@@ -230,7 +230,7 @@ extension AgoraVideoViewer {
 
     /// Get the button for sharing the current screen
     /// - Returns: The button for sharing screen if enabled, otherwise nil
-    open func getScreenShareButton() -> MPButton? {
+    @objc open func getScreenShareButton() -> MPButton? {
         #if os(iOS)
         return nil
         #elseif os(macOS)
@@ -262,7 +262,7 @@ extension AgoraVideoViewer {
 
     /// Get the button for flipping the camera from front to rear facing
     /// - Returns: The button for flipping the camera if enabled, otherwise nil
-    open func getFlipButton() -> MPButton? {
+    @objc open func getFlipButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.flipButton) { return nil }
         if let flipButton = self.flipButton { return flipButton }
         #if os(iOS)
@@ -278,7 +278,7 @@ extension AgoraVideoViewer {
 
     /// Get the button for enabling/disabling the beautify effect.
     /// - Returns: The button if enabled, otherwise nil
-    open func getBeautifyButton() -> MPButton? {
+    @objc open func getBeautifyButton() -> MPButton? {
         if !self.agoraSettings.enabledButtons.contains(.beautifyButton) { return nil }
         if let beautyButton = self.beautyButton {
             return beautyButton

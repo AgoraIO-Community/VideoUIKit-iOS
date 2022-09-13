@@ -21,5 +21,6 @@ let agoraView = AgoraVideoViewer(
 )
 
 agoraView.join(channel: "test", as: .broadcaster)
-
 ```
+
+See ``AgoraVideoViewer/join(channel:with:as:uid:)`` for the documentation on joining channels.

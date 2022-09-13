@@ -31,7 +31,7 @@ extension AgoraVideoViewer {
     ///   - userId: User ID of the feed to be displayed in the view
     /// - Returns: The newly created view, or an existing one for the same userID.
     @discardableResult
-    open func addUserVideo(with userId: UInt) -> AgoraSingleVideoView {
+    @objc open func addUserVideo(with userId: UInt) -> AgoraSingleVideoView {
         if let remoteView = self.userVideoLookup[userId] {
             return remoteView
         }
@@ -51,7 +51,7 @@ extension AgoraVideoViewer {
     }
 
     /// Randomly select an activeSpeaker that is not the local user
-    open func setRandomSpeaker() {
+    @objc open func setRandomSpeaker() {
         if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
             // active speaker has left, reassign activeSpeaker to a random member
             self.activeSpeaker = randomNotMe

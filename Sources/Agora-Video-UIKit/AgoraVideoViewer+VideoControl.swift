@@ -14,7 +14,7 @@ import AgoraRtmControl
 extension AgoraVideoViewer {
 
     /// Setup the canvas and rendering for the device's local video
-    open func setupAgoraVideo() {
+    @objc open func setupAgoraVideo() {
         if self.agkit.enableVideo() < 0 {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not enable video")
             return
@@ -42,7 +42,7 @@ extension AgoraVideoViewer {
     /// - Parameters:
     ///     - enabled: Should the camera be enabled.
     ///     - completion: completion when the setting has been changed, or failed due to permissions.
-    open func setCam(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
+    @objc open func setCam(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
         if enabled == self.agoraSettings.cameraEnabled {
             completion?(true)
             return
@@ -95,7 +95,7 @@ extension AgoraVideoViewer {
     /// - Parameters:
     ///     - enabled: Should the microphone be enabled.
     ///     - completion: completion when the setting has been changed, or failed due to permissions.
-    open func setMic(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
+    @objc open func setMic(to enabled: Bool, completion: ((Bool) -> Void)? = nil) {
         if enabled == self.agoraSettings.micEnabled {
             completion?(true)
             return
@@ -165,7 +165,7 @@ extension AgoraVideoViewer {
     /// - Parameter contentHint: The content hint for screen sharing, see [AgoraVideoContentHint](https://docs.agora.io/en/Interactive%20Broadcast/API%20Reference/oc/Constants/AgoraVideoContentHint.html?platform=macOS).
     ///
     /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Video/screensharing_mac?platform=macOS)
-    open func startSharingScreen(displayId: UInt = 0) { // , contentHint: AgoraVideoContentHint = .none) {
+    @objc open func startSharingScreen(displayId: UInt = 0) { // , contentHint: AgoraVideoContentHint = .none) {
         #if os(macOS)
         let rectangle = CGRect.zero
         let parameters = AgoraScreenCaptureParameters()
@@ -220,7 +220,7 @@ extension AgoraVideoViewer {
 
     /// Change the role of the local user when connecting to a channel
     /// - Parameter role: new role for the local user.
-    open func setRole(to role: AgoraClientRole) {
+    @objc open func setRole(to role: AgoraClientRole) {
         // Check if we have access to mic + camera
         // before changing the user role.
         if role == .broadcaster {
@@ -250,7 +250,7 @@ extension AgoraVideoViewer {
     ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
     ///                   Default: `false`
     ///     - uid: UID to be set when user joins the channel, default will be 0.
-    open func join(
+    public func join(
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil
     ) {
@@ -286,7 +286,7 @@ extension AgoraVideoViewer {
     /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
     ///            that means it has continued on another thread, or you area already in the channel.
     @discardableResult
-    open func join(
+    public func join(
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
     ) -> Int32? {
@@ -322,7 +322,7 @@ extension AgoraVideoViewer {
 
     #if canImport(AgoraRtmControl)
     /// Initialise RTM to send messages across the network.
-    open func setupRtmController(joining channel: String) {
+    @objc open func setupRtmController(joining channel: String) {
         self.setupRtmController { rtmController in
             rtmController?.joinChannel(named: channel)
         }
@@ -330,7 +330,7 @@ extension AgoraVideoViewer {
 
     /// Initialise RTM within Agora Video Starter Kit.
     /// - Parameter callback: Return the rtm controller as a callback parameter.
-    open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
+    @objc open func setupRtmController(callback: ((AgoraRtmController?) -> Void)? = nil) {
         if !self.agoraSettings.rtmEnabled { return }
         if self.rtmController == nil {
             DispatchQueue.global(qos: .utility).async {
@@ -364,7 +364,7 @@ extension AgoraVideoViewer {
     ///     - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
     @discardableResult
-    open func leaveChannel(
+    @objc open func leaveChannel(
         stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
         guard let chName = self.connectionData.channel else {
@@ -387,13 +387,13 @@ extension AgoraVideoViewer {
 
     /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
     /// - Parameter newToken: new token to be applied to the current connection.
-    open func updateToken(_ newToken: String) {
+    @objc open func updateToken(_ newToken: String) {
         self.currentRtcToken = newToken
         self.agkit.renewToken(newToken)
     }
 
     /// Leave any open channels and kills the Agora Engine instance.
-    open func exit() {
+    @objc open func exit() {
         self.leaveChannel(stopPreview: true)
         AgoraRtcEngineKit.destroy()
     }

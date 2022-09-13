@@ -89,7 +89,7 @@ extension AgoraVideoViewer {
     ///   - mute: Whether the device should be muted or unmuted
     ///   - device: Type of device (camera/microphone)
     ///   - isForceful: Whether the request should force its way through, otherwise a request is made. Cannot forcefully unmute.
-    open func sendMuteRequest(to rtcId: UInt, mute: Bool, device: MutingDevices, isForceful: Bool = false) {
+    @objc open func sendMuteRequest(to rtcId: UInt, mute: Bool, device: MutingDevices, isForceful: Bool = false) {
         if isForceful == true, mute == false {
             AgoraVideoViewer.agoraPrint(.error, message: "Invalid mute request")
             return
@@ -140,7 +140,7 @@ extension SingleVideoViewDelegate {
 extension AgoraVideoViewer {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data
-    open func handleMuteRequest(muteReq: MuteRequest) {
+    public func handleMuteRequest(muteReq: MuteRequest) {
         guard let device = MutingDevices(rawValue: muteReq.device) else { return }
         if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
         if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }

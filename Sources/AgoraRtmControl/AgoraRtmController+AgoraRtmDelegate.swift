@@ -76,7 +76,7 @@ extension AgoraRtmController: AgoraRtmDelegate, AgoraRtmChannelDelegate {
     /// - Parameters:
     ///   - message: Incoming RTM message.
     ///   - peerId: Id of the peer this message is coming from
-    open func decodeMessage(message: AgoraRtmMessage, from peerId: String) {
+    public func decodeMessage(message: AgoraRtmMessage, from peerId: String) {
         self.delegate.decodeMessage(message: message, from: peerId)
     }
 }

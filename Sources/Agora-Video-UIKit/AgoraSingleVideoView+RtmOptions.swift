@@ -41,7 +41,7 @@ extension AgoraSingleVideoView {
     ///   - option: Device to be muted or umuted
     ///   - isMuted: Boolean option to mute or unmute device
     /// - Returns: String to be displayed in the mute/unmute option
-    open func userOptionsString(
+    @objc open func userOptionsString(
         for option: AgoraVideoViewer.MutingDevices, isMuted: Bool
     ) -> String {
         switch option {
@@ -104,7 +104,7 @@ extension AgoraSingleVideoView {
 
     /// Action selected such as mute/unmute microphone/camera.
     /// - Parameter sender: UIAlertAction that was selected.
-    open func optionsActionSelected(sender: UIAlertAction) {
+    @objc public func optionsActionSelected(sender: UIAlertAction) {
         if let actionTitle = sender.title,
            let reqError = self.singleVideoViewDelegate?.createRequest(
             to: self.uid, fromString: actionTitle

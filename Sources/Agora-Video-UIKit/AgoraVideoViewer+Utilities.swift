@@ -37,7 +37,7 @@ extension AgoraVideoViewer {
 
     /// Helper method to fill a view with this view
     /// - Parameter view: view to fill with self
-    open func fills(view: MPView) {
+    public func fills(view: MPView) {
         view.addSubview(self)
         self.translatesAutoresizingMaskIntoConstraints = false
         #if os(iOS)

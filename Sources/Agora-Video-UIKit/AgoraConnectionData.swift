@@ -36,7 +36,7 @@ public struct AgoraConnectionData {
         case random
         /// Encoded RTC based on a provided RTM ID. If not RTM ID is provided one will be generated.
         case encodedRtc(rtmId: String)
-        /// Use builtin identifierForVendor, calculate rtc ID on ```AgoraConnectionData.uidFrom```
+        /// Use builtin identifierForVendor, calculate rtc ID on ``AgoraConnectionData/uidFrom(vendor:charSet:)``
         case vendorIdEncodedRtc
         /// Provide a combination of rtm and/or rtc Ids to be applied. the same logic as `.random`
         /// will be applied for any nil values

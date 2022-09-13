@@ -42,7 +42,7 @@ extension AgoraVideoViewer {
     #if canImport(AgoraRtmControl)
     /// Share local UserData to all connected channels.
     /// Call this method when personal details are updated.
-    open func broadcastPersonalData() {
+    @objc open func broadcastPersonalData() {
         for channel in (self.rtmController?.channels ?? [String: AgoraRtmChannel]()) {
             self.sendPersonalData(to: channel.value)
         }
@@ -50,7 +50,7 @@ extension AgoraVideoViewer {
 
     /// Share local UserData to a specific channel
     /// - Parameter channel: Channel to share UserData with.
-    open func sendPersonalData(to channel: AgoraRtmChannel) {
+    @objc open func sendPersonalData(to channel: AgoraRtmChannel) {
         if self.rtmController == nil {
             AgoraVideoViewer.agoraPrint(
                 .warning, message: "AgoraRtmController not included, override this method to send personal data"
@@ -76,7 +76,7 @@ extension AgoraVideoViewer {
 
     /// Share local UserData to a specific RTM member
     /// - Parameter member: Member to share UserData with.
-    open func sendPersonalData(to member: String) {
+    public func sendPersonalData(to member: String) {
         self.rtmController?.sendCodable(message: self.personalData(), member: member) { sendMsgState in
             switch sendMsgState {
             case .ok:
