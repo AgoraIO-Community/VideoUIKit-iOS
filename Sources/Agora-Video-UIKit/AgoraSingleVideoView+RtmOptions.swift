@@ -53,7 +53,7 @@ extension AgoraSingleVideoView {
     }
 
     #if os(macOS)
-    open func addItems(to userOptionsBtn: NSPopUpButton) {
+    @objc open func addItems(to userOptionsBtn: NSPopUpButton) {
         let actionItem = NSMenuItem()
         actionItem.attributedTitle = NSAttributedString(
             string: "􀣋",
