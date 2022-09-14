@@ -64,6 +64,9 @@ extension AgoraVideoViewer {
     open func rtcEngine(_ engine: AgoraRtcEngineKit, cameraExposureDidChangedTo rect: CGRect) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, cameraExposureDidChangedTo: rect)
     }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, facePositionDidChangeWidth width: Int32, previewHeight height: Int32, faces: [AgoraFacePositionInfo]?) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, facePositionDidChangeWidth: width, previewHeight: height, faces: faces)
+    }
     #elseif os(macOS)
     open func rtcEngine(_ engine: AgoraRtcEngineKit, device deviceId: String, type deviceType: AgoraMediaDeviceType, stateChanged state: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, device: deviceId, type: deviceType, stateChanged: state)
@@ -179,9 +182,6 @@ extension AgoraVideoViewer {
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, uploadLogResultRequestId requestId: String, success: Bool, reason: AgoraUploadErrorReason) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, uploadLogResultRequestId: requestId, success: success, reason: reason)
-    }
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, facePositionDidChangeWidth width: Int32, previewHeight height: Int32, faces: [AgoraFacePositionInfo]?) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, facePositionDidChangeWidth: width, previewHeight: height, faces: faces)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, snapshotTaken uid: UInt, filePath: String, width: Int, height: Int, errCode: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, snapshotTaken: uid, filePath: filePath, width: width, height: height, errCode: errCode)
