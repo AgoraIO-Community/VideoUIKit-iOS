@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'AgoraRtmControl_iOS'
   s.module_name      = 'AgoraRtmControl'
-  s.version          = ENV['LIB_VERSION'] || '4.0.0-rc.1'
+  s.version          = ENV['LIB_VERSION'] || '4.0.0'
   s.summary          = 'Agora Real-time Messaging Wrapper.'
 
   s.description      = <<-DESC
@@ -27,5 +27,5 @@ to make the usage simpler with the AgoraRtmController class.
 
   s.static_framework = true
   s.source_files = 'Sources/AgoraRtmControl/*'
-  s.dependency 'AgoraRtm_iOS', '~> 1.4.10'
+  s.dependency 'AgoraRtm_iOS', '~> 1.5.1'
 end

@@ -84,7 +84,7 @@ extension AgoraVideoViewer {
                     .verbose, message: "Personal data sent to member successfully"
                 )
             case .failure, .timeout, .tooOften, .invalidMessage, .notInitialized, .notLoggedIn,
-                 .peerUnreachable, .cachedByServer, .invalidUserId, .imcompatibleMessage:
+                    .peerUnreachable, .cachedByServer, .invalidUserId, .incompatibleMessage:
                 AgoraVideoViewer.agoraPrint(
                     .error, message: "Could not send message to channel \(sendMsgState.rawValue)"
                 )
