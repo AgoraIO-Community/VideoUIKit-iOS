@@ -1,8 +1,10 @@
 # Agora UIKit for iOS
 
 <p align="center">
-    <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/Pod%20Lint/badge.svg"/>
-    <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/swiftlint/badge.svg"/></br>
+    <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/actions/workflows/swift-build-lint.yml/badge.svg"/>
+    <a href="https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit">
+        <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/actions/workflows/deploy_docs.yml/badge.svg"/>
+    </a>
     <img src="https://img.shields.io/badge/platform-iOS-lightgrey"/>
     <img src="https://img.shields.io/github/v/release/AgoraIO-Community/VideoUIKit-iOS?color=orange&label=Stable%20Release&logo=swift"/>
     <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=Pre-release"/>

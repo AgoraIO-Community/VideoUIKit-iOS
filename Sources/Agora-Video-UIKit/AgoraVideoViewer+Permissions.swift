@@ -28,16 +28,16 @@ extension AgoraVideoViewer {
         alsoRequest: Bool = true,
         callback: ((Error?) -> Void)? = nil
     ) -> Bool {
-        for mediaType in requiredMediaTypes {
-            if !self.checkPermissions(for: mediaType, alsoRequest: alsoRequest, callback: callback) {
-                return false
-            }
+        for mediaType in requiredMediaTypes where !self.checkPermissions(
+            mediaType: mediaType, alsoRequest: alsoRequest, callback: callback
+        ) {
+            return false
         }
         return true
     }
 
     internal func checkPermissions(
-        for mediaType: AVMediaType,
+        mediaType: AVMediaType,
         alsoRequest: Bool = true,
         callback: ((Error?) -> Void)? = nil
     ) -> Bool {

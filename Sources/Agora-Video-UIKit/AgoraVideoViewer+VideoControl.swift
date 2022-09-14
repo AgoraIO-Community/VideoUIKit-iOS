@@ -50,7 +50,7 @@ extension AgoraVideoViewer {
         if enabled,
            self.connectionData.channel != nil,
            !self.checkPermissions(
-            for: .video,
+            mediaType: .video,
             callback: { err in
                 if err == nil {
                     DispatchQueue.main.async {
@@ -103,7 +103,7 @@ extension AgoraVideoViewer {
         if enabled,
            self.connectionData.channel != nil,
            !self.checkPermissions(
-            for: .audio,
+            mediaType: .audio,
             callback: { err in
                 if err == nil {
                     DispatchQueue.main.async {
