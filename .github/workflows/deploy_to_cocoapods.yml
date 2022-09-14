@@ -11,12 +11,11 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Install Cocoapods
+    - name: Checkout 🛎️
+      uses: actions/checkout@v3
+    - name: Install CocoaPods 🪖
       run: gem install cocoapods
-      
-    - name: Deploy to Cocoapods
+    - name: Deploy to CocoaPods 🚢
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
       run: |
