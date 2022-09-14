@@ -1,16 +1,17 @@
-# Agora UIKit for iOS and macOS
+# Agora UIKit for iOS
 
 <p align="center">
     <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/Pod%20Lint/badge.svg"/>
     <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/workflows/swiftlint/badge.svg"/></br>
-    <img src="https://img.shields.io/badge/platform-iOS%20|%20macOS-lightgrey"/>
+    <img src="https://img.shields.io/badge/platform-iOS-lightgrey"/>
     <img src="https://img.shields.io/github/v/release/AgoraIO-Community/VideoUIKit-iOS?color=orange&label=Stable%20Release&logo=swift"/>
     <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=Pre-release"/>
     <a href="https://www.agora.io/en/join-slack/">
         <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
     </a>
 </p>
-Instantly integrate Agora in your own application or prototype using iOS or macOS.
+
+Instantly integrate Agora in your own application or prototype using iOS. For macOS, see [VideoUIKit-macOS](https://github.com/AgoraIO-Community/VideoUIKit-macOS).
 
 <p align="center">
   <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/raw/main/media/agora-uikit-banner.png"/>
