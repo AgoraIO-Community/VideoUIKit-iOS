@@ -66,7 +66,7 @@ extension AgoraRtmController {
         callback: @escaping (AgoraRtmSendPeerMessageErrorCode) -> Void
     ) where Value: Codable {
         guard let msg = AgoraRtmController.createRtmMessage(from: message) else {
-            callback(.imcompatibleMessage)
+            callback(.incompatibleMessage)
             return
         }
         self.rtmKit.send(msg, toPeer: member, completion: callback)

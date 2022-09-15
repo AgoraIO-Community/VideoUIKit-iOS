@@ -55,20 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E4B1C9811C27629FB0E02419 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		F366512427FDF05700DDD521 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		F39B87CF272009FA00C644C7 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,8 +69,6 @@
 				F39B87CF272009FA00C644C7 /* Packages */,
 				F3C4328C256FB56C00E2AD43 /* Agora-UIKit-Example */,
 				F3C4328B256FB56C00E2AD43 /* Products */,
-				E4B1C9811C27629FB0E02419 /* Pods */,
-				F366512427FDF05700DDD521 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

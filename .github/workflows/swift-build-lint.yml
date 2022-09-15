@@ -1,0 +1,25 @@
+name: build
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+    - "*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout 🛎
+      uses: actions/checkout@v3 
+    - name: Swift Lint 🧹
+      run: swiftlint --strict
+    - name: Test Build 🔨
+      run: xcodebuild -scheme $SCHEME -destination $DESTINATION
+      env:
+        SCHEME: AgoraUIKit_iOS-Package
+        DESTINATION: 'generic/platform=iOS'
+    - name: Pod Lint 🔎
+      run: pod lib lint AgoraUIKit_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraRtmControl_iOS.podspec'

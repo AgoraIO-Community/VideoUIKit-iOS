@@ -1,6 +1,6 @@
 podspec: AgoraUIKit_iOS.podspec
 exclude:
-  - Sources/Agora-UIKit/iOS+macOS+typealiases.swift
-  - Sources/Agora-UIKit/AgoraUIKit+MD5.swift
-  - Sources/Agora-UIKit/AgoraRtmController+RtmDelegateOverflows.swift
-  - Sources/Agora-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift
+  - Sources/Agora-Video-UIKit/iOS+macOS+typealiases.swift
+  - Sources/Agora-Video-UIKit/AgoraUIKit+MD5.swift
+  - Sources/Agora-Video-UIKit/AgoraRtmController+RtmDelegateOverflows.swift
+  - Sources/Agora-Video-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift

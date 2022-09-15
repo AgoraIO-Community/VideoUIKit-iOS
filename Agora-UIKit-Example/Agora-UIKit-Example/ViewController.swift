@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         agSettings.enabledButtons = [.cameraButton, .micButton, .flipButton]
         agSettings.buttonPosition = .right
         AgoraVideoViewer.printLevel = .verbose
-        
+
         let agoraView = AgoraVideoViewer(
             connectionData: AgoraConnectionData(
                 appId: <#Agora App ID#>,

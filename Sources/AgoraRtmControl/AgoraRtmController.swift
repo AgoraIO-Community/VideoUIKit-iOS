@@ -110,6 +110,7 @@ open class AgoraRtmController: NSObject {
         }
     }
 
+    /// Reference to the Agora Real-time Messaging engine used by this class.
     public internal(set) var rtmKit: AgoraRtmKit
     /// RTM Channels created and joined by this RTM Controller
     public internal(set) var channels: [String: AgoraRtmChannel] = [:]
