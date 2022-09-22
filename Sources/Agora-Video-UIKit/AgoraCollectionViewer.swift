@@ -11,11 +11,13 @@ import UIKit
 import AppKit
 #endif
 
-/// Collection View to display all connected users camera feeds
-public class AgoraCollectionViewer: MPCollectionView {
+/// Collection View to display all connected users camera feeds. Used in the streamerCollectionView.
+internal class AgoraCollectionViewer: MPCollectionView {
 
     static let cellSpacing: CGFloat = 5
-    public static var flowLayout: MPCollectionViewFlowLayout {
+
+    /// Details for the collection list of participants camera feeds.
+    static var flowLayout: MPCollectionViewFlowLayout {
         let flowLayout = MPCollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: 100, height: 100)
         flowLayout.scrollDirection = .horizontal
