@@ -261,19 +261,15 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         #endif
         // Had issues with `self.style == .collection`, so changed to switch case
         switch self.style {
-        case .collection:
-            rtnView.isHidden = true
-        default:
-            rtnView.isHidden = false
+        case .collection: rtnView.isHidden = true
+        default: rtnView.isHidden = false
         }
         return rtnView
     }()
 
     /// AgoraRtcEngineKit being used by this AgoraVideoViewer.
     lazy public internal(set) var agkit: AgoraRtcEngineKit = {
-        let engine = AgoraRtcEngineKit.sharedEngine(
-            withAppId: connectionData.appId, delegate: self
-        )
+        let engine = AgoraRtcEngineKit.sharedEngine(withAppId: connectionData.appId, delegate: self)
 
         // This helps us know how many people are using the Video UI Kit.
         engine.setParameters("{\"rtc.using_ui_kit\": 1}")
@@ -320,7 +316,6 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     }
 
     // MARK: Storyboard Settings
-
     /// Used by storyboard to set the AgoraVideoViewer appID.
     @IBInspectable var appID: String = "" {
         didSet {
@@ -374,9 +369,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
             }
         } else if self.style == .grid {
             return self.userVideoLookup.filter { ($0.key != self.userID || self.agoraSettings.showSelf) }
-        } else {
-            return [:]
-        }
+        } else { return [:] }
     }
 
     /// Video views to be displayed in the pinned collection view.
