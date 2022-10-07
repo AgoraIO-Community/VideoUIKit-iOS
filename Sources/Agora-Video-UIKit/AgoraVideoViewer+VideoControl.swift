@@ -239,6 +239,7 @@ extension AgoraVideoViewer {
     ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
     ///                   Default: `false`
     ///     - uid: UID to be set when user joins the channel, default will be 0.
+    ///     - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
     public func join(
         channel: String, as role: AgoraClientRole = .broadcaster,
         fetchToken: Bool = false, uid: UInt? = nil,
@@ -273,6 +274,7 @@ extension AgoraVideoViewer {
     ///   - token: Valid token to join the channel
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as. Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
+    ///   - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
     /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
     ///            that means it has continued on another thread, or you area already in the channel.
     @discardableResult
