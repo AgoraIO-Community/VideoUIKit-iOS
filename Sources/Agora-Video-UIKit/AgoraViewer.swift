@@ -58,8 +58,11 @@ public struct AgoraViewer: UIViewRepresentable {
     ///   - channel: Channel name to join.
     ///   - token: Valid token to join the channel.
     ///   - role: AgoraClientRole to join the channel as. Default: .broadcaster.
-    public func join(channel: String, with token: String?, as role: AgoraClientRole) {
-        self.viewer.join(channel: channel, with: token, as: role)
+    ///   - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
+    public func join(
+        channel: String, with token: String?, as role: AgoraClientRole,
+        mediaOptions: AgoraRtcChannelMediaOptions? = nil) {
+        self.viewer.join(channel: channel, with: token, as: role, mediaOptions: mediaOptions)
     }
 }
 #endif

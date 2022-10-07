@@ -19,6 +19,13 @@ extension AgoraVideoViewer {
         case invalidURL
     }
 
+    /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
+    /// - Parameter newToken: new token to be applied to the current connection.
+    @objc open func updateToken(_ newToken: String) {
+        self.currentRtcToken = newToken
+        self.agkit.renewToken(newToken)
+    }
+
     /// Requests the token from our backend token service
     /// - Parameter urlBase: base URL specifying where the token server is located
     /// - Parameter channelName: Name of the channel we're requesting for

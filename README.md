@@ -1,4 +1,4 @@
-# Agora UIKit for iOS
+# Agora Video UI Kit for iOS
 
 <p align="center">
     <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/actions/workflows/swift-build-lint.yml/badge.svg"/>

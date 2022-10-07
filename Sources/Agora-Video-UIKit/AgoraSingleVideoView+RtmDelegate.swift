@@ -19,10 +19,21 @@ public protocol SingleVideoViewDelegate: AnyObject {
     #if canImport(AgoraRtmControl)
     /// RTM Controller class for managing RTM messages
     var rtmController: AgoraRtmController? { get set }
+    /// Create and send request to user to mute/unmute a device
+    /// - Parameters:
+    ///   - uid: RTM User ID to send the request to
+    ///   - str: String from the action label to
+    /// - Returns: Boolean stating if the request was valid or not
     func createRequest(
         to uid: UInt,
         fromString str: String
     ) -> Bool
+    /// Create and send request to mute/unmute a device
+    /// - Parameters:
+    ///   - rtcId: RTC User ID to send the request to
+    ///   - mute: Whether the device should be muted or unmuted
+    ///   - device: Type of device (camera/microphone)
+    ///   - isForceful: Whether the request should force its way through, otherwise a request is made. Cannot forcefully unmute.
     func sendMuteRequest(to rtcId: UInt, mute: Bool, device: AgoraVideoViewer.MutingDevices, isForceful: Bool)
 
     #endif

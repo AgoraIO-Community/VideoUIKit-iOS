@@ -24,7 +24,6 @@ extension AgoraVideoViewer {
         self.agkit.setExternalVideoSource(
             agoraSettings.externalVideoSettings.enabled,
             useTexture: agoraSettings.externalVideoSettings.texture,
-//            encodedFrame: agoraSettings.externalVideoSettings.encoded
             sourceType: agoraSettings.externalVideoSettings.encoded ? .encodedVideoFrame : .videoFrame
         )
         if self.agoraSettings.externalAudioSettings.enabled {
@@ -52,17 +51,12 @@ extension AgoraVideoViewer {
            !self.checkPermissions(
             mediaType: .video,
             callback: { err in
-                if err == nil {
+                if err == nil { // if permissions are now granted
                     DispatchQueue.main.async {
-                        // if permissions are now granted
                         self.setCam(to: enabled, completion: completion)
                     }
-                } else {
-                    completion?(false)
-                }
-            }) {
-            return
-        }
+                } else { completion?(false) }
+            }) { return }
         self.agoraSettings.cameraEnabled = enabled
         self.agkit.enableLocalVideo(enabled)
 
@@ -100,14 +94,11 @@ extension AgoraVideoViewer {
             completion?(true)
             return
         }
-        if enabled,
-           self.connectionData.channel != nil,
-           !self.checkPermissions(
+        if enabled, self.connectionData.channel != nil, !self.checkPermissions(
             mediaType: .audio,
             callback: { err in
-                if err == nil {
+                if err == nil { // if permissions are now granted
                     DispatchQueue.main.async {
-                        // if permissions are now granted
                         self.setMic(to: enabled, completion: completion)
                     }
                 } else { completion?(false) }
@@ -154,7 +145,6 @@ extension AgoraVideoViewer {
         ssButton.backgroundColor = ssButton.isSelected ? .systemGreen : .systemGray
         #elseif os(macOS)
         ssButton.layer?.backgroundColor = (ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
-
         if ssButton.isOn { self.startSharingScreen()
         } else { self.agkit.stopScreenCapture() }
         #endif
@@ -174,7 +164,6 @@ extension AgoraVideoViewer {
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
         self.agkit.startScreenCapture(byDisplayId: UInt32(displayId), regionRect: rectangle, captureParams: parameters)
-//        self.agkit.setScreenCaptureContentHint(contentHint)
         #endif
     }
 
@@ -250,13 +239,15 @@ extension AgoraVideoViewer {
     ///                   A token will only be fetched if a token URL is provided in AgoraSettings.
     ///                   Default: `false`
     ///     - uid: UID to be set when user joins the channel, default will be 0.
+    ///     - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
     public func join(
         channel: String, as role: AgoraClientRole = .broadcaster,
-        fetchToken: Bool = false, uid: UInt? = nil
+        fetchToken: Bool = false, uid: UInt? = nil,
+        mediaOptions: AgoraRtcChannelMediaOptions? = nil
     ) {
         if self.connectionData == nil { fatalError("No app ID is provided") }
         guard fetchToken else {
-            self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid)
+            self.join(channel: channel, with: self.currentRtcToken, as: role, uid: uid, mediaOptions: mediaOptions)
             return
         }
         if let tokenURL = self.agoraSettings.tokenURL {
@@ -266,7 +257,7 @@ extension AgoraVideoViewer {
                 switch result {
                 case .success(let token):
                     DispatchQueue.main.async {
-                        self.join(channel: channel, with: token, as: role, uid: uid)
+                        self.join(channel: channel, with: token, as: role, uid: uid, mediaOptions: mediaOptions)
                     }
                 case .failure(let err):
                     AgoraVideoViewer.agoraPrint(.error, message: "Could not fetch token from server: \(err)")
@@ -283,24 +274,28 @@ extension AgoraVideoViewer {
     ///   - token: Valid token to join the channel
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as. Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
+    ///   - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
     /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
     ///            that means it has continued on another thread, or you area already in the channel.
     @discardableResult
     public func join(
         channel: String, with token: String?,
-        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
+        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil,
+        mediaOptions: AgoraRtcChannelMediaOptions? = nil
     ) -> Int32? {
         if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
                 if error != nil { return }
                 DispatchQueue.main.async {
-                    self.join(channel: channel, with: token, as: role, uid: uid)
+                    self.join(channel: channel, with: token, as: role, uid: uid, mediaOptions: mediaOptions)
                 }
             }) { return nil }
         }
         if self.connectionData.channel != nil {
-            self.handleAlreadyInChannel(channel: channel, with: token, as: role, uid: uid)
+            self.handleAlreadyInChannel(
+                channel: channel, with: token, as: role, uid: uid, mediaOptions: mediaOptions
+            )
             return nil
         }
         self.userRole = role
@@ -315,9 +310,8 @@ extension AgoraVideoViewer {
             byToken: token,
             channelId: channel,
             uid: self.userID,
-            mediaOptions: AgoraRtcChannelMediaOptions()
-        )
-        // Delegate method is called upon success
+            mediaOptions: mediaOptions ?? AgoraRtcChannelMediaOptions()
+        ) // Delegate method is called upon success
     }
 
     #if canImport(AgoraRtmControl)
@@ -346,7 +340,8 @@ extension AgoraVideoViewer {
 
     internal func handleAlreadyInChannel(
         channel: String, with token: String?,
-        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil
+        as role: AgoraClientRole = .broadcaster, uid: UInt? = nil,
+        mediaOptions: AgoraRtcChannelMediaOptions? = nil
     ) {
         if self.connectionData.channel == channel {
             AgoraVideoViewer.agoraPrint(.verbose, message: "We are already in a channel")
@@ -354,7 +349,7 @@ extension AgoraVideoViewer {
         if self.leaveChannel() < 0 {
             AgoraVideoViewer.agoraPrint(.error, message: "Could not leave current channel")
         } else {
-            self.join(channel: channel, with: token, as: role, uid: uid)
+            self.join(channel: channel, with: token, as: role, uid: uid, mediaOptions: mediaOptions)
         }
     }
 
@@ -385,15 +380,8 @@ extension AgoraVideoViewer {
         return leaveChannelRtn
     }
 
-    /// Update the token currently in use by the Agora SDK. Used to not interrupt an active video session.
-    /// - Parameter newToken: new token to be applied to the current connection.
-    @objc open func updateToken(_ newToken: String) {
-        self.currentRtcToken = newToken
-        self.agkit.renewToken(newToken)
-    }
-
     /// Leave any open channels and kills the Agora Engine instance.
-    @objc open func exit() {
+    @objc open func exit(stopPreview: Bool = true) {
         self.leaveChannel(stopPreview: true)
         AgoraRtcEngineKit.destroy()
     }
