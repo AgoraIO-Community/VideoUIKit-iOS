@@ -21,6 +21,19 @@ public struct AgoraBroadcastExtData {
     public var token: String?
     /// User ID for the screen sharing client.
     public var uid: UInt = 0
+
+    /// Create a Broadcast Extension Data struct.
+    /// - Parameters:
+    ///   - appId: Agora App ID. Fetched from Agora Console at [console.agora.io](https://console.agora.io)
+    ///   - channel: Channel that you want the broadcaster to join.
+    ///   - token: Token to be used to join the channel with the given user ID.
+    ///   - uid: User ID for the screen sharing client.
+    public init(appId: String, channel: String, token: String? = nil, uid: UInt) {
+        self.appId = appId
+        self.channel = channel
+        self.token = token
+        self.uid = uid
+    }
 }
 
 /// Use this class to broadcast your apps easily.
