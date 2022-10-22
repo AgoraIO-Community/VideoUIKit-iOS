@@ -44,26 +44,23 @@ open class AgoraSharingEngineHelper {
     /// Agora engine instance. Call ``AgoraSharingEngineHelper/initialize(appId:)`` to create this.
     static public internal(set) var agoraEngine: AgoraRtcEngineKit?
 
-
     // Set the audio configuration
     private static let audioSampleRate: UInt = 44100
     private static let audioChannels: UInt = 2
-
 
     // Get the screen size and orientation
     private static let videoDimension: CGSize = {
         let screenSize = UIScreen.main.currentMode!.size
         var boundingSize = CGSize(width: 540, height: 980)
-        let mW = boundingSize.width / screenSize.width
-        let mH = boundingSize.height / screenSize.height
-        if mH < mW {
+        let vidWidth = boundingSize.width / screenSize.width
+        let vidHeight = boundingSize.height / screenSize.height
+        if vidHeight < vidWidth {
             boundingSize.width = boundingSize.height / screenSize.height * screenSize.width
-        } else if mW < mH {
+        } else if vidWidth < vidHeight {
             boundingSize.height = boundingSize.width / screenSize.width * screenSize.height
         }
         return boundingSize
     }()
-
 
     /// Configure agoraEngine to use custom video with no audio, then join the channel.
     /// - Parameters:
@@ -71,7 +68,10 @@ open class AgoraSharingEngineHelper {
     ///   - token: Token to use on joining the channel.
     ///   - uid: User ID to use when joining the channel.
     ///   - joinSuccess: Callback that happens once the channel has been joined successfully.
-    static func startScreenSharing(to channel: String, with token: String? = nil, uid: UInt = 0, joinSuccess: ((String, UInt, Int) -> Void)? = nil) {
+    static func startScreenSharing(
+        to channel: String, with token: String? = nil, uid: UInt = 0,
+        joinSuccess: ((String, UInt, Int) -> Void)? = nil
+    ) {
         guard let agoraEngine = agoraEngine else {
             fatalError("Call ScreenSharingAgoraEngine.initialize() before sharing!")
         }
@@ -91,13 +91,11 @@ open class AgoraSharingEngineHelper {
         )
     }
 
-
     /// Leave channel and then destroy the engine instance.
     static func stopScreenSharing() {
         agoraEngine?.leaveChannel(nil)
         AgoraRtcEngineKit.destroy()
     }
-
 
     /// Retrieve the local video frame, figure out the orientation and duration of the buffer and send it to the chnanel.
     /// - Parameter sampleBuffer: The current buffer of media data.
@@ -106,12 +104,14 @@ open class AgoraSharingEngineHelper {
         else { return }
 
         var rotation: Int32 = 0
-        if let orientationAttachment = CMGetAttachment(sampleBuffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil) as? NSNumber {
+        if let orientationAttachment = CMGetAttachment(
+            sampleBuffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil
+        ) as? NSNumber {
             if let orientation = CGImagePropertyOrientation(rawValue: orientationAttachment.uint32Value) {
                 switch orientation {
-                case .up,    .upMirrored:    rotation = 0
-                case .down,  .downMirrored:  rotation = 180
-                case .left,  .leftMirrored:  rotation = 90
+                case .up, .upMirrored: rotation = 0
+                case .down, .downMirrored: rotation = 180
+                case .left, .leftMirrored: rotation = 90
                 case .right, .rightMirrored: rotation = 270
                 default:   break
                 }

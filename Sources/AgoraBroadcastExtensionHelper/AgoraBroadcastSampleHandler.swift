@@ -63,9 +63,12 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
         }
     }
 
-    internal static func agoraPrint(_ tag: LogLevel, _ items: Any..., separator: String = " ", terminator: String = "\n") {
+    internal static func agoraPrint(
+        _ tag: LogLevel, _ items: Any..., separator: String = " ", terminator: String = "\n"
+    ) {
         if tag.rawValue <= AgoraBroadcastSampleHandler.logLevel.rawValue {
-            print("[AgoraBroadcastSampleHandler \(tag.printString)]: ", items, separator: separator, terminator: terminator)
+            print("[AgoraBroadcastSampleHandler \(tag.printString)]: ", items,
+                  separator: separator, terminator: terminator)
         }
     }
 
@@ -79,7 +82,7 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
     /// or empty logic to remove.
     public internal(set) var frozenImageTimer: Timer?
 
-    override open func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
+    override open func broadcastStarted(withSetupInfo setupInfo: [String: NSObject]?) {
         if let appGroup = self.getAppGroup() {
             self.broadcastWithAppGroup(appGroup: appGroup)
             return
@@ -115,7 +118,7 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
         DispatchQueue.main.async {
             self.frozenImageTimer = Timer.scheduledTimer(
                 withTimeInterval: 0.1, repeats: true
-            ) {[weak self] (timer: Timer) in
+            ) {[weak self] _ in
                 guard let weakSelf = self, let lastSentTs = weakSelf.lastSentVideoTs else { return }
                 // if frame stopped sending for too long time, resend the last frame
                 // to avoid stream being frozen when viewed from remote
@@ -136,7 +139,8 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
             return
         }
         AgoraAppGroupDataHelper.appGroup = appGroup
-        if let appId = AgoraAppGroupDataHelper.getString(for: .appId), let channel = AgoraAppGroupDataHelper.getString(for: .channel) {
+        if let appId = AgoraAppGroupDataHelper.getString(for: .appId),
+           let channel = AgoraAppGroupDataHelper.getString(for: .channel) {
             let uid = UInt(AgoraAppGroupDataHelper.getString(for: .uid) ?? "0") ?? 0
             self.broadcastWith(
                 appId: appId, channel: channel,
@@ -149,7 +153,6 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
             self.finishBroadcastWithError(AgoraBroadcastError.badAppGroupData)
         }
     }
-
 
     override open func broadcastPaused() {
         // User has requested to pause the broadcast. Samples will stop being delivered.
