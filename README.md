@@ -23,6 +23,10 @@ Instantly integrate Agora in your own application or prototype using iOS. For ma
 
 [Click here for full documentation](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/)
 
+To see full documentation for other packages in this repo, such as `AgoraBroadcastExtensionHelper`, `AgoraAppGroupDataHelper` or `AgoraRtmControl`, check them out here:
+
+https://agoraio-community.github.io/VideoUIKit-iOS/extensions
+
 ## Requirements
 
 - iOS 13.0+ or a macOS 10.15 or later
