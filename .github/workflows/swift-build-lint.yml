@@ -23,7 +23,7 @@ jobs:
         DESTINATION: 'generic/platform=iOS'
     - name: Pod Lint 🔎
       run: |
-        export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+        export LIB_VERSION=$(grep 'static let version' Sources/Agora-Video-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')
         pod lib lint AgoraUIKit_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraRtmControl_iOS.podspec';
         pod lib lint AgoraBroadcastExtensionHelper_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraAppGroupDataHelper_iOS.podspec';
     - name: Print Version 🔤
