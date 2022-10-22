@@ -10,13 +10,13 @@ import AgoraAppGroupDataHelper
 
 /// Use this class to broadcast your apps easily.
 open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
-    public func getAppGroup() -> String? { return nil }
+    open func getAppGroup() -> String? { return nil }
 
     var bufferCopy: CMSampleBuffer?
     var lastSendTs: Int64 = Int64(Date().timeIntervalSince1970 * 1000)
     var timer: Timer?
 
-    override public func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
+    override open func broadcastStarted(withSetupInfo setupInfo: [String : NSObject]?) {
 
         guard let appGroup = self.getAppGroup() else {
             fatalError("Please override getAppGroup method and return a String")
@@ -53,21 +53,21 @@ open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
     }
 
 
-     override public func broadcastPaused() {
+     override open func broadcastPaused() {
          // User has requested to pause the broadcast. Samples will stop being delivered.
      }
 
-     override public func broadcastResumed() {
+     override open func broadcastResumed() {
          // User has requested to resume the broadcast. Samples delivery will resume.
      }
 
-     override public func broadcastFinished() {
+     override open func broadcastFinished() {
          timer?.invalidate()
          timer = nil
          AgoraSharingEngineHelper.stopScreenSharing()
      }
 
-     override public func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with sampleBufferType: RPSampleBufferType) {
+     override open func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with sampleBufferType: RPSampleBufferType) {
          DispatchQueue.main.async {[weak self] in
              switch sampleBufferType {
              case .video:
