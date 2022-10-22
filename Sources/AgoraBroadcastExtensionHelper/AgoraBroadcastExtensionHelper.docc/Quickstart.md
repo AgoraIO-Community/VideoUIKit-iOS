@@ -101,3 +101,9 @@ AgoraAppGroupDataHelper.set(<#Screenshare User ID#>, forKey: .uid)
 ```
 
 These values will be picked up by the app extension, and applied when it joins the video call or stream. This can be added to the above method, `prepareScreenSharing`.
+
+## Conclusion
+
+That's it, your app is now hooked up to allow users to stream their screen!
+
+If you have any issues with this, feel free to [open an issue on GitHub](https://github.com/AgoraIO-Community/VideoUIKit-iOS/issues/new/choose).
