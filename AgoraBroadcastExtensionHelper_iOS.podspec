@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint AgoraRtmControl_iOS.podspec' to ensure this is a
+# Be sure to run `pod lib lint AgoraBroadcastExtensionHelper_iOS.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,14 +7,13 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'AgoraRtmControl_iOS'
-  s.module_name      = 'AgoraRtmControl'
+  s.name             = 'AgoraBroadcastExtensionHelper_iOS'
+  s.module_name      = 'AgoraBroadcastExtensionHelper'
   s.version          = ENV['LIB_VERSION']
-  s.summary          = 'Agora Real-time Messaging Wrapper.'
+  s.summary          = 'Broadcast extension helper, for screen sharing.'
 
   s.description      = <<-DESC
-Use this Pod to interact with Agora Real-time messaging SDK with additional properties and commands,
-to make the usage simpler with the AgoraRtmController class.
+Add this Pod to your app extension to easily share your screen using Agora's RTC Engine.
                        DESC
 
   s.homepage         = 'https://github.com/AgoraIO-Community/VideoUIKit-iOS'
@@ -26,6 +25,7 @@ to make the usage simpler with the AgoraRtmController class.
   s.swift_versions = ['5.0']
 
   s.static_framework = true
-  s.source_files = 'Sources/AgoraRtmControl/*'
-  s.dependency 'AgoraRtm_iOS', '~> 1.5.1'
+  s.source_files = 'Sources/AgoraBroadcastExtensionHelper/*'
+  s.dependency 'AgoraRtcEngine_iOS', '~> 4.0.1'
+  s.dependency 'AgoraAppGroupDataHelper_iOS', "#{s.version.to_s}"
 end

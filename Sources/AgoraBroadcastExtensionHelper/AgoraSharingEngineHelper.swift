@@ -1,6 +1,6 @@
 //
-//  ScreenSharingAgoraEngine.swift
-//  screenSharer
+//  AgoraSharingEngineHelper.swift
+//  AgoraBroadcastExtensionHelper
 //
 //  Created by Max Cobb on 20/10/2022.
 //
@@ -10,17 +10,19 @@ import CoreMedia
 import ReplayKit
 import AgoraRtcKit
 
+/// This is the class used to control the Agora RTC Engine from within an app extension.
+/// Use this as a superclass and follow instructions in ``AgoraBroadcastSampleHandler``
+/// to add your own custom logic.
 open class AgoraSharingEngineHelper {
-
     @discardableResult
     /// Initialize the AgoraSharingEngineHelper
     /// - Parameter appId: appID to initialise the engine with.
     /// - Returns: AgoraRtcEngineKit instance
-    public static func initialize(appId: String) -> AgoraRtcEngineKit {
+    public static func initialize(appId: String, delegate: AgoraRtcEngineDelegate? = nil) -> AgoraRtcEngineKit {
         let config = AgoraRtcEngineConfig()
         config.appId = appId
         config.channelProfile = .liveBroadcasting
-        let agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: nil)
+        let agoraEngine = AgoraRtcEngineKit.sharedEngine(with: config, delegate: delegate)
         AgoraSharingEngineHelper.agoraEngine = agoraEngine
         agoraEngine.enableVideo()
         agoraEngine.setExternalVideoSource(true, useTexture: true, sourceType: .videoFrame)
@@ -99,7 +101,7 @@ open class AgoraSharingEngineHelper {
 
     /// Retrieve the local video frame, figure out the orientation and duration of the buffer and send it to the chnanel.
     /// - Parameter sampleBuffer: The current buffer of media data.
-    static func sendVideoBuffer(_ sampleBuffer: CMSampleBuffer) {
+    public static func sendVideoBuffer(_ sampleBuffer: CMSampleBuffer) {
         guard let videoFrame = CMSampleBufferGetImageBuffer(sampleBuffer)
         else { return }
 
@@ -127,13 +129,13 @@ open class AgoraSharingEngineHelper {
 
     /// Override this method to capture and send audio from apps on the broadcaster's device.
     /// - Parameter sampleBuffer: The current buffer from an app on the broadcaster's device.
-    static func sendAudioAppBuffer(_ sampleBuffer: CMSampleBuffer) {
+    public static func sendAudioAppBuffer(_ sampleBuffer: CMSampleBuffer) {
 
     }
 
     /// Override this method to capture and send audio from the broadcaster's microphone.
     /// - Parameter sampleBuffer: The current buffer from the local microphone.
-    static func sendAudioMicBuffer(_ sampleBuffer: CMSampleBuffer) {
+    public static func sendAudioMicBuffer(_ sampleBuffer: CMSampleBuffer) {
 
     }
 

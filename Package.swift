@@ -7,9 +7,9 @@ let package = Package(
     name: "AgoraUIKit_iOS",
     platforms: [.iOS(.v13)],
     products: [
-        .library(name: "AgoraUIKit", targets: ["AgoraUIKit", "AgoraRtmControl", "AgoraAppGroupDataHelper"]),
-        .library(name: "AgoraBroadcastSampleHandler", targets: ["AgoraBroadcastSampleHandler"]),
-        .library(name: "AgoraRtmControl", targets: ["AgoraRtmControl"])
+        .library(name: "AgoraUIKit", targets: ["AgoraUIKit", "AgoraRtmControl"]),
+        .library(name: "AgoraAppGroupDataHelper", targets: ["AgoraAppGroupDataHelper"]),
+        .library(name: "AgoraBroadcastExtensionHelper", targets: ["AgoraBroadcastExtensionHelper"])
     ],
     dependencies: [
         .package(
@@ -26,13 +26,15 @@ let package = Package(
     targets: [
         .target(
             name: "AgoraUIKit",
-            dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmControl"],
+            dependencies: [
+                .product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraRtmControl"
+            ],
             path: "Sources/Agora-Video-UIKit"
         ),
         .target(
-            name: "AgoraBroadcastSampleHandler",
+            name: "AgoraBroadcastExtensionHelper",
             dependencies: [.product(name: "RtcBasic", package: "AgoraRtcKit"), "AgoraAppGroupDataHelper"],
-            path: "Sources/AgoraBroadcastSampleHandler"
+            path: "Sources/AgoraBroadcastExtensionHelper"
         ),
         .target(
             name: "AgoraAppGroupDataHelper",
