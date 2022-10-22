@@ -9,7 +9,7 @@ import ReplayKit
 import AgoraAppGroupDataHelper
 
 /// Use this class to broadcast your apps easily.
-public class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
+open class AgoraBroadcastSampleHandler: RPBroadcastSampleHandler {
     public func getAppGroup() -> String? { return nil }
 
     var bufferCopy: CMSampleBuffer?

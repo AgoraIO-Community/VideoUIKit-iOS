@@ -10,7 +10,7 @@ import CoreMedia
 import ReplayKit
 import AgoraRtcKit
 
-public class AgoraSharingEngineHelper {
+open class AgoraSharingEngineHelper {
 
     @discardableResult
     /// Initialize the AgoraSharingEngineHelper
