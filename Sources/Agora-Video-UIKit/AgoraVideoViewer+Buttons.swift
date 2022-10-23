@@ -228,7 +228,8 @@ extension AgoraVideoViewer {
         return button
     }
 
-    /// Get the button for sharing the current screen
+    /// Get the button for sharing the current screen. This button is available for macOS only.
+    /// iOS screen sharing must be implemented using `RPSystemBroadcastPickerView`.
     /// - Returns: The button for sharing screen if enabled, otherwise nil
     @objc open func getScreenShareButton() -> MPButton? {
         #if os(iOS)

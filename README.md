@@ -71,9 +71,21 @@ agoraView.join(channel: "test", as: .broadcaster)
 
 [More examples available on the wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki/Examples)
 
+### Screen Sharing
+
+For an example for screen sharing with Agora Video UI Kit and [AgoraBroadcastExtensionHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraBroadcastExtensionHelper/), check out the example project here:
+
+https://github.com/AgoraIO-Community/Video-UI-Kit-ScreenShare
+
 ## Documentation
 
 For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/).
+
+For other libraries in this package:
+- [AgoraBroadcastExtensionHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraBroadcastExtensionHelper/)
+- [AgoraAppGroupDataHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraAppGroupDataHelper/)
+- [AgoraRtmControl](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraRtmControl/)
+
 
 ## Error Handling and Troubleshooting
 
