@@ -23,6 +23,10 @@ Instantly integrate Agora in your own application or prototype using iOS. For ma
 
 [Click here for full documentation](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/)
 
+To see full documentation for other packages in this repo, such as `AgoraBroadcastExtensionHelper`, `AgoraAppGroupDataHelper` or `AgoraRtmControl`, check them out here:
+
+https://agoraio-community.github.io/VideoUIKit-iOS/extensions
+
 ## Requirements
 
 - iOS 13.0+ or a macOS 10.15 or later
@@ -67,9 +71,21 @@ agoraView.join(channel: "test", as: .broadcaster)
 
 [More examples available on the wiki](https://github.com/AgoraIO-Community/VideoUIKit-iOS/wiki/Examples)
 
+### Screen Sharing
+
+For an example for screen sharing with Agora Video UI Kit and [AgoraBroadcastExtensionHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraBroadcastExtensionHelper/), check out the example project here:
+
+https://github.com/AgoraIO-Community/Video-UI-Kit-ScreenShare
+
 ## Documentation
 
 For full documentation, see our [AgoraUIKit documentation page](https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit/).
+
+For other libraries in this package:
+- [AgoraBroadcastExtensionHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraBroadcastExtensionHelper/)
+- [AgoraAppGroupDataHelper](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraAppGroupDataHelper/)
+- [AgoraRtmControl](https://agoraio-community.github.io/VideoUIKit-iOS/extensions/AgoraRtmControl/)
+
 
 ## Error Handling and Troubleshooting
 

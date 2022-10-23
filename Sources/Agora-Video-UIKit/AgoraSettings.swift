@@ -41,12 +41,14 @@ public struct AgoraSettings {
         public static let micButton = BuiltinButtons(rawValue: 1 << 1)
         /// Option for displaying a button to flip the camera between front and rear facing.
         public static let flipButton = BuiltinButtons(rawValue: 1 << 2)
-        /// Option for displaying a button to toggle beautify feature on or off
+        /// Option for displaying a button to toggle beautify feature on or off.
+        /// This button will be hidden by default, as extra libraries are required.
         public static let beautifyButton = BuiltinButtons(rawValue: 1 << 3)
-        /// Option for displaying screenshare button
+        /// Option for displaying screenshare button. This button is available for macOS only.
+        /// iOS screen sharing must be implemented using `RPSystemBroadcastPickerView`.
         public static let screenShareButton = BuiltinButtons(rawValue: 1 << 4)
         /// Option to display all default buttons
-        public static let all: BuiltinButtons = [cameraButton, micButton, flipButton, beautifyButton, screenShareButton]
+        public static let all: BuiltinButtons = [cameraButton, micButton, flipButton, screenShareButton]
         /// Initialiser for creating an option set
         /// - Parameter rawValue: Raw value to be applied, used for choosing the button options
         public init(rawValue: Int) {

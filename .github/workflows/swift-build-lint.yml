@@ -22,8 +22,11 @@ jobs:
         SCHEME: AgoraUIKit_iOS-Package
         DESTINATION: 'generic/platform=iOS'
     - name: Pod Lint 🔎
-      run: pod lib lint AgoraUIKit_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraRtmControl_iOS.podspec'
+      run: |
+        export LIB_VERSION=$(grep 'static let version' Sources/Agora-Video-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')
+        pod lib lint AgoraUIKit_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraRtmControl_iOS.podspec';
+        pod lib lint AgoraBroadcastExtensionHelper_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraAppGroupDataHelper_iOS.podspec';
     - name: Print Version 🔤
       run: |
         echo '### Build passed :rocket:' >> $GITHUB_STEP_SUMMARY
-        echo "Version: $(grep 'static let version' Sources/Agora-Video-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')" >> $GITHUB_STEP_SUMMARY
+        echo "Version: $LIB_VERSION" >> $GITHUB_STEP_SUMMARY

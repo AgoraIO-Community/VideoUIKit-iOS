@@ -25,14 +25,37 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-      - name: Build DocC 🛠
+      - name: Build All DocC 🛠
         run: |
           xcodebuild docbuild -scheme AgoraUIKit -derivedDataPath /tmp/docbuild -destination 'generic/platform=iOS';
           $(xcrun --find docc) process-archive \
             transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/AgoraUIKit.doccarchive \
             --output-path docs \
             --hosting-base-path VideoUIKit-iOS;
-          echo "<script>window.location.href += \"/documentation/agorauikit\"</script>" > docs/index.html
+          echo "<script>window.location.href += \"/documentation/agorauikit\"</script>" > docs/index.html;
+
+          mkdir docs/extensions/AgoraRtmControl
+          $(xcrun --find docc) process-archive \
+            transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/AgoraRtmControl.doccarchive \
+            --output-path docs/extensions/AgoraRtmControl \
+            --hosting-base-path VideoUIKit-iOS/extensions/AgoraRtmControl;
+          echo "<script>window.location.href += \"documentation/agorartmcontrol\"</script>" > docs/extensions/AgoraRtmControl/index.html;
+
+          xcodebuild docbuild -scheme AgoraBroadcastExtensionHelper -derivedDataPath /tmp/docbuild -destination 'generic/platform=iOS';
+          mkdir docs/extensions/AgoraBroadcastExtensionHelper
+          $(xcrun --find docc) process-archive \
+            transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/AgoraBroadcastExtensionHelper.doccarchive \
+            --output-path docs/extensions/AgoraBroadcastExtensionHelper \
+            --hosting-base-path VideoUIKit-iOS/extensions/AgoraBroadcastExtensionHelper;
+          echo "<script>window.location.href += \"documentation/agorabroadcastextensionhelper\"</script>" > docs/extensions/AgoraBroadcastExtensionHelper/index.html;
+
+          mkdir docs/extensions/AgoraAppGroupDataHelper
+          $(xcrun --find docc) process-archive \
+            transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/AgoraAppGroupDataHelper.doccarchive \
+            --output-path docs/extensions/AgoraAppGroupDataHelper \
+            --hosting-base-path VideoUIKit-iOS/extensions/AgoraAppGroupDataHelper;
+          echo "<script>window.location.href += \"documentation/agoraappgroupdatahelper\"</script>" > docs/extensions/AgoraAppGroupDataHelper/index.html;
+
       - name: Upload artifact 📜
         uses: actions/upload-pages-artifact@v1
         with:
