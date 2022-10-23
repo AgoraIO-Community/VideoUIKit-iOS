@@ -59,6 +59,17 @@ extension AgoraVideoViewer {
             }) { return }
         self.agoraSettings.cameraEnabled = enabled
         self.agkit.enableLocalVideo(enabled)
+        if let customCamera = self.customCamera {
+            if enabled {
+                self.customCamera?.resumeCapture()
+                self.agkit.muteLocalVideoStream(false)
+                self.rtcEngine(self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.capturing, error: .OK, sourceType: AgoraVideoSourceType.camera)
+            } else {
+                self.customCamera?.stopCapture()
+                self.agkit.muteLocalVideoStream(true)
+                self.rtcEngine(self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.stopped, error: .OK, sourceType: AgoraVideoSourceType.camera)
+            }
+        }
 
         if let camButton = self.camButton {
             camButton.isOn = !self.agoraSettings.cameraEnabled
@@ -369,6 +380,7 @@ extension AgoraVideoViewer {
         }
         self.connectionData.channel = nil
         self.agkit.setupLocalVideo(nil)
+        self.customCamera?.stopCapture()
         if stopPreview, self.userRole == .broadcaster { agkit.stopPreview() }
         self.activeSpeaker = nil
         self.remoteUserIDs = []

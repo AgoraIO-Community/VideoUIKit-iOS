@@ -9,6 +9,7 @@ import AgoraRtcKit
 #if canImport(AgoraRtmControl)
 import AgoraRtmKit
 #endif
+import AVKit
 
 /// Settings used for the display and behaviour of AgoraVideoViewer
 public struct AgoraSettings {
@@ -106,11 +107,18 @@ public struct AgoraSettings {
         ///   - enabled: Determines whether to enable the external video source.
         ///   - texture: Determines whether to use textured video data.
         ///   - encoded: Determines whether the external video source is encoded.
-        public init(enabled: Bool, texture: Bool, encoded: Bool) {
+        ///   - customCamera: Class for the logic around using a custom camera.
+        public init(
+            enabled: Bool, texture: Bool, encoded: Bool,
+            captureDevice: AVCaptureDevice? = nil
+        ) {
             self.enabled = enabled
             self.texture = texture
             self.encoded = encoded
+            self.captureDevice = captureDevice
         }
+
+        public var captureDevice: AVCaptureDevice?
     }
 
     /// External video source settings parameters
