@@ -1,0 +1,175 @@
+//
+//  AgoraCameraSourcePush.swift
+//  Agora-UIKit-Example
+//
+//  Created by Max Cobb on 22/09/2022.
+//
+
+#if os(iOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
+import AVFoundation
+import AgoraRtcKit
+
+/// View to show the custom camera feed for the local user.
+open class CustomVideoSourcePreview: MPView {
+    /// Layer that displays video from a camera device.
+    open private(set) var previewLayer: AVCaptureVideoPreviewLayer?
+
+    /// Add new frame to the preview layer
+    /// - Parameter previewLayer: New `previewLayer` to be displayed on the preview.
+    open func insertCaptureVideoPreviewLayer(previewLayer: AVCaptureVideoPreviewLayer) {
+        self.previewLayer?.removeFromSuperlayer()
+
+        previewLayer.frame = bounds
+        layer.insertSublayer(previewLayer, below: layer.sublayers?.first)
+        self.previewLayer = previewLayer
+    }
+
+    /// Tells the delegate a layer's bounds have changed.
+    /// - Parameter layer: The layer that requires layout of its sublayers.
+    override open func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        previewLayer?.frame = bounds
+    }
+}
+
+
+public protocol AgoraCameraSourcePushDelegate {
+    func myVideoCapture(_ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer, rotation: Int, timeStamp: CMTime)
+}
+
+open class AgoraCameraSourcePush: NSObject {
+
+    fileprivate var delegate: AgoraCameraSourcePushDelegate?
+    private var localVideoPreview: CustomVideoSourcePreview?
+
+    public let captureSession: AVCaptureSession
+    public let captureQueue: DispatchQueue
+    public var currentOutput: AVCaptureVideoDataOutput? {
+        if let outputs = self.captureSession.outputs as? [AVCaptureVideoDataOutput] {
+            return outputs.first
+        } else {
+            return nil
+        }
+    }
+
+    public init(
+        delegate: AgoraCameraSourcePushDelegate,
+        localVideoPreview: CustomVideoSourcePreview?
+    ) {
+        self.delegate = delegate
+        self.localVideoPreview = localVideoPreview
+
+        self.captureSession = AVCaptureSession()
+        self.captureSession.usesApplicationAudioSession = false
+
+        let captureOutput = AVCaptureVideoDataOutput()
+        captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
+        if self.captureSession.canAddOutput(captureOutput) {
+            self.captureSession.addOutput(captureOutput)
+        }
+
+        self.captureQueue = DispatchQueue(label: "AgoraCaptureQueue")
+
+        let previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        localVideoPreview?.insertCaptureVideoPreviewLayer(previewLayer: previewLayer)
+    }
+
+    open func updateVideoPreview(to videoPreview: CustomVideoSourcePreview) {
+        self.localVideoPreview?.previewLayer?.removeFromSuperlayer()
+
+        let previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        videoPreview.insertCaptureVideoPreviewLayer(previewLayer: previewLayer)
+        self.localVideoPreview = videoPreview
+    }
+
+    deinit {
+        self.captureSession.stopRunning()
+    }
+
+    func changeCaptureDevice(to device: AVCaptureDevice) {
+        self.startCapture(ofDevice: device)
+    }
+
+    open func startCapture(ofDevice device: AVCaptureDevice) {
+        guard let currentOutput = self.currentOutput else {
+            return
+        }
+
+        currentOutput.setSampleBufferDelegate(self, queue: self.captureQueue)
+
+        captureQueue.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.setCaptureDevice(device, ofSession: strongSelf.captureSession)
+            strongSelf.captureSession.beginConfiguration()
+            if strongSelf.captureSession.canSetSessionPreset(AVCaptureSession.Preset.vga640x480) {
+                strongSelf.captureSession.sessionPreset = AVCaptureSession.Preset.vga640x480
+            }
+            strongSelf.captureSession.commitConfiguration()
+            strongSelf.captureSession.startRunning()
+        }
+    }
+
+    func resumeCapture() {
+        self.currentOutput?.setSampleBufferDelegate(self, queue: self.captureQueue)
+        self.captureQueue.async { [weak self] in
+            self?.captureSession.startRunning()
+        }
+    }
+
+    func stopCapture() {
+        self.currentOutput?.setSampleBufferDelegate(nil, queue: nil)
+        self.captureQueue.async { [weak self] in
+            self?.captureSession.stopRunning()
+        }
+    }
+
+}
+
+public extension AgoraCameraSourcePush {
+    func setCaptureDevice(_ device: AVCaptureDevice, ofSession captureSession: AVCaptureSession) {
+        let currentInputs = captureSession.inputs as? [AVCaptureDeviceInput]
+        let currentInput = currentInputs?.first
+
+        if let currentInputName = currentInput?.device.localizedName,
+            currentInputName == device.uniqueID {
+            return
+        }
+
+        guard let newInput = try? AVCaptureDeviceInput(device: device) else {
+            return
+        }
+
+        captureSession.beginConfiguration()
+        if let currentInput = currentInput {
+            captureSession.removeInput(currentInput)
+        }
+        if captureSession.canAddInput(newInput) {
+            captureSession.addInput(newInput)
+        }
+        captureSession.commitConfiguration()
+    }
+}
+
+extension AgoraCameraSourcePush: AVCaptureVideoDataOutputSampleBufferDelegate {
+    open func captureOutput(
+        _ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer,
+        from connection: AVCaptureConnection
+    ) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        DispatchQueue.main.async {[weak self] in
+            guard let weakSelf = self else { return }
+
+            weakSelf.delegate?.myVideoCapture(
+                weakSelf, didOutputSampleBuffer: pixelBuffer,
+                rotation: 90, timeStamp: time
+            )
+        }
+    }
+}

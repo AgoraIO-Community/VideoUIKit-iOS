@@ -36,15 +36,15 @@ Treat ``AgoraVideoViewer`` as you would any UIView. It can use constraints, or j
 
 The next thing you'll want to do is join a channel. There are a couple of different methods for this, varying by how a token is fetched or provided:
 
-- ``AgoraVideoViewer/join(channel:with:as:uid:)``
-- ``AgoraVideoViewer/join(channel:as:fetchToken:uid:)``
+- ``AgoraVideoViewer/join(channel:with:as:uid:mediaOptions:)``
+- ``AgoraVideoViewer/join(channel:as:fetchToken:uid:mediaOptions:)``
 
 The first of these is expecting a token as a property (or `nil` if you're in development); and the second takes a boolean for whether or not you want Agora's Video UI Kit to fetch the token for you. See how in the next topic.
 
 ### Fetching Tokens
 
 How you fetch your RTC tokens will depend on how and where your token server is hosted.
-However, if you're using the open source token server, [agora-token-service](https://github.com/AgoraIO-Community/agora-token-service), you'll have a much easier time fetching tokens with Video UIKit.
+However, if you're using the open source token server, [agora-token-service](https://github.com/AgoraIO-Community/agora-token-service), you'll have a much easier time fetching tokens with Video UI Kit.
 
 Once hosted, add the URL of your token server to the settings property, ``AgoraSettings/tokenURL`` like so:
 

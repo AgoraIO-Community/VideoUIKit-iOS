@@ -4,7 +4,7 @@ Integrate Agora Video Calling or Live Video Streaming to your iOS or macOS app w
 
 ## Overview
 
-Agora UIKit is a low-code solution to adding video calls and live streams into your application.
+Agora Video UI Kit is a low-code solution to adding video calls and live streams into your application.
 
 Get started with this package by creating an ``AgoraVideoViewer`` and joining a channel:
 
@@ -22,6 +22,10 @@ let agoraView = AgoraVideoViewer(
 
 agoraView.join(channel: "test", as: .broadcaster)
 ```
+
+- ``AgoraVideoViewer/init(connectionData:style:agoraSettings:delegate:)``
+- ``AgoraConnectionData``
+- ``AgoraVideoViewer/join(channel:with:as:uid:mediaOptions:)``
 
 ### Getting Started
 

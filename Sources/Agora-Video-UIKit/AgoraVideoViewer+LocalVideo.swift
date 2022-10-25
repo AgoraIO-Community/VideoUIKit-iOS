@@ -9,6 +9,7 @@ import CoreVideo
 import CoreMedia
 import Foundation
 import AgoraRtcKit
+import AVFoundation
 
 extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
 
@@ -35,6 +36,21 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
         }
         self.userVideoLookup[self.userID] = vidView
         return vidView
+    }
+
+    /// Set or change the current capture device.
+    /// - Parameter captureDevice: Desired AVCaptureDevice to be set up.
+    /// - Returns: Returns true if successful, else false.
+    public func setCaptureDevice(to captureDevice: AVCaptureDevice) -> Bool {
+        if let customCamera = self.customCamera {
+            // custom camera already exists, tell that to change device
+            customCamera.changeCaptureDevice(to: captureDevice)
+        } else if self.agoraSettings.externalVideoSettings.enabled {
+            // external video enabled and not in channel yet
+            // get it ready for when we do join a channel.
+            self.agoraSettings.externalVideoSettings.captureDevice = captureDevice
+        } else { return false }
+        return true
     }
 
     /// This method receives the pixelbuffer, converts to `AgoraVideoFrame`, then pushes to Agora RTC.

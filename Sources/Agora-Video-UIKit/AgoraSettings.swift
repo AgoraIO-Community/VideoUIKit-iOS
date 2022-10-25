@@ -102,6 +102,9 @@ public struct AgoraSettings {
         /// - `false`: The external video source is not encoded.
         public let encoded: Bool
 
+        /// Class for the logic around using a custom camera.
+        public var captureDevice: AVCaptureDevice?
+
         /// Create a settings object for applying external videos
         /// - Parameters:
         ///   - enabled: Determines whether to enable the external video source.
@@ -117,8 +120,6 @@ public struct AgoraSettings {
             self.encoded = encoded
             self.captureDevice = captureDevice
         }
-
-        public var captureDevice: AVCaptureDevice?
     }
 
     /// External video source settings parameters
