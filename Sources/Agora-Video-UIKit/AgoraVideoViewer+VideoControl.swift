@@ -61,11 +61,11 @@ extension AgoraVideoViewer {
         self.agkit.enableLocalVideo(enabled)
         if let customCamera = self.customCamera {
             if enabled {
-                self.customCamera?.resumeCapture()
+                customCamera.resumeCapture()
                 self.agkit.muteLocalVideoStream(false)
                 self.rtcEngine(self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.capturing, error: .OK, sourceType: AgoraVideoSourceType.camera)
             } else {
-                self.customCamera?.stopCapture()
+                customCamera.stopCapture()
                 self.agkit.muteLocalVideoStream(true)
                 self.rtcEngine(self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.stopped, error: .OK, sourceType: AgoraVideoSourceType.camera)
             }

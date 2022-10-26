@@ -97,7 +97,7 @@ open class AgoraSharingEngineHelper {
         AgoraRtcEngineKit.destroy()
     }
 
-    /// Retrieve the local video frame, figure out the orientation and duration of the buffer and send it to the chnanel.
+    /// Retrieve the local video frame, figure out the orientation and duration of the buffer and send it to the channel.
     /// - Parameter sampleBuffer: The current buffer of media data.
     public static func sendVideoBuffer(_ sampleBuffer: CMSampleBuffer) {
         guard let videoFrame = CMSampleBufferGetImageBuffer(sampleBuffer)

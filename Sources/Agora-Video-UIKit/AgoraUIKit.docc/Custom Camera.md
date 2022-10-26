@@ -40,6 +40,21 @@ The above code snippet specifies the following:
 - Finally the capture device fetched earlier is passed through.
 
 
+## Update Custom Camera
+
+To update the custom camera at another point after the user is already connected to a channel, the method ``AgoraVideoViewer/setCaptureDevice(to:)`` can be used:
+
+```swift
+guard let firstValidCamera = AVCaptureDevice.DiscoverySession(
+    deviceTypes: [.builtInTelephotoCamera], mediaType: .video, position: .back
+).devices.first else { fatalError("Cannot find above camera")}
+
+_ = self.agoraView?.setCaptureDevice(to: firstValidCamera)
+```
+
+
 ## Conclusion
 
 This shows how to use any AVCaptureDevice and pass that directly through Agora Video RTC Engine.
+
+![Both Cameras Example](custom-camera-both.png)

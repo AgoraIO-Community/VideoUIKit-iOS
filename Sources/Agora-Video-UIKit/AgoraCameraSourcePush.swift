@@ -13,6 +13,27 @@ import AppKit
 import AVFoundation
 import AgoraRtcKit
 
+internal extension UIDeviceOrientation {
+    func toCaptureVideoOrientation() -> AVCaptureVideoOrientation {
+        switch self {
+        case .portrait: return .portrait
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeLeft: return .landscapeLeft
+        case .landscapeRight: return .landscapeRight
+        default: return .portrait
+        }
+    }
+    var intRotation: Int {
+        switch self {
+        case .portrait: return 90
+        case .landscapeLeft: return 0
+        case .landscapeRight: return 180
+        case .portraitUpsideDown: return -90
+        default: return 90
+        }
+    }
+}
+
 /// View to show the custom camera feed for the local user.
 open class CustomVideoSourcePreview: MPView {
     /// Layer that displays video from a camera device.
@@ -33,7 +54,25 @@ open class CustomVideoSourcePreview: MPView {
     override open func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         previewLayer?.frame = bounds
+        if let connection = self.previewLayer?.connection {
+            let currentDevice = UIDevice.current
+            let orientation: UIDeviceOrientation = currentDevice.orientation
+            let previewLayerConnection: AVCaptureConnection = connection
+
+            if previewLayerConnection.isVideoOrientationSupported {
+                self.updatePreviewLayer(
+                    layer: previewLayerConnection,
+                    orientation: orientation.toCaptureVideoOrientation()
+                )
+            }
+        }
     }
+
+    private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
+        layer.videoOrientation = orientation
+        self.previewLayer?.frame = self.bounds
+    }
+
 }
 
 
@@ -168,7 +207,7 @@ extension AgoraCameraSourcePush: AVCaptureVideoDataOutputSampleBufferDelegate {
 
             weakSelf.delegate?.myVideoCapture(
                 weakSelf, didOutputSampleBuffer: pixelBuffer,
-                rotation: 90, timeStamp: time
+                rotation: UIDevice.current.orientation.intRotation, timeStamp: time
             )
         }
     }
