@@ -75,9 +75,11 @@ open class CustomVideoSourcePreview: MPView {
 
 }
 
-
-public protocol AgoraCameraSourcePushDelegate {
-    func myVideoCapture(_ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer, rotation: Int, timeStamp: CMTime)
+public protocol AgoraCameraSourcePushDelegate: AnyObject {
+    func myVideoCapture(
+        _ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer,
+        rotation: Int, timeStamp: CMTime
+    )
 }
 
 open class AgoraCameraSourcePush: NSObject {
@@ -106,7 +108,9 @@ open class AgoraCameraSourcePush: NSObject {
         self.captureSession.usesApplicationAudioSession = false
 
         let captureOutput = AVCaptureVideoDataOutput()
-        captureOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
+        captureOutput.videoSettings = [
+            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
+        ]
         if self.captureSession.canAddOutput(captureOutput) {
             self.captureSession.addOutput(captureOutput)
         }

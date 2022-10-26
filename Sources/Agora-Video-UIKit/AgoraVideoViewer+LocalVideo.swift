@@ -59,7 +59,10 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
     ///   - pixelBuffer: A reference to a Core Video pixel buffer object from the camera stream.
     ///   - rotation: Orientation of the incoming pixel buffer
     ///   - timeStamp: Timestamp when the pixel buffer was captured.
-    public func myVideoCapture(_ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer, rotation: Int, timeStamp: CMTime) {
+    public func myVideoCapture(
+        _ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer,
+        rotation: Int, timeStamp: CMTime
+    ) {
         let videoFrame = AgoraVideoFrame()
         /** Video format:
          * - 1: I420
@@ -86,6 +89,5 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
             )
         }
     }
-
 
 }
