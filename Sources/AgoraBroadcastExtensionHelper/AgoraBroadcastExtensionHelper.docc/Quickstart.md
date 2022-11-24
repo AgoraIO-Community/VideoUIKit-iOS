@@ -52,7 +52,7 @@ class SampleHandler: AgoraBroadcastSampleHandler {
     }
     
     override public func getBroadcastData() -> AgoraBroadcastExtData? {
-        // Another method
+        // Method for quick testing.
     }
 }
 ```
@@ -93,7 +93,7 @@ On the main app side, we need to make a small change to pass data such as the Ap
 To do so, there are only a few commands we need to add:
 
 ```swift
-AgoraAppGroupDataHelper.appGroup = "<#App Group#>"
+AgoraAppGroupDataHelper.appGroup = "group.com.example.my-app" // Replace with your app group.
 AgoraAppGroupDataHelper.set("<#Agora App ID#>", forKey: .appId)
 AgoraAppGroupDataHelper.set("<#Channel Name#>", forKey: .channel)
 AgoraAppGroupDataHelper.set(<#Token or nil#>, forKey: .token)
@@ -102,8 +102,21 @@ AgoraAppGroupDataHelper.set(<#Screenshare User ID#>, forKey: .uid)
 
 These values will be picked up by the app extension, and applied when it joins the video call or stream. This can be added to the above method, `prepareScreenSharing`.
 
+The ``AgoraBroadcastSampleHandler/getAppGroup()`` metho would need updating to something like the following, depending on your app group name:
+
+```swift
+class SampleHandler: AgoraBroadcastSampleHandler {
+    override public func getAppGroup() -> String? {
+        return "group.com.example.my-app"
+    }
+}
+```
+
 ## Conclusion
 
 That's it, your app is now hooked up to allow users to stream their screen!
+Check out our example project here:
+
+[https://github.com/AgoraIO-Community/Video-UI-Kit-ScreenShare](https://github.com/AgoraIO-Community/Video-UI-Kit-ScreenShare)
 
 If you have any issues with this, feel free to [open an issue on GitHub](https://github.com/AgoraIO-Community/VideoUIKit-iOS/issues/new/choose).

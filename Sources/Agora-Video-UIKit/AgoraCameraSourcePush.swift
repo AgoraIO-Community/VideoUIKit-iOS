@@ -150,8 +150,8 @@ open class AgoraCameraSourcePush: NSObject {
             }
             strongSelf.setCaptureDevice(device, ofSession: strongSelf.captureSession)
             strongSelf.captureSession.beginConfiguration()
-            if strongSelf.captureSession.canSetSessionPreset(AVCaptureSession.Preset.vga640x480) {
-                strongSelf.captureSession.sessionPreset = AVCaptureSession.Preset.vga640x480
+            if strongSelf.captureSession.canSetSessionPreset(.vga640x480) {
+                strongSelf.captureSession.sessionPreset = .vga640x480
             }
             strongSelf.captureSession.commitConfiguration()
             strongSelf.captureSession.startRunning()
