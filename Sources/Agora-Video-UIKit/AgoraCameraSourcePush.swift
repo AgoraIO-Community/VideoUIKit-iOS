@@ -72,6 +72,11 @@ open class CustomVideoSourcePreview: MPView {
             }
         }
     }
+    #elseif os(macOS)
+    open override func layout() {
+        super.layout()
+        self.previewLayer?.frame = bounds
+    }
     #endif
 
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
@@ -79,6 +84,16 @@ open class CustomVideoSourcePreview: MPView {
         self.previewLayer?.frame = self.bounds
     }
 
+    #if os(macOS)
+    public override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        self.wantsLayer = true
+    }
+
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    #endif
 }
 
 /// Delegate for capturing the frames from the camera source.
