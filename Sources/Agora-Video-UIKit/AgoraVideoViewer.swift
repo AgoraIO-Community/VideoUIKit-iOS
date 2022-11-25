@@ -104,6 +104,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     public var rtcLookup: [UInt: String] = [:]
     public var rtmLookup: [String: Codable] = [:]
 
+    public internal(set) var customCamera: AgoraCameraSourcePush?
     /// Delegate for the AgoraVideoViewer, used for some important callback methods.
     public weak var delegate: AgoraVideoViewerDelegate?
 

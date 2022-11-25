@@ -20,6 +20,7 @@ public class AgoraSingleVideoView: MPView {
         didSet {
             if oldValue != videoMuted {
                 self.canvas.view?.isHidden = videoMuted
+                self.customCameraView?.isHidden = videoMuted
             }
             self.updateUserOptions()
         }
@@ -52,6 +53,29 @@ public class AgoraSingleVideoView: MPView {
     /// View that the AgoraRtcVideoCanvas is sending the video feed to
     var hostingView: MPView? {
         self.canvas.view
+    }
+
+    var customCameraView: CustomVideoSourcePreview? {
+        didSet {
+            if let oldValue = oldValue {
+                oldValue.removeFromSuperview()
+            }
+            if let customCameraView = customCameraView {
+                if let defaultCamView = self.canvas.view {
+                    #if os(iOS)
+                    self.insertSubview(customCameraView, aboveSubview: defaultCamView)
+                    #elseif os(macOS)
+                    self.addSubview(customCameraView, positioned: .above, relativeTo: defaultCamView)
+                    #endif
+                }
+                customCameraView.frame = self.bounds
+                #if os(iOS)
+                customCameraView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                #elseif os(macOS)
+                customCameraView.autoresizingMask = [.width, .height]
+                #endif
+            }
+        }
     }
 
     var micFlagColor: MPColor
