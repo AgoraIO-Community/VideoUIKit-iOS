@@ -28,5 +28,6 @@ jobs:
         pod lib lint AgoraBroadcastExtensionHelper_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraAppGroupDataHelper_iOS.podspec';
     - name: Print Version 🔤
       run: |
+        export LIB_VERSION=$(grep 'static let version' Sources/Agora-Video-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')
         echo '### Build passed :rocket:' >> $GITHUB_STEP_SUMMARY
         echo "Version: $LIB_VERSION" >> $GITHUB_STEP_SUMMARY
