@@ -34,7 +34,7 @@ internal extension UIDeviceOrientation {
     }
 }
 
-/// View to show the custom camera feed for the local user.
+/// View to show the custom camera feed for the local camera feed.
 open class CustomVideoSourcePreview: MPView {
     /// Layer that displays video from a camera device.
     open private(set) var previewLayer: AVCaptureVideoPreviewLayer?
@@ -75,6 +75,7 @@ open class CustomVideoSourcePreview: MPView {
 
 }
 
+/// Delegate for capturing the frames from the camera source.
 public protocol AgoraCameraSourcePushDelegate: AnyObject {
     func myVideoCapture(
         _ capture: AgoraCameraSourcePush, didOutputSampleBuffer pixelBuffer: CVPixelBuffer,
@@ -83,12 +84,14 @@ public protocol AgoraCameraSourcePushDelegate: AnyObject {
 }
 
 open class AgoraCameraSourcePush: NSObject {
-
     fileprivate var delegate: AgoraCameraSourcePushDelegate?
     private var localVideoPreview: CustomVideoSourcePreview?
 
+    /// Active capture session
     public let captureSession: AVCaptureSession
+    /// DispatchQueue for processing and sending images from ``captureSession``
     public let captureQueue: DispatchQueue
+    /// Latest output from the active ``captureSession``.
     public var currentOutput: AVCaptureVideoDataOutput? {
         if let outputs = self.captureSession.outputs as? [AVCaptureVideoDataOutput] {
             return outputs.first
@@ -97,6 +100,10 @@ open class AgoraCameraSourcePush: NSObject {
         }
     }
 
+    /// Create a new AgoraCameraSourcePush object
+    /// - Parameters:
+    ///   - delegate: Camera source delegate, where the pixel buffer is sent to.
+    ///   - localVideoPreview: Local view where the camera feed is rendered to.
     public init(
         delegate: AgoraCameraSourcePushDelegate,
         localVideoPreview: CustomVideoSourcePreview?
@@ -121,6 +128,8 @@ open class AgoraCameraSourcePush: NSObject {
         localVideoPreview?.insertCaptureVideoPreviewLayer(previewLayer: previewLayer)
     }
 
+    /// Update the local preview layer to a new one.
+    /// - Parameter videoPreview: New custom preview layer.
     open func updateVideoPreview(to videoPreview: CustomVideoSourcePreview) {
         self.localVideoPreview?.previewLayer?.removeFromSuperlayer()
 
@@ -137,6 +146,8 @@ open class AgoraCameraSourcePush: NSObject {
         self.startCapture(ofDevice: device)
     }
 
+    /// Start caturing frames from the device. Usually internally called.
+    /// - Parameter device: Capture device to have images captured from.
     open func startCapture(ofDevice device: AVCaptureDevice) {
         guard let currentOutput = self.currentOutput else {
             return
