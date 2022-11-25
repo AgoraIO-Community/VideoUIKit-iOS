@@ -13,6 +13,7 @@ import AppKit
 import AVFoundation
 import AgoraRtcKit
 
+#if os(iOS)
 internal extension UIDeviceOrientation {
     func toCaptureVideoOrientation() -> AVCaptureVideoOrientation {
         switch self {
@@ -33,6 +34,7 @@ internal extension UIDeviceOrientation {
         }
     }
 }
+#endif
 
 /// View to show the custom camera feed for the local camera feed.
 open class CustomVideoSourcePreview: MPView {
@@ -43,12 +45,15 @@ open class CustomVideoSourcePreview: MPView {
     /// - Parameter previewLayer: New `previewLayer` to be displayed on the preview.
     open func insertCaptureVideoPreviewLayer(previewLayer: AVCaptureVideoPreviewLayer) {
         self.previewLayer?.removeFromSuperlayer()
-
+        #if os(macOS)
+        guard let layer = layer else { return }
+        #endif
         previewLayer.frame = bounds
         layer.insertSublayer(previewLayer, below: layer.sublayers?.first)
         self.previewLayer = previewLayer
     }
 
+    #if os(iOS)
     /// Tells the delegate a layer's bounds have changed.
     /// - Parameter layer: The layer that requires layout of its sublayers.
     override open func layoutSublayers(of layer: CALayer) {
@@ -67,6 +72,7 @@ open class CustomVideoSourcePreview: MPView {
             }
         }
     }
+    #endif
 
     private func updatePreviewLayer(layer: AVCaptureConnection, orientation: AVCaptureVideoOrientation) {
         layer.videoOrientation = orientation
@@ -112,7 +118,9 @@ open class AgoraCameraSourcePush: NSObject {
         self.localVideoPreview = localVideoPreview
 
         self.captureSession = AVCaptureSession()
+        #if os(iOS)
         self.captureSession.usesApplicationAudioSession = false
+        #endif
 
         let captureOutput = AVCaptureVideoDataOutput()
         captureOutput.videoSettings = [
@@ -220,9 +228,14 @@ extension AgoraCameraSourcePush: AVCaptureVideoDataOutputSampleBufferDelegate {
         DispatchQueue.main.async {[weak self] in
             guard let weakSelf = self else { return }
 
+            #if os(iOS)
+            let imgRot = UIDevice.current.orientation.intRotation
+            #else
+            let imgRot = 0
+            #endif
             weakSelf.delegate?.myVideoCapture(
                 weakSelf, didOutputSampleBuffer: pixelBuffer,
-                rotation: UIDevice.current.orientation.intRotation, timeStamp: time
+                rotation: imgRot, timeStamp: time
             )
         }
     }

@@ -62,7 +62,11 @@ public class AgoraSingleVideoView: MPView {
             }
             if let customCameraView = customCameraView {
                 if let defaultCamView = self.canvas.view {
+                    #if os(iOS)
                     self.insertSubview(customCameraView, aboveSubview: defaultCamView)
+                    #elseif os(macOS)
+                    self.addSubview(customCameraView, positioned: .above, relativeTo: defaultCamView)
+                    #endif
                 }
                 customCameraView.frame = self.bounds
                 #if os(iOS)
