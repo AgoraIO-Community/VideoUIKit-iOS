@@ -167,26 +167,39 @@ extension AgoraVideoViewer {
         #elseif os(macOS)
         ssButton.layer?.backgroundColor = (ssButton.isOn ? NSColor.systemGreen : NSColor.systemGray).cgColor
         if ssButton.isOn { self.startSharingScreen()
-        } else { self.agkit.stopScreenCapture() }
+        } else { self.stopSharingScreen() }
         #endif
     }
 
+    #if os(macOS)
     /// Start a new screen capture (macOS only for now)
     /// - Parameter displayId: The display ID of the screen to be shared. This parameter specifies which screen you want to share.
     /// - Parameter contentHint: The content hint for screen sharing, see [AgoraVideoContentHint](https://docs.agora.io/en/Interactive%20Broadcast/API%20Reference/oc/Constants/AgoraVideoContentHint.html?platform=macOS).
     ///
     /// <br>For information on how to get the displayId, see [Share the Screen](https://docs.agora.io/en/Video/screensharing_mac?platform=macOS)
-    @objc open func startSharingScreen(displayId: UInt = 0) { // , contentHint: AgoraVideoContentHint = .none) {
-        #if os(macOS)
-        let rectangle = CGRect.zero
+    @objc open func startSharingScreen(displayId: UInt = 0) {
         let parameters = AgoraScreenCaptureParameters()
-        parameters.dimensions = CGSize.zero
+        parameters.dimensions = CGSize(width: 640, height: 480)
         parameters.frameRate = 15
         parameters.bitrate = 1000
         parameters.captureMouseCursor = true
-        self.agkit.startScreenCapture(byDisplayId: UInt32(displayId), regionRect: rectangle, captureParams: parameters)
-        #endif
+        self.agkit.startScreenCapture(
+            byDisplayId: UInt32(displayId), regionRect: CGRect.zero, captureParams: parameters
+        )
+        let mediaOptions = AgoraRtcChannelMediaOptions()
+        mediaOptions.publishCameraTrack = false
+        mediaOptions.publishScreenTrack = true
+        self.agkit.updateChannel(with: mediaOptions)
     }
+
+    func stopSharingScreen() {
+        self.agkit.stopScreenCapture()
+        let mediaOptions = AgoraRtcChannelMediaOptions()
+        mediaOptions.publishCameraTrack = true
+        mediaOptions.publishScreenTrack = false
+        self.agkit.updateChannel(with: mediaOptions)
+    }
+    #endif
 
     /// Turn on/off the 'beautify' effect. Visual and voice change.
     @objc open func toggleBeautify() {
