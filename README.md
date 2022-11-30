@@ -1,15 +1,22 @@
 # Agora Video UI Kit for iOS
 
 <p align="center">
+    <a href="https://github.com/AgoraIO-Community/VideoUIKit-iOS/releases">
+        <img src="https://img.shields.io/github/v/release/AgoraIO-Community/VideoUIKit-iOS?color=orange&label=Stable%20Release&logo=swift"/>
+    </a>
+    <a href="https://swiftpackageindex.com/AgoraIO-Community/VideoUIKit-iOS">
+        <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FAgoraIO-Community%2FVideoUIKit-iOS%2Fbadge%3Ftype%3Dplatforms"/>
+    </a>
+    <a href="https://swiftpackageindex.com/AgoraIO-Community/VideoUIKit-iOS">
+        <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FAgoraIO-Community%2FVideoUIKit-iOS%2Fbadge%3Ftype%3Dswift-versions"/>
+    </a>
+    <br/>
     <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/actions/workflows/swift-build-lint.yml/badge.svg"/>
     <a href="https://agoraio-community.github.io/VideoUIKit-iOS/documentation/agorauikit">
         <img src="https://github.com/AgoraIO-Community/VideoUIKit-iOS/actions/workflows/deploy_docs.yml/badge.svg"/>
     </a>
-    <img src="https://img.shields.io/badge/platform-iOS-lightgrey"/>
-    <img src="https://img.shields.io/github/v/release/AgoraIO-Community/VideoUIKit-iOS?color=orange&label=Stable%20Release&logo=swift"/>
-    <img src="https://img.shields.io/cocoapods/v/AgoraUIKit_iOS?label=Pre-release"/>
     <a href="https://www.agora.io/en/join-slack/">
-        <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue.svg?logo=slack">
+        <img src="https://img.shields.io/badge/slack-@RTE%20Dev-blue?logo=slack">
     </a>
 </p>
 
