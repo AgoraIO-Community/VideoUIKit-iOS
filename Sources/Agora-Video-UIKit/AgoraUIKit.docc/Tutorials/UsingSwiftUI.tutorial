@@ -31,7 +31,7 @@
                 Add the newly created ``AgoraUIKit/AgoraViewer`` to your body inside of a ZStack.
                 
                 @Code(name: Quickstart-SwiftUI.swift, file: quickstart-swiftui-02.swift) {
-                    @Image(source: quickstart-swiftui-button.png, alt: "A screenshot of the SwiftUI View with just a button visible")
+                    @Image(source: quickstart-swiftui-blank.png, alt: "A screenshot of the SwiftUI View no view visible yet")
                 }
             }
             
