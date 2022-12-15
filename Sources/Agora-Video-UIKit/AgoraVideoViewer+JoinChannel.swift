@@ -79,8 +79,9 @@ extension AgoraVideoViewer {
     ///   - role: [AgoraClientRole](https://docs.agora.io/en/Video/API%20Reference/oc/Constants/AgoraClientRole.html) to join the channel as. Default: `.broadcaster`
     ///   - uid: UID to be set when user joins the channel, default will be 0.
     ///   - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
-    /// - Returns: `Int32?` representing Agora's joinChannelByToken response. If response is `nil`,
-    ///            that means it has continued on another thread, or you area already in the channel.
+    /// - Returns: An integer representing Agora's joinChannelByToken response. If response is `nil`,
+    ///            that means it has continued on another thread due to requesting camera/mic permissions,
+    ///            or you area already in the channel. If the response is 0, everything is fine.
     @discardableResult
     public func join(
         channel: String, with token: String?,

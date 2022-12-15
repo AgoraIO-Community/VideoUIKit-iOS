@@ -29,4 +29,5 @@ agoraView.join(channel: "test", as: .broadcaster)
 
 ### Getting Started
 
+- <doc:/tutorials/TOC>
 - <doc:Quickstart-UIKit>

@@ -53,15 +53,20 @@ public struct AgoraViewer: UIViewRepresentable {
         )
     }
 
+    @discardableResult
     /// Join the Agora channel
     /// - Parameters:
     ///   - channel: Channel name to join.
     ///   - token: Valid token to join the channel.
     ///   - role: AgoraClientRole to join the channel as. Default: .broadcaster.
     ///   - mediaOptions: Media options such as custom audio/video tracks, subscribing options etc.
+    /// - Returns: An integer representing Agora's joinChannelByToken response. If response is `nil`,
+    ///            that means it has continued on another thread due to requesting camera/mic permissions,
+    ///            or you area already in the channel. If the response is 0, everything is fine.
     public func join(
         channel: String, with token: String?, as role: AgoraClientRole,
-        mediaOptions: AgoraRtcChannelMediaOptions? = nil) {
+        mediaOptions: AgoraRtcChannelMediaOptions? = nil
+    ) -> Int32? {
         self.viewer.join(channel: channel, with: token, as: role, mediaOptions: mediaOptions)
     }
 }

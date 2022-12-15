@@ -13,10 +13,12 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     ///   - engine: AgoraRtcEngine of this session.
     ///   - oldRole: Previous role of the user.
     ///   - newRole: New role of the user.
+    ///   - newRoleOptions: The client role option of the new role.
     open func rtcEngine(
         _ engine: AgoraRtcEngineKit,
         didClientRoleChanged oldRole: AgoraClientRole,
-        newRole: AgoraClientRole
+        newRole: AgoraClientRole,
+        newRoleOptions: AgoraClientRoleOptions?
     ) {
         let isHost = newRole == .broadcaster
         if !isHost {
@@ -31,7 +33,11 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         #if canImport(AgoraRtmControl)
         self.broadcastPersonalData()
         #endif
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didClientRoleChanged: oldRole, newRole: newRole)
+
+        self.agoraSettings.rtcDelegate?.rtcEngine?(
+            engine, didClientRoleChanged: oldRole,
+            newRole: newRole, newRoleOptions: newRoleOptions
+        )
     }
 
     /// New User joined the channel
