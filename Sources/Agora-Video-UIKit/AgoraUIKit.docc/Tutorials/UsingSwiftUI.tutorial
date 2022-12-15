@@ -1,0 +1,60 @@
+@Tutorial(time: 5) {
+    @Intro(title: "Agora UI Kit + SwiftUI") {
+        How to get started with Agora's Video UI Kit in SwiftUI
+        
+        @Image(source: agora-uikit-banner, alt: "Video UI Kit Banner Image")
+    }
+    
+    @Section(title: "Create a Video Viewer") {
+        @ContentAndMedia {
+            Let's make a SwiftUI Video Call App!
+            
+            After creating a new SwiftUI project with Xcode, you must add the Swift Package of Agora Video UI Kit using this URL:
+            `https://github.com/AgoraIO-Community/VideoUIKit-iOS`
+            
+            And add camera and microphone permissions to your Info.plist:
+            
+            @Image(source: quickstart-swiftui-permissions, alt: "A screenshot showing the Camera and Microphone permissions in Info.plist")
+
+        }
+        
+        @Steps {
+            @Step {
+                Import Agora's Video UI Kit, as well as the core RTC Kit. 
+                
+                @Code(name: Quickstart-SwiftUI.swift, file: quickstart-swiftui-01.swift)
+            }
+
+            @Step {
+                Create an ``AgoraUIKit/AgoraViewer`` as a static variable on your ContentView struct. This uses the initialisers, ``AgoraUIKit/AgoraViewer/init(connectionData:style:agoraSettings:delegate:)`` and ``AgoraUIKit/AgoraConnectionData/init(appId:rtcToken:rtmToken:idLogic:)``, with the App ID from your [Agora Console](https://console.agora.io).
+                
+                Add the newly created ``AgoraUIKit/AgoraViewer`` to your body inside of a ZStack.
+                
+                @Code(name: Quickstart-SwiftUI.swift, file: quickstart-swiftui-02.swift) {
+                    @Image(source: quickstart-swiftui-button.png, alt: "A screenshot of the SwiftUI View with just a button visible")
+                }
+            }
+            
+            @Step {
+                We still need to call the method ``AgoraUIKit/AgoraViewer/join(channel:with:as:mediaOptions:)`` in order to join an Agora Channel. To do so, let's first add a button to the ZStack.
+                
+                The button appears ontop of the ``AgoraUIKit/AgoraViewer``, and once tapped will disappear from the view
+
+                @Code(name: Quickstart-SwiftUI.swift, file: quickstart-swiftui-03.swift) {
+                    @Image(source: quickstart-swiftui-button.png, alt: "A screenshot of the SwiftUI View with just a button visible")
+                }
+            }
+            
+            @Step {
+                Finally, call the ``AgoraUIKit/AgoraViewer/join(channel:with:as:mediaOptions:)`` function in the Button action to join the Agora Video Channel.
+                
+                For the temporary token, you can put `nil` in there if your project is still in testing and does not require a token. Otherwise create a temporary token from the [Agora Console](https://console.agora.io).
+
+                @Code(name: Quickstart-SwiftUI.swift, file: quickstart-swiftui-04.swift) {
+                    @Image(source: quickstart-swiftui-videoview, alt: "A screenshot of the SwiftUI View with just a button visible")
+                }
+            }
+
+        }
+    }
+}

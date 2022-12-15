@@ -138,8 +138,14 @@ extension AgoraVideoViewer {
     open func rtcEngine(_ engine: AgoraRtcEngineKit, rtmpStreamingChangedToState url: String, state: AgoraRtmpStreamingState, errCode: AgoraRtmpStreamingErrorCode) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, rtmpStreamingChangedToState: url, state: state, errCode: errCode)
     }
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didApiCallExecute error: Int, api: String, result: String) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didApiCallExecute: error, api: api, result: result)
+//    open func rtcEngine(_ engine: AgoraRtcEngineKit, didApiCallExecute error: Int, api: String, result: String) {
+//        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didApiCallExecute: error, api: api, result: result)
+//    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, licenseValidationFailure error: AgoraLicenseVerifyCode) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, licenseValidationFailure: error)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, audioMixingPositionChanged position: Int) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, audioMixingPositionChanged: position)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didRejoinChannel channel: String, withUid uid: UInt, elapsed: Int) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didRejoinChannel: channel, withUid: uid, elapsed: elapsed)

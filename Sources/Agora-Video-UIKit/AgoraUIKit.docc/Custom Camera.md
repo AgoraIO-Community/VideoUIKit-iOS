@@ -22,7 +22,7 @@ If you want the above code to fallback on other cameras, simply add more cases t
 
 ## Set Video UI Kit Properties
 
-Now you need to add some external video settings with Video UI Kit.
+Now you need to add some external video settings with Video UI Kit, using ``AgoraSettings`` and ``AgoraSettings/externalVideoSettings-swift.property``.
 
 ```swift
 var agSettings = AgoraSettings()

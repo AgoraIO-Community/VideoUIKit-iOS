@@ -1,0 +1,13 @@
+@Tutorials(name: "Agora Video UI Kit") {
+    @Intro(title: "Video UI Kit Tutorials") {
+        These tutorials will show you how to use Agora's Video UI Kit.
+    }
+    
+    @Chapter(name: "Getting Started with SwiftUI") {
+        @Image(source: agora-x-swiftui, alt: "Agora + SwiftUI Logo")
+        
+        The basics of using Agora Video UI Kit with a SwiftUI Application
+
+        @TutorialReference(tutorial: "doc:UsingSwiftUI")
+    }
+}
