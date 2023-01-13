@@ -140,8 +140,15 @@ extension SingleVideoViewDelegate {
 extension AgoraVideoViewer {
     /// Handle mute request, by showing popup or directly changing the device state
     /// - Parameter muteReq: Incoming mute request data
-    public func handleMuteRequest(muteReq: MuteRequest) {
-        guard let device = MutingDevices(rawValue: muteReq.device) else { return }
+    public func handleMuteRequest(muteReq: MuteRequest, from peerId: String) {
+        guard var device = MutingDevices(rawValue: muteReq.device) else { return }
+        if let peerData = self.rtmLookup[peerId] as? AgoraVideoViewer.UserData,
+           peerData.uikit.framework == "flutter",
+           // Flutter 1.1.1 and below had camera and microphone swapped.
+           "1.1.1".compare(peerData.uikit.version) != .orderedAscending,
+           let newDevice = MutingDevices(rawValue: (muteReq.device + 1) % 2) {
+            device = newDevice
+        }
         if device == .camera, self.agoraSettings.cameraEnabled == !muteReq.mute { return }
         if device == .microphone, self.agoraSettings.micEnabled == !muteReq.mute { return }
 

@@ -13,7 +13,10 @@ import AgoraRtcKit
 public struct AgoraUIKit: Codable {
     /// Instance of the current AgoraUIKit instance.
     public static var current: AgoraUIKit {
-        AgoraUIKit(version: AgoraUIKit.version, platform: AgoraUIKit.platform, framework: AgoraUIKit.framework)
+        AgoraUIKit(version: AgoraUIKit.version,
+                   platform: AgoraUIKit.platform,
+                   framework: AgoraUIKit.framework
+        )
     }
     /// Platform that is being used: ios, macos, android, unknown
     public fileprivate(set) var platform: String
@@ -22,7 +25,7 @@ public struct AgoraUIKit: Codable {
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     public fileprivate(set) var framework: String
     /// Version of UIKit being used
-    public static let version = "4.0.5"
+    public static let version = "4.0.6"
     /// Framework type of UIKit. "native", "flutter", "reactnative"
     public static let framework = "native"
     #if os(iOS)
@@ -67,6 +70,9 @@ public struct AgoraUIKit: Codable {
     /// - Parameter userInt: Signed integer userId
     /// - Returns: Unsigned integer userId
     public static func intToUInt(_ userInt: Int) -> UInt {
-        UInt(UInt32(bitPattern: Int32(userInt)))
+        if userInt > Int(Int32.max), userInt <= Int(UInt32.max) {
+            return UInt(userInt)
+        }
+        return UInt(UInt32(bitPattern: Int32(userInt)))
     }
 }
