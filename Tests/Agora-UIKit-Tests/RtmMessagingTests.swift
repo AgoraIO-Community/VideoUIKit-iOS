@@ -16,7 +16,7 @@ final class RtmMessagesTests: XCTestCase {
 
         XCTAssert(rtmMessage.type == .text, "Message type should be .text")
         guard let rawData = rtmMessage.text.data(using: .utf8),
-              let unencodedJSON = try! JSONSerialization.jsonObject(
+              let unencodedJSON = try? JSONSerialization.jsonObject(
                 with: rawData, options: []) as? [String: Any]
         else {
             return XCTFail("Could not unencode data")
@@ -60,12 +60,11 @@ final class RtmMessagesTests: XCTestCase {
         XCTAssert(rtmMessage.type == .text, "Message type should be .text")
 
         guard let rawData = rtmMessage.text.data(using: .utf8),
-              let unencodedJSON = try! JSONSerialization.jsonObject(
+              let unencodedJSON = try? JSONSerialization.jsonObject(
                 with: rawData, options: []) as? [String: Any]
         else {
             return XCTFail("Could not unencode data")
         }
-
 
         XCTAssertEqual((unencodedJSON["rtcId"] as? Int), userData.rtcId, "rtcId invalid!")
         XCTAssertEqual((unencodedJSON["role"] as? Int), userData.role, "mute invalid!")
