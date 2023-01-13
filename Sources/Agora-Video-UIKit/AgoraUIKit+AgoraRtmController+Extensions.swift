@@ -109,7 +109,7 @@ extension AgoraVideoViewer: RtmControllerDelegate {
     func handleDecodedMessage(_ rtmAction: DecodedRtmAction, from peerId: String) {
         switch rtmAction {
         case .mute(let muteReq):
-            self.handleMuteRequest(muteReq: muteReq)
+            self.handleMuteRequest(muteReq: muteReq, from: peerId)
         case .userData(let user):
             AgoraVideoViewer.agoraPrint(
                 .verbose, message: "Received user data: \n\(user.prettyPrint())"
