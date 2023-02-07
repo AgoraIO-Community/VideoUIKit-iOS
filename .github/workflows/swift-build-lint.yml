@@ -24,6 +24,11 @@ jobs:
     - name: Pod Lint 🔎
       run: |
         export LIB_VERSION=$(grep 'static let version' Sources/Agora-Video-UIKit/AgoraUIKit.swift | sed -e 's,.*\"\(.*\)\",\1,')
+        export POD_RTCVRSN=$(grep 'AgoraRtcEngine_iOS' AgoraUIKit_iOS.podspec | sed -e "s,.*~\> \(.*\)\',\1,")
+        export POD_BRDVRSN=$(grep 'AgoraRtcEngine_iOS' AgoraBroadcastExtensionHelper_iOS.podspec | sed -e "s,.*~\> \(.*\)\',\1,")
+        if [ "$POD_RTCVRSN" != "$POD_BRDVRSN" ]; then
+          exit 1
+        fi
         pod lib lint AgoraUIKit_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraRtmControl_iOS.podspec';
         pod lib lint AgoraBroadcastExtensionHelper_iOS.podspec --allow-warnings --skip-import-validation --include-podspecs='AgoraAppGroupDataHelper_iOS.podspec';
     - name: Print Version 🔤
