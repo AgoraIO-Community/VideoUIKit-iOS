@@ -25,6 +25,11 @@ jobs:
         if [ "$LIB_VERSION" != "$VRSN" ]; then
           exit 1
         fi
+        export POD_RTCVRSN=$(grep 'AgoraRtcEngine_iOS' AgoraUIKit_iOS.podspec | sed -e "s,.*~\> \(.*\)\',\1,")
+        export POD_BRDVRSN=$(grep 'AgoraRtcEngine_iOS' AgoraBroadcastExtensionHelper_iOS.podspec | sed -e "s,.*~\> \(.*\)\',\1,")
+        if [ "$POD_RTCVRSN" != "$POD_BRDVRSN" ]; then
+          exit 1
+        fi
         pod trunk push AgoraRtmControl_iOS.podspec --allow-warnings --skip-import-validation;
         pod trunk push AgoraAppGroupDataHelper_iOS.podspec --allow-warnings --skip-import-validation;
         pod trunk push AgoraBroadcastExtensionHelper_iOS.podspec --allow-warnings --skip-import-validation --synchronous;

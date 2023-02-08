@@ -30,8 +30,7 @@ final class RtmMessagesTests: XCTestCase {
         XCTAssertEqual((unencodedJSON["mute"] as? Bool), muteReq.mute, "mute invalid!")
         XCTAssertEqual((unencodedJSON["device"] as? Int), muteReq.device, "device invalid!")
         XCTAssertEqual((unencodedJSON["isForceful"] as? Bool), muteReq.isForceful, "mute invalid!")
-        let msgTextValid = "{\"rtcId\":999,\"mute\":true,\"messageType\":"
-                        + "\"MuteRequest\",\"device\":0,\"isForceful\":true}"
+        let msgTextValid = #"{"rtcId":999,"mute":true,"messageType":"MuteRequest","device":0,"isForceful":true}"#
 
         XCTAssertEqual(rtmMessage.text, msgTextValid, "Message text not matching mstTextValid")
 

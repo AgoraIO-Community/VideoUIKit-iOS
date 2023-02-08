@@ -273,7 +273,7 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
         let engine = AgoraRtcEngineKit.sharedEngine(withAppId: connectionData.appId, delegate: self)
 
         // This helps us know how many people are using the Video UI Kit.
-        engine.setParameters("{\"rtc.using_ui_kit\": 1}")
+        engine.setParameters(#"{"rtc.using_ui_kit": 1}"#)
         engine.enableAudioVolumeIndication(1000, smooth: 3, reportVad: self.agoraSettings.reportLocalVolume)
         engine.setChannelProfile(.liveBroadcasting)
         if self.agoraSettings.usingDualStream {

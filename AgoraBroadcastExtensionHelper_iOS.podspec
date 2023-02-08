@@ -26,6 +26,6 @@ Add this Pod to your app extension to easily share your screen using Agora's RTC
 
   s.static_framework = true
   s.source_files = 'Sources/AgoraBroadcastExtensionHelper/*'
-  s.dependency 'AgoraRtcEngine_iOS', '~> 4.0.1'
+  s.dependency 'AgoraRtcEngine_iOS', '~> 4.1.0'
   s.dependency 'AgoraAppGroupDataHelper_iOS', "#{s.version.to_s}"
 end
