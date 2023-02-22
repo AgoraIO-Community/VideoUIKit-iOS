@@ -17,11 +17,11 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
     /// Adds the local video feed to the user video collections.
     /// - Returns: The newly created (or already created) local video feed container.
     internal func addLocalVideo() -> AgoraSingleVideoView? {
-        if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
-            return self.userVideoLookup[self.userID]
+        if self.userVideoLookup[0] != nil {
+            return self.userVideoLookup[0]
         }
         let vidView = AgoraSingleVideoView(
-            uid: self.userID, micColor: self.agoraSettings.colors.micFlag
+            uid: 0, micColor: self.agoraSettings.colors.micFlag
         )
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
@@ -34,8 +34,18 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
 
             customCamera?.startCapture(ofDevice: device)
         }
-        self.userVideoLookup[self.userID] = vidView
+        self.userVideoLookup[0] = vidView
         return vidView
+    }
+
+    public func showPrecallVideo() {
+        if self.userRole == .audience {
+            self.setRole(to: .broadcaster)
+        }
+        self.agoraSettings.previewEnabled = true
+        self.addLocalVideo()?.videoMuted = !agoraSettings.cameraEnabled
+        self.addLocalVideo()?.audioMuted = !agoraSettings.micEnabled
+        self.rtcEngine(rtcEngine, didClientRoleChanged: .audience, newRole: .broadcaster, newRoleOptions: .none)
     }
 
     /// Set or change the current capture device.
@@ -72,7 +82,7 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
         // once we have the video frame, we can push to agora sdk
         self.agkit.pushExternalVideoFrame(videoFrame)
 
-        if let localUser = userVideoLookup[self.userID], localUser.videoMuted {
+        if let localUser = userVideoLookup[0], localUser.videoMuted {
             self.rtcEngine(
                 self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.capturing,
                 error: .OK, sourceType: AgoraVideoSourceType.camera

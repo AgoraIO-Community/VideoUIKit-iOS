@@ -54,6 +54,9 @@ extension AgoraVideoViewer {
             ).cgColor
             #endif
         }
+        if self.agoraSettings.previewEnabled {
+            self.addLocalVideo()?.videoMuted = !self.agoraSettings.cameraEnabled
+        }
     }
 
     /// Manually set the camera to be enabled or disabled.
@@ -127,7 +130,7 @@ extension AgoraVideoViewer {
             return
         }
         self.agoraSettings.micEnabled = enabled
-        self.userVideoLookup[self.userID]?.audioMuted = !self.agoraSettings.micEnabled
+        self.userVideoLookup[0]?.audioMuted = !self.agoraSettings.micEnabled
         self.agkit.muteLocalAudioStream(!self.agoraSettings.micEnabled)
         if self.agoraSettings.micEnabled {
             // This is only enabled. If you want to disable it then do so manually.
