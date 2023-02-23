@@ -38,14 +38,40 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
         return vidView
     }
 
-    public func showPrecallVideo() {
+    internal func removeLocalVideo() {
+        guard let localVideo = self.userVideoLookup[0] else {
+            return
+        }
+        self.agkit.setupLocalVideo(nil)
+        if !self.agoraSettings.externalVideoSettings.enabled {
+            self.agkit.stopPreview()
+        } else if self.agoraSettings.externalVideoSettings.captureDevice != nil {
+            localVideo.customCameraView?.removeFromSuperview()
+            self.customCamera?.stopCapture()
+            self.customCamera?.localVideoPreview = nil
+        }
+        localVideo.removeFromSuperview()
+        self.userVideoLookup.removeValue(forKey: 0)
+    }
+
+    public func startPrecallVideo() {
+        self.agoraSettings.previewEnabled = true
         if self.userRole == .audience {
             self.setRole(to: .broadcaster)
         }
-        self.agoraSettings.previewEnabled = true
         self.addLocalVideo()?.videoMuted = !agoraSettings.cameraEnabled
         self.addLocalVideo()?.audioMuted = !agoraSettings.micEnabled
         self.rtcEngine(rtcEngine, didClientRoleChanged: .audience, newRole: .broadcaster, newRoleOptions: .none)
+    }
+
+    /// Stops the precall view if we are not in a channel and preview is enabled
+    public func stopPrecallVideo() {
+        guard self.agoraSettings.previewEnabled, self.connectionData.channel == nil else {
+            return
+        }
+        self.removeLocalVideo()
+        self.controlContainer?.isHidden = true
+        self.agoraSettings.previewEnabled = false
     }
 
     /// Set or change the current capture device.

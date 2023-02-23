@@ -81,6 +81,11 @@ extension AgoraVideoViewer {
         }
     }
 
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        self.reorganiseVideos()
+    }
+
     /// Display grid when there are only two video members
     fileprivate func gridForTwo() {
         // when there are 2 videos we display them ontop of eachother
