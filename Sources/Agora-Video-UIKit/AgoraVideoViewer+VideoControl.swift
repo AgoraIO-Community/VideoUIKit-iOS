@@ -97,6 +97,9 @@ extension AgoraVideoViewer {
                     error: .OK, sourceType: AgoraVideoSourceType.camera
                 )
             }
+        } else {
+            if enabled { self.agkit.startPreview() }
+            else { self.agkit.stopPreview() }
         }
 
         updateCamButton()

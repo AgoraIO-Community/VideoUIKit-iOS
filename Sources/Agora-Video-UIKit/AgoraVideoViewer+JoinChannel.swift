@@ -161,11 +161,10 @@ extension AgoraVideoViewer {
 
     /// Leave channel stops all preview elements
     /// - Parameters:
-    ///     - stopPreview: Stops the local preview and the video
-    ///     - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
+    ///   - stopPreview: Stops the local preview and the video
+    ///   - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
-    @discardableResult
-    @objc open func leaveChannel(
+    @discardableResult @objc open func leaveChannel(
         stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
         self.agoraSettings.previewEnabled = !stopPreview

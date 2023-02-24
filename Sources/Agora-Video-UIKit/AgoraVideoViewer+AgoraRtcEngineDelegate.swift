@@ -212,7 +212,9 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 self.addLocalVideo()?.videoMuted = false
             }
         case .stopped:
-            self.videoLookup[0]?.videoMuted = true
+            if !self.agoraSettings.previewEnabled {
+                self.videoLookup[0]?.videoMuted = true
+            }
         default:
             break
         }
@@ -243,7 +245,9 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 self.addLocalVideo()?.audioMuted = false
             }
         case .stopped:
-            self.videoLookup[0]?.audioMuted = true
+            if !self.agoraSettings.previewEnabled {
+                self.videoLookup[0]?.audioMuted = true
+            }
         default:
             break
         }
