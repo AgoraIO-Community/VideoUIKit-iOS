@@ -30,10 +30,10 @@ extension AgoraVideoViewer {
             containerSize = CGSize(width: containerSize.height, height: containerSize.width)
             frameOriginY = (self.bounds.height - CGFloat(contWidth)) / 2
             if self.agoraSettings.buttonPosition == .left {
-                frameOriginX = 30
+                frameOriginX = 20
                 resizeMask = [.flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin]
             } else {
-                frameOriginX = self.bounds.width - self.agoraSettings.buttonSize - 20 - 10
+                frameOriginX = self.bounds.width - containerSize.width - 20
                 resizeMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin]
             }
         case .bottom: break
