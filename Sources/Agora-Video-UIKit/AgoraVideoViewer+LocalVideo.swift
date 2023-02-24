@@ -31,7 +31,6 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
             vidView.customCameraView = CustomVideoSourcePreview(frame: .zero)
             vidView.customCameraView?.isHidden = true
             self.customCamera = AgoraCameraSourcePush(delegate: self, localVideoPreview: vidView.customCameraView)
-
             customCamera?.startCapture(ofDevice: device)
         }
         self.userVideoLookup[0] = vidView

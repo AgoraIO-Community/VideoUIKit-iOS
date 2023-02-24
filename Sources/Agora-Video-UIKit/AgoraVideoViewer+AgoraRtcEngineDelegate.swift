@@ -207,10 +207,12 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         error: AgoraLocalVideoStreamError, sourceType: AgoraVideoSourceType
     ) {
         switch state {
-        case .capturing, .stopped:
+        case .capturing:
             if !self.agoraSettings.previewEnabled {
-                self.addLocalVideo()?.videoMuted = state == .stopped
+                self.addLocalVideo()?.videoMuted = false
             }
+        case .stopped:
+            self.videoLookup[0]?.videoMuted = true
         default:
             break
         }
@@ -236,10 +238,12 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         error: AgoraAudioLocalError
     ) {
         switch state {
-        case .recording, .stopped:
+        case .recording:
             if !self.agoraSettings.previewEnabled {
-                self.addLocalVideo()?.audioMuted = state == .stopped
+                self.addLocalVideo()?.audioMuted = false
             }
+        case .stopped:
+            self.videoLookup[0]?.audioMuted = true
         default:
             break
         }
