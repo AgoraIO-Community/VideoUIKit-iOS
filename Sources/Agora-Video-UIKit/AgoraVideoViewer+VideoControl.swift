@@ -98,8 +98,7 @@ extension AgoraVideoViewer {
                 )
             }
         } else {
-            if enabled { self.agkit.startPreview() }
-            else { self.agkit.stopPreview() }
+            _ = enabled ? self.agkit.startPreview() : self.agkit.stopPreview()
         }
 
         updateCamButton()

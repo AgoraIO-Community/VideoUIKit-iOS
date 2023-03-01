@@ -22,7 +22,7 @@ public struct AgoraConnectionData {
     /// Token to be used to connect to a RTM channel, can be nil.
     public var rtmToken: String?
     /// Channel the object is connected to. This cannot be set with the initialiser.
-    public var channel: String?
+    public internal(set) var channel: String?
     /// Agora Real-time Communication Identifier (Agora Video/Audio SDK).
     public var rtcId: UInt
     /// Agora Real-time Messaging Identifier (Agora RTM SDK).

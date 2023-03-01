@@ -53,7 +53,12 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
         self.userVideoLookup.removeValue(forKey: 0)
     }
 
+    /// Initialises the pre-call view. This shows the local Video and lets the user adjust their scene before joining a call.
+    /// Do not call this method if you're already in a channel.
     public func startPrecallVideo() {
+        guard !self.agoraSettings.previewEnabled, self.connectionData.channel == nil else {
+            return
+        }
         self.agoraSettings.previewEnabled = true
         if self.userRole == .audience {
             self.setRole(to: .broadcaster)
