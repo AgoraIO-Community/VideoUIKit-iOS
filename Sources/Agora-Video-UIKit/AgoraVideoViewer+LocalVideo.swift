@@ -17,11 +17,11 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
     /// Adds the local video feed to the user video collections.
     /// - Returns: The newly created (or already created) local video feed container.
     internal func addLocalVideo() -> AgoraSingleVideoView? {
-        if self.userID == 0 || self.userVideoLookup[self.userID] != nil {
-            return self.userVideoLookup[self.userID]
+        if self.userVideoLookup[0] != nil {
+            return self.userVideoLookup[0]
         }
         let vidView = AgoraSingleVideoView(
-            uid: self.userID, micColor: self.agoraSettings.colors.micFlag
+            uid: 0, micColor: self.agoraSettings.colors.micFlag
         )
         vidView.canvas.renderMode = self.agoraSettings.videoRenderMode
         self.agkit.setupLocalVideo(vidView.canvas)
@@ -31,11 +31,51 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
             vidView.customCameraView = CustomVideoSourcePreview(frame: .zero)
             vidView.customCameraView?.isHidden = true
             self.customCamera = AgoraCameraSourcePush(delegate: self, localVideoPreview: vidView.customCameraView)
-
             customCamera?.startCapture(ofDevice: device)
         }
-        self.userVideoLookup[self.userID] = vidView
+        self.userVideoLookup[0] = vidView
         return vidView
+    }
+
+    internal func removeLocalVideo() {
+        guard let localVideo = self.userVideoLookup[0] else {
+            return
+        }
+        self.agkit.setupLocalVideo(nil)
+        if !self.agoraSettings.externalVideoSettings.enabled {
+            self.agkit.stopPreview()
+        } else if self.agoraSettings.externalVideoSettings.captureDevice != nil {
+            localVideo.customCameraView?.removeFromSuperview()
+            self.customCamera?.stopCapture()
+            self.customCamera?.localVideoPreview = nil
+        }
+        localVideo.removeFromSuperview()
+        self.userVideoLookup.removeValue(forKey: 0)
+    }
+
+    /// Initialises the pre-call view. This shows the local Video and lets the user adjust their scene before joining a call.
+    /// Do not call this method if you're already in a channel.
+    public func startPrecallVideo() {
+        guard !self.agoraSettings.previewEnabled, self.connectionData.channel == nil else {
+            return
+        }
+        self.agoraSettings.previewEnabled = true
+        if self.userRole == .audience {
+            self.setRole(to: .broadcaster)
+        }
+        self.addLocalVideo()?.videoMuted = !agoraSettings.cameraEnabled
+        self.addLocalVideo()?.audioMuted = !agoraSettings.micEnabled
+        self.rtcEngine(rtcEngine, didClientRoleChanged: .audience, newRole: .broadcaster, newRoleOptions: .none)
+    }
+
+    /// Stops the precall view if we are not in a channel and preview is enabled
+    public func stopPrecallVideo() {
+        guard self.agoraSettings.previewEnabled, self.connectionData.channel == nil else {
+            return
+        }
+        self.removeLocalVideo()
+        self.controlContainer?.isHidden = true
+        self.agoraSettings.previewEnabled = false
     }
 
     /// Set or change the current capture device.
@@ -72,7 +112,7 @@ extension AgoraVideoViewer: AgoraCameraSourcePushDelegate {
         // once we have the video frame, we can push to agora sdk
         self.agkit.pushExternalVideoFrame(videoFrame)
 
-        if let localUser = userVideoLookup[self.userID], localUser.videoMuted {
+        if let localUser = userVideoLookup[0], localUser.videoMuted {
             self.rtcEngine(
                 self.agkit, localVideoStateChangedOf: AgoraVideoLocalState.capturing,
                 error: .OK, sourceType: AgoraVideoSourceType.camera

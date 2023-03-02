@@ -22,8 +22,8 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
     ) {
         let isHost = newRole == .broadcaster
         if !isHost {
-            self.userVideoLookup.removeValue(forKey: self.userID)
-        } else if self.userVideoLookup[self.userID] == nil {
+            self.userVideoLookup.removeValue(forKey: 0)
+        } else if self.userVideoLookup[0] == nil {
             self.addLocalVideo()
         }
 
@@ -73,7 +73,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
                 videoView.audioMuted = state == .stopped
             } else if state != .stopped {
                 self.addUserVideo(with: uid).audioMuted = false
-                if self.activeSpeaker == nil && uid != self.userID {
+                if self.activeSpeaker == nil && uid != 0 {
                     self.activeSpeaker = uid
                 }
             }
@@ -156,7 +156,7 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         switch state {
         case .decoding:
             self.addUserVideo(with: uid).videoMuted = false
-            if self.activeSpeaker == nil && uid != self.userID {
+            if self.activeSpeaker == nil && uid != 0 {
                 self.activeSpeaker = uid
             }
         case .stopped:
@@ -207,8 +207,14 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         error: AgoraLocalVideoStreamError, sourceType: AgoraVideoSourceType
     ) {
         switch state {
-        case .capturing, .stopped:
-            self.userVideoLookup[self.userID]?.videoMuted = state == .stopped
+        case .capturing:
+            if !self.agoraSettings.previewEnabled {
+                self.addLocalVideo()?.videoMuted = false
+            }
+        case .stopped:
+            if !self.agoraSettings.previewEnabled {
+                self.videoLookup[0]?.videoMuted = true
+            }
         default:
             break
         }
@@ -234,8 +240,14 @@ extension AgoraVideoViewer: AgoraRtcEngineDelegate {
         error: AgoraAudioLocalError
     ) {
         switch state {
-        case .recording, .stopped:
-            self.userVideoLookup[self.userID]?.audioMuted = state == .stopped
+        case .recording:
+            if !self.agoraSettings.previewEnabled {
+                self.addLocalVideo()?.audioMuted = false
+            }
+        case .stopped:
+            if !self.agoraSettings.previewEnabled {
+                self.videoLookup[0]?.audioMuted = true
+            }
         default:
             break
         }

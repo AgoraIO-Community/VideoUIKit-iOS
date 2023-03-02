@@ -112,6 +112,9 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
     /// as well as agora video configuration.
     public internal(set) var agoraSettings: AgoraSettings
 
+    internal var previewEnabled: Bool {
+        self.agoraSettings.previewEnabled
+    }
     #if canImport(AgoraRtmControl)
     /// Controller class for managing RTM messages
     public var rtmController: AgoraRtmController?
@@ -366,10 +369,10 @@ open class AgoraVideoViewer: MPView, SingleVideoViewDelegate {
                 return [:]
             }
             return self.userVideoLookup.filter {
-                $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID)
+                $0.key == (self.overrideActiveSpeaker ?? self.activeSpeaker ?? 0)
             }
         } else if self.style == .grid {
-            return self.userVideoLookup.filter { ($0.key != self.userID || self.agoraSettings.showSelf) }
+            return self.userVideoLookup.filter { ($0.key != 0 || self.agoraSettings.showSelf) }
         } else { return [:] }
     }
 

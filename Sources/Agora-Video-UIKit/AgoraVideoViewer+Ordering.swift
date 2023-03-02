@@ -35,7 +35,7 @@ extension AgoraVideoViewer {
 
     /// Randomly select an activeSpeaker that is not the local user
     @objc open func setRandomSpeaker() {
-        if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != self.userID }).randomElement() {
+        if let randomNotMe = self.userVideoLookup.keys.shuffled().filter({ $0 != 0 }).randomElement() {
             // active speaker has left, reassign activeSpeaker to a random member
             self.activeSpeaker = randomNotMe
         } else {
@@ -81,6 +81,11 @@ extension AgoraVideoViewer {
         }
     }
 
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        self.reorganiseVideos()
+    }
+
     /// Display grid when there are only two video members
     fileprivate func gridForTwo() {
         // when there are 2 videos we display them ontop of eachother
@@ -102,7 +107,7 @@ extension AgoraVideoViewer {
                 .width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin
             ]
             #endif
-            if self.agoraSettings.usingDualStream && self.userID != keyVals.key {
+            if self.agoraSettings.usingDualStream && keyVals.key != 0 {
                 self.agkit.setRemoteVideoStream(
                     keyVals.key,
                     type: self.agoraSettings.gridThresholdHighBitrate > 2 ? .high : .low
@@ -143,7 +148,7 @@ extension AgoraVideoViewer {
             #elseif os(macOS)
             videoSessionView.autoresizingMask = [.width, .height, .maxYMargin, .minYMargin, .maxXMargin, .minXMargin]
             #endif
-            if self.agoraSettings.usingDualStream && videoID != self.userID {
+            if self.agoraSettings.usingDualStream && videoID != 0 {
                 self.agkit.setRemoteVideoStream(
                     videoID,
                     type: vidCounts <= self.agoraSettings.gridThresholdHighBitrate ? .high : .low

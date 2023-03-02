@@ -227,7 +227,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
             if self.agoraSettings.showSelf {
                 self.collectionViewVideos = Array(self.userVideoLookup.values)
             } else {
-                self.collectionViewVideos = Array(self.userVideoLookup.filter { $0.key != self.userID}.values)
+                self.collectionViewVideos = Array(self.userVideoLookup.filter { $0.key != 0 }.values)
             }
         default:
             self.collectionViewVideos.removeAll()
@@ -251,7 +251,7 @@ extension AgoraVideoViewer: MPCollectionViewDelegate, MPCollectionViewDataSource
         var myActiveSpeaker: UInt?
         switch self.style {
         case .pinned:
-            myActiveSpeaker = self.overrideActiveSpeaker ?? self.activeSpeaker ?? self.userID
+            myActiveSpeaker = self.overrideActiveSpeaker ?? self.activeSpeaker ?? 0
         default:
             break
         }

@@ -182,6 +182,8 @@ public struct AgoraSettings {
     /// and camera to not be activated at all.
     public var cameraEnabled: Bool = true
 
+    public internal(set) var previewEnabled: Bool = false
+
     /// Show the icon for remote user video feeds to request mute/unmute of devices
     public var showRemoteRequestOptions: Bool = true
 

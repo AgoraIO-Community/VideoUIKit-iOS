@@ -106,7 +106,7 @@ public protocol AgoraCameraSourcePushDelegate: AnyObject {
 
 open class AgoraCameraSourcePush: NSObject {
     fileprivate var delegate: AgoraCameraSourcePushDelegate?
-    private var localVideoPreview: CustomVideoSourcePreview?
+    internal var localVideoPreview: CustomVideoSourcePreview?
 
     /// Active capture session
     public let captureSession: AVCaptureSession

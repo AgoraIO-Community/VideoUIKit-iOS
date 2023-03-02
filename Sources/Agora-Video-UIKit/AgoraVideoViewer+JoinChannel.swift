@@ -82,12 +82,13 @@ extension AgoraVideoViewer {
     /// - Returns: An integer representing Agora's joinChannelByToken response. If response is `nil`,
     ///            that means it has continued on another thread due to requesting camera/mic permissions,
     ///            or you area already in the channel. If the response is 0, everything is fine.
-    @discardableResult
-    public func join(
+    @discardableResult public func join(
         channel: String, with token: String?,
         as role: AgoraClientRole = .broadcaster, uid: UInt? = nil,
         mediaOptions: AgoraRtcChannelMediaOptions? = nil
     ) -> Int32? {
+        // Once we join the channel, preview is not relevant.
+        self.agoraSettings.previewEnabled = false
         if self.connectionData == nil { fatalError("No app ID is provided") }
         if role == .broadcaster {
             if !self.checkForPermissions(self.activePermissions, callback: { error in
@@ -160,27 +161,32 @@ extension AgoraVideoViewer {
 
     /// Leave channel stops all preview elements
     /// - Parameters:
-    ///     - stopPreview: Stops the local preview and the video
-    ///     - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
+    ///   - stopPreview: Stops the local preview and the video
+    ///   - leaveChannelBlock: This callback indicates that a user leaves a channel, and provides the statistics of the call.
     /// - Returns: Same return as AgoraRtcEngineKit.leaveChannel, 0 means no problem, less than 0 means there was an issue leaving
-    @discardableResult
-    @objc open func leaveChannel(
+    @discardableResult @objc open func leaveChannel(
         stopPreview: Bool = true, _ leaveChannelBlock: ((AgoraChannelStats) -> Void)? = nil
     ) -> Int32 {
+        self.agoraSettings.previewEnabled = !stopPreview
         guard let chName = self.connectionData.channel else {
             AgoraVideoViewer.agoraPrint(.error, message: "Not in a channel, could not leave")
             // Returning 0 to just say we are not in a channel
             return 0
         }
         self.connectionData.channel = nil
-        self.agkit.setupLocalVideo(nil)
-        self.customCamera?.stopCapture()
-        if stopPreview, self.userRole == .broadcaster { agkit.stopPreview() }
+        if stopPreview, self.userRole == .broadcaster {
+            agkit.stopPreview()
+            self.agkit.setupLocalVideo(nil)
+            self.customCamera?.stopCapture()
+        }
+        self.userVideoLookup = self.userVideoLookup.filter {
+            if !stopPreview, $0.key == 0 { return true }
+            $0.value.removeFromSuperview()
+            return false
+        }
         self.activeSpeaker = nil
         self.remoteUserIDs = []
-        self.userVideoLookup = [:]
-        self.backgroundVideoHolder.subviews.forEach { $0.removeFromSuperview() }
-        self.controlContainer?.isHidden = true
+        self.controlContainer?.isHidden = stopPreview
         let leaveChannelRtn = self.agkit.leaveChannel(leaveChannelBlock)
         defer { if leaveChannelRtn == 0 { delegate?.leftChannel(chName) } }
         return leaveChannelRtn
