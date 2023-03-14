@@ -10,4 +10,12 @@
 
         @TutorialReference(tutorial: "doc:UsingSwiftUI")
     }
+    
+    @Chapter(name: "Migrations") {
+        @Image(source: vonage-agora-migration, alt: "Migrate from Vonage to Agora")
+        
+        Learn how a basic implementation of Vonage (TokBox), can be converted to use Agora's SDK instead.
+
+        @TutorialReference(tutorial: "doc:AgoraMigrationFromVonage")
+    }
 }
