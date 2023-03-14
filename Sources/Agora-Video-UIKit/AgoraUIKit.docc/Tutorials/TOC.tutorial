@@ -14,7 +14,7 @@
     @Chapter(name: "Migrations") {
         @Image(source: vonage-agora-migration, alt: "Migrate from Vonage to Agora")
         
-        Learn how a basic implementation of Vonage (TokBox), can be converted to use Agora's SDK instead.
+        Learn how a basic implementation of Vonage (TokBox), can be converted to use Agora's Video SDK instead.
 
         @TutorialReference(tutorial: "doc:AgoraMigrationFromVonage")
     }

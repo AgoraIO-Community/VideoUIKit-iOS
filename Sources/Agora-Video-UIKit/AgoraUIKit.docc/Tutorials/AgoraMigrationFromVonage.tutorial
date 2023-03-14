@@ -1,6 +1,7 @@
 @Tutorial(time: 10) {
     @Intro(title: "Migrating from Vonage to Agora Video SDKs") {
         In this tutorial, we'll walk through the steps to migrate an iOS app from using the Vonage Video SDK to the Agora Video SDK. The process involves making some changes to your project's code and configuration.
+        This guide does not use Agora's Video UI Kit.
         
         @Image(source: vonage-agora-migration, alt: "Video UI Kit Banner Image")
 
