@@ -16,16 +16,18 @@
             @Step {
                 If using CocoaPods, open your Podfile and delete the lines containing "pod 'OpenTok'" or "pod 'OTXCFramework'". Then run `pod install` in your terminal to continue.
                 
-                @Code(name: "Podfile", file: vonagemigrationrtc-01-02-changepodspec.ruby)
+                @Code(name: "Podfile", file: vonagemigrationrtc-01-02-changepodspec.rb)
                 
                 > If you installed have no other Pods installed, instead run `pod deintegrate` in the Terminal, and CocoaPods will be completely removed from your project.
             }
             
             
             @Step {
-                To install Agora's Video SDK, the recommended method is with Swift Package Manager. This is integrated right into Xcode, so there's no need for any terminal commands or managing your `.gitignore` to deal with extra files included in your repo.
+                To install Agora's Video SDK, the recommended method is with Swift Package Manager. Add the package URL right into Xcode under the menu option "File > Add Packages...".
+                `https://github.com/AgoraIO/AgoraRtcEngine_iOS`
                 
-                The [Swift Package Index](https://swiftpackageindex.com/AgoraIO/AgoraRtcEngine_iOS) has all the information required for Agora's Video SDK, just be sure to include the "RtcBasic" library when prompted.
+                > [AgoraRtcEngine_iOS on Swift Package Index](https://swiftpackageindex.com/AgoraIO/AgoraRtcEngine_iOS) has all the information required for Agora's Video SDK, just be sure to include the "RtcBasic" library when prompted.
+                > Agora is also available on [CocoaPods: AgoraRtcEngine_iOS](https://cocoapods.org/pods/AgoraRtcEngine_iOS).
                 
                 @Video(source: vonagemigrationrtc-01-03-importrtc.mov, poster: vonagemigrationrtc-01-03-importrtc.png, alt: "import package with Xcode")
             }

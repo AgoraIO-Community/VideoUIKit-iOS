@@ -1,4 +1,3 @@
-
 target 'MyAppName' do
   use_frameworks!
 
