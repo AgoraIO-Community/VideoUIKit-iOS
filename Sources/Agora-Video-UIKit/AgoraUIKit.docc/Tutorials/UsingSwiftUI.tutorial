@@ -36,7 +36,7 @@
             }
             
             @Step {
-                We still need to call the method ``AgoraUIKit/AgoraViewer/join(channel:with:as:mediaOptions:)`` in order to join an Agora Channel. To do so, let's first add a button to the ZStack.
+                You still need to call the method ``AgoraUIKit/AgoraViewer/join(channel:with:as:mediaOptions:)`` in order to join an Agora Channel. To do so, let's first add a button to the ZStack.
                 
                 The button appears ontop of the ``AgoraUIKit/AgoraViewer``, and once tapped will disappear from the view
 
