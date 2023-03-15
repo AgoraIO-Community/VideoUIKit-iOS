@@ -1,6 +1,6 @@
 @Tutorial(time: 10) {
     @Intro(title: "Migrating from Vonage to Agora Video SDKs") {
-        In this tutorial, we'll walk through the steps to migrate an iOS app from using the Vonage Video SDK to the Agora Video SDK. The process involves making some changes to your project's code and configuration.
+        In this tutorial, you'll go through the steps to migrate an iOS app from using the Vonage Video SDK to the Agora Video SDK. The process involves making some changes to your project's code and configuration.
         This guide does not use Agora's Video UI Kit.
         
         @Image(source: vonage-agora-migration, alt: "Video UI Kit Banner Image")
@@ -53,13 +53,13 @@
             }
             
             @Step {
-                Now we'll need to display remote videos, as we are not yet streaming our own video, but are waiting to subscribe to the remote stream.
+                Display remote videos. Agora uses AgoraRtcVideoCanvas and an associated UIView, rather than Vonage's OTSubscriber and an associated UIView.
                 
                 @Code(name: "VideoCallApp.swift", file: vonagemigrationrtc-02-02-subscribeagora, previousFile: vonagemigrationrtc-02-02-subscribevonage)
             }
             
             @Step {
-                Finally, we'll make some changes to display our local video feed thanks to a new canvas, `localCanvas`:
+                Finally, make some changes to display our local video feed thanks to a new canvas, `localCanvas`.
 
                 @Code(name: "VideoCallApp.swift", file: vonagemigrationrtc-02-03-streamagora, previousFile: vonagemigrationrtc-02-03-streamvonage)
             }

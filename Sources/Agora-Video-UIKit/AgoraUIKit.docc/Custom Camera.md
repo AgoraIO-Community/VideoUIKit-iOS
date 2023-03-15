@@ -8,7 +8,7 @@ With Agora's core RTC SDK there are many steps involved in using a custom camera
 
 ## Grab The Camera
 
-The first step is fetching the camera. In this example we will use the ultra wide camera, which is available on several different iPhones. Using AVCaptureDevice.DiscoverySession, we can look up cameras that satisfy our criteria:
+The first step is fetching the camera. The following snippet uses the ultra wide camera, which is available on several different iPhones. Using AVCaptureDevice.DiscoverySession, you can look up cameras that satisfy the criteria:
 
 ```swift
 guard let ultraWideCamera = AVCaptureDevice.DiscoverySession(
@@ -36,7 +36,7 @@ The above code snippet specifies the following:
 
 - Enable external videos.
 - Tells RTC Engine that it is a texture.
-- We are not using an encoded video stream.
+- Not using an encoded video stream.
 - Finally the capture device fetched earlier is passed through.
 
 
