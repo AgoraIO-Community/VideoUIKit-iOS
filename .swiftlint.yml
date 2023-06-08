@@ -7,3 +7,4 @@ excluded:
   - Sources/Agora-Video-UIKit/AgoraVideoViewer+RtcEngineDelegateOverflow.swift
   - .build
   - docc
+  - Sources/Agora-Video-UIKit/AgoraUIKit.docc/*
