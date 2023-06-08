@@ -17,7 +17,7 @@ jobs:
     - name: Swift Lint 🧹
       run: swiftlint --strict
     - name: Test Build 🔨
-      run: xcodebuild -scheme $SCHEME -destination $DESTINATION
+      run: xcodebuild -scheme $SCHEME -destination $DESTINATION | xcpretty
       env:
         SCHEME: AgoraUIKit_iOS-Package
         DESTINATION: 'generic/platform=iOS'
