@@ -39,8 +39,14 @@ extension AgoraVideoViewer {
     open func rtcEngineMediaEngineDidStartCall(_ engine: AgoraRtcEngineKit) {
         self.agoraSettings.rtcDelegate?.rtcEngineMediaEngineDidStartCall?(engine)
     }
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurWarning warningCode: AgoraWarningCode) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOccurWarning: warningCode)
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didVideoEnabled enabled: Bool, byUid uid: UInt) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didVideoEnabled: enabled, byUid: uid)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, didLocalVideoTranscoderErrorWithStream stream: AgoraTranscodingVideoStream, errorCode: AgoraVideoTranscoderError) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didLocalVideoTranscoderErrorWithStream: stream, errorCode: errorCode)
+    }
+    open func rtcEngine(_ engine: AgoraRtcEngineKit, videoRenderingTracingResultOfUid uid: UInt, currentEvent: AgoraMediaTraceEvent, tracingInfo: AgoraVideoRenderingTracingInfo) {
+        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, videoRenderingTracingResultOfUid: uid, currentEvent: currentEvent, tracingInfo: tracingInfo)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, didOccurError errorCode: AgoraErrorCode) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didOccurError: errorCode)
@@ -95,9 +101,6 @@ extension AgoraVideoViewer {
     }
     open func rtcEngineDidAudioEffectFinish(_ engine: AgoraRtcEngineKit, soundId: Int32) {
         self.agoraSettings.rtcDelegate?.rtcEngineDidAudioEffectFinish?(engine, soundId: soundId)
-    }
-    open func rtcEngine(_ engine: AgoraRtcEngineKit, didReceive event: AgoraChannelMediaRelayEvent) {
-        self.agoraSettings.rtcDelegate?.rtcEngine?(engine, didReceive: event)
     }
     open func rtcEngine(_ engine: AgoraRtcEngineKit, streamUnpublishedWithUrl url: String) {
         self.agoraSettings.rtcDelegate?.rtcEngine?(engine, streamUnpublishedWithUrl: url)
