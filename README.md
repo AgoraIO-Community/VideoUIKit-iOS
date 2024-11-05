@@ -1,4 +1,13 @@
-# Agora Video UI Kit for iOS
+# [ARCHIVED] Agora Video UI Kit for iOS
+
+**⚠️ This project is no longer maintained and has been archived.**  
+Please note that this repository is now in a read-only state and will not receive any further updates or support.
+We recommend migrating to the following alternatives:
+
+- **Agora SDK**: For developers seeking a customizable solution with full control over the user experience. [Learn more](https://www.agora.io/en/products/video-call/)
+- **Agora App Builder**: For those preferring a no-code approach to integrate real-time engagement features. [Get started](https://appbuilder.agora.io/)
+
+For documentation and support, please visit the [Agora Documentation](https://docs.agora.io/en/).
 
 <p align="center">
     <a href="https://github.com/AgoraIO-Community/VideoUIKit-iOS/releases">
